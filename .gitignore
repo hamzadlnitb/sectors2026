@@ -1,0 +1,29 @@
+# Rahasia — JANGAN PERNAH di-commit (rules: repo publik, key wajib dicabut)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Cache respons API Sectors (besar, bisa dibangun ulang)
+data/cache/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Node / Next.js
+node_modules/
+web/.next/
+web/out/
+.vercel/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
