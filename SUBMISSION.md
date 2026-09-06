@@ -29,12 +29,22 @@
 - [ ] Disclaimer terlihat di setiap halaman produk **dan** di video
 - [ ] Tidak ada konten SARA/diskriminatif
 
+## 3b. Gerbang khusus Track 1
+
+- [ ] Ada **orkestrasi agen buatan sendiri**: perencana, loop penyelidik, penilai — bukan prompt di atas klien orang lain
+- [ ] Uji anti-diskualifikasi: cabut prompt kami dari klien AI mana pun → perencana, buku bukti, mesin skoring, memori, dan validator sitasi tetap ada di kode kami
+- [ ] Keempat perilaku agentik terlihat di transkrip **dan di video**: perutean adaptif, penghentian dini, eskalasi, memori
+- [ ] **Skor tidak pernah dihasilkan LLM** — hanya rencana, perutean, dan narasi
+- [ ] Narasi LLM tersimpan ikut lolos CI larangan kosakata
+
 ## 4. Bukti "bukan dipalsukan untuk demo" (kriteria teknis 30%)
 
 - [ ] `runs/` memuat **≥10 hari bursa berturut-turut** artefak yang di-commit cron tanpa disentuh manusia
 - [ ] `data/credit_ledger.jsonl` ter-commit
 - [ ] `data/warehouse/*.parquet` ter-commit — juri bisa menjalankan sistem **tanpa API key**
-- [ ] `reports/validation.md` memuat angka out-of-sample + batasan yang diakui terbuka
+- [ ] `reports/validation.md` memuat **dua angka** (presisi skor + efisiensi perutean agen) + batasan yang diakui terbuka
+- [ ] `runs/investigations/` memuat transkrip yang bisa diputar ulang — juri bisa memutar hasil identik berkali-kali
+- [ ] `evals/` memuat ablasi: agen vs menyeluruh vs urutan tetap vs acak
 - [ ] Tes lolos: `make test`
 - [ ] README memuat diagram arsitektur + **tabel endpoint Sectors beserta alasan tiap panggilan**
 - [ ] Riwayat commit terbaca sebagai kerja bertahap yang wajar
@@ -48,11 +58,12 @@
       - [ ] Problem + audiens disebut di **15 detik pertama**
       - [ ] Core workflow ditampilkan **end-to-end**, bukan slide
       - [ ] Konfigurasi cron + log berjalan ber-timestamp tampil di layar
-      - [ ] Angka validasi disebut
+      - [ ] **Agen terlihat berpikir**: rencana, satu momen eskalasi, satu penghentian dini
+      - [ ] Dua angka validasi disebut
       - [ ] Kutipan pengguna ritel asli tampil
       - [ ] Frame terakhir: nama produk + track + URL repo
 - [ ] **4. Problem statement 1 kalimat** — menyebut untuk siapa dan masalah apa
-- [ ] **5. Track = Market Intelligence** + daftar lengkap nama anggota
+- [ ] **5. Track = AI Agents & Assistants** + daftar lengkap nama anggota
 - [ ] **6. Post sosmed** publik, men-tag akun resmi Sectors — **link post disalin ke form**
 
 ## 6. Menit terakhir

@@ -140,7 +140,8 @@ Dinilai jujur tiap Minggu malam. Kolom skor di `TASK.md` §Papan Skor Mandiri.
 - [ ] Mencabut data Sectors mematikan produk (tulis satu kalimat pembuktiannya)
 - [ ] Semua anggota onboarded di sectors.app; kredit diklaim; roster terkunci
 - [ ] Repo publik, commit pertama ≥19 Agu 2026, **nol API key di riwayat git**
-- [ ] Syarat track terpenuhi harfiah (T3: output adalah insight turunan, bukan tampilan data)
+- [ ] Syarat track terpenuhi harfiah (T1: orkestrasi agen buatan sendiri — produk tetap utuh
+      kalau prompt kita dicabut dari klien AI orang lain)
 - [ ] Nol kode eksekusi order; disclaimer terlihat di produk
 - [ ] Kedua video terbuka dari incognito; post sosmed hidup dan men-tag Sectors
 
