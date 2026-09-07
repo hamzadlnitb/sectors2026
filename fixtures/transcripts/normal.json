@@ -2,6 +2,7 @@
   "schema_version": "1.0",
   "symbol": "FIXA",
   "as_of": "2026-09-05",
+  "weights_version": "cal-fixture",
   "plan": {
     "hypotheses": [
       {
@@ -32,6 +33,7 @@
       "finding": "refuted",
       "next_action": "continue",
       "new_probe": null,
+      "budget_granted": 0,
       "reason": "Volume hanya 0,4σ di atas baseline. Hipotesis pergerakan tidak wajar terbantah.",
       "credits_spent": 2,
       "credits_remaining": 6
@@ -43,6 +45,7 @@
       "finding": "refuted",
       "next_action": "conclude",
       "new_probe": null,
+      "budget_granted": 0,
       "reason": "Free float 62% terlalu longgar untuk digerakkan segelintir pihak. Dua hipotesis terbantah; melanjutkan ke probe mahal tidak sepadan.",
       "credits_spent": 2,
       "credits_remaining": 4

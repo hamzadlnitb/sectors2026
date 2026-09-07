@@ -11,8 +11,8 @@ Melco ──ProbeResult──► Hamzah ──InvestigationTranscript──► N
 
 ## Aturan
 
-1. **Perubahan hanya boleh kalau bertiga setuju.** Satu orang mengubah bentuk di sini =
-   merusak kode dua orang lain yang sudah dibangun di atasnya.
+1. **Permintaan perubahan masuk ke [`CHANGES.md`](CHANGES.md), bukan langsung ke `schemas.py`.**
+   Satu orang mengubah bentuk di sini = merusak kode dua orang lain yang sudah dibangun di atasnya.
 2. **Beku total setelah 12 September.** Setelah itu, sesuaikan kode ke kontrak, bukan sebaliknya.
 3. `schema_version` di `InvestigationTranscript` dinaikkan kalau bentuknya berubah, supaya
    fixture lama ketahuan basi.
@@ -25,6 +25,7 @@ Melco ──ProbeResult──► Hamzah ──InvestigationTranscript──► N
 | `schemas.py` | Lima kontrak sebagai model pydantic | ketiganya |
 | `warehouse.sql` | DDL tabel DuckDB | Melco (menulis), Hamzah (membaca) |
 | `check.py` | Validator: fixture harus cocok dengan skema | CI |
+| `CHANGES.md` | **Sumber tunggal permintaan perubahan** + riwayat | ketiganya |
 
 ## Lima kontrak
 

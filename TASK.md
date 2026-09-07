@@ -50,6 +50,7 @@ jadi ketiga lajur bisa mulai hari ini juga.
 | `contracts/schemas.py` | Lima kontrak sebagai model pydantic |
 | `contracts/warehouse.sql` | DDL tabel DuckDB |
 | `contracts/check.py` | Validator — fixture wajib cocok dengan skema |
+| `contracts/CHANGES.md` | **Sumber tunggal permintaan perubahan kontrak** + riwayat review |
 | `fixtures/transcripts/{normal,waspada,eskalasi}.json` | Tiga bentuk transkrip untuk Nadhilla |
 | `fixtures/generate.py` | Pembangkit fixture, lewat model supaya mustahil menyimpang |
 
@@ -57,8 +58,12 @@ jadi ketiga lajur bisa mulai hari ini juga.
 make check-contracts   # harus hijau sebelum push
 ```
 
-- [ ] **Bertiga · 15 menit hari ini** Baca `contracts/schemas.py` dan tiga fixture. Ini
-      **review**, bukan desain. Yang dicari cuma satu: adakah bentuk yang bikin lajur lu mustahil?
+✅ **Review kontrak sudah dilakukan terpusat** — 8 perbaikan, tercatat di
+[`contracts/CHANGES.md`](contracts/CHANGES.md) entri C1. Kontrak punya satu sumber kebenaran,
+bukan tiga tafsir. Tidak perlu sesi review lagi; langsung mulai kerja.
+
+- [ ] **Bertiga · 10 menit** Baca `contracts/CHANGES.md` C1 supaya tahu bentuk apa yang berlaku
+      dan kenapa. Perubahan berikutnya masuk ke berkas itu, **bukan** langsung ke `schemas.py`
 - [ ] **Melco** `probes/stubs.py` — probe palsu yang mengembalikan `ProbeResult` kalengan,
       supaya Hamzah lepas landas tanpa menunggu probe asli
 - [ ] **Melco** `fixtures/warehouse-mini/` — potongan warehouse untuk tes tanpa jaringan

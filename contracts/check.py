@@ -15,18 +15,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from contracts.schemas import (  # noqa: E402
-    BAND_THRESHOLDS, InvestigationTranscript, PROBE_TO_COMPONENT,
+    InvestigationTranscript, PROBE_TO_COMPONENT, band_for_score,
 )
 
 ROOT = Path(__file__).resolve().parent.parent
-
-
-def band_for(score: int) -> str:
-    band = BAND_THRESHOLDS[0][1]
-    for threshold, name in BAND_THRESHOLDS:
-        if score >= threshold:
-            band = name
-    return band
 
 
 def check(path: Path) -> list[str]:
@@ -34,7 +26,7 @@ def check(path: Path) -> list[str]:
     t = InvestigationTranscript.model_validate_json(path.read_text())
 
     # Band harus konsisten dengan skor — UI tidak boleh menampilkan dua kebenaran.
-    if t.band != band_for(t.pantau_score):
+    if t.band != band_for_score(t.pantau_score):
         errors.append(f"band '{t.band}' tidak cocok dengan skor {t.pantau_score}")
 
     # Keyakinan = jumlah bobot komponen yang benar-benar diselidiki.
@@ -66,9 +58,22 @@ def check(path: Path) -> list[str]:
     if ran != marked:
         errors.append(f"probe dijalankan {sorted(ran)} != komponen terselidiki {sorted(marked)}")
 
-    # Biaya harus berjumlah benar, dan penghematan tidak boleh diklaim palsu.
+    # Biaya harus berjumlah benar dari DUA sisi, dan penghematan tidak boleh diklaim palsu.
     if sum(e.credits_spent for e in t.evidence) != t.credits_total:
         errors.append("credits_total tidak sama dengan jumlah biaya bukti")
+    if sum(s.credits_spent for s in t.steps) != t.credits_total:
+        errors.append("credits_total tidak sama dengan jumlah biaya langkah")
+
+    # Aritmetika pagu harus utuh, termasuk tambahan yang dikabulkan saat eskalasi.
+    remaining = t.plan.credit_budget_requested
+    for s in t.steps:
+        expected = remaining - s.credits_spent + s.budget_granted
+        if s.credits_remaining != expected:
+            errors.append(
+                f"langkah {s.step}: sisa pagu {s.credits_remaining} != {expected} "
+                f"(sebelumnya {remaining} - pakai {s.credits_spent} + dikabulkan {s.budget_granted})"
+            )
+        remaining = s.credits_remaining
     if t.credits_total > t.baseline_credits:
         errors.append("credits_total melebihi baseline — tidak ada penghematan untuk diklaim")
 

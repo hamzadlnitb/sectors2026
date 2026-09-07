@@ -42,7 +42,9 @@ Plus `data/warehouse/*.parquet` dan `registry.py` (definisi tool untuk LLM: nama
 
 **Lu mengonsumsi:** tidak ada. Lu fondasi — bisa mulai detik ini juga.
 
-⚠️ **Bekukan `ProbeResult` di sesi bareng hari ini.** Begitu Hamzah menulis agen di atasnya, mengubah bentuk ini berarti merusak pekerjaan orang lain.
+✅ **`ProbeResult`, `Probe`, dan `ProbeContext` sudah beku** di `contracts/schemas.py`, sudah direview terpusat. Perhatikan `ProbeContext.as_of`: probe **wajib point-in-time** — satu probe saja yang membaca data setelah `as_of` akan membocorkan lookahead ke kalibrasi Hamzah. Tegakkan di `tests/probes/`.
+
+⚠️ Butuh bentuknya berubah? Ajukan di [`contracts/CHANGES.md`](contracts/CHANGES.md) — **jangan** edit `schemas.py` langsung.
 
 ---
 

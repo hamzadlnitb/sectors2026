@@ -17,7 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from contracts.schemas import (  # noqa: E402
     ComponentScore, DISCLAIMER, EvidenceEntry, Hypothesis,
-    InvestigationTranscript, Plan, Step,
+    InvestigationTranscript, Plan, Step, band_for_score,
 )
 
 OUT = Path(__file__).resolve().parent / "transcripts"
@@ -27,6 +27,7 @@ STAMP = datetime(2026, 9, 5, 17, 30, tzinfo=WIB)
 
 WEIGHTS = {"BCI": 0.24, "VAS": 0.18, "PFD": 0.16, "FFS": 0.12, "FRD": 0.18, "SSS": 0.12}
 BASELINE = 23  # biaya kalau keenam probe dijalankan
+WEIGHTS_VERSION = "cal-fixture"  # diganti versi kalibrasi asli setelah H1 selesai
 
 
 def ev(id_, label, value, display, probe, endpoint, params, transport, credits) -> EvidenceEntry:
@@ -55,16 +56,6 @@ def composite(scores: dict[str, float]) -> tuple[int, float]:
     return round(score), round(total_w, 2)
 
 
-def band_of(score: int) -> str:
-    if score >= 80:
-        return "sangat_waspada"
-    if score >= 60:
-        return "waspada"
-    if score >= 30:
-        return "perhatian"
-    return "normal"
-
-
 # ── FIXA — normal: agen berhenti setelah 2 langkah ───────────────────────────
 def fix_a() -> InvestigationTranscript:
     evidence = [
@@ -80,7 +71,7 @@ def fix_a() -> InvestigationTranscript:
     scores = {"VAS": 20.0, "FFS": 15.0}
     score, conf = composite(scores)
     return InvestigationTranscript(
-        symbol="FIXA", as_of=AS_OF,
+        symbol="FIXA", as_of=AS_OF, weights_version=WEIGHTS_VERSION,
         plan=Plan(
             hypotheses=[
                 Hypothesis(id="h1", claim="Volume bergerak tidak wajar",
@@ -105,7 +96,7 @@ def fix_a() -> InvestigationTranscript:
         ],
         evidence=evidence,
         components=components(scores, {"VAS": ["vas.zscore", "vas.volume_ratio"], "FFS": ["ffs.pct"]}),
-        pantau_score=score, band=band_of(score), confidence=conf,
+        pantau_score=score, band=band_for_score(score), confidence=conf,
         credits_total=4, baseline_credits=BASELINE,
         narrative="Tidak ada pola tidak biasa terdeteksi. Volume perdagangan hanya 0,4σ di atas "
                   "baseline 90 hari, dan free float 62% membuat saham ini sulit digerakkan oleh "
@@ -142,7 +133,7 @@ def fix_b() -> InvestigationTranscript:
     scores = {"BCI": 88.0, "VAS": 76.0, "PFD": 71.0, "FRD": 68.0, "SSS": 55.0}
     score, conf = composite(scores)
     return InvestigationTranscript(
-        symbol="FIXB", as_of=AS_OF,
+        symbol="FIXB", as_of=AS_OF, weights_version=WEIGHTS_VERSION,
         plan=Plan(
             hypotheses=[
                 Hypothesis(id="h1", claim="Volume tidak wajar tanpa dukungan fundamental",
@@ -184,7 +175,7 @@ def fix_b() -> InvestigationTranscript:
             "PFD": ["pfd.return_90d", "pfd.earnings_change"],
             "FRD": ["frd.foreign_net_30d"], "SSS": ["sss.insider_sells"],
         }),
-        pantau_score=score, band=band_of(score), confidence=conf,
+        pantau_score=score, band=band_for_score(score), confidence=conf,
         credits_total=21, baseline_credits=BASELINE,
         narrative="Beberapa indikator menunjukkan pola tidak biasa. Sebanyak 78% net buy dikuasai "
                   "tiga broker, volume berada 4,1σ di atas baseline, dan harga naik 142% dalam 90 "
@@ -214,7 +205,7 @@ def fix_c() -> InvestigationTranscript:
     scores = {"VAS": 92.0, "FFS": 95.0, "SSS": 78.0, "FRD": 84.0}
     score, conf = composite(scores)
     return InvestigationTranscript(
-        symbol="FIXC", as_of=AS_OF,
+        symbol="FIXC", as_of=AS_OF, weights_version=WEIGHTS_VERSION,
         plan=Plan(
             hypotheses=[
                 Hypothesis(id="h1", claim="Volume meledak pada saham berkapitalisasi kecil",
@@ -233,11 +224,11 @@ def fix_c() -> InvestigationTranscript:
                  next_action="continue", reason="Volume 6,2σ di atas baseline. Ekstrem.",
                  credits_spent=2, credits_remaining=6),
             Step(step=2, hypothesis="h2", probe="free_float", finding="confirmed",
-                 next_action="escalate", new_probe="structural",
+                 next_action="escalate", new_probe="structural", budget_granted=7,
                  reason="Free float hanya 4% — jauh lebih ketat dari perkiraan awal. Kombinasi "
                         "float 4% dan volume 6σ menuntut pemeriksaan corporate action, yang tidak "
-                        "ada di rencana awal. Meminta tambahan pagu.",
-                 credits_spent=2, credits_remaining=4),
+                        "ada di rencana awal. Meminta tambahan pagu 7 kredit; dikabulkan.",
+                 credits_spent=2, credits_remaining=11),
             Step(step=3, hypothesis="h2", probe="structural", finding="confirmed",
                  next_action="continue",
                  reason="Dua kali rights issue dalam 24 bulan, dan pernah disuspend 14 November 2025. "
@@ -255,7 +246,7 @@ def fix_c() -> InvestigationTranscript:
             "SSS": ["sss.rights_issues", "sss.prior_suspension"],
             "FRD": ["frd.foreign_net_30d"],
         }),
-        pantau_score=score, band=band_of(score), confidence=conf,
+        pantau_score=score, band=band_for_score(score), confidence=conf,
         credits_total=13, baseline_credits=BASELINE,
         narrative="Banyak indikator menunjukkan pola tidak biasa secara bersamaan. Free float hanya "
                   "4% sementara volume berada 6,2σ di atas baseline. Emiten ini menggelar rights "

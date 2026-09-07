@@ -2,6 +2,7 @@
   "schema_version": "1.0",
   "symbol": "FIXB",
   "as_of": "2026-09-05",
+  "weights_version": "cal-fixture",
   "plan": {
     "hypotheses": [
       {
@@ -42,6 +43,7 @@
       "finding": "confirmed",
       "next_action": "continue",
       "new_probe": null,
+      "budget_granted": 0,
       "reason": "78% net buy dikuasai tiga broker. Konsentrasi ekstrem, lanjutkan.",
       "credits_spent": 6,
       "credits_remaining": 15
@@ -53,6 +55,7 @@
       "finding": "confirmed",
       "next_action": "continue",
       "new_probe": null,
+      "budget_granted": 0,
       "reason": "Volume 4,1σ di atas baseline.",
       "credits_spent": 2,
       "credits_remaining": 13
@@ -64,6 +67,7 @@
       "finding": "confirmed",
       "next_action": "continue",
       "new_probe": null,
+      "budget_granted": 0,
       "reason": "Harga +142% sementara laba bersih turun 8%. Divergensi lebar.",
       "credits_spent": 4,
       "credits_remaining": 9
@@ -75,6 +79,7 @@
       "finding": "confirmed",
       "next_action": "continue",
       "new_probe": null,
+      "budget_granted": 0,
       "reason": "Asing keluar bersih Rp 184 M saat harga naik. Pola distribusi.",
       "credits_spent": 4,
       "credits_remaining": 5
@@ -86,6 +91,7 @@
       "finding": "confirmed",
       "next_action": "conclude",
       "new_probe": null,
+      "budget_granted": 0,
       "reason": "Tiga transaksi jual insider dalam 90 hari menguatkan h3. Bukti sudah cukup; free float tidak akan mengubah band.",
       "credits_spent": 5,
       "credits_remaining": 0

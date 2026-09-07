@@ -28,7 +28,9 @@ tests/agent/ · tests/scoring/ · tests/narrative/
 
 **Lu menghasilkan** — dipakai Nadhilla: `InvestigationTranscript` JSON sesuai `ARCHITECTURE.md` §10. Nadhilla membangun UI langsung di atas bentuk ini.
 
-⚠️ **Bekukan `InvestigationTranscript` di sesi bareng hari ini** dan pastikan `fixtures/transcripts/*.json` mencerminkannya persis. Kalau lu ubah bentuknya di tengah jalan, UI Nadhilla pecah.
+✅ **`InvestigationTranscript` sudah beku** di `contracts/schemas.py`, dan tiga fixture sudah mencerminkannya persis. Catat `Step.budget_granted` — pagu tambahan yang dikabulkan saat eskalasi **wajib** dicatat, karena `check.py` menelusuri aritmetika pagu langkah demi langkah dan akan menolak yang tidak nyambung.
+
+⚠️ Butuh bentuknya berubah? Ajukan di [`contracts/CHANGES.md`](contracts/CHANGES.md) — **jangan** edit `schemas.py` langsung. Kalau bentuk berubah setelah ada transkrip beredar, naikkan `schema_version`.
 
 🔓 **Lu tidak boleh menunggu Melco.** Pakai `core/probes/stubs.py` dan `fixtures/warehouse-mini/` sejak hari ini, ganti ke probe asli satu per satu begitu Melco mengabari.
 

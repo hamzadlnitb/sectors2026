@@ -2,6 +2,7 @@
   "schema_version": "1.0",
   "symbol": "FIXC",
   "as_of": "2026-09-05",
+  "weights_version": "cal-fixture",
   "plan": {
     "hypotheses": [
       {
@@ -40,6 +41,7 @@
       "finding": "confirmed",
       "next_action": "continue",
       "new_probe": null,
+      "budget_granted": 0,
       "reason": "Volume 6,2σ di atas baseline. Ekstrem.",
       "credits_spent": 2,
       "credits_remaining": 6
@@ -51,9 +53,10 @@
       "finding": "confirmed",
       "next_action": "escalate",
       "new_probe": "structural",
-      "reason": "Free float hanya 4% — jauh lebih ketat dari perkiraan awal. Kombinasi float 4% dan volume 6σ menuntut pemeriksaan corporate action, yang tidak ada di rencana awal. Meminta tambahan pagu.",
+      "budget_granted": 7,
+      "reason": "Free float hanya 4% — jauh lebih ketat dari perkiraan awal. Kombinasi float 4% dan volume 6σ menuntut pemeriksaan corporate action, yang tidak ada di rencana awal. Meminta tambahan pagu 7 kredit; dikabulkan.",
       "credits_spent": 2,
-      "credits_remaining": 4
+      "credits_remaining": 11
     },
     {
       "step": 3,
@@ -62,6 +65,7 @@
       "finding": "confirmed",
       "next_action": "continue",
       "new_probe": null,
+      "budget_granted": 0,
       "reason": "Dua kali rights issue dalam 24 bulan, dan pernah disuspend 14 November 2025. Eskalasi terbayar: temuan ini menaikkan band.",
       "credits_spent": 5,
       "credits_remaining": 6
@@ -73,6 +77,7 @@
       "finding": "confirmed",
       "next_action": "conclude",
       "new_probe": null,
+      "budget_granted": 0,
       "reason": "Asing keluar bersih Rp 47 M. Bukti cukup; probe broker dilewati karena band sudah tidak akan berubah dan biayanya paling mahal.",
       "credits_spent": 4,
       "credits_remaining": 2

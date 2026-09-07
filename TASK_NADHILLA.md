@@ -28,7 +28,9 @@ tests/web/ · tests/export/
 
 🔓 **Lu tidak boleh menunggu Hamzah.** Fixture dibekukan hari ini, dan **lu yang memiliki `fixtures/`** — jadi lu bisa membangun seluruh UI dari hari pertama, lalu tukar ke transkrip asli sekitar 18 Sep tanpa mengubah satu baris komponen pun.
 
-> Kalau lu perlu bentuk transkrip berubah, **minta ke Hamzah** — jangan edit `core/agent/`. Kontrak beku total setelah 12 Sep.
+> Kalau lu perlu bentuk transkrip berubah, ajukan di [`contracts/CHANGES.md`](contracts/CHANGES.md) — jangan edit `core/agent/` maupun `schemas.py`. Kontrak beku total setelah 12 Sep.
+>
+> Bentuk yang perlu lu render sudah lengkap: `Step.budget_granted` (hasil eskalasi), `narrative_source` (`template` = validator menolak keluaran LLM, tampilkan apa adanya), `confidence`, `credits_total` vs `baseline_credits`, dan `memory_ref` yang menunjuk `runs/investigations/<memory_ref>.json`.
 
 ---
 
