@@ -259,8 +259,39 @@ Pembagian ini tidak boleh kabur. LLM: menyusun rencana, memilih probe, memutuska
 **AD-6 — Agen dipagari keras, bukan dipercaya.**
 Maks 8 langkah, maks 25 kredit per investigasi, timeout per langkah, keluaran wajib lolos skema JSON, dan tiap probe hanya boleh dipanggil sekali per investigasi. Melewati pagar mana pun → investigasi ditutup dengan bukti yang sudah terkumpul, bukan gagal. Agen yang tidak bisa mengunci dirinya sendiri tidak layak jalan tanpa pengawasan. `[K8]`
 
-**AD-7 — Sectors MCP dipakai di jalur pengembangan, REST API di jalur produksi.**
-MCP untuk eksplorasi data dan penulisan probe (cepat, interaktif). REST lewat `CreditAwareClient` untuk semua eksekusi agen, karena hanya di sanalah kredit bisa diukur dan dibatasi. Keduanya dicatat di README. `[K1]`
+**AD-7 — Satu gateway terukur, dua transport. MCP bukan cuma alat bantu pengembangan.**
+
+Kriteria teknis 30% berbunyi *"how innovative is the use of Sectors API **or MCP**"*. MCP disebut setara, dan panitia sendiri yang membangun serta mendokumentasikan server MCP-nya. Menaruh MCP hanya di jalur pengembangan berarti meninggalkan poin di meja.
+
+Semua akses ke Sectors — REST maupun MCP — lewat `CreditAwareClient` yang sama. Karena klien MCP-nya kita tulis sendiri (bukan klien jadi milik orang lain), tiap tool call bisa dicegat, dihitung biayanya, dan dicatat ke ledger persis seperti panggilan REST. Alasan "hanya REST yang bisa diukur" tidak berlaku begitu kita memiliki kliennya.
+
+Pembagian transport ditentukan **per-endpoint di sebuah tabel**, bukan diputuskan LLM per-panggilan — LLM memilih *alat*, bukan *transport*:
+
+| Jalur | Transport | Alasan |
+| --- | --- | --- |
+| Sapuan Tier-1 harian, backfill massal | **REST** | `fetch-close` dan sejenisnya butuh panggilan presisi, batched, dan murah |
+| Ekor panjang tool spesialis yang dipakai probe | **MCP** | 65+ tool siap pakai; tidak perlu menulis 65 wrapper REST tangan |
+| Penyaringan bahasa alami (`fetch-companies-by-subsector` argumen `q`) | **MCP** | kemampuan yang tidak muncul kalau kita bungkus REST sendiri |
+
+**Yang membuat ini "innovative use of MCP", bukan sekadar "memakai MCP":** perencana agen melihat katalog tool MCP **beserta harga kreditnya**, lalu memilih di bawah pagu anggaran. Pemilihan tool MCP yang sadar biaya — itu yang tidak ada di recipe resmi mana pun, dan itu yang jadi Angka 2 di §6. `[K1][T3]`
+
+> **Yang tetap dijaga:** ini tidak melunakkan syarat Track 1. Yang didiskualifikasi adalah *menyambungkan klien AI jadi ke MCP dengan prompt*. Kita menulis klien MCP sendiri, di dalam orkestrasi sendiri, dengan penganggaran dan pagar sendiri. `RESEARCH.md` §1 tabel track
+
+**AD-8 — Kualitas rekayasa adalah bukti, bukan kerapian.**
+
+Separuh kedua kriteria teknis berbunyi *"real, functional, **well engineered**, and not faked for the demo"*. Ini dinilai dari repo, jadi hal-hal berikut bukan kebersihan opsional — ini alat bukti, dan tiap satunya menjawab satu kecurigaan juri:
+
+| Artefak | Kecurigaan yang dijawab |
+| --- | --- |
+| `make demo` jalan tanpa API key | "apakah ini benar-benar bisa dijalankan?" |
+| Tes pagar agen (ngelantur, pagu habis, skema rusak) | "apakah agennya beneran atau cuma jalan di happy path?" |
+| Tes validator sitasi dengan buku bukti dipalsukan | "apakah angkanya dikarang LLM?" |
+| `data/credit_ledger.jsonl` ter-commit | "apakah pemakaian API-nya nyata dan seirit yang diklaim?" |
+| `evals/` dengan ablasi | "apakah agennya menambah nilai, atau cuma hiasan?" |
+| Riwayat commit bertahap | "apakah ini dibangun, atau ditempel semalam?" |
+| Skema pydantic di tiap batas | "apakah ini rapuh?" |
+
+Tiap baris di tabel ini masuk README sebagai tautan langsung ke berkasnya. Juri tidak perlu mencari. `[T7]`
 
 ---
 
@@ -321,6 +352,7 @@ Prinsip: **membosankan, bisa diaudit, jalan di mesin bersih.** `[T7][T9]`
 | Lapis | Pilihan | Alasan |
 | --- | --- | --- |
 | Ingestion, probe, agen | Python 3.12, `httpx`, `pandas`, `pydantic` | pydantic memaksa keluaran agen tervalidasi skema — pagar `[AD-6]` |
+| Akses Sectors | **klien MCP tulis sendiri** (`mcp` SDK, Streamable HTTP) + REST `httpx`, keduanya di balik `CreditAwareClient` | tiap tool call MCP tercegat dan termeter seperti REST `[AD-7]` |
 | Snapshot store & memori | **DuckDB + Parquet** | file tunggal, nol server, bisa di-commit |
 | LLM | Claude via Anthropic SDK, tool use + keluaran JSON terstruktur | orkestrasi ditulis sendiri, bukan framework agen pihak ketiga — supaya logika agen terlihat di repo kita `[T11]` |
 | Web | **Next.js 15 + Tailwind + Recharts**, output statis | satu orang pegang penuh; deploy Vercel sekali klik |
@@ -342,8 +374,11 @@ sectors2026/
 │
 ├── core/
 │   ├── sectors/
-│   │   ├── client.py          ← CreditAwareClient (ledger, cache, retry)
-│   │   ├── endpoints.py       ← wrapper per endpoint + biaya kredit tercatat
+│   │   ├── client.py          ← CreditAwareClient: gateway tunggal, dua transport
+│   │   ├── transport_rest.py  ← httpx
+│   │   ├── transport_mcp.py   ← klien MCP tulis sendiri, tiap tool call termeter
+│   │   ├── routing.py         ← tabel endpoint → transport  [AD-7]
+│   │   ├── catalog.py         ← katalog tool MCP + harga kredit, disajikan ke perencana
 │   │   └── schemas.py         ← model pydantic tiap respons
 │   ├── ingest/
 │   │   ├── tier1_market.py    ← sapuan market-wide harian

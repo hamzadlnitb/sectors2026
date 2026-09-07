@@ -50,6 +50,7 @@ Membuktikan enam probe benar-benar bisa dihitung dari data nyata. Kalau gagal, d
       `fetch-close`, `fetch-broker-summary-top`, `fetch-foreign-flow`, `fetch-free-float`,
       `fetch-suspensions`, `fetch-filings`, `fetch-daily-transaction`, `fetch-company-report`
 - [ ] **A** Catat biaya kredit **aktual** tiap endpoint → `docs/endpoint-costs.md` (dipakai perencana agen untuk menganggarkan)
+- [ ] **A** Sambungkan klien MCP sekali ke `https://sectors-mcp.supertype.ai/mcp`, dump katalog tool → `docs/mcp-catalog.md`; bandingkan biaya MCP vs REST untuk endpoint yang sama
 - [ ] **B** Konfirmasi: (a) `fetch-suspensions` memuat alasan yang bisa disaring jadi label? (b) `fetch-broker-summary-top` memberi cukup broker untuk HHI? (c) `fetch-free-float` mencakup small cap, bukan cuma LQ45? (d) `fetch-close` benar-benar mengembalikan seluruh ticker dalam satu panggilan?
 - [ ] **B** **Gerbang keputusan:** (a) atau (b) gagal → §Rencana Cadangan sebelum lanjut
 
@@ -68,8 +69,11 @@ Membuktikan enam probe benar-benar bisa dihitung dari data nyata. Kalau gagal, d
 
 ## F1 — Lapisan Data & Probe · Sen 7 – Rab 9 Sep · **A**
 
-- [ ] `core/sectors/client.py` — `CreditAwareClient`: cache disk permanen berkunci hash, ledger `jsonl`, pagu per fase yang **menolak**, retry + backoff, redaksi key di log `[AD-3][AD-5]`
-- [ ] `core/sectors/endpoints.py` + `schemas.py` (pydantic, dari respons spike)
+- [ ] `core/sectors/client.py` — `CreditAwareClient`: gateway tunggal, cache disk permanen berkunci hash, ledger `jsonl`, pagu per fase yang **menolak**, retry + backoff, redaksi key di log `[AD-3][AD-5]`
+- [ ] `transport_rest.py` + **`transport_mcp.py` (klien MCP tulis sendiri)** — tiap tool call MCP tercegat dan termeter seperti REST `[AD-7]`
+- [ ] `routing.py` — tabel endpoint → transport; keputusan transport **tidak pernah** diserahkan ke LLM
+- [ ] `catalog.py` — katalog tool MCP **beserta harga kredit**, disajikan ke perencana agen. Ini yang membuat pemilihan tool jadi sadar biaya `[AD-7]`
+- [ ] `schemas.py` (pydantic, dari respons spike)
 - [ ] `core/ingest/tier1_market.py` — sapuan market-wide, target **≤6 kredit/hari**
 - [ ] `core/probes/base.py` — kontrak `Probe`: `cost_estimate()`, `run()`, `→ (sub_skor, EvidenceEntry[])`
 - [ ] Enam probe: `broker`, `volume`, `fundamental`, `freefloat`, `foreign`, `structural`
@@ -170,7 +174,8 @@ Penyumbang terbesar untuk kriteria 40%. Jangan dikorbankan demi fitur.
 
 - [ ] **Semua** Uji `git clone` bersih → `make demo` di mesin lain, **tanpa API key** `[T7]`
 - [ ] **C** Buang setiap fitur yang pernah goyah di depan kamera `[T9]`
-- [ ] **A** README etalase juri: diagram, **tabel endpoint Sectors + alasan tiap panggilan**, dua angka validasi, quickstart, catatan MCP vs REST `[AD-7]`
+- [ ] **A** README etalase juri: diagram, **tabel endpoint Sectors + transport + alasan tiap panggilan**, dua angka validasi, quickstart
+- [ ] **A** README memuat **tabel bukti rekayasa** `ARCHITECTURE.md` AD-8 — tiap baris tertaut langsung ke berkasnya, supaya juri tidak perlu mencari `[T7]`
 - [ ] **D** Audit keamanan: nol API key di **seluruh riwayat git** (`git log -p --all | grep`)
 - [ ] **A** Verifikasi `runs/` ≥10 hari bursa berturut-turut
 - [ ] 🔒 **FEATURE FREEZE Jumat 25 Sep, 23:59**

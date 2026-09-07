@@ -162,6 +162,7 @@ Dinilai jujur tiap Minggu malam. Kolom skor di `TASK.md` §Papan Skor Mandiri.
 
 ### Technical depth & execution — 30%
 - [ ] ≥4 keluarga endpoint Sectors digabung jadi sesuatu yang tak disediakan satu pun di antaranya
+- [ ] **MCP dipakai di jalur produksi, bukan cuma alat bantu ngoding** — rubrik menyebut "Sectors API *or MCP*" setara
 - [ ] Minimal satu endpoint yang tim lain tidak akan terpikir memakainya (broker flow / foreign flow / mining / segments / free float / SGX-KLSE)
 - [ ] README: diagram arsitektur + tabel pemakaian endpoint + alasan tiap panggilan
 - [ ] Eval set / backtest / hasil validasi ter-commit, dengan angka

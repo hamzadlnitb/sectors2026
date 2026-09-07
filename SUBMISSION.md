@@ -46,6 +46,8 @@
 - [ ] `runs/investigations/` memuat transkrip yang bisa diputar ulang — juri bisa memutar hasil identik berkali-kali
 - [ ] `evals/` memuat ablasi: agen vs menyeluruh vs urutan tetap vs acak
 - [ ] Tes lolos: `make test`
+- [ ] **Tabel bukti rekayasa** di README lengkap dan tiap tautannya hidup (`ARCHITECTURE.md` AD-8)
+- [ ] Pemakaian **MCP maupun REST** terdokumentasi, dan keduanya benar-benar tercatat di ledger `[AD-7]`
 - [ ] README memuat diagram arsitektur + **tabel endpoint Sectors beserta alasan tiap panggilan**
 - [ ] Riwayat commit terbaca sebagai kerja bertahap yang wajar
 
