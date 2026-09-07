@@ -1,6 +1,10 @@
 # TASK.md — Rencana Eksekusi PANTAU
 
-**Hari ini: Minggu, 6 September 2026. Sisa 24 hari.**
+**Hari ini: Selasa, 8 September 2026. Sisa 22 hari.**
+
+> ⚠️ **Kalender di bawah disusun dengan asumsi mulai 6 Sep — kita sudah tertinggal 2 hari.**
+> Dua gerbang keras (cron 14 Sep, ablasi 21 Sep) **tidak digeser**, karena keduanya terikat
+> deadline nyata, bukan tanggal mulai kita. Selisihnya diambil dari F1–F2, bukan dari video.
 Deadline submission: **Rabu, 30 September 2026, 23:59 WIB** — target internal **Selasa 29 September**.
 Track: **1 — AI Agents & Assistants**.
 
@@ -83,6 +87,16 @@ Membuktikan enam probe benar-benar bisa dihitung dari data nyata. Kalau gagal, d
 
 > Probe harus bisa dipanggil **tanpa agen sama sekali**. Ini yang membuat lapisan bawah tertes dan agen bisa diablasi.
 
+> ⚠️ **Urutan kerja F1 penting.** AD-7 menambah empat berkas ke fase yang jendelanya sudah
+> sempit dan dipegang satu orang. Kerjakan dalam urutan ini, dan **jangan** mulai transport MCP
+> sebelum jalur REST end-to-end hijau:
+> 1. `client.py` + `transport_rest.py` + `schemas.py` → satu probe jalan penuh
+> 2. Lima probe sisanya + `tier1_market.py` → **F2 sudah bisa dimulai di sini**
+> 3. `transport_mcp.py` + `routing.py` + `catalog.py`
+>
+> Langkah 3 adalah **peningkatan, bukan prasyarat**. Rubrik berbunyi "Sectors API *or* MCP" —
+> REST-only tetap lolos. Kalau langkah 3 belum jalan pada **11 Sep**, lihat §Rencana Cadangan.
+
 ---
 
 ## F2 — Backfill & Kalibrasi Bobot · Rab 9 – Sab 12 Sep · **A + B** · anggaran 400 kredit
@@ -135,6 +149,10 @@ Fase terpenting. Ini yang dinilai juri sebagai "custom agent logic or orchestrat
 - [ ] `evals/cases.yaml` — 30–50 ticker uji: campuran normal, mencurigakan, dan yang benar-benar pernah disuspend
 - [ ] `evals/agent_eval.py` — empat jalur: **agen** vs **menyeluruh** vs **urutan tetap** vs **acak berpagu sama**
 - [ ] Ukur: kredit per investigasi, kesepakatan band vs menyeluruh, presisi eskalasi
+- [ ] **Ukur juga pemilihan tool sadar biaya** `[AD-7]` — ketika perencana melihat katalog MCP
+      **beserta harganya**, apakah ia memilih tool yang lebih murah untuk keyakinan yang setara?
+      Bandingkan dengan katalog yang harganya disembunyikan. Ini yang membuktikan klaim MCP kita,
+      bukan sekadar "kami memakai MCP"
 - [ ] `reports/validation.md` **Angka 2** — target penghematan kredit ≥50% dengan kesepakatan band ≥90%
 - [ ] Kunci satu kalimat untuk video: *"investigasi menyeluruh butuh N kredit; perencana kami rata-rata Y, dan sepakat Z% dari waktu"*
 - [ ] Kalau target meleset → jalankan mitigasi di `ARCHITECTURE.md` §11 baris pertama
@@ -205,10 +223,11 @@ Penyumbang terbesar untuk kriteria 40%. Jangan dikorbankan demi fitur.
 ## Kalender
 
 ```
-Sep  6 Min  F0 — daftar, onboard, klaim kredit, spike, skrip video, repo jadi publik
-Sep  7 Sen  ✅ GERBANG: spike selesai, skrip video terkunci
-Sep  7 Sen  F1 lapisan data & enam probe
-Sep  9 Rab  F2 backfill & kalibrasi bobot
+Sep  6-7    F0 — daftar, onboard, klaim kredit, spike, skrip video, repo jadi publik
+            ⚠️ kalau belum tuntas, ini pekerjaan hari ini — F0 memblokir semuanya
+Sep  8 Sel  F1 lapisan data & enam probe (REST dulu, MCP belakangan)
+Sep 10 Kam  F2 backfill & kalibrasi bobot — mulai begitu enam probe hijau
+Sep 11 Jum  ⚠️ BATAS: transport MCP jalan, atau putuskan REST-only
 Sep 11 Kam  F4 agen mulai (paralel dengan F3)
 Sep 12 Sab  ✅ GERBANG: Angka 1 ada di reports/validation.md
 Sep 14 Sen  ✅ GERBANG KERAS: cron HIDUP — jam bukti mulai berdetak
@@ -236,6 +255,7 @@ Okt  9      Pengumuman
 | `fetch-suspensions` tidak memberi label yang bisa dipakai | Label sekunder: lonjakan volume ekstrem + pembalikan harga tajam dalam 10 hari bursa. Framing jadi "deteksi pola distribusi", inti produk tetap | 9 Sep |
 | `fetch-broker-summary-top` terlalu dangkal untuk HHI | Turunkan bobot BCI, naikkan FRD dan SSS. Tetap enam probe | 9 Sep |
 | **Agen kalah dari urutan tetap di ablasi** | Perkaya sinyal Tier-1 ke perencana. Kalau tetap kalah: buang klaim penghematan kredit, jual **kemampuan eskalasi dan delta memori** secara kualitatif — keduanya tetap memenuhi syarat Track 1 dan tetap jujur | 21 Sep |
+| **Transport MCP bermasalah** (auth, streaming, bentuk respons) | Jalankan **REST-only**. Rubrik menyebut "Sectors API *or* MCP" — bukan keduanya. Buang klaim pemilihan tool sadar biaya dari video; Angka 2 tetap hidup lewat pemilihan probe. **Jangan korbankan F2 demi MCP** | 11 Sep |
 | Waktu habis di F4 | Potong **memori agen** lebih dulu (perencana + penyelidik + penilai sudah cukup memenuhi syarat Track 1). Jangan potong web atau video | 18 Sep |
 | Anggaran kredit menipis | Persempit alam semesta ke ±80 ticker small/mid cap paling sering muncul di most-traded 90 hari. Persempit cerita, bukan turunkan kualitas | kapan saja |
 
