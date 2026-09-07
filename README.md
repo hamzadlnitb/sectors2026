@@ -20,7 +20,10 @@ menghitung skor, tapi memutuskan **bukti mana yang layak dibeli untuk saham ini,
 | File | Isi |
 | --- | --- |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Desain sistem, enam komponen skor, anggaran kredit, keputusan arsitektur |
-| [`TASK.md`](TASK.md) | Rencana eksekusi 25 hari, peran, gerbang keputusan, rencana cadangan |
+| [`TASK.md`](TASK.md) | Rencana eksekusi, gerbang lintas-lajur, anggaran kredit, rencana cadangan |
+| [`TASK_MELCO.md`](TASK_MELCO.md) | Lajur data, transport & probe |
+| [`TASK_HAMZAH.md`](TASK_HAMZAH.md) | Lajur agen, skoring & eval |
+| [`TASK_NADHILLA.md`](TASK_NADHILLA.md) | Lajur web & lapisan ekspor |
 | [`RESEARCH.md`](RESEARCH.md) | Aturan & rubrik lomba, riset pemenang hackathon internasional, daftar jangan-dibangun |
 | [`SUBMISSION.md`](SUBMISSION.md) | Checklist freeze untuk hari submit |
 

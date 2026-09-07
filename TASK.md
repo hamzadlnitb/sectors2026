@@ -22,161 +22,121 @@ Referensi: `ARCHITECTURE.md` (desain), `RESEARCH.md` (alasan). Tanda `[Tn]` = ta
 6. **Feature freeze Jumat 25 September.** Setelah itu hanya bugfix, konten, video.
 7. Commit kecil dan sering — commit history dibaca juri. `[T7]`
 
-### Peran
+### Pembagian bertiga — kode saja
 
-| Kode | Peran | Kepemilikan |
-| --- | --- | --- |
-| **A** | Data & Ingestion | `core/sectors/`, `core/ingest/`, `core/probes/`, warehouse, anggaran kredit, GitHub Actions |
-| **B** | Agen & Validasi | `core/agent/`, `core/scoring/`, `evals/`, notebook kalibrasi, `reports/validation.md` |
-| **C** | Produk & Video | `web/`, `video/`, halaman Metodologi, user testing, rekaman |
-| **D** | Narrative & QA | `core/narrative/`, validator sitasi, pagar agen, CI larangan kosakata, `SUBMISSION.md` |
+Tim bertiga. **Tugas di file per-orang mencakup kodenya sekaligus QA-nya sendiri.**
+Submission dan video dikerjakan bareng di akhir, jadi tidak ada lajur khusus untuk itu.
 
-> **Tim < 4 orang:** gabungkan D ke B. Kalau bertiga, C tetap tidak boleh disambi — potong scope memori agen (§Rencana Cadangan), bukan potong video.
+| Orang | Lajur | File tugas | Direktori yang dimiliki |
+| --- | --- | --- | --- |
+| **Melco** | Data, Transport & Probe | [`TASK_MELCO.md`](TASK_MELCO.md) | `core/sectors/` · `core/ingest/` · `core/probes/` · `data/` · `.github/` · `Makefile` |
+| **Hamzah** | Agen, Skoring & Eval | [`TASK_HAMZAH.md`](TASK_HAMZAH.md) | `core/agent/` · `core/scoring/` · `core/narrative/` · `evals/` · `notebooks/` |
+| **Nadhilla** | Web & Lapisan Ekspor | [`TASK_NADHILLA.md`](TASK_NADHILLA.md) | `web/` · `core/export/` · `fixtures/` |
 
----
+**Aturan kepemilikan:** jangan pernah mengedit berkas di luar direktori lu. Kalau butuh perubahan
+di sana, minta pemiliknya — jangan edit sendiri. Ini yang membuat tiga agen AI bisa jalan
+bersamaan tanpa saling menimpa.
+
+**Branch:** `feat/<nama>/<topik>`, merge ke `main` **setiap hari**. Direktori disjoint, jadi
+konflik seharusnya nyaris tidak ada — kalau sering konflik, berarti batas kepemilikan bocor.
+
+### Sesi bareng hari ini (8 Sep) — memblokir semua lajur
+
+Satu jam bertiga, sekali saja. Tanpa ini tidak ada yang bisa jalan paralel.
+
+- [ ] Bekukan **lima kontrak** di `contracts/`: `ProbeResult`, `EvidenceEntry`,
+      `InvestigationTranscript`, skema tabel warehouse, entri katalog tool
+      (bentuknya sudah ada di `ARCHITECTURE.md` §10 — tinggal ditulis jadi skema)
+- [ ] Commit **fixture** supaya tidak ada yang menunggu siapa pun:
+      `fixtures/transcripts/{normal,waspada,eskalasi}.json` · `fixtures/warehouse-mini/` ·
+      `core/probes/stubs.py` (probe palsu yang mengembalikan data kalengan)
+- [ ] Sepakati: **kontrak hanya boleh berubah kalau bertiga setuju.** Setelah 12 Sep, beku total.
+
+# Fase Bareng — Kickoff
 
 ## F0 — Fondasi & Verifikasi Asumsi · Min 6 – Sen 7 Sep
 
 Jangan bangun apa pun sebelum F0 tuntas.
 
 ### Administrasi (blokir semua hal lain)
-- [ ] **A** Bentuk tim final (1–4 orang), tunjuk representative
+- [ ] **Bertiga** Tunjuk representative (pemegang kredit & penerima hadiah)
 - [ ] **Semua** Buat akun sectors.app dan **selesaikan onboarding penuh** — diverifikasi panitia
-- [ ] **A** Daftarkan tim di portal hackathon
-- [ ] **A** Klaim 1.000 kredit API — ⚠️ **klaim mengunci roster permanen**
-- [ ] **A** Repo `sectors2026` jadikan **publik** (rules mewajibkan, dan wajib tetap publik ≥90 hari)
-- [ ] **A** API key di GitHub Secrets + `.env` lokal; `.env` sudah di `.gitignore` ✅
-- [ ] **A** Gabung Slack resmi; **tanyakan di `#discussion` apakah track masih bisa diubah setelah registrasi** — jawabannya dicatat di sini, apa pun hasilnya
+- [ ] **Melco** Daftarkan tim di portal hackathon
+- [ ] **Melco** Klaim 1.000 kredit API — ⚠️ **klaim mengunci roster permanen**
+- [ ] **Melco** Repo `sectors2026` jadikan **publik** (rules mewajibkan, dan wajib tetap publik ≥90 hari)
+- [ ] **Melco** API key di GitHub Secrets + `.env` lokal; `.env` sudah di `.gitignore` ✅
+- [ ] **Melco** Gabung Slack resmi; **tanyakan di `#discussion` apakah track masih bisa diubah setelah registrasi** — jawabannya dicatat di sini, apa pun hasilnya
 
 ### Spike verifikasi endpoint — anggaran maks 40 kredit
 Membuktikan enam probe benar-benar bisa dihitung dari data nyata. Kalau gagal, desain diubah **sekarang**.
-- [ ] **A** Panggil sekali dan simpan respons mentah ke `spikes/`:
+- [ ] **Melco** Panggil sekali dan simpan respons mentah ke `spikes/`:
       `fetch-close`, `fetch-broker-summary-top`, `fetch-foreign-flow`, `fetch-free-float`,
       `fetch-suspensions`, `fetch-filings`, `fetch-daily-transaction`, `fetch-company-report`
-- [ ] **A** Catat biaya kredit **aktual** tiap endpoint → `docs/endpoint-costs.md` (dipakai perencana agen untuk menganggarkan)
-- [ ] **A** Sambungkan klien MCP sekali ke `https://sectors-mcp.supertype.ai/mcp`, dump katalog tool → `docs/mcp-catalog.md`; bandingkan biaya MCP vs REST untuk endpoint yang sama
-- [ ] **B** Konfirmasi: (a) `fetch-suspensions` memuat alasan yang bisa disaring jadi label? (b) `fetch-broker-summary-top` memberi cukup broker untuk HHI? (c) `fetch-free-float` mencakup small cap, bukan cuma LQ45? (d) `fetch-close` benar-benar mengembalikan seluruh ticker dalam satu panggilan?
-- [ ] **B** **Gerbang keputusan:** (a) atau (b) gagal → §Rencana Cadangan sebelum lanjut
+- [ ] **Melco** Catat biaya kredit **aktual** tiap endpoint → `docs/endpoint-costs.md` (dipakai perencana agen untuk menganggarkan)
+- [ ] **Melco** Sambungkan klien MCP sekali ke `https://sectors-mcp.supertype.ai/mcp`, dump katalog tool → `docs/mcp-catalog.md`; bandingkan biaya MCP vs REST untuk endpoint yang sama
+- [ ] **Hamzah** Konfirmasi: (a) `fetch-suspensions` memuat alasan yang bisa disaring jadi label? (b) `fetch-broker-summary-top` memberi cukup broker untuk HHI? (c) `fetch-free-float` mencakup small cap, bukan cuma LQ45? (d) `fetch-close` benar-benar mengembalikan seluruh ticker dalam satu panggilan?
+- [ ] **Hamzah** **Gerbang keputusan:** (a) atau (b) gagal → §Rencana Cadangan sebelum lanjut
 
 ### Skrip video (sebelum kode) `[T2]`
-- [ ] **C** `video/script-judging.md` mengikuti template 3 menit di `RESEARCH.md` §5
-- [ ] **C** Pastikan skrip memuat **keempat perilaku agentik** yang dituntut Track 1: perutean adaptif, penghentian dini, eskalasi, memori. `ARCHITECTURE.md` §3
-- [ ] **C** `video/script-teaser.md` (60 detik)
-- [ ] **C** Problem statement 1 kalimat, dikunci
+- [ ] `video/script-judging.md` mengikuti template 3 menit di `RESEARCH.md` §5
+- [ ] Pastikan skrip memuat **keempat perilaku agentik** yang dituntut Track 1: perutean adaptif, penghentian dini, eskalasi, memori. `ARCHITECTURE.md` §3
+- [ ] `video/script-teaser.md` (60 detik)
+- [ ] Problem statement 1 kalimat, dikunci
 - [ ] **Semua** Baca bareng. Fitur di luar skrip dicoret dari rencana.
 
 ### Kerangka repo
-- [ ] **A** Struktur direktori sesuai `ARCHITECTURE.md` §9, `Makefile`, `ruff`, `pytest`, pre-commit
-- [ ] **D** CI: lint + test + **larangan kosakata** (grep "beli", "jual", "target harga", "rekomendasi" pada seluruh string output **termasuk narasi LLM tersimpan**) `[K5]`
+- [ ] **Melco** Struktur direktori sesuai `ARCHITECTURE.md` §9, `Makefile`, `ruff`, `pytest`, pre-commit
+- [ ] **Melco** CI: lint + test + **larangan kosakata** (grep "beli", "jual", "target harga", "rekomendasi" pada seluruh string output **termasuk narasi LLM tersimpan**) `[K5]`
 
 ---
 
-## F1 — Lapisan Data & Probe · Sen 7 – Rab 9 Sep · **A**
+## Lajur kode — paralel, lihat file masing-masing
 
-- [ ] `core/sectors/client.py` — `CreditAwareClient`: gateway tunggal, cache disk permanen berkunci hash, ledger `jsonl`, pagu per fase yang **menolak**, retry + backoff, redaksi key di log `[AD-3][AD-5]`
-- [ ] `transport_rest.py` + **`transport_mcp.py` (klien MCP tulis sendiri)** — tiap tool call MCP tercegat dan termeter seperti REST `[AD-7]`
-- [ ] `routing.py` — tabel endpoint → transport; keputusan transport **tidak pernah** diserahkan ke LLM
-- [ ] `catalog.py` — katalog tool MCP **beserta harga kredit**, disajikan ke perencana agen. Ini yang membuat pemilihan tool jadi sadar biaya `[AD-7]`
-- [ ] `schemas.py` (pydantic, dari respons spike)
-- [ ] `core/ingest/tier1_market.py` — sapuan market-wide, target **≤6 kredit/hari**
-- [ ] `core/probes/base.py` — kontrak `Probe`: `cost_estimate()`, `run()`, `→ (sub_skor, EvidenceEntry[])`
-- [ ] Enam probe: `broker`, `volume`, `fundamental`, `freefloat`, `foreign`, `structural`
-- [ ] `core/probes/registry.py` — definisi tool yang diekspos ke LLM (nama, deskripsi, skema argumen, biaya)
-- [ ] DuckDB warehouse; `make credits`
-- [ ] **Tes:** cache hit tidak menambah ledger; pagu terlampaui → raise; tiap probe jalan pada data snapshot tanpa jaringan
+Setelah F0, tiga lajur jalan **bersamaan**. Checklist detailnya ada di file per-orang; di sini
+hanya peta dan saling-ketergantungannya. **Jangan menyalin checklist ke sini** — satu sumber kebenaran.
 
-> Probe harus bisa dipanggil **tanpa agen sama sekali**. Ini yang membuat lapisan bawah tertes dan agen bisa diablasi.
+| Lajur | File | Isi | Puncak beban |
+| --- | --- | --- | --- |
+| Data, Transport & Probe | [`TASK_MELCO.md`](TASK_MELCO.md) | `CreditAwareClient`, REST + MCP, ingest, enam probe, warehouse, cron, CI | 8–14 Sep |
+| Agen, Skoring & Eval | [`TASK_HAMZAH.md`](TASK_HAMZAH.md) | kalibrasi bobot, perencana/penyelidik/penilai, memori, pagar, narasi, ablasi | 11–21 Sep |
+| Web & Lapisan Ekspor | [`TASK_NADHILLA.md`](TASK_NADHILLA.md) | halaman investigasi, buku bukti, papan waspada, metodologi, ekspor JSON | 10–22 Sep |
 
-> ⚠️ **Urutan kerja F1 penting.** AD-7 menambah empat berkas ke fase yang jendelanya sudah
-> sempit dan dipegang satu orang. Kerjakan dalam urutan ini, dan **jangan** mulai transport MCP
-> sebelum jalur REST end-to-end hijau:
-> 1. `client.py` + `transport_rest.py` + `schemas.py` → satu probe jalan penuh
-> 2. Lima probe sisanya + `tier1_market.py` → **F2 sudah bisa dimulai di sini**
-> 3. `transport_mcp.py` + `routing.py` + `catalog.py`
->
-> Langkah 3 adalah **peningkatan, bukan prasyarat**. Rubrik berbunyi "Sectors API *or* MCP" —
-> REST-only tetap lolos. Kalau langkah 3 belum jalan pada **11 Sep**, lihat §Rencana Cadangan.
+### Cara ketiganya tidak saling menunggu
 
----
+```
+Melco  ──probe asli──────────────►  Hamzah
+  ▲                                   │
+  │                            transkrip asli
+warehouse                             │
+  │                                   ▼
+  └──────────────────────────────►  Nadhilla
 
-## F2 — Backfill & Kalibrasi Bobot · Rab 9 – Sab 12 Sep · **A + B** · anggaran 400 kredit
+Sebelum yang asli datang, semua orang jalan di atas:
+  stubs.py  ·  fixtures/warehouse-mini/  ·  fixtures/transcripts/*.json
+```
 
-- [ ] **A** `core/ingest/backfill.py` — 120 hari bursa `fetch-close`; suspensi & filings 24 bulan; Tier-2 untuk positif + kontrol
-- [ ] **B** Himpunan positif dari `fetch-suspensions` (saring alasan pergerakan/aktivitas tidak wajar)
-- [ ] **B** Himpunan kontrol tersamakan (kapitalisasi + subsektor)
-- [ ] **B** Enam sub-skor pada T-1/T-3/T-5/T-10 — **strictly point-in-time, nol lookahead**
-- [ ] **B** Cari bobot; split waktu 18 bulan kalibrasi / 6 bulan uji
-- [ ] **B** `reports/validation.md` **Angka 1** — Precision@20, recall pada ambang 60, median lead time, plus **batasan yang diakui terbuka** `[T6][T7]`
+Melco menyerahkan probe asli satu per satu mulai **10 Sep**; Hamzah menyerahkan transkrip asli
+sekitar **18 Sep**. Sampai saat itu, stub dan fixture adalah cara kerja yang sah — **bukan darurat.**
 
----
+### Gerbang lintas-lajur
 
-## F3 — Skoring & Pipeline Hidup · Kam 10 – **Sen 14 Sep** · **B + A**
-
-> ⚠️ **Tenggat keras 14 September.** Jam bukti operasi otonom mulai berdetak.
-
-- [ ] **B** `core/scoring/composite.py` — pembobotan F2, band, **tingkat keyakinan** (bobot komponen yang tercakup) `ARCHITECTURE.md` §4
-- [ ] **B** `core/scoring/facts.py` — buku bukti sesuai kontrak `ARCHITECTURE.md` §10
-- [ ] **A** `core/export/to_json.py` → `web/public/data/` + `runs/`
-- [ ] **A** `.github/workflows/daily.yml` — cron **10:30 UTC = 17:30 WIB**, Sen–Jum
-      - Tahap 1 (mulai 14 Sep): sapuan Tier-1 + watchlist deterministik → commit `runs/YYYY-MM-DD/`
-      - Tahap 2 (mulai ±19 Sep): agen menyelidiki sendiri top-N → commit `runs/investigations/`
-- [ ] **A** Verifikasi eksekusi cron pertama yang benar-benar tak disentuh manusia; screenshot konfigurasi schedule untuk video `[T5]`
-- [ ] **A** Commit `data/warehouse/*.parquet` supaya juri jalan tanpa API key `[AD-2]`
+| Tanggal | Gerbang | Pemilik |
+| --- | --- | --- |
+| 9 Sep | Bentuk data terverifikasi, atau rencana cadangan dijalankan | Melco |
+| 10 Sep | Satu probe hijau + tiga fixture beku + Vercel hidup | Melco, Nadhilla |
+| 12 Sep | Warehouse terisi · enam probe hijau · **Angka 1** ada | Melco, Hamzah |
+| **14 Sep** | 🔴 **Cron hidup** — jam bukti otonom mulai berdetak | Melco |
+| 18 Sep | `make investigate` jalan end-to-end | Hamzah |
+| **21 Sep** | 🔴 **Angka 2** ada — atau klaim diubah hari itu juga | Hamzah |
+| 22 Sep | Produk end-to-end pakai transkrip asli, ter-deploy | Nadhilla |
 
 ---
 
-## F4 — Agen · Kam 11 – Kam 18 Sep · **B + D** · ★ inti Track 1
+# Fase Bareng
 
-Fase terpenting. Ini yang dinilai juri sebagai "custom agent logic or orchestration".
+Dikerjakan bertiga, bukan per-lajur.
 
-- [ ] **B** `agent/planner.py` — dari sinyal Tier-1 + memori → hipotesis, probe terurut, permintaan pagu kredit. Keluaran **JSON terstruktur**, bukan prosa
-- [ ] **B** `agent/investigator.py` — loop eksekusi → evaluasi temuan → `continue` / `escalate` / `conclude`
-- [ ] **B** `agent/budget.py` — pagu per-investigasi (25 kredit) & per-hari; eskalasi bisa **ditolak**, dan agen harus menyimpulkan dengan bukti seadanya
-- [ ] **D** `agent/guardrails.py` — maks 8 langkah, timeout per langkah, validasi skema, satu probe sekali per investigasi, penutupan aman saat pagar tertembus `[AD-6]`
-- [ ] **B** `agent/memory.py` — riwayat per-ticker di DuckDB; investigasi ulang menghasilkan rencana berbeda yang diarahkan ke perubahan
-- [ ] **B** `agent/transcript.py` — format transkrip yang bisa diputar ulang `ARCHITECTURE.md` §10
-- [ ] **B** `agent/adjudicator.py` — buku bukti → skor **deterministik** → narasi LLM
-- [ ] **D** `narrative/validate.py` — tiap token angka wajib ada padanannya di buku bukti; gagal → template deterministik `[AD-4]`
-- [ ] **Tes:** buku bukti dipalsukan → validator menolak; agen ngelantur → pagar menutup dengan aman; pagu habis → tetap menghasilkan putusan berkeyakinan rendah, bukan crash
-- [ ] **B** `make investigate SYMBOL=XXXX` jalan end-to-end
-
----
-
-## F5 — Eval Agen · Jum 19 – **Min 21 Sep** · **B** · anggaran 130 kredit
-
-> ⚠️ **Gerbang keras.** Kalau agen tidak mengalahkan urutan tetap, kita ubah klaim **sekarang**, bukan saat merekam video.
-
-- [ ] `evals/cases.yaml` — 30–50 ticker uji: campuran normal, mencurigakan, dan yang benar-benar pernah disuspend
-- [ ] `evals/agent_eval.py` — empat jalur: **agen** vs **menyeluruh** vs **urutan tetap** vs **acak berpagu sama**
-- [ ] Ukur: kredit per investigasi, kesepakatan band vs menyeluruh, presisi eskalasi
-- [ ] **Ukur juga pemilihan tool sadar biaya** `[AD-7]` — ketika perencana melihat katalog MCP
-      **beserta harganya**, apakah ia memilih tool yang lebih murah untuk keyakinan yang setara?
-      Bandingkan dengan katalog yang harganya disembunyikan. Ini yang membuktikan klaim MCP kita,
-      bukan sekadar "kami memakai MCP"
-- [ ] `reports/validation.md` **Angka 2** — target penghematan kredit ≥50% dengan kesepakatan band ≥90%
-- [ ] Kunci satu kalimat untuk video: *"investigasi menyeluruh butuh N kredit; perencana kami rata-rata Y, dan sepakat Z% dari waktu"*
-- [ ] Kalau target meleset → jalankan mitigasi di `ARCHITECTURE.md` §11 baris pertama
-
----
-
-## F6 — Web · Sen 14 – Sen 22 Sep · **C**
-
-Dimulai paralel dengan F4 memakai transkrip contoh; disambungkan ke transkrip asli begitu F4 selesai.
-
-- [ ] Next.js 15 + Tailwind, baca **JSON statis saja**, nol panggilan API & LLM runtime `[AD-1]`
-- [ ] **Halaman Investigasi** — putar ulang transkrip langkah demi langkah: rencana awal, tiap langkah, temuan, **keputusan perutean agen**, momen eskalasi, penghentian dini. Ini tampilan yang menjual Track 1
-- [ ] Skor besar + band + **tingkat keyakinan** + kredit terpakai vs baseline menyeluruh
-- [ ] **Buku Bukti** — tiap angka bisa diklik ke endpoint + params + `as-of` `[T12]`
-- [ ] **Papan Waspada** — arsip investigasi otonom bertanggal, bisa ditelusuri
-- [ ] **Halaman Metodologi** — rumus, bobot, **dua angka validasi**, batasan yang diakui `[T6]`
-- [ ] Disclaimer permanen: "PANTAU adalah alat informasi dan analisis, bukan saran investasi." `[K5]`
-- [ ] Bahasa Indonesia penuh, format IDR, tanggal WIB `[T14]`
-- [ ] Mobile-first — persona kita pegang HP
-- [ ] Deploy Vercel; verifikasi dari incognito
-
----
-
-## F7 — Bukti Pemakaian Nyata · Sen 22 – Kam 24 Sep · **C** `[T6][T13]`
+## B1 — Bukti Pemakaian Nyata · Sen 22 – Kam 24 Sep `[T6][T13]`
 
 Penyumbang terbesar untuk kriteria 40%. Jangan dikorbankan demi fitur.
 
@@ -188,19 +148,19 @@ Penyumbang terbesar untuk kriteria 40%. Jangan dikorbankan demi fitur.
 
 ---
 
-## F8 — Polish & Feature Freeze · Rab 24 – **Jum 25 Sep**
+## B2 — Polish & Feature Freeze · Rab 24 – **Jum 25 Sep**
 
-- [ ] **Semua** Uji `git clone` bersih → `make demo` di mesin lain, **tanpa API key** `[T7]`
-- [ ] **C** Buang setiap fitur yang pernah goyah di depan kamera `[T9]`
-- [ ] **A** README etalase juri: diagram, **tabel endpoint Sectors + transport + alasan tiap panggilan**, dua angka validasi, quickstart
-- [ ] **A** README memuat **tabel bukti rekayasa** `ARCHITECTURE.md` AD-8 — tiap baris tertaut langsung ke berkasnya, supaya juri tidak perlu mencari `[T7]`
-- [ ] **D** Audit keamanan: nol API key di **seluruh riwayat git** (`git log -p --all | grep`)
-- [ ] **A** Verifikasi `runs/` ≥10 hari bursa berturut-turut
+- [ ] **Bertiga** Uji `git clone` bersih → `make demo` di mesin lain, **tanpa API key** `[T7]`
+- [ ] **Nadhilla** Buang setiap fitur yang pernah goyah di depan kamera `[T9]`
+- [ ] **Melco** README etalase juri: diagram, **tabel endpoint Sectors + transport + alasan tiap panggilan**, dua angka validasi, quickstart
+- [ ] **Melco** README memuat **tabel bukti rekayasa** `ARCHITECTURE.md` AD-8 — tiap baris tertaut langsung ke berkasnya, supaya juri tidak perlu mencari `[T7]`
+- [ ] **Melco** Audit keamanan: nol API key di **seluruh riwayat git** (`git log -p --all | grep`)
+- [ ] **Melco** Verifikasi `runs/` ≥10 hari bursa berturut-turut
 - [ ] 🔒 **FEATURE FREEZE Jumat 25 Sep, 23:59**
 
 ---
 
-## F9 — Produksi Video · Sab 26 – Min 27 Sep · **C**
+## B3 — Produksi Video · Sab 26 – Min 27 Sep
 
 - [ ] Siapkan data & state sebelumnya; nol pemuatan lambat di kamera `[T9]`
 - [ ] Rekam **3–4 take**; jangan percepat audio
@@ -211,7 +171,7 @@ Penyumbang terbesar untuk kriteria 40%. Jangan dikorbankan demi fitur.
 
 ---
 
-## F10 — Submission · Sen 28 – **Sel 29 Sep**
+## B4 — Submission · Sen 28 – **Sel 29 Sep**
 
 - [ ] Jalankan `SUBMISSION.md` sampai habis
 - [ ] Post sosmed men-tag akun resmi Sectors
@@ -225,20 +185,20 @@ Penyumbang terbesar untuk kriteria 40%. Jangan dikorbankan demi fitur.
 ```
 Sep  6-7    F0 — daftar, onboard, klaim kredit, spike, skrip video, repo jadi publik
             ⚠️ kalau belum tuntas, ini pekerjaan hari ini — F0 memblokir semuanya
-Sep  8 Sel  F1 lapisan data & enam probe (REST dulu, MCP belakangan)
-Sep 10 Kam  F2 backfill & kalibrasi bobot — mulai begitu enam probe hijau
+Sep  8 Sel  Tiga lajur kode mulai paralel — lihat file per-orang
+Sep 10 Kam  Melco serahkan probe pertama · Nadhilla bekukan fixture
 Sep 11 Jum  ⚠️ BATAS: transport MCP jalan, atau putuskan REST-only
-Sep 11 Kam  F4 agen mulai (paralel dengan F3)
+Sep 11 Kam  Hamzah mulai agen
 Sep 12 Sab  ✅ GERBANG: Angka 1 ada di reports/validation.md
 Sep 14 Sen  ✅ GERBANG KERAS: cron HIDUP — jam bukti mulai berdetak
-Sep 14 Sen  F6 web mulai (pakai transkrip contoh)
+Sep 18 Kam  Hamzah serahkan transkrip asli ke Nadhilla
 Sep 18 Kam  ✅ GERBANG: make investigate jalan end-to-end
-Sep 19 Jum  F5 eval agen + ablasi
+Sep 19 Jum  Hamzah eval agen + ablasi
 Sep 21 Min  ✅ GERBANG KERAS: Angka 2 ada — atau klaim diubah hari itu juga
 Sep 22 Sel  ⚠️ REGISTRASI TUTUP 23:59 WIB (harusnya beres sejak Sep 7)
-Sep 22 Sel  F7 user testing dengan investor ritel asli
-Sep 25 Jum  🔒 FEATURE FREEZE
-Sep 26 Sab  F9 rekaman video
+Sep 22 Sel  B1 user testing dengan investor ritel asli (bertiga)
+Sep 25 Jum  🔒 FEATURE FREEZE (B2)
+Sep 26 Sab  B3 rekaman video (bertiga)
 Sep 27 Min  Editing + unggah
 Sep 29 Sel  🚀 SUBMIT (buffer 1 hari)
 Sep 30 Rab  Deadline resmi 23:59 WIB — jangan pakai hari ini
