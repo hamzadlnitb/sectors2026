@@ -40,17 +40,29 @@ bersamaan tanpa saling menimpa.
 **Branch:** `feat/<nama>/<topik>`, merge ke `main` **setiap hari**. Direktori disjoint, jadi
 konflik seharusnya nyaris tidak ada — kalau sering konflik, berarti batas kepemilikan bocor.
 
-### Sesi bareng hari ini (8 Sep) — memblokir semua lajur
+### Kontrak & fixture — SUDAH DITULIS ✅
 
-Satu jam bertiga, sekali saja. Tanpa ini tidak ada yang bisa jalan paralel.
+Tidak perlu sesi desain. `contracts/` dan `fixtures/` sudah ada di repo dan tervalidasi,
+jadi ketiga lajur bisa mulai hari ini juga.
 
-- [ ] Bekukan **lima kontrak** di `contracts/`: `ProbeResult`, `EvidenceEntry`,
-      `InvestigationTranscript`, skema tabel warehouse, entri katalog tool
-      (bentuknya sudah ada di `ARCHITECTURE.md` §10 — tinggal ditulis jadi skema)
-- [ ] Commit **fixture** supaya tidak ada yang menunggu siapa pun:
-      `fixtures/transcripts/{normal,waspada,eskalasi}.json` · `fixtures/warehouse-mini/` ·
-      `core/probes/stubs.py` (probe palsu yang mengembalikan data kalengan)
-- [ ] Sepakati: **kontrak hanya boleh berubah kalau bertiga setuju.** Setelah 12 Sep, beku total.
+| Berkas | Isi |
+| --- | --- |
+| `contracts/schemas.py` | Lima kontrak sebagai model pydantic |
+| `contracts/warehouse.sql` | DDL tabel DuckDB |
+| `contracts/check.py` | Validator — fixture wajib cocok dengan skema |
+| `fixtures/transcripts/{normal,waspada,eskalasi}.json` | Tiga bentuk transkrip untuk Nadhilla |
+| `fixtures/generate.py` | Pembangkit fixture, lewat model supaya mustahil menyimpang |
+
+```bash
+make check-contracts   # harus hijau sebelum push
+```
+
+- [ ] **Bertiga · 15 menit hari ini** Baca `contracts/schemas.py` dan tiga fixture. Ini
+      **review**, bukan desain. Yang dicari cuma satu: adakah bentuk yang bikin lajur lu mustahil?
+- [ ] **Melco** `probes/stubs.py` — probe palsu yang mengembalikan `ProbeResult` kalengan,
+      supaya Hamzah lepas landas tanpa menunggu probe asli
+- [ ] **Melco** `fixtures/warehouse-mini/` — potongan warehouse untuk tes tanpa jaringan
+- [ ] **Bertiga** Sepakati: kontrak berubah hanya kalau bertiga setuju, **beku total 12 Sep**
 
 # Fase Bareng — Kickoff
 

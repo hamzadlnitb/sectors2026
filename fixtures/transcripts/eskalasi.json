@@ -1,0 +1,221 @@
+{
+  "schema_version": "1.0",
+  "symbol": "FIXC",
+  "as_of": "2026-09-05",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "h1",
+        "claim": "Volume meledak pada saham berkapitalisasi kecil",
+        "probes": [
+          "volume_anomaly"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "h2",
+        "claim": "Saham beredar terlalu sedikit sehingga mudah digerakkan",
+        "probes": [
+          "free_float"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "h3",
+        "claim": "Asing mendistribusikan ke ritel",
+        "probes": [
+          "foreign_flow"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 8,
+    "rationale": "Kapitalisasi kecil dengan volume 6σ. Mulai dari dua probe murah; pagu ditahan dulu karena investigasi 12 hari lalu berakhir normal."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "h1",
+      "probe": "volume_anomaly",
+      "finding": "confirmed",
+      "next_action": "continue",
+      "new_probe": null,
+      "reason": "Volume 6,2σ di atas baseline. Ekstrem.",
+      "credits_spent": 2,
+      "credits_remaining": 6
+    },
+    {
+      "step": 2,
+      "hypothesis": "h2",
+      "probe": "free_float",
+      "finding": "confirmed",
+      "next_action": "escalate",
+      "new_probe": "structural",
+      "reason": "Free float hanya 4% — jauh lebih ketat dari perkiraan awal. Kombinasi float 4% dan volume 6σ menuntut pemeriksaan corporate action, yang tidak ada di rencana awal. Meminta tambahan pagu.",
+      "credits_spent": 2,
+      "credits_remaining": 4
+    },
+    {
+      "step": 3,
+      "hypothesis": "h2",
+      "probe": "structural",
+      "finding": "confirmed",
+      "next_action": "continue",
+      "new_probe": null,
+      "reason": "Dua kali rights issue dalam 24 bulan, dan pernah disuspend 14 November 2025. Eskalasi terbayar: temuan ini menaikkan band.",
+      "credits_spent": 5,
+      "credits_remaining": 6
+    },
+    {
+      "step": 4,
+      "hypothesis": "h3",
+      "probe": "foreign_flow",
+      "finding": "confirmed",
+      "next_action": "conclude",
+      "new_probe": null,
+      "reason": "Asing keluar bersih Rp 47 M. Bukti cukup; probe broker dilewati karena band sudah tidak akan berubah dan biayanya paling mahal.",
+      "credits_spent": 4,
+      "credits_remaining": 2
+    }
+  ],
+  "evidence": [
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 6.2,
+      "display": "6,2σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "FIXC",
+        "start": "2026-06-08",
+        "end": "2026-09-05"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-05T17:30:00+07:00",
+      "credits_spent": 2
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.04,
+      "display": "4%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "sub_sector": "properties-real-estate"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-05T17:30:00+07:00",
+      "credits_spent": 2
+    },
+    {
+      "id": "sss.rights_issues",
+      "label": "Rights issue 24 bulan terakhir",
+      "value": 2,
+      "display": "2 kali",
+      "probe": "structural",
+      "source_endpoint": "fetch-corporate-actions",
+      "source_params": {
+        "symbol": "FIXC"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-05T17:30:00+07:00",
+      "credits_spent": 3
+    },
+    {
+      "id": "sss.prior_suspension",
+      "label": "Suspensi sebelumnya",
+      "value": "2025-11-14",
+      "display": "14 November 2025",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "FIXC",
+        "start": "2024-09-05",
+        "end": "2026-09-05"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-05T17:30:00+07:00",
+      "credits_spent": 2
+    },
+    {
+      "id": "frd.foreign_net_30d",
+      "label": "Arus asing bersih 30 hari",
+      "value": -47000000000,
+      "display": "-Rp 47 M",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "FIXC",
+        "start": "2026-08-06",
+        "end": "2026-09-05"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-05T17:30:00+07:00",
+      "credits_spent": 4
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.24,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 92.0,
+      "weight": 0.18,
+      "evidence_ids": [
+        "vas.zscore"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.16,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 95.0,
+      "weight": 0.12,
+      "evidence_ids": [
+        "ffs.pct"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": 84.0,
+      "weight": 0.18,
+      "evidence_ids": [
+        "frd.foreign_net_30d"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "SSS",
+      "sub_score": 78.0,
+      "weight": 0.12,
+      "evidence_ids": [
+        "sss.rights_issues",
+        "sss.prior_suspension"
+      ],
+      "investigated": true
+    }
+  ],
+  "pantau_score": 87,
+  "band": "sangat_waspada",
+  "confidence": 0.6,
+  "credits_total": 13,
+  "baseline_credits": 23,
+  "narrative": "Banyak indikator menunjukkan pola tidak biasa secara bersamaan. Free float hanya 4% sementara volume berada 6,2σ di atas baseline. Emiten ini menggelar rights issue 2 kali dalam 24 bulan terakhir dan pernah disuspend pada 14 November 2025. Dalam 30 hari terakhir asing keluar bersih Rp 47 M.",
+  "narrative_source": "llm",
+  "memory_ref": "FIXC-2026-08-24",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}
