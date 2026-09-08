@@ -273,16 +273,30 @@ class Warehouse:
         return "\n".join(lines)
 
 
+KALENDER_TABEL = ("daily_transaction", "daily_close")
+"""Tabel yang boleh menyumbang tanggal ke kalender bursa, urut dari yang paling
+padat. daily_transaction lebih dulu karena sejak fetch-close dikeluarkan dari
+sapuan harian (1 kredit per halaman, ~32 halaman sehari), daily_close cuma
+memuat penggerak harga terbesar hari itu — 20 baris satu tanggal, bukan
+kalender. Mengandalkannya membuat seluruh probe berjendela mengira riwayatnya
+nol hari."""
+
+
 def trading_days(wh: Warehouse, as_of: date, lookback: int) -> list[date]:
     """Tanggal bursa yang benar-benar ADA di warehouse, mundur dari as_of.
 
     Kalender bursa tidak dihitung sendiri — libur nasional IDX tidak bisa
     ditebak dari hari kerja. Yang dipakai adalah tanggal yang benar-benar punya
-    data close.
+    data perdagangan, dari tabel mana pun yang memilikinya.
     """
-    with wh.connect(as_of, tables=["daily_close"]) as con:
+    tersedia = [t for t in KALENDER_TABEL if wh.exists(t)]
+    if not tersedia:
+        return []
+
+    union = " UNION ".join(f"SELECT trade_date FROM {t}" for t in tersedia)
+    with wh.connect(as_of, tables=tersedia) as con:
         rows = con.execute(
-            "SELECT DISTINCT trade_date FROM daily_close ORDER BY trade_date DESC LIMIT ?",
+            f"SELECT DISTINCT trade_date FROM ({union}) ORDER BY trade_date DESC LIMIT ?",
             [lookback],
         ).fetchall()
     return sorted(r[0] for r in rows)
