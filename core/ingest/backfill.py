@@ -75,6 +75,7 @@ ALASAN_POSITIF = (
 # IDX sekaligus. Menariknya per emiten berarti membayar 1 kredit untuk satu baris
 # yang sudah termasuk dalam tarikan market-wide. Lihat MARKET_WIDE.
 TIER2_PER_TICKER = (
+    "fetch-company-report",
     "fetch-filings",
     "fetch-daily-transaction",
     "fetch-broker-summary-top",
@@ -84,6 +85,7 @@ TIER2_PER_TICKER = (
 )
 
 TABEL_TIER2 = {
+    "fetch-company-report": "company_profile",
     "fetch-filings": "filings",
     "fetch-daily-transaction": "daily_transaction",
     "fetch-broker-summary-top": "broker_summary",
@@ -353,6 +355,26 @@ def execute(plan: Plan, client: CreditAwareClient, wh: Warehouse,
     return spent, gagal
 
 
+def _stempel_as_of(rows: list, as_of: date) -> list:
+    """Isi as_of yang kosong dengan tanggal tarikan.
+
+    fetch-free-float TIDAK mengirim tanggal berlaku — 961 baris, semuanya tanpa
+    as_of. Tanpa stempel, penyaring point-in-time membuang seluruhnya dan
+    komponen FFS mati untuk semua emiten.
+
+    Stempelnya tanggal TARIKAN, bukan tanggal berlaku yang sebenarnya, dan itu
+    perbedaan yang penting: kalibrasi pada T-10 tidak akan melihat baris ini,
+    karena kita memang TIDAK TAHU free float pada T-10. Itu perilaku yang benar —
+    memakai angka hari ini untuk tanggal lampau adalah lookahead, persis yang
+    dilarang C1. Konsekuensinya FFS tidak bisa ikut kalibrasi historis sampai
+    Sectors menyediakan riwayatnya; dicatat terbuka, bukan disembunyikan.
+    """
+    for r in rows:
+        if getattr(r, "as_of", "tidak ada") is None:
+            r.as_of = as_of
+    return rows
+
+
 def execute_paginated(client: CreditAwareClient, wh: Warehouse, as_of: date,
                       dry_run: bool = False) -> tuple[int, list[str]]:
     """Tahap 2: telusuri seluruh halaman, jangan berhenti di halaman pertama."""
@@ -371,7 +393,7 @@ def execute_paginated(client: CreditAwareClient, wh: Warehouse, as_of: date,
         else:
             spent += credits
             if rows:
-                wh.write(tabel, rows)
+                wh.write(tabel, _stempel_as_of(rows, as_of))
             print(f"  {endpoint:<24} {len(rows):>5} baris, {credits} kredit (market-wide)")
 
     for endpoint in BERPAGINASI:

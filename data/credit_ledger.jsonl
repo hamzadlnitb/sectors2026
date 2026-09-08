@@ -120,3 +120,4 @@
 {"credits": 1, "endpoint": "fetch-filings", "params_hash": "b4922510a6e70b4c", "phase": "backfill", "run_id": "backfill-2026-09-07", "transport": "rest", "ts": "2026-09-08T13:23:03+00:00"}
 {"credits": 1, "endpoint": "fetch-filings", "params_hash": "3fdcc185a601083c", "phase": "backfill", "run_id": "backfill-2026-09-07", "transport": "rest", "ts": "2026-09-08T13:23:03+00:00"}
 {"credits": 1, "endpoint": "fetch-filings", "params_hash": "bc01859fbb2c2d85", "phase": "backfill", "run_id": "backfill-2026-09-07", "transport": "rest", "ts": "2026-09-08T13:23:04+00:00"}
+{"credits": 1, "endpoint": "fetch-free-float", "params_hash": "9a22b8c62bedb888", "phase": "backfill", "run_id": "backfill-2026-09-07", "transport": "mcp", "ts": "2026-09-08T14:29:18+00:00"}
