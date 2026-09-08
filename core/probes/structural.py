@@ -61,6 +61,11 @@ class StructuralProbe(BaseProbe):
         sejak_aksi = _bulan_lalu(ctx.as_of, AKSI_BULAN)
         sejak_filing = ctx.as_of - pd.Timedelta(days=FILING_HARI).to_pytimedelta()
 
+        # suspensions dan filings diisi sapuan Tier-1 secara MARKET-WIDE, jadi
+        # yang diperiksa "apakah tabelnya sudah pernah disapu", bukan "apakah
+        # ticker ini punya baris". Ticker tanpa baris di tabel yang sudah tersapu
+        # memang berarti bersih. corporate_actions Tier-2 per-ticker, jadi di
+        # sana pemeriksaannya per symbol.
         ctx.ensure("suspensions", "fetch-suspensions",
                    {"symbol": symbol, "start": sejak_suspensi.isoformat(),
                     "end": ctx.as_of.isoformat()}, symbol=symbol)
