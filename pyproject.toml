@@ -17,6 +17,13 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["B011"]
 
+# Batas kepemilikan, bukan pengecualian mutu. contracts/ beku sejak 12 Sep dan
+# fixtures/generate.py milik Nadhilla — memperbaiki gaya impor di sana berarti
+# mengedit berkas orang lain, hal yang justru dilarang TASK.md. Kode yang
+# diabaikan disebut satu per satu supaya terlihat, bukan disembunyikan di exclude.
+"contracts/*.py" = ["E702", "I001", "UP037", "F401"]
+"fixtures/generate.py" = ["I001"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]

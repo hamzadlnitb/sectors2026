@@ -51,6 +51,16 @@ class Table:
     """Kunci primer sesuai DDL. Kosong = tabel append, dideduplikasi dengan DISTINCT."""
     allow_null_cut: bool = False
     """True hanya untuk tabel identitas — lihat catatan di company_profile."""
+    merge_keys: tuple[str, ...] = ()
+    """Kunci yang benar-benar dipakai saat menggabungkan baris baru.
+
+    Biasanya sama dengan keys. Berbeda HANYA untuk free_float, dan perbedaannya
+    sedang diajukan sebagai perubahan kontrak — lihat contracts/CHANGES.md C2.
+    """
+
+    @property
+    def on(self) -> tuple[str, ...]:
+        return self.merge_keys or self.keys
 
 
 TABLES: dict[str, Table] = {
@@ -59,7 +69,14 @@ TABLES: dict[str, Table] = {
     "broker_summary": Table("broker_summary", "trade_date",
                             ("trade_date", "symbol", "broker_code")),
     "foreign_flow": Table("foreign_flow", "trade_date", ("trade_date", "symbol")),
-    "free_float": Table("free_float", "as_of", ("symbol",)),
+    # PK di contracts/warehouse.sql cuma (symbol), jadi tiap tarikan baru akan
+    # MENIMPA snapshot lama dan riwayat free float hilang. Kalibrasi Hamzah
+    # menghitung sub-skor pada T-1/T-3/T-5/T-10, dan tanpa riwayat, FFS di
+    # tanggal-tanggal itu terpaksa memakai angka hari ini — persis lookahead yang
+    # kita larang. Penggabungan di sini memakai (symbol, as_of); perubahan
+    # kontraknya diajukan di contracts/CHANGES.md C2.
+    "free_float": Table("free_float", "as_of", ("symbol",),
+                        merge_keys=("symbol", "as_of")),
     "suspensions": Table("suspensions", "start_date", ("symbol", "start_date")),
     "filings": Table("filings", "filing_date"),
     "corporate_actions": Table("corporate_actions", "action_date"),
@@ -130,24 +147,37 @@ class Warehouse:
 
         con = duckdb.connect()
         try:
-            con.execute(ddl_for(table))
+            # Tabel kerja mengambil TIPE dari DDL kontrak tapi bukan constraint-nya.
+            # Semantik penggabungan ditulis eksplisit di bawah (hapus-lalu-sisipkan)
+            # alih-alih menumpang INSERT OR REPLACE, karena kunci penggabungan yang
+            # benar tidak selalu sama dengan PK yang tertulis di DDL — lihat
+            # free_float di TABLES.
+            con.execute(ddl_for(table).replace(table, f"_ddl_{table}", 1))
+            con.execute(f"CREATE TABLE {table} AS SELECT * FROM _ddl_{table} WHERE false")
             cols = ", ".join(columns_of(table))
             if target.exists():
                 con.execute(
-                    f"INSERT OR REPLACE INTO {table} SELECT {cols} "
-                    f"FROM read_parquet('{target.as_posix()}')"
+                    f"INSERT INTO {table} SELECT {cols} FROM read_parquet('{target.as_posix()}')"
                 )
             if len(df):
                 con.register("incoming", df)
-                verb = "INSERT OR REPLACE" if spec.keys else "INSERT"
-                con.execute(f"{verb} INTO {table} SELECT {cols} FROM incoming")
+                if spec.on:
+                    # Baris baru menang atas yang lama: tarikan ulang memperbaiki
+                    # data basi, bukan menggandakannya.
+                    match = " AND ".join(f"{table}.{k} IS NOT DISTINCT FROM incoming.{k}"
+                                         for k in spec.on)
+                    con.execute(
+                        f"DELETE FROM {table} WHERE EXISTS "
+                        f"(SELECT 1 FROM incoming WHERE {match})"
+                    )
+                con.execute(f"INSERT INTO {table} SELECT {cols} FROM incoming")
 
-            if not spec.keys:
-                # Tabel append tanpa kunci primer: dedup eksplisit, kalau tidak
-                # backfill yang dijalankan dua kali akan menggandakan filings.
+            if not spec.on:
+                # Tabel append tanpa kunci: dedup eksplisit, kalau tidak backfill
+                # yang dijalankan dua kali akan menggandakan filings.
                 con.execute(f"CREATE OR REPLACE TABLE {table} AS SELECT DISTINCT * FROM {table}")
 
-            order = ", ".join(spec.keys) if spec.keys else cols
+            order = ", ".join(spec.on) if spec.on else cols
             con.execute(
                 f"COPY (SELECT {cols} FROM {table} ORDER BY {order}) "
                 f"TO '{target.as_posix()}' (FORMAT PARQUET)"

@@ -143,12 +143,26 @@ class Builder:
                     "sell_value": round(buy - net, 2),
                 })
 
-    def add_foreign(self, symbol: str, days: list[date], daily_net: float,
+    def add_foreign(self, symbol: str, days: list[date], share_of_turnover: float,
                     noise: float = 0.4) -> None:
+        """Arus asing sebagai PORSI nilai transaksi harian, bukan nominal bebas.
+
+        Negatif = asing keluar. Dinyatakan relatif karena itu juga yang diukur
+        probe FRD: keluar Rp 50 M dari saham lapis tiga tidak sebanding dengan
+        Rp 50 M dari bank besar. Nominal bebas bikin fixture gampang tidak
+        konsisten dengan volumenya sendiri.
+        """
+        turnover = {
+            r["trade_date"]: (r["close_price"] or 0) * (r["volume"] or 0)
+            for r in self.daily if r["symbol"] == symbol
+        }
         for d in days:
+            nilai = turnover.get(d, 0.0)
             self.foreign.append({
                 "trade_date": d, "symbol": symbol,
-                "net_value": round(daily_net * self.rnd.uniform(1 - noise, 1 + noise), 2),
+                "net_value": round(
+                    share_of_turnover * nilai * self.rnd.uniform(1 - noise, 1 + noise), 2
+                ),
             })
 
     # ── fundamental ─────────────────────────────────────────────────────────
@@ -194,7 +208,7 @@ def build() -> Builder:
                  ["YP", "PD", "CC", "NI", "AK", "KZ", "BK", "MG", "DR", "XA", "YU", "ZP"],
                  [0.12, 0.11, 0.10, 0.10, 0.09, 0.09, 0.08, 0.08, 0.08, 0.05, 0.05, 0.05],
                  40 * MILIAR)
-    b.add_foreign("FIXA", ALL_DAYS[-60:], 2.0 * MILIAR)
+    b.add_foreign("FIXA", ALL_DAYS[-60:], 0.012)    # asing masuk tipis
     b.float_.append({"symbol": "FIXA", "free_float_pct": 0.62, "as_of": date(2026, 6, 30)})
     b.add_financials("FIXA", 8, 42_000 * MILIAR, 9_500 * MILIAR, 0.11)
 
@@ -210,7 +224,7 @@ def build() -> Builder:
     b.add_broker("FIXB", ALL_DAYS[-40:],
                  ["XL", "RF", "IF", "YP", "PD", "CC", "NI", "AK"],
                  [0.34, 0.27, 0.17, 0.06, 0.05, 0.05, 0.03, 0.03], 55 * MILIAR)
-    b.add_foreign("FIXB", ALL_DAYS[-60:], -6.1 * MILIAR)
+    b.add_foreign("FIXB", ALL_DAYS[-60:], -0.085)   # keluar 8,5% nilai transaksi
     b.float_.append({"symbol": "FIXB", "free_float_pct": 0.28, "as_of": date(2026, 6, 30)})
     b.add_financials("FIXB", 8, 3_100 * MILIAR, 210 * MILIAR, -0.08)
     for i, d in enumerate([date(2026, 7, 14), date(2026, 8, 3), date(2026, 8, 27)]):
@@ -233,7 +247,7 @@ def build() -> Builder:
                  1_250 * MILIAR)
     b.add_broker("FIXC", ALL_DAYS[-40:], ["RF", "XL", "YP", "PD", "CC"],
                  [0.47, 0.31, 0.09, 0.08, 0.05], 18 * MILIAR)
-    b.add_foreign("FIXC", ALL_DAYS[-60:], -1.6 * MILIAR)
+    b.add_foreign("FIXC", ALL_DAYS[-60:], -0.165)   # keluar 16,5%, mendekati ekstrem
     b.float_.append({"symbol": "FIXC", "free_float_pct": 0.04, "as_of": date(2026, 6, 30)})
     b.add_financials("FIXC", 8, 480 * MILIAR, -35 * MILIAR, 0.05)
     b.susp.append({

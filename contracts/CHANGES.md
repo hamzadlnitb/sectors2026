@@ -33,10 +33,29 @@ fixture dan transkrip lama ketahuan basi.
 
 ## Diajukan
 
-_(kosong)_
-
 | # | Pengaju | Perubahan | Alasan | Dampak ke lajur lain | Status |
 | --- | --- | --- | --- | --- | --- |
+| C2 | Melco · 8 Sep | `warehouse.sql`: `free_float` PK dari `(symbol)` jadi `(symbol, as_of)` | PK `(symbol)` hanya memuat **satu** snapshot per emiten, jadi tiap tarikan baru menimpa yang lama dan riwayat free float hilang | **Hamzah:** kalibrasi menghitung sub-skor pada T-1/T-3/T-5/T-10; tanpa riwayat, FFS di tanggal itu terpaksa memakai angka hari ini — persis lookahead yang dilarang C1. Tabelnya jadi punya beberapa baris per emiten, jadi pembacaan wajib "ambil `as_of` terbesar yang ≤ tanggal acuan". **Nadhilla:** nihil, tidak membaca warehouse langsung | ⏳ menunggu persetujuan Hamzah & Nadhilla |
+
+### C2 — rincian
+
+**Ditemukan lewat tes, bukan review.** `tests/probes/test_point_in_time.py`
+menyuntikkan data setelah `as_of` lalu membandingkan hasil probe sebelum dan
+sesudah. FFS berubah `77.8 → None`: baris free float baru (bertanggal masa depan)
+menimpa baris lama karena PK-nya cuma `symbol`, sehingga pada `as_of` tidak ada
+baris tersisa sama sekali.
+
+**Sementara menunggu persetujuan**, `core/ingest/warehouse.py` menggabungkan
+tabel ini memakai kunci `(symbol, as_of)` lewat field `Table.merge_keys`, dengan
+komentar yang menunjuk balik ke entri ini. Divergensinya sengaja dibuat terlihat
+di kode, bukan disembunyikan — DDL di `contracts/` tidak disentuh.
+
+**Kalau ditolak:** FFS harus ditandai bukan-point-in-time dan dikeluarkan dari
+kalibrasi Hamzah, atau riwayat free float disimpan di tabel terpisah di luar
+kontrak. Keduanya lebih mahal daripada mengubah satu baris DDL sekarang, selagi
+belum ada data yang terlanjur ditulis.
+
+---
 
 ---
 
