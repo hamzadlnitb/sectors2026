@@ -110,9 +110,10 @@ class StructuralProbe(BaseProbe):
                     True, "ya", endpoint="fetch-suspensions", params=params, as_of=mulai))
 
         # ── filing insider ──────────────────────────────────────────────────
+        # vocab-ok: pola pencocok jenis transaksi di data Sectors, bukan teks keluaran
+        pola_jual = "sell|jual"
         jual = filings[
-            filings["transaction_type"].astype(str).str.lower().str.contains("sell|jual",
-                                                                             na=False)
+            filings["transaction_type"].astype(str).str.lower().str.contains(pola_jual, na=False)
         ] if not filings.empty else filings
         if not jual.empty:
             poin += min(CAP_INSIDER, POIN_INSIDER_JUAL * len(jual))

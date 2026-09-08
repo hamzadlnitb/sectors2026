@@ -26,6 +26,7 @@ berubah. [contracts/CHANGES.md C1, catatan penutup]
 
 from __future__ import annotations
 
+import json
 import random
 import sys
 from datetime import date, timedelta
@@ -318,6 +319,18 @@ def main() -> int:
         rows = getattr(b, attr)
         total = wh.write(table, pd.DataFrame(rows))
         print(f"  {table:<22} {total:>7} baris")
+    # as_of kanonik ditulis ke berkas, bukan cuma ke docstring: deret ini memuat
+    # baris SETELAH as_of sebagai umpan lookahead, jadi max(trade_date) BUKAN
+    # tanggal acuan yang benar. make demo membacanya dari sini.
+    (OUT / "meta.json").write_text(json.dumps({
+        "as_of": AS_OF.isoformat(),
+        "seed": SEED,
+        "sessions": SESSIONS,
+        "lookahead_bait": [d.isoformat() for d in FUTURE],
+        "synthetic": True,
+        "note": "SELURUH ANGKA KARANGAN. Ticker FIXA-FIXF fiktif.",
+    }, indent=2) + "\n", encoding="utf-8")
+
     print()
     print(wh.describe(as_of=AS_OF))
     return 0
