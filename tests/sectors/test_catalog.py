@@ -69,11 +69,11 @@ def test_cakupan_jujur_saat_server_belum_ditarik():
 
 
 def test_cakupan_menandai_tool_yang_tidak_ada_di_server():
-    palsu = [{"name": "get_daily_close"}, {"name": "tool_yang_tidak_kita_pakai"}]
+    palsu = [{"name": "fetch-close"}, {"name": "tool_yang_tidak_kita_pakai"}]
     cov = catalog.coverage(palsu)
-    assert "get_daily_close" in cov["matched"]
+    assert "fetch-close" in cov["matched"]
     assert "tool_yang_tidak_kita_pakai" in cov["unused_on_server"]
-    assert "get_free_float" in cov["missing_from_server"]
+    assert "fetch-free-float" in cov["missing_from_server"]
 
 
 def test_dump_bolak_balik(tmp_path):
@@ -98,7 +98,7 @@ def test_rute_menyebut_transport_cadangan():
     """Fallback hanya untuk endpoint dua jalur — itu yang dijanjikan QA M5."""
     rute = {r.endpoint: r for r in catalog.routes_for(
         ("fetch-close", "fetch-free-float"))}
-    assert rute["fetch-close"].alt_transport == "mcp"
+    assert rute["fetch-close"].alt_transport == "rest"
     assert rute["fetch-free-float"].alt_transport is None
 
 

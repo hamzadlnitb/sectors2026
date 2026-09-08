@@ -46,8 +46,9 @@ ROOT = Path(__file__).resolve().parents[2]
 
 # Endpoint → tabel warehouse tujuan. Urutan penting: fetch-close lebih dulu
 # supaya kalender hari bursa terisi sebelum yang lain dipetakan.
+# fetch-close tidak ada di sini — lihat catatan di routing.TIER1_SWEEP. Kalender
+# hari bursa datang dari most-traded dan top-changes, yang keduanya bertanggal.
 SWEEP: tuple[tuple[str, str], ...] = (
-    ("fetch-close", "daily_close"),
     ("fetch-most-traded-stocks", "daily_transaction"),
     ("fetch-companies-top-changes", "daily_close"),
     ("fetch-suspensions", "suspensions"),

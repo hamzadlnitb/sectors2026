@@ -21,22 +21,45 @@ def wh():
     return Warehouse(MINI)
 
 
-def test_rencana_muat_di_pagu_fase(wh):
-    """Rencana yang melebihi pagu berarti kredit habis sebelum kalibrasi selesai —
-    risiko 'Fatal' di ARCHITECTURE §11."""
-    total = (bf.plan_stage1(AS_OF).credits
+ALAM_SEMESTA = [f"T{i:03d}" for i in range(80)]
+
+
+def test_rencana_produksi_muat_di_pagu_fase():
+    """80 ticker riwayat + peristiwa + Tier-2 untuk 20 ticker harus muat di 400.
+
+    Versi pertama rencana ini menarik fetch-close sekali per hari bursa dan
+    menghabiskan ~3.840 kredit — hampir empat kali seluruh jatah tim, untuk satu
+    tahap saja. Tes ini yang menahannya kalau ada yang mengembalikannya."""
+    total = (bf.plan_stage1(AS_OF, ALAM_SEMESTA).credits
              + bf.plan_stage2(AS_OF).credits
-             + bf.plan_stage3(["FIXB", "FIXC"], AS_OF).credits)
-    assert total <= CAPS["backfill"]
+             + bf.plan_stage3(ALAM_SEMESTA[:20], AS_OF).credits)
+    assert total <= CAPS["backfill"], f"rencana {total} kredit melebihi pagu"
 
 
-def test_tahap1_seratus_dua_puluh_hari_bursa():
-    plan = bf.plan_stage1(AS_OF, sessions=120)
-    assert len(plan.calls) == 120
-    assert plan.credits == 120
-    tanggal = [date.fromisoformat(p["date"]) for _, p in plan.calls]
-    assert all(d.weekday() < 5 for d in tanggal), "akhir pekan tidak dipanggil"
-    assert max(tanggal) <= AS_OF
+def test_tahap1_per_ticker_bukan_per_hari():
+    """fetch-close berbayar 1 kredit PER HALAMAN (~32 halaman untuk seluruh IDX),
+    jadi menariknya sekali per hari bursa mustahil dibiayai. fetch-daily-transaction
+    memberi rentang sampai 90 hari dengan 1 kredit."""
+    plan = bf.plan_stage1(AS_OF, ["BBCA", "GOTO"], sessions=120)
+
+    assert {n for n, _ in plan.calls} == {"fetch-daily-transaction"}
+    assert plan.credits == 4, "2 ticker x 2 jendela 90 hari"
+    for _, params in plan.calls:
+        assert params["end"] <= AS_OF.isoformat(), "tidak menarik masa depan"
+
+
+def test_tahap1_menutup_seluruh_rentang_yang_diminta():
+    plan = bf.plan_stage1(AS_OF, ["BBCA"], sessions=120)
+    paling_awal = min(date.fromisoformat(p["start"]) for _, p in plan.calls)
+    assert (AS_OF - paling_awal).days >= 120
+
+
+def test_alam_semesta_dipersempit_tanpa_kredit(wh):
+    """Penyempitan diambil dari warehouse, bukan dari panggilan baru. Emiten yang
+    pernah disuspend WAJIB ikut — mereka himpunan positifnya."""
+    u = bf.universe(wh, AS_OF, size=10)
+    assert "FIXC" in u and "FIXE" in u, "ticker tersuspend wajib masuk alam semesta"
+    assert len(u) <= 10
 
 
 def test_tahap2_menelusuri_halaman_bukan_memecah_bulan():
@@ -158,7 +181,9 @@ def test_dry_run_tidak_menyentuh_apa_pun(capsys, monkeypatch, tmp_path):
 
 def test_rencana_kelewat_besar_ditolak_lebih_dulu(capsys, tmp_path):
     """Lebih baik menolak di terminal daripada berhenti di tengah tarikan."""
+    banyak = [f"T{i:03d}" for i in range(200)]
     kode = bf.main(["--dry-run", "--as-of", "2026-09-05", "--sessions", "900",
+                    "--symbols", *banyak,
                     "--warehouse", str(MINI), "--out", str(tmp_path)])
     assert kode == 2
     assert "melebihi sisa pagu" in capsys.readouterr().out

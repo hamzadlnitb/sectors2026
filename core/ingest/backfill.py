@@ -5,9 +5,22 @@ tidak ada bobot terkalibrasi, dan Angka 1 tidak pernah ada.
 
 Tiga tarikan, dari yang paling murah dan paling menentukan:
 
-    1. fetch-close 120 hari bursa                  ±120 kredit
-    2. suspensi & filings market-wide 24 bulan     ±30 kredit
-    3. Tier-2 untuk himpunan positif + kontrol     ±250 kredit
+    1. riwayat harga alam semesta kandidat         2 kredit / ticker
+    2. peristiwa market-wide 24 bulan (paginasi)   ±10 kredit
+    3. Tier-2 untuk himpunan positif + kontrol     ±10 kredit / ticker
+
+⚠️  **Rencana ini pernah salah besar, dan koreksinya penting.** Versi pertama
+    menarik `fetch-close` sekali per hari bursa, mengira satu panggilan = seluruh
+    ticker. Katalog MCP Sectors menyatakan sebaliknya: `fetch-close` berbayar
+    **1 kredit per halaman**, limit maks 30, jadi seluruh ~950 ticker = ~32
+    kredit **per hari**. Rencana 120 hari itu berarti **~3.840 kredit** — hampir
+    empat kali seluruh jatah tim, untuk satu tahap saja.
+
+    Gantinya `fetch-daily-transaction`: **1 kredit untuk rentang sampai 90 hari**
+    per ticker. Konsekuensinya alam semesta harus dipersempit lebih dulu (itu
+    memang sudah ada di TASK.md §Rencana Cadangan), dan justru itu yang membuat
+    anggaran masuk akal: 80 ticker x 2 panggilan = 160 kredit untuk 180 hari
+    riwayat, bukan 3.840 untuk 120 hari.
 
 Urutannya bukan selera: tarikan 1 dan 2 menentukan SIAPA yang masuk himpunan
 positif, dan tarikan 3 baru bisa direncanakan setelah keduanya selesai.
@@ -122,8 +135,48 @@ def _hari_kerja(as_of: date, count: int) -> list[date]:
 
 
 # ── perencanaan ─────────────────────────────────────────────────────────────
-def plan_stage1(as_of: date, sessions: int = SESI_HARGA) -> Plan:
-    return Plan(1, [("fetch-close", {"date": d.isoformat()}) for d in _hari_kerja(as_of, sessions)])
+JENDELA_MAKS = 90
+"""Batas keras fetch-daily-transaction. Rentang lebih lebar dipangkas server."""
+
+
+def plan_stage1(as_of: date, symbols: list[str], sessions: int = SESI_HARGA) -> Plan:
+    """Riwayat harga & volume untuk alam semesta kandidat.
+
+    Per ticker, bukan per hari. Lihat catatan di kepala berkas: menarik seluruh
+    pasar per hari lewat fetch-close berharga ~32 kredit/hari dan mustahil dibiayai.
+    """
+    calls: list[tuple[str, dict]] = []
+    for symbol in symbols:
+        akhir = as_of
+        sisa = sessions
+        while sisa > 0:
+            mulai = akhir - timedelta(days=int(JENDELA_MAKS * 1.5))
+            calls.append(("fetch-daily-transaction", {
+                "symbol": symbol, "start": mulai.isoformat(), "end": akhir.isoformat(),
+            }))
+            sisa -= JENDELA_MAKS
+            akhir = mulai - timedelta(days=1)
+    return Plan(1, calls)
+
+
+def universe(wh: Warehouse, as_of: date, size: int = 80) -> list[str]:
+    """Alam semesta kandidat dari data yang SUDAH ada di warehouse — nol kredit.
+
+    Diambil dari ticker yang paling sering muncul di sapuan Tier-1 harian,
+    ditambah seluruh emiten yang pernah disuspend (mereka wajib ada di himpunan
+    positif). Ini penyempitan yang disebut TASK.md §Rencana Cadangan, dilakukan
+    lebih awal karena anggaran memaksanya, bukan karena kredit menipis.
+    """
+    sering: list[str] = []
+    trans = wh.frame("daily_transaction", as_of=as_of)
+    if not trans.empty:
+        sering = trans["symbol"].value_counts().head(size).index.tolist()
+
+    susp = wh.frame("suspensions", as_of=as_of)
+    wajib = susp["symbol"].unique().tolist() if not susp.empty else []
+
+    keluar = list(dict.fromkeys([*wajib, *sering]))
+    return keluar[:size]
 
 
 # Baris per halaman untuk endpoint berpaginasi. Spike F0: bawaannya 20, dan
@@ -322,8 +375,9 @@ def main(argv: list[str] | None = None) -> int:
     else:
         positif, simbol = [], list(args.symbols or [])
 
+    alam_semesta = list(args.symbols) if args.symbols else universe(wh, args.as_of)
     rencana = {
-        1: plan_stage1(args.as_of, args.sessions),
+        1: plan_stage1(args.as_of, alam_semesta, args.sessions),
         2: plan_stage2(args.as_of),
         3: plan_stage3(simbol, args.as_of, args.sessions),
     }
@@ -335,6 +389,8 @@ def main(argv: list[str] | None = None) -> int:
             total += rencana[stage].credits
             print()
         print(f"TOTAL RENCANA           {total} kredit")
+        print(f"alam semesta tahap 1    {len(alam_semesta)} ticker"
+              f"{' (kosong — jalankan sapuan Tier-1 dulu)' if not alam_semesta else ''}")
         print(f"pagu fase backfill      {ledger.caps['backfill']} kredit "
               f"(terpakai {ledger.spent(PHASE)}, sisa {ledger.remaining(PHASE)})")
         if simbol:
@@ -352,7 +408,8 @@ def main(argv: list[str] | None = None) -> int:
 
     plan = rencana[args.stage]
     print(plan.describe())
-    table_for = (lambda e: TABEL_TIER2[e]) if args.stage == 3 else (lambda e: TABEL_TAHAP12[e])
+    table_for = (lambda e: TABEL_TIER2[e]) if args.stage in (1, 3) else (
+        lambda e: TABEL_TAHAP12[e])
 
     with CreditAwareClient(phase=PHASE, ledger=ledger,
                            run_id=f"backfill-{args.as_of}") as client:

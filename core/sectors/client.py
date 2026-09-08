@@ -166,9 +166,19 @@ class CreditAwareClient:
         self._mcp = mcp
         self._rest_ready = rest is not None
         self._mcp_ready = mcp is not None
+        # Kalau pemanggil menyuntik transport sendiri, JANGAN membangun yang lain
+        # diam-diam. Tanpa aturan ini, tes yang menyuntik transport palsu bisa
+        # jatuh ke fallback dan benar-benar menyentuh jaringan — kelas bug yang
+        # baru ketahuan saat tagihan datang.
+        self._only_injected = rest is not None or mcp is not None
 
     # ── transport ───────────────────────────────────────────────────────────
     def _transport(self, name: Transport) -> Any:
+        if self._only_injected and not (self._rest_ready if name == "rest" else self._mcp_ready):
+            raise TransportUnavailable(
+                f"transport '{name}' tidak disuntikkan; klien ini hanya memakai "
+                f"transport yang diberikan pemanggil"
+            )
         if name == "rest":
             if not self._rest_ready:
                 from core.sectors.transport_rest import DEFAULT_BASE, RestTransport

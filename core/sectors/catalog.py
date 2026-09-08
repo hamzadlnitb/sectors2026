@@ -56,7 +56,7 @@ def routes_for(endpoints: tuple[str, ...]) -> list[ToolRoute]:
         ep = routing.route(name)
         transport = routing.transport_for(name)
         out.append(ToolRoute(
-            endpoint=name, transport=transport, credit_cost=ep.credit_cost,
+            endpoint=name, transport=transport, credit_cost=ep.call_cost,
             verified=ep.verified, alt_transport=routing.fallback_for(name, transport),
         ))
     return out

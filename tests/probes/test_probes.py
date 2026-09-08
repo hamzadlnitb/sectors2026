@@ -169,15 +169,22 @@ def test_enam_probe_menutup_enam_komponen():
     assert {p.component for p in SEMUA} == set(PROBE_TO_COMPONENT.values())
 
 
-def test_biaya_probe_sesuai_rentang_arsitektur():
-    """ARCHITECTURE §3 mematok rentang per alat. Perencana menganggarkan dari sini."""
-    rentang = {
-        "broker_concentration": (2, 6), "volume_anomaly": (1, 3), "price_fundamental": (2, 5),
-        "free_float": (1, 2), "foreign_flow": (2, 4), "structural": (2, 5),
+def test_biaya_probe_sesuai_biaya_terdokumentasi():
+    """Angka ini dari dokumentasi tool MCP Sectors, ditarik 8 Sep — bukan tebakan.
+
+    Rentang di ARCHITECTURE §3 ditulis sebelum biaya sebenarnya diketahui dan
+    kini basi untuk PFD: fetch-quarterly-financials berbayar 1 kredit PER KUARTAL,
+    dan perbandingan year-on-year butuh 5 kuartal. Yang harus disesuaikan
+    dokumennya, bukan angkanya.
+    """
+    assert cost_table() == {
+        "broker_concentration": 3,   # broker-summary-top 2 + broker-summary 1
+        "volume_anomaly": 1,
+        "price_fundamental": 6,      # fetch-close 1 + quarterly 5 (1/kuartal)
+        "free_float": 1,
+        "foreign_flow": 2,           # foreign-flow 1 + daily-transaction 1
+        "structural": 3,             # suspensions 1 + filings 1 + corp-actions 1
     }
-    for name, biaya in cost_table().items():
-        low, high = rentang[name]
-        assert low <= biaya <= high, f"{name} berbiaya {biaya}, di luar {low}–{high}"
 
 
 def test_investigasi_menyeluruh_muat_di_pagar_agen():

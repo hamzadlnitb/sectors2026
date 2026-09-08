@@ -68,6 +68,13 @@ def buat_client(tmp_path, ledger, transport):
 
 
 # ── anggaran ────────────────────────────────────────────────────────────────
+def test_fetch_close_tidak_ikut_sapuan_harian():
+    """Katalog MCP: 1 kredit PER HALAMAN, ~32 halaman untuk seluruh IDX. Ikut
+    sapuan harian berarti 800 kredit untuk 25 hari bursa — pagu operasinya 250."""
+    assert "fetch-close" not in TIER1_SWEEP
+    assert sum(cost_of(e) for e in TIER1_SWEEP) * 25 <= 250
+
+
 def test_sapuan_harian_tetap_di_bawah_enam_kredit(tmp_path, wh):
     """250 kredit operasi dibagi 25 hari = 10/hari untuk sapuan DAN agen.
     Sapuan yang membengkak berarti agen tidak kebagian."""
@@ -75,7 +82,7 @@ def test_sapuan_harian_tetap_di_bawah_enam_kredit(tmp_path, wh):
     hasil = t1.sweep(buat_client(tmp_path, ledger, FakeSweepTransport()), wh, AS_OF)
 
     assert hasil.credits_spent == sum(cost_of(e) for e in TIER1_SWEEP)
-    assert hasil.credits_spent <= 6
+    assert hasil.credits_spent <= 6, "sapuan harian tidak boleh membengkak"
     assert hasil.ok
 
 
@@ -83,12 +90,12 @@ def test_endpoint_gagal_tidak_menghentikan_sisanya(tmp_path, wh):
     """Data separuh lebih berguna daripada tidak ada — tapi kegagalannya tetap
     dilaporkan supaya workflow jadi merah, bukan diam. [QA M4]"""
     ledger = CreditLedger(tmp_path / "l.jsonl")
-    transport = FakeSweepTransport(gagal={"fetch-close"})
+    transport = FakeSweepTransport(gagal={"fetch-suspensions"})
     hasil = t1.sweep(buat_client(tmp_path, ledger, transport), wh, AS_OF)
 
     assert not hasil.ok
-    assert len(hasil.failures) == 1 and "fetch-close" in hasil.failures[0]
-    assert len(hasil.rows_written) == 4, "empat endpoint lain tetap jalan"
+    assert len(hasil.failures) == 1 and "fetch-suspensions" in hasil.failures[0]
+    assert len(hasil.rows_written) == 3, "endpoint lain tetap jalan"
 
 
 def test_offline_dilewati_bukan_digagalkan(tmp_path, wh):
@@ -98,7 +105,7 @@ def test_offline_dilewati_bukan_digagalkan(tmp_path, wh):
     hasil = t1.sweep(client, wh, AS_OF)
 
     assert hasil.ok
-    assert len(hasil.skipped) == 5
+    assert len(hasil.skipped) == len(TIER1_SWEEP)
     assert hasil.credits_spent == 0
 
 
@@ -107,11 +114,13 @@ def test_sapuan_kedua_dilayani_cache(tmp_path, wh):
     transport = FakeSweepTransport()
     client = buat_client(tmp_path, ledger, transport)
 
-    t1.sweep(client, wh, AS_OF)
+    pertama = t1.sweep(client, wh, AS_OF)
     kedua = t1.sweep(client, wh, AS_OF)
 
     assert kedua.credits_spent == 0
-    assert ledger.spent("daily") == 5, "cron yang diulang hari sama tidak membayar lagi"
+    assert ledger.spent("daily") == pertama.credits_spent, (
+        "cron yang diulang hari sama tidak membayar lagi"
+    )
 
 
 def test_baris_dipetakan_ke_tabel_yang_benar(tmp_path, wh):
@@ -175,6 +184,6 @@ def test_artefak_run_lengkap_dan_bisa_diurai(tmp_path, wh):
 
     watchlist = json.loads((run_dir / "watchlist.json").read_text(encoding="utf-8"))
     assert watchlist["as_of"] == "2026-09-05"
-    assert watchlist["credits_spent"] == 5
+    assert watchlist["credits_spent"] == hasil.credits_spent
     assert watchlist["candidates"][0]["symbol"] == "FIXC"
     assert watchlist["failures"] == []

@@ -39,9 +39,10 @@ def test_endpoint_tak_terdaftar_ditolak():
 def test_transport_mengikuti_tabel_bukan_permintaan_bebas():
     # fetch-free-float hanya punya jalur MCP; minta REST tidak mengubah apa pun.
     assert routing.transport_for("fetch-free-float", prefer="rest") == "mcp"
-    # fetch-close punya dua jalur; kode kita boleh memilih.
-    assert routing.transport_for("fetch-close") == "rest"
-    assert routing.transport_for("fetch-close", prefer="mcp") == "mcp"
+    # fetch-close punya dua jalur. Sejak spike membuktikan jalur REST-nya
+    # menjawab HTTP 400, tabel mengarahkannya ke MCP — bukti, bukan selera.
+    assert routing.transport_for("fetch-close") == "mcp"
+    assert routing.transport_for("fetch-close", prefer="rest") == "rest"
 
 
 def test_fallback_hanya_untuk_endpoint_dua_jalur():
@@ -53,7 +54,7 @@ def test_hasil_spike_menimpa_asumsi(tmp_path, monkeypatch):
     """Angka terukur menang atas tebakan — dan barisnya jadi 'terverifikasi'."""
     observed = tmp_path / "observed.json"
     observed.write_text(json.dumps({
-        "endpoints": {"fetch-close": {"ok": True, "verified": True,
+        "endpoints": {"fetch-close": {"ok": True, "verified": True, "cost_measured": True,
                                       "credit_cost": 3, "rest_path": "/daily/close-all/"}}
     }), encoding="utf-8")
     monkeypatch.setattr(routing, "OBSERVED_PATH", observed)
@@ -62,8 +63,18 @@ def test_hasil_spike_menimpa_asumsi(tmp_path, monkeypatch):
     assert ep.credit_cost == 3
     assert ep.rest_path == "/daily/close-all/"
     assert ep.verified is True
-    # Yang tidak diukur tetap ditandai belum terverifikasi.
-    assert routing.route("fetch-filings").verified is False
+
+
+def test_biaya_tidak_ditimpa_tanpa_pengukuran_sungguhan(tmp_path, monkeypatch):
+    """Ledger mencatat biaya menurut TABEL INI, bukan tagihan API — Sectors tidak
+    mengirim ongkos di respons. Membiarkan catatan itu menimpa balik tabelnya
+    berarti mengukur asumsi dengan asumsi lalu menyebutnya terverifikasi."""
+    observed = tmp_path / "observed.json"
+    observed.write_text(json.dumps({"endpoints": {
+        "fetch-suspensions": {"ok": True, "verified": True, "credit_cost": 99},
+    }}), encoding="utf-8")
+    monkeypatch.setattr(routing, "OBSERVED_PATH", observed)
+    assert routing.route("fetch-suspensions").credit_cost == 1
 
 
 def test_endpoint_gagal_tidak_dianggap_terukur(tmp_path, monkeypatch):
