@@ -39,14 +39,24 @@ def test_tahap1_seratus_dua_puluh_hari_bursa():
     assert max(tanggal) <= AS_OF
 
 
-def test_tahap2_dipecah_per_bulan():
-    """Sekali tarik 24 bulan lebih sering timeout, dan gagal di tengah berarti
-    kehilangan seluruh rentang. Per bulan juga kena cache saat diulang."""
+def test_tahap2_menelusuri_halaman_bukan_memecah_bulan():
+    """Spike F0: fetch-suspensions melaporkan total_count 533 tapi satu panggilan
+    cuma mengirim 20 baris. Rencana per-bulan yang lama akan menarik 25 potong
+    berisi 20 baris PERTAMA masing-masing, lalu mengira 24 bulan sudah lengkap."""
     plan = bf.plan_stage2(AS_OF, bulan=24)
     suspensi = [p for n, p in plan.calls if n == "fetch-suspensions"]
-    assert len(suspensi) == 25, "24 bulan penuh + bulan berjalan"
-    assert all(p["start"] <= p["end"] for p in suspensi)
+
+    assert len(suspensi) == 6, "533 baris / 100 per halaman = 6 halaman"
+    assert all(p["limit"] == bf.PAGE_SIZE for p in suspensi)
+    assert [p["offset"] for p in suspensi] == [0, 100, 200, 300, 400, 500]
+    # Satu rentang penuh, bukan 25 jendela sempit.
+    assert len({(p["start"], p["end"]) for p in suspensi}) == 1
     assert max(p["end"] for p in suspensi) == AS_OF.isoformat()
+
+
+def test_tahap2_lebih_murah_sekaligus_lebih_lengkap():
+    """Rentang penuh + paginasi mengalahkan pecah-per-bulan di dua sisi."""
+    assert bf.plan_stage2(AS_OF).credits < 25
 
 
 def test_tahap3_menarik_enam_endpoint_per_ticker():

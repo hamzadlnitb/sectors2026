@@ -126,22 +126,42 @@ def plan_stage1(as_of: date, sessions: int = SESI_HARGA) -> Plan:
     return Plan(1, [("fetch-close", {"date": d.isoformat()}) for d in _hari_kerja(as_of, sessions)])
 
 
-def plan_stage2(as_of: date, bulan: int = BULAN_PERISTIWA) -> Plan:
-    """Suspensi & filings market-wide, dipecah per bulan.
+# Baris per halaman untuk endpoint berpaginasi. Spike F0: bawaannya 20, dan
+# fetch-suspensions punya 533 baris dalam 24 bulan. Minta halaman sebesar
+# mungkin — tiap halaman satu panggilan, dan tiap panggilan satu kredit.
+PAGE_SIZE = 100
+BERPAGINASI = ("fetch-suspensions", "fetch-filings")
 
-    Per bulan, bukan sekali tarik 24 bulan: respons besar lebih sering timeout,
-    dan tarikan yang gagal di tengah kehilangan seluruh rentang. Per bulan juga
-    berarti bulan yang sudah tertarik kena cache saat dijalankan ulang.
+
+def _perkiraan_halaman(total: int, per_halaman: int = PAGE_SIZE) -> int:
+    return max(1, -(-total // per_halaman))
+
+
+# Total baris yang dilaporkan spike 8 Sep untuk rentang 24 bulan. Dipakai untuk
+# MENGANGGARKAN, bukan sebagai kebenaran — jumlah asli akan berbeda saat backfill
+# benar-benar jalan, dan itu tidak apa-apa selama pagu fase tetap ditegakkan.
+TOTAL_TERAMATI = {"fetch-suspensions": 533, "fetch-filings": 223}
+
+
+def plan_stage2(as_of: date, bulan: int = BULAN_PERISTIWA) -> Plan:
+    """Suspensi & filings market-wide, satu rentang penuh, ditelusuri per halaman.
+
+    Sebelumnya rencana ini memecah per bulan dan MENGABAIKAN paginasi. Spike F0
+    membuktikan itu salah: fetch-suspensions melaporkan total_count 533 sementara
+    satu panggilan cuma mengirim 20 baris. Rencana lama akan menarik 25 potong
+    berisi 20 baris pertama masing-masing, lalu mengira 24 bulan sudah lengkap —
+    dan himpunan positif Hamzah jadi sepotong tanpa ada yang sadar.
+
+    Rentang penuh + paginasi lebih murah SEKALIGUS lebih lengkap: satu jendela
+    dengan halaman 100 baris menghabiskan ~6 panggilan untuk suspensi, bukan 25.
     """
+    mulai = _bulan_lalu(as_of, bulan)
+    window = {"start": mulai.isoformat(), "end": as_of.isoformat()}
     calls: list[tuple[str, dict]] = []
-    cursor = _bulan_lalu(as_of, bulan)
-    while cursor <= as_of:
-        akhir = min(as_of, (cursor.replace(day=28) + timedelta(days=4)).replace(day=1)
-                    - timedelta(days=1))
-        window = {"start": cursor.isoformat(), "end": akhir.isoformat()}
-        calls.append(("fetch-suspensions", dict(window)))
-        calls.append(("fetch-filings", dict(window)))
-        cursor = akhir + timedelta(days=1)
+    for endpoint in BERPAGINASI:
+        halaman = _perkiraan_halaman(TOTAL_TERAMATI.get(endpoint, PAGE_SIZE))
+        for i in range(halaman):
+            calls.append((endpoint, {**window, "limit": PAGE_SIZE, "offset": i * PAGE_SIZE}))
     return Plan(2, calls)
 
 
@@ -245,6 +265,31 @@ def execute(plan: Plan, client: CreditAwareClient, wh: Warehouse,
     return spent, gagal
 
 
+def execute_paginated(client: CreditAwareClient, wh: Warehouse, as_of: date,
+                      dry_run: bool = False) -> tuple[int, list[str]]:
+    """Tahap 2: telusuri seluruh halaman, jangan berhenti di halaman pertama."""
+    mulai = _bulan_lalu(as_of, BULAN_PERISTIWA)
+    window = {"start": mulai.isoformat(), "end": as_of.isoformat()}
+    spent, gagal = 0, []
+
+    for endpoint in BERPAGINASI:
+        try:
+            rows, credits = client.paginate(endpoint, window, page_size=PAGE_SIZE,
+                                            phase=PHASE)
+        except BudgetExceeded as exc:
+            gagal.append(f"pagu habis saat menelusuri {endpoint}: {exc}")
+            break
+        except SectorsError as exc:
+            gagal.append(f"{endpoint}: {exc}")
+            continue
+
+        spent += credits
+        if rows:
+            wh.write(TABEL_TAHAP12[endpoint], rows)
+        print(f"  {endpoint:<24} {len(rows):>5} baris, {credits} kredit")
+    return spent, gagal
+
+
 TABEL_TAHAP12 = {
     "fetch-close": "daily_close",
     "fetch-suspensions": "suspensions",
@@ -311,7 +356,10 @@ def main(argv: list[str] | None = None) -> int:
 
     with CreditAwareClient(phase=PHASE, ledger=ledger,
                            run_id=f"backfill-{args.as_of}") as client:
-        spent, gagal = execute(plan, client, wh, table_for)
+        if args.stage == 2:
+            spent, gagal = execute_paginated(client, wh, args.as_of, args.dry_run)
+        else:
+            spent, gagal = execute(plan, client, wh, table_for)
 
     print(f"\n{spent} kredit terpakai; {client.stats.summary()}")
     print(wh.describe())

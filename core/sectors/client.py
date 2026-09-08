@@ -377,6 +377,55 @@ class CreditAwareClient:
         resp = self.call(endpoint, params, model=model, **kw)
         return resp.rows(model), resp
 
+    def paginate(
+        self,
+        endpoint: str,
+        params: dict[str, Any] | None = None,
+        *,
+        page_size: int = 100,
+        max_pages: int = 50,
+        **kw: Any,
+    ) -> tuple[list[Row], int]:
+        """Tarik SELURUH halaman satu endpoint. Mengembalikan (baris, kredit).
+
+        Spike F0 menemukan fetch-suspensions melaporkan `total_count: 533` tapi
+        hanya mengirim 20 baris per panggilan. Pemanggil yang tidak menelusuri
+        halaman akan mengira sudah menarik 24 bulan padahal baru satu — dan
+        himpunan positif kalibrasi jadi sepotong tanpa ada yang sadar.
+
+        `max_pages` adalah pagar, bukan target: endpoint yang paginasinya rusak
+        (has_next selamanya True) akan menghabiskan seluruh pagu fase dalam
+        hitungan detik kalau tidak dibatasi.
+        """
+        from core.sectors.schemas import pagination_of
+
+        params = dict(params or {})
+        semua: list[Row] = []
+        credits = 0
+        offset = 0
+
+        for halaman in range(max_pages):
+            resp = self.call(endpoint, {**params, "limit": page_size, "offset": offset}, **kw)
+            credits += resp.credits_spent
+            baris = resp.rows()
+            semua.extend(baris)
+
+            blok = pagination_of(resp.payload)
+            if not blok or not blok.get("has_next"):
+                break
+            lanjut = blok.get("next_offset")
+            if not isinstance(lanjut, int) or lanjut <= offset:
+                # Paginasi yang tidak maju: berhenti, jangan berputar sampai
+                # pagu habis.
+                log.warning("paginasi '%s' tidak maju di offset %d — dihentikan",
+                            endpoint, offset)
+                break
+            offset = lanjut
+            if halaman == max_pages - 1:
+                log.warning("paginasi '%s' berhenti di pagar %d halaman; masih ada sisa",
+                            endpoint, max_pages)
+        return semua, credits
+
     def close(self) -> None:
         for transport in (self._rest, self._mcp):
             if transport is not None and hasattr(transport, "close"):
