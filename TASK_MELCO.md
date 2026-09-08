@@ -50,15 +50,23 @@ Plus `data/warehouse/*.parquet` dan `registry.py` (definisi tool untuk LLM: nama
 
 ## Fase
 
-> **Status per 8 Sep.** `[x]` = kode ada dan tertes tanpa jaringan (182 tes hijau,
-> `make ci`). `[~]` = kode ada, tapi belum bisa dibuktikan tanpa **API key** atau
-> tanpa **cron pertama yang benar-benar jalan** — jangan dianggap selesai.
-> `[ ]` = belum dikerjakan.
+> **Status per 8 Sep, 18:00.** `[x]` = kode ada dan tertes tanpa jaringan
+> (233 tes hijau, `make ci`). `[~]` = kode ada, belum bisa dibuktikan tanpa
+> panggilan berbayar atau tanpa cron yang benar-benar jalan. `[ ]` = belum.
 >
-> **Yang memblokir sisanya, semuanya satu hal: `SECTORS_API_KEY` belum ada di
-> `.env` maupun GitHub Secrets.** Begitu key masuk, urutannya:
-> `make spike` (ukur biaya aktual, ganti asumsi) → `make backfill --dry-run` →
-> tahap 1 & 2 backfill → commit `data/warehouse/` → nyalakan cron.
+> **Spike F0 sudah jalan — 9 kredit, 7 dari 12 endpoint terverifikasi.**
+> Respons mentahnya di `spikes/raw/` dan **di-commit**, jadi seluruh lapisan
+> parsing bisa diuji ulang selamanya tanpa jaringan. Temuannya mengubah tiga
+> hal yang sebelumnya salah — bentuk respons (empat bentuk, bukan satu),
+> nama fungsi SDK MCP, dan paginasi yang membuat backfill sepotong. Rinciannya
+> di `docs/endpoint-costs.md` §Temuan spike F0.
+>
+> **Sisa yang butuh kredit — minta izin dulu, jangan jalan sendiri:**
+> `fetch-close` (HTTP 400, param salah) dan `fetch-broker-summary-top`
+> (HTTP 404, jalur salah) perlu spike lanjutan ±4 kredit. Lima endpoint yang
+> gagal karena ImportError SDK kemungkinan besar hidup tapi belum dibuktikan.
+> Sesudah itu: backfill (rencana 140 kredit) → commit `data/warehouse/` →
+> nyalakan cron. **Posisi kredit: 9/1000.**
 
 ### M1 · Jalur REST hidup · 8–10 Sep
 > Prioritas mutlak. Jangan sentuh MCP sebelum blok ini hijau.
@@ -66,7 +74,7 @@ Plus `data/warehouse/*.parquet` dan `registry.py` (definisi tool untuk LLM: nama
 - [x] `client.py` — `CreditAwareClient` sebagai gateway tunggal: cache disk permanen berkunci hash `(endpoint, params)`, ledger `data/credit_ledger.jsonl`, pagu per fase yang **menolak** (raise, bukan warning), retry + backoff, redaksi API key di seluruh log `[AD-3][AD-5]`
 - [x] `transport_rest.py` — `httpx`, header `Authorization: <key>`, base `https://api.sectors.app/v2`
 - [x] `schemas.py` — model pydantic dari respons spike F0
-- [~] `docs/endpoint-costs.md` — biaya kredit **aktual** tiap endpoint (1/2/3). Hamzah memakai angka ini untuk menganggarkan perencana
+- [x] `docs/endpoint-costs.md` — biaya kredit **aktual** tiap endpoint (1/2/3). Hamzah memakai angka ini untuk menganggarkan perencana
 - [x] `core/ingest/tier1_market.py` — sapuan market-wide, target **≤6 kredit/hari**: `fetch-close`, `fetch-most-traded-stocks`, `fetch-companies-top-changes`, `fetch-suspensions`, `fetch-filings`
 - [x] DuckDB warehouse + skema tabel; `make credits`
 - [x] **QA:** cache hit tidak menambah ledger · pagu terlampaui → raise · key tidak pernah muncul di log · respons rusak → error jelas, bukan `KeyError`
