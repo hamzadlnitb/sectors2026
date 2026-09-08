@@ -282,6 +282,35 @@ kalender. Mengandalkannya membuat seluruh probe berjendela mengira riwayatnya
 nol hari."""
 
 
+def price_frame(wh: Warehouse, as_of: date | None = None,
+                symbol: str | None = None) -> pd.DataFrame:
+    """Harga penutupan dari tabel mana pun yang memilikinya, sudah point-in-time.
+
+    SATU tempat, karena kesalahan yang sama sudah terjadi tiga kali: sejak
+    fetch-close dikeluarkan dari sapuan harian (1 kredit per halaman, ~32
+    halaman sehari), daily_close cuma memuat penggerak harga terbesar hari itu.
+    Setiap pembaca yang mengandalkannya sendirian mengira pasar tidak punya
+    riwayat — dan tiap kali gejalanya berbeda: kalender bursa kosong, PFD mati,
+    watchlist nol kandidat.
+    """
+    potongan = []
+    for tabel in KALENDER_TABEL:
+        if not wh.exists(tabel):
+            continue
+        where, params = ("symbol = ?", [symbol]) if symbol else ("", [])
+        df = wh.frame(tabel, as_of=as_of, where=where, params=params)
+        if not df.empty:
+            potongan.append(df[["trade_date", "symbol", "close_price"]])
+    if not potongan:
+        return pd.DataFrame(columns=["trade_date", "symbol", "close_price"])
+
+    gabung = pd.concat(potongan, ignore_index=True)
+    gabung = gabung[gabung["close_price"].notna()]
+    return (gabung.drop_duplicates(subset=["symbol", "trade_date"], keep="first")
+                  .sort_values(["symbol", "trade_date"])
+                  .reset_index(drop=True))
+
+
 def trading_days(wh: Warehouse, as_of: date, lookback: int) -> list[date]:
     """Tanggal bursa yang benar-benar ADA di warehouse, mundur dari as_of.
 
