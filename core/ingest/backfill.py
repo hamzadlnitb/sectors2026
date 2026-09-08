@@ -183,17 +183,30 @@ def universe(wh: Warehouse, as_of: date, size: int = 80) -> list[str]:
 # fetch-suspensions punya 533 baris dalam 24 bulan. Minta halaman sebesar
 # mungkin — tiap halaman satu panggilan, dan tiap panggilan satu kredit.
 PAGE_SIZE = 100
+"""Yang KITA minta. Server berhak memangkasnya — dan Sectors memangkasnya."""
+
+PAGE_SIZE_NYATA = 30
+"""Yang benar-benar dikirim server, diukur 8 Sep: 534 suspensi terambil dalam 18
+panggilan. Perkiraan halaman WAJIB memakai angka ini; memakai PAGE_SIZE membuat
+rencana meleset 3x dan itulah yang bikin tahap 2 menghabiskan 68 kredit untuk
+anggaran 9."""
+
+PAGU_HALAMAN = {"fetch-suspensions": 25, "fetch-filings": 25}
+"""Pagu kredit per endpoint saat menelusuri halaman. Pagar halaman saja tidak
+tahu harga: fetch-filings pernah menembus 50 halaman = 50 kredit tanpa
+peringatan, lalu kena 429 dan hasilnya hangus."""
+
 BERPAGINASI = ("fetch-suspensions", "fetch-filings")
 
 
-def _perkiraan_halaman(total: int, per_halaman: int = PAGE_SIZE) -> int:
+def _perkiraan_halaman(total: int, per_halaman: int = PAGE_SIZE_NYATA) -> int:
     return max(1, -(-total // per_halaman))
 
 
 # Total baris yang dilaporkan spike 8 Sep untuk rentang 24 bulan. Dipakai untuk
 # MENGANGGARKAN, bukan sebagai kebenaran — jumlah asli akan berbeda saat backfill
 # benar-benar jalan, dan itu tidak apa-apa selama pagu fase tetap ditegakkan.
-TOTAL_TERAMATI = {"fetch-suspensions": 533, "fetch-filings": 223}
+TOTAL_TERAMATI = {"fetch-suspensions": 534, "fetch-filings": 750}
 
 
 def plan_stage2(as_of: date, bulan: int = BULAN_PERISTIWA) -> Plan:
@@ -212,7 +225,8 @@ def plan_stage2(as_of: date, bulan: int = BULAN_PERISTIWA) -> Plan:
     window = {"start": mulai.isoformat(), "end": as_of.isoformat()}
     calls: list[tuple[str, dict]] = []
     for endpoint in BERPAGINASI:
-        halaman = _perkiraan_halaman(TOTAL_TERAMATI.get(endpoint, PAGE_SIZE))
+        halaman = min(PAGU_HALAMAN.get(endpoint, 25),
+                      _perkiraan_halaman(TOTAL_TERAMATI.get(endpoint, PAGE_SIZE_NYATA)))
         for i in range(halaman):
             calls.append((endpoint, {**window, "limit": PAGE_SIZE, "offset": i * PAGE_SIZE}))
     return Plan(2, calls)
@@ -327,8 +341,10 @@ def execute_paginated(client: CreditAwareClient, wh: Warehouse, as_of: date,
 
     for endpoint in BERPAGINASI:
         try:
-            rows, credits = client.paginate(endpoint, window, page_size=PAGE_SIZE,
-                                            phase=PHASE)
+            rows, credits = client.paginate(
+                endpoint, window, page_size=PAGE_SIZE, phase=PHASE,
+                max_credits=PAGU_HALAMAN.get(endpoint, 25),
+            )
         except BudgetExceeded as exc:
             gagal.append(f"pagu habis saat menelusuri {endpoint}: {exc}")
             break

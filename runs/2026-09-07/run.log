@@ -1,0 +1,8 @@
+[13:11:04Z] sapuan Tier-1 untuk 2026-09-07
+[13:11:04Z]   fetch-most-traded-stocks        10 baris -> daily_transaction (kini 10 baris, cache)
+[13:11:04Z]   fetch-companies-top-changes     20 baris -> daily_close (kini 20 baris, cache)
+[13:11:05Z]   GAGAL fetch-suspensions: respons 'fetch-suspensions' tidak sesuai skema: tidak ada baris yang bisa dibaca (payload dict)
+  cuplikan: {"results": [], "pagination": {"total_count": 0, "showing": 0, "limit": 20, "offset": 0, "has_next": false, "has_previous": false, "next_offset": null, "previous_offset": null}}
+[13:11:05Z]   fetch-filings                   14 baris -> filings (kini 14 baris, cache)
+[13:11:05Z] total 0 kredit; 4 panggilan, 3 dari cache (75%), 1 kredit terpakai
+[13:11:05Z] watchlist: 0 kandidat

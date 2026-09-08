@@ -35,6 +35,7 @@ from core.env import load_env
 from core.sectors import routing
 from core.sectors.errors import (
     SchemaError,
+    SectorsError,
     TransportAttemptError,
     TransportError,
     TransportUnavailable,
@@ -51,6 +52,12 @@ DEFAULT_CACHE = ROOT / "data" / "cache"
 
 MAX_ATTEMPTS = 4
 BACKOFF_BASE = 0.5  # detik; 0,5 → 1 → 2 dengan jitter
+
+# 429 bukan kegagalan biasa: server minta kita PELAN, dan mengulang cepat justru
+# memperpanjang hukumannya. Backfill filings kena RATE_LIMIT_EXCEEDED setelah
+# belasan halaman beruntun dengan backoff 0,5 detik.
+BACKOFF_RATE_LIMIT = 8.0
+JEDA_ANTAR_HALAMAN = 0.35
 
 # Kunci ditolak: jangan buang waktu mencoba transport kedua dengan kunci yang sama.
 AUTH_STATUS = {401, 403}
@@ -348,7 +355,8 @@ class CreditAwareClient:
                 last = exc
                 if not exc.retryable or attempt == self.max_attempts:
                     raise
-                delay = BACKOFF_BASE * (2 ** (attempt - 1)) * (1 + random.random() * 0.3)
+                dasar = BACKOFF_RATE_LIMIT if exc.status == 429 else BACKOFF_BASE
+                delay = dasar * (2 ** (attempt - 1)) * (1 + random.random() * 0.3)
                 self.stats.retries += 1
                 log.info("percobaan %d/%d gagal (%s), tunggu %.1fs",
                          attempt, self.max_attempts, scrub(exc.detail), delay)
@@ -394,6 +402,7 @@ class CreditAwareClient:
         *,
         page_size: int = 100,
         max_pages: int = 50,
+        max_credits: int | None = None,
         **kw: Any,
     ) -> tuple[list[Row], int]:
         """Tarik SELURUH halaman satu endpoint. Mengembalikan (baris, kredit).
@@ -403,9 +412,13 @@ class CreditAwareClient:
         halaman akan mengira sudah menarik 24 bulan padahal baru satu — dan
         himpunan positif kalibrasi jadi sepotong tanpa ada yang sadar.
 
-        `max_pages` adalah pagar, bukan target: endpoint yang paginasinya rusak
-        (has_next selamanya True) akan menghabiskan seluruh pagu fase dalam
-        hitungan detik kalau tidak dibatasi.
+        Dua pagar, dan yang kedua ada karena yang pertama pernah gagal menahan:
+
+        * `max_pages` menghentikan paginasi yang rusak (has_next selamanya True).
+        * `max_credits` menghentikan paginasi yang BENAR tapi jauh lebih panjang
+          dari perkiraan. fetch-filings 24 bulan pernah menembus 50 halaman
+          dengan pagar halaman saja — 50 kredit, tanpa peringatan, untuk rencana
+          yang menganggarkan 3. Pagar halaman tidak tahu harga; pagar kredit tahu.
         """
         from core.sectors.schemas import pagination_of
 
@@ -415,25 +428,57 @@ class CreditAwareClient:
         offset = 0
 
         for halaman in range(max_pages):
-            resp = self.call(endpoint, {**params, "limit": page_size, "offset": offset}, **kw)
+            if max_credits is not None and credits >= max_credits:
+                log.warning("paginasi '%s' berhenti di pagu %d kredit; %d baris terambil",
+                            endpoint, max_credits, len(semua))
+                break
+            if halaman:
+                # Jeda kecil antar halaman. Paginasi adalah satu-satunya tempat
+                # kita menembak berpuluh panggilan beruntun, dan di situlah rate
+                # limit menghukum. Jauh lebih murah menunggu sepersekian detik
+                # daripada kehilangan seluruh tarikan di halaman ke-50.
+                self._sleep(JEDA_ANTAR_HALAMAN)
+            try:
+                resp = self.call(endpoint, {**params, "limit": page_size, "offset": offset}, **kw)
+            except SectorsError as exc:
+                # Halaman yang gagal TIDAK boleh membuang halaman yang sudah
+                # dibayar. Pernah terjadi sungguhan: 50 kredit terbakar untuk
+                # fetch-filings, kena 429 di halaman ke-51, dan seluruh hasilnya
+                # hilang karena exception melewati pemanggil. Bayar-lalu-buang
+                # adalah kegagalan paling mahal yang bisa dilakukan kode ini.
+                log.warning("paginasi '%s' berhenti di halaman %d (%s); %d baris "
+                            "yang sudah dibayar tetap dikembalikan",
+                            endpoint, halaman + 1, exc, len(semua))
+                break
+
             credits += resp.credits_spent
-            baris = resp.rows()
-            semua.extend(baris)
+            semua.extend(resp.rows())
 
             blok = pagination_of(resp.payload)
             if not blok or not blok.get("has_next"):
                 break
+
+            # Server berhak MENGABAIKAN limit yang kita minta. Sectors memangkas
+            # 100 jadi ~20-30, jadi jumlah halaman sebenarnya bisa berlipat dari
+            # perkiraan. Ikuti angka server, jangan angka kita.
+            nyata = blok.get("limit")
+            if isinstance(nyata, int) and 0 < nyata < page_size:
+                if halaman == 0:
+                    log.info("'%s' memangkas limit %d -> %d; perkiraan halaman "
+                             "dikoreksi ke %s", endpoint, page_size, nyata,
+                             blok.get("total_count", "?"))
+                page_size = nyata
+
             lanjut = blok.get("next_offset")
             if not isinstance(lanjut, int) or lanjut <= offset:
-                # Paginasi yang tidak maju: berhenti, jangan berputar sampai
-                # pagu habis.
                 log.warning("paginasi '%s' tidak maju di offset %d — dihentikan",
                             endpoint, offset)
                 break
             offset = lanjut
             if halaman == max_pages - 1:
-                log.warning("paginasi '%s' berhenti di pagar %d halaman; masih ada sisa",
-                            endpoint, max_pages)
+                log.warning("paginasi '%s' berhenti di pagar %d halaman; %d baris "
+                            "terambil, masih ada sisa di server",
+                            endpoint, max_pages, len(semua))
         return semua, credits
 
     def close(self) -> None:

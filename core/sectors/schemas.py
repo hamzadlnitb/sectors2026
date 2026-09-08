@@ -392,6 +392,18 @@ def flatten(endpoint: str, payload: Any) -> list[dict]:
     return SHAPES.get(endpoint, unwrap)(payload)
 
 
+def _memang_kosong(payload: Any) -> bool:
+    """True kalau payload secara eksplisit menyatakan dirinya kosong."""
+    if isinstance(payload, list):
+        return True
+    if not isinstance(payload, dict):
+        return False
+    blok = payload.get("pagination")
+    if isinstance(blok, dict) and blok.get("total_count") == 0:
+        return True
+    return any(isinstance(payload.get(k), list) and not payload[k] for k in _ENVELOPE_KEYS)
+
+
 def pagination_of(payload: Any) -> dict | None:
     """Blok paginasi kalau ada.
 
@@ -431,6 +443,14 @@ def parse_rows[T: Row](endpoint: str, payload: Any, model: type[T] | None = None
 
     raw = flatten(endpoint, payload)
     if not raw:
+        # Nol baris bisa berarti dua hal yang sangat berbeda, dan cuma satu di
+        # antaranya kesalahan. Pembungkus yang menyatakan dirinya kosong
+        # ("results": [], total_count 0) adalah JAWABAN YANG SAH — hari bursa
+        # tanpa suspensi memang begitu, dan memperlakukannya sebagai galat
+        # membuat cron harian merah tiap kali pasar tenang. Yang benar-benar
+        # salah adalah payload yang bentuknya tidak dikenali sama sekali.
+        if _memang_kosong(payload):
+            return []
         kind = type(payload).__name__
         raise SchemaError(endpoint, f"tidak ada baris yang bisa dibaca (payload {kind})",
                           preview(payload))

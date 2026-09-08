@@ -1,0 +1,4621 @@
+{
+  "as_of": "2026-09-07",
+  "generated_at": "2026-09-08T13:11:40+00:00",
+  "keywords": [
+    "tidak wajar",
+    "di luar kebiasaan",
+    "unusual",
+    "uma",
+    "pergerakan harga",
+    "peningkatan harga",
+    "aktivitas transaksi"
+  ],
+  "total": 534,
+  "positives": 433,
+  "rows": [
+    {
+      "symbol": "NINE",
+      "start_date": "2025-01-08",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NINE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NAYZ",
+      "start_date": "2025-01-10",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NAYZ.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NINE",
+      "start_date": "2025-01-10",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NINE.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MMIX",
+      "start_date": "2025-01-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MMIX.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NAYZ",
+      "start_date": "2025-01-15",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NAYZ.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "RATU",
+      "start_date": "2025-01-16",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham RATU.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FIMP",
+      "start_date": "2025-01-20",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FIMP.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PACK",
+      "start_date": "2025-01-20",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PACK.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "RATU",
+      "start_date": "2025-01-20",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham RATU.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CMNP",
+      "start_date": "2025-01-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CMNP.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MMIX",
+      "start_date": "2025-01-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MMIX.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FIMP",
+      "start_date": "2025-01-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FIMP.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CMNP",
+      "start_date": "2025-01-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CMNP.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "DATA",
+      "start_date": "2025-01-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham DATA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "JSPT",
+      "start_date": "2025-01-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham JSPT.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LINK",
+      "start_date": "2025-01-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LINK.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "DOOH",
+      "start_date": "2025-01-31",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham DOOH.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "WIFI",
+      "start_date": "2025-01-31",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham WIFI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LION",
+      "start_date": "2025-02-03",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LION.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PURI",
+      "start_date": "2025-02-04",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PURI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SSMS",
+      "start_date": "2025-02-04",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SSMS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "WIFI",
+      "start_date": "2025-02-04",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham WIFI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CLAY",
+      "start_date": "2025-02-06",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CLAY.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MLPT",
+      "start_date": "2025-02-06",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MLPT.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SMDM",
+      "start_date": "2025-02-06",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SMDM.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "GRPM",
+      "start_date": "2025-02-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham GRPM.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MINA",
+      "start_date": "2025-02-10",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MINA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SMDM",
+      "start_date": "2025-02-10",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SMDM.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TIRA",
+      "start_date": "2025-02-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TIRA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "INET",
+      "start_date": "2025-02-12",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham INET.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MINA",
+      "start_date": "2025-02-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MINA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MLPT",
+      "start_date": "2025-02-19",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MLPT.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "POLU",
+      "start_date": "2025-02-20",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham POLU.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "DATA",
+      "start_date": "2025-02-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham DATA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "POLU",
+      "start_date": "2025-02-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham POLU.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TIRA",
+      "start_date": "2025-02-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TIRA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BESS",
+      "start_date": "2025-02-25",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BESS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "DCII",
+      "start_date": "2025-02-25",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham DCII.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IKAN",
+      "start_date": "2025-02-25",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IKAN.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "INET",
+      "start_date": "2025-02-25",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham INET.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "EDGE",
+      "start_date": "2025-02-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham EDGE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BESS",
+      "start_date": "2025-02-27",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BESS.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "DCII",
+      "start_date": "2025-02-27",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham DCII.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NAIK",
+      "start_date": "2025-02-27",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NAIK.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IKAN",
+      "start_date": "2025-02-28",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IKAN.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "UDNG",
+      "start_date": "2025-03-20",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham UDNG.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "WGSH",
+      "start_date": "2025-03-20",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham WGSH.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "RONY",
+      "start_date": "2025-03-25",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham RONY.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "UDNG",
+      "start_date": "2025-03-25",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham UDNG.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SMIL",
+      "start_date": "2025-04-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SMIL.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "AREA",
+      "start_date": "2025-04-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham AREA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CENT",
+      "start_date": "2025-04-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CENT.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PGJO",
+      "start_date": "2025-04-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PGJO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PGJO",
+      "start_date": "2025-04-28",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PGJO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "INET",
+      "start_date": "2025-04-29",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham INET.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "UDNG",
+      "start_date": "2025-05-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham UDNG.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TIRA",
+      "start_date": "2025-05-05",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TIRA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "JATI",
+      "start_date": "2025-05-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham JATI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "KRYA",
+      "start_date": "2025-05-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham KRYA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "KRYA",
+      "start_date": "2025-05-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham KRYA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "JATI",
+      "start_date": "2025-05-14",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham JATI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NICL",
+      "start_date": "2025-05-14",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NICL.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BEEF",
+      "start_date": "2025-05-15",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BEEF.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FITT",
+      "start_date": "2025-05-16",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FITT.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NICL",
+      "start_date": "2025-05-16",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NICL.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LFLO",
+      "start_date": "2025-05-19",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LFLO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TGUK",
+      "start_date": "2025-05-20",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TGUK.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "COCO",
+      "start_date": "2025-05-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham COCO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BBSS",
+      "start_date": "2025-05-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BBSS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LFLO",
+      "start_date": "2025-05-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LFLO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "COCO",
+      "start_date": "2025-05-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham COCO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FITT",
+      "start_date": "2025-05-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FITT.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TGUK",
+      "start_date": "2025-05-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TGUK.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "INRU",
+      "start_date": "2025-06-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham INRU.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PGJO",
+      "start_date": "2025-06-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PGJO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SOLA",
+      "start_date": "2025-06-05",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SOLA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "INRU",
+      "start_date": "2025-06-10",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham INRU.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SHIP",
+      "start_date": "2025-06-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SHIP.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PACK",
+      "start_date": "2025-06-12",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PACK.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "UDNG",
+      "start_date": "2025-06-12",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham UDNG.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MGLV",
+      "start_date": "2025-06-16",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MGLV.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PACK",
+      "start_date": "2025-06-17",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PACK.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CBRE",
+      "start_date": "2025-06-18",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CBRE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MGLV",
+      "start_date": "2025-06-18",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MGLV.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TOBA",
+      "start_date": "2025-06-18",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TOBA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SOLA",
+      "start_date": "2025-06-19",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SOLA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ARCI",
+      "start_date": "2025-06-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ARCI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ASPI",
+      "start_date": "2025-06-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ASPI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "APEX",
+      "start_date": "2025-06-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham APEX.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PNSE",
+      "start_date": "2025-06-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PNSE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PTMR",
+      "start_date": "2025-06-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PTMR.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NICK",
+      "start_date": "2025-06-25",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NICK.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PTMR",
+      "start_date": "2025-06-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PTMR.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "KRAS",
+      "start_date": "2025-07-01",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham KRAS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MAPB",
+      "start_date": "2025-07-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MAPB.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "KRAS",
+      "start_date": "2025-07-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham KRAS.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LABA",
+      "start_date": "2025-07-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LABA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LABA",
+      "start_date": "2025-07-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LABA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ASPI",
+      "start_date": "2025-07-15",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ASPI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MFIN",
+      "start_date": "2025-07-15",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MFIN.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CDIA",
+      "start_date": "2025-07-17",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CDIA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "COIN",
+      "start_date": "2025-07-17",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham COIN.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ARGO",
+      "start_date": "2025-07-18",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ARGO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MERI",
+      "start_date": "2025-07-18",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MERI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NRCA",
+      "start_date": "2025-07-18",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NRCA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ARCI",
+      "start_date": "2025-07-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ARCI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "COIN",
+      "start_date": "2025-07-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham COIN.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "DCII",
+      "start_date": "2025-07-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham DCII.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NRCA",
+      "start_date": "2025-07-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NRCA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CDIA",
+      "start_date": "2025-07-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CDIA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "RELI",
+      "start_date": "2025-07-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham RELI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SHID",
+      "start_date": "2025-07-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SHID.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ARTA",
+      "start_date": "2025-07-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ARTA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "DCII",
+      "start_date": "2025-07-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham DCII.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PYFA",
+      "start_date": "2025-07-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PYFA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ARGO",
+      "start_date": "2025-07-25",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ARGO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "HOPE",
+      "start_date": "2025-07-29",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham HOPE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PGUN",
+      "start_date": "2025-07-29",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PGUN.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BUVA",
+      "start_date": "2025-07-30",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BUVA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "HOPE",
+      "start_date": "2025-07-31",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham HOPE.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PGUN",
+      "start_date": "2025-07-31",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PGUN.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BUVA",
+      "start_date": "2025-08-01",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BUVA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "COCO",
+      "start_date": "2025-08-01",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham COCO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MINA",
+      "start_date": "2025-08-04",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MINA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ROCK",
+      "start_date": "2025-08-04",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ROCK.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IRSX",
+      "start_date": "2025-08-06",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IRSX.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MINA",
+      "start_date": "2025-08-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MINA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ROCK",
+      "start_date": "2025-08-08",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ROCK.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CBRE",
+      "start_date": "2025-08-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CBRE.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IMPC",
+      "start_date": "2025-08-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IMPC.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IRSX",
+      "start_date": "2025-08-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IRSX.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CHEM",
+      "start_date": "2025-08-12",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CHEM.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FILM",
+      "start_date": "2025-08-12",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FILM.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PYFA",
+      "start_date": "2025-08-12",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PYFA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IMPC",
+      "start_date": "2025-08-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IMPC.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FUTR",
+      "start_date": "2025-08-14",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FUTR.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MLPT",
+      "start_date": "2025-08-14",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MLPT.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FUTR",
+      "start_date": "2025-08-19",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FUTR.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "UDNG",
+      "start_date": "2025-08-19",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham UDNG.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LIFE",
+      "start_date": "2025-08-20",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LIFE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BWPT",
+      "start_date": "2025-08-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BWPT.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MGLV",
+      "start_date": "2025-08-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MGLV.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "UANG",
+      "start_date": "2025-08-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham UANG.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ASLC",
+      "start_date": "2025-08-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ASLC.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LAPD",
+      "start_date": "2025-08-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LAPD.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LIFE",
+      "start_date": "2025-08-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LIFE.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SOSS",
+      "start_date": "2025-08-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SOSS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "UDNG",
+      "start_date": "2025-08-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham UDNG.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "COIN",
+      "start_date": "2025-08-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham COIN.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "DATA",
+      "start_date": "2025-08-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham DATA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NINE",
+      "start_date": "2025-08-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NINE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "JARR",
+      "start_date": "2025-08-27",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham JARR.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MLPT",
+      "start_date": "2025-08-27",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MLPT.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PSKT",
+      "start_date": "2025-08-27",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PSKT.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "DATA",
+      "start_date": "2025-08-28",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham DATA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FLMC",
+      "start_date": "2025-08-28",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FLMC.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "HBAT",
+      "start_date": "2025-08-28",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham HBAT.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "HUMI",
+      "start_date": "2025-08-28",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham HUMI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "JARR",
+      "start_date": "2025-08-29",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham JARR.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LINK",
+      "start_date": "2025-08-29",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LINK.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NINE",
+      "start_date": "2025-08-29",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NINE.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SMKM",
+      "start_date": "2025-08-29",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SMKM.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "STRK",
+      "start_date": "2025-08-29",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham STRK.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FLMC",
+      "start_date": "2025-09-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FLMC.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LAPD",
+      "start_date": "2025-09-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LAPD.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MPRO",
+      "start_date": "2025-09-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MPRO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PBSA",
+      "start_date": "2025-09-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PBSA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PGUN",
+      "start_date": "2025-09-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PGUN.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PIPA",
+      "start_date": "2025-09-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PIPA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SMKM",
+      "start_date": "2025-09-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SMKM.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SOSS",
+      "start_date": "2025-09-03",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SOSS.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TMPO",
+      "start_date": "2025-09-03",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TMPO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "WOWS",
+      "start_date": "2025-09-03",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham WOWS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SOUL",
+      "start_date": "2025-09-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SOUL.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "GPSO",
+      "start_date": "2025-09-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham GPSO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ITIC",
+      "start_date": "2025-09-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ITIC.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MSIE",
+      "start_date": "2025-09-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MSIE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BLTZ",
+      "start_date": "2025-09-25",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BLTZ.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PUDP",
+      "start_date": "2025-09-25",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PUDP.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SMLE",
+      "start_date": "2025-09-25",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SMLE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FUTR",
+      "start_date": "2025-09-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FUTR.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "GPSO",
+      "start_date": "2025-09-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham GPSO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "GTRA",
+      "start_date": "2025-09-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham GTRA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MEJA",
+      "start_date": "2025-09-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MEJA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "RISE",
+      "start_date": "2025-09-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham RISE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FAST",
+      "start_date": "2025-10-01",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FAST.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LPLI",
+      "start_date": "2025-10-01",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LPLI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "RANC",
+      "start_date": "2025-10-01",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham RANC.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "RMKO",
+      "start_date": "2025-10-01",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham RMKO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SOFA",
+      "start_date": "2025-10-01",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SOFA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BEEF",
+      "start_date": "2025-10-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BEEF.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IDPR",
+      "start_date": "2025-10-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IDPR.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IPAC",
+      "start_date": "2025-10-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IPAC.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ESTA",
+      "start_date": "2025-10-03",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ESTA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SOFA",
+      "start_date": "2025-10-03",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SOFA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "VKTR",
+      "start_date": "2025-10-03",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham VKTR.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "AGII",
+      "start_date": "2025-10-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham AGII.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IDPR",
+      "start_date": "2025-10-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IDPR.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IPAC",
+      "start_date": "2025-10-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IPAC.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LPPS",
+      "start_date": "2025-10-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LPPS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PIPA",
+      "start_date": "2025-10-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PIPA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "RMKE",
+      "start_date": "2025-10-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham RMKE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "RMKO",
+      "start_date": "2025-10-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham RMKO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ASLI",
+      "start_date": "2025-10-08",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ASLI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FOLK",
+      "start_date": "2025-10-08",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FOLK.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "KOKA",
+      "start_date": "2025-10-08",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham KOKA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MLPL",
+      "start_date": "2025-10-08",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MLPL.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "AGII",
+      "start_date": "2025-10-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham AGII.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ASHA",
+      "start_date": "2025-10-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ASHA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "DADA",
+      "start_date": "2025-10-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham DADA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ESTA",
+      "start_date": "2025-10-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ESTA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NTBK",
+      "start_date": "2025-10-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NTBK.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "RMKE",
+      "start_date": "2025-10-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham RMKE.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TRIN",
+      "start_date": "2025-10-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TRIN.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "UFOE",
+      "start_date": "2025-10-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham UFOE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FOLK",
+      "start_date": "2025-10-10",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FOLK.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TFAS",
+      "start_date": "2025-10-10",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TFAS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TINS",
+      "start_date": "2025-10-10",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TINS.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "YPAS",
+      "start_date": "2025-10-10",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham YPAS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "AYLS",
+      "start_date": "2025-10-14",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham AYLS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PGLI",
+      "start_date": "2025-10-14",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PGLI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TRUE",
+      "start_date": "2025-10-14",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TRUE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ASPI",
+      "start_date": "2025-10-15",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ASPI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MORA",
+      "start_date": "2025-10-15",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MORA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BLUE",
+      "start_date": "2025-10-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BLUE.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "GLOB",
+      "start_date": "2025-10-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham GLOB.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MORA",
+      "start_date": "2025-10-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MORA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PGLI",
+      "start_date": "2025-10-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PGLI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TRUE",
+      "start_date": "2025-10-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TRUE.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "WAPO",
+      "start_date": "2025-10-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham WAPO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PURI",
+      "start_date": "2025-10-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PURI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "AYLS",
+      "start_date": "2025-10-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham AYLS.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "KONI",
+      "start_date": "2025-10-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham KONI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NIRO",
+      "start_date": "2025-10-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NIRO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PUDP",
+      "start_date": "2025-10-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PUDP.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PURI",
+      "start_date": "2025-10-29",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PURI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SOHO",
+      "start_date": "2025-10-29",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SOHO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SSTM",
+      "start_date": "2025-10-29",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SSTM.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "AMMS",
+      "start_date": "2025-10-30",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham AMMS.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LFLO",
+      "start_date": "2025-10-31",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LFLO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SSTM",
+      "start_date": "2025-10-31",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SSTM.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "KICI",
+      "start_date": "2025-11-05",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham KICI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FOOD",
+      "start_date": "2025-11-06",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FOOD.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NIRO",
+      "start_date": "2025-11-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NIRO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FPNI",
+      "start_date": "2025-11-12",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FPNI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MGNA",
+      "start_date": "2025-11-12",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MGNA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "KDTN",
+      "start_date": "2025-11-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham KDTN.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LFLO",
+      "start_date": "2025-11-18",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LFLO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ATAP",
+      "start_date": "2025-11-19",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ATAP.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CSIS",
+      "start_date": "2025-11-19",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CSIS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SINI",
+      "start_date": "2025-11-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SINI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TRIN",
+      "start_date": "2025-11-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TRIN.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "INET",
+      "start_date": "2025-11-25",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham INET.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ARKO",
+      "start_date": "2025-11-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ARKO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "AYAM",
+      "start_date": "2025-11-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham AYAM.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BUVA",
+      "start_date": "2025-11-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BUVA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MGNA",
+      "start_date": "2025-11-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MGNA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NRCA",
+      "start_date": "2025-11-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NRCA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SINI",
+      "start_date": "2025-11-26",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SINI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BHAT",
+      "start_date": "2025-11-27",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BHAT.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BOGA",
+      "start_date": "2025-11-27",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BOGA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PADA",
+      "start_date": "2025-11-27",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PADA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ARKO",
+      "start_date": "2025-11-28",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ARKO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NRCA",
+      "start_date": "2025-11-28",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NRCA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "RATU",
+      "start_date": "2025-11-28",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham RATU.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ASLI",
+      "start_date": "2025-12-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ASLI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MINA",
+      "start_date": "2025-12-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MINA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MPRO",
+      "start_date": "2025-12-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MPRO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PSKT",
+      "start_date": "2025-12-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PSKT.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "STAR",
+      "start_date": "2025-12-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham STAR.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "COAL",
+      "start_date": "2025-12-03",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham COAL.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IBFN",
+      "start_date": "2025-12-03",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IBFN.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LUCY",
+      "start_date": "2025-12-03",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LUCY.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "VKTR",
+      "start_date": "2025-12-03",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham VKTR.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "YELO",
+      "start_date": "2025-12-03",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham YELO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "INET",
+      "start_date": "2025-12-04",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham INET.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PSKT",
+      "start_date": "2025-12-04",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PSKT.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ROCK",
+      "start_date": "2025-12-04",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ROCK.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "STAR",
+      "start_date": "2025-12-04",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham STAR.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "AYAM",
+      "start_date": "2025-12-05",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham AYAM.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "GTSI",
+      "start_date": "2025-12-05",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham GTSI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IMJS",
+      "start_date": "2025-12-05",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IMJS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IRSX",
+      "start_date": "2025-12-05",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IRSX.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LUCY",
+      "start_date": "2025-12-05",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LUCY.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TRUE",
+      "start_date": "2025-12-05",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TRUE.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CITY",
+      "start_date": "2025-12-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CITY.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MGLV",
+      "start_date": "2025-12-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MGLV.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TRON",
+      "start_date": "2025-12-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TRON.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "DOOH",
+      "start_date": "2025-12-10",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham DOOH.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "INTA",
+      "start_date": "2025-12-10",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham INTA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TIRT",
+      "start_date": "2025-12-10",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TIRT.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CITY",
+      "start_date": "2025-12-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CITY.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "GTSI",
+      "start_date": "2025-12-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham GTSI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IRSX",
+      "start_date": "2025-12-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IRSX.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "KETR",
+      "start_date": "2025-12-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham KETR.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "KIOS",
+      "start_date": "2025-12-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham KIOS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PEGE",
+      "start_date": "2025-12-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PEGE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PTDU",
+      "start_date": "2025-12-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PTDU.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TRON",
+      "start_date": "2025-12-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TRON.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BNBR",
+      "start_date": "2025-12-12",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BNBR.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CANI",
+      "start_date": "2025-12-12",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CANI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "DOOH",
+      "start_date": "2025-12-12",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham DOOH.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "INTA",
+      "start_date": "2025-12-12",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham INTA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SOTS",
+      "start_date": "2025-12-12",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SOTS.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TIRT",
+      "start_date": "2025-12-12",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TIRT.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BNBR",
+      "start_date": "2025-12-16",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BNBR.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CANI",
+      "start_date": "2025-12-16",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CANI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CARE",
+      "start_date": "2025-12-16",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CARE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NATO",
+      "start_date": "2025-12-16",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NATO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "RLCO",
+      "start_date": "2025-12-16",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham RLCO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "UNSP",
+      "start_date": "2025-12-17",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham UNSP.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ALII",
+      "start_date": "2025-12-18",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ALII.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CARE",
+      "start_date": "2025-12-18",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CARE.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ESTA",
+      "start_date": "2025-12-18",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ESTA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NATO",
+      "start_date": "2025-12-18",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NATO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SSTM",
+      "start_date": "2025-12-18",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SSTM.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "DPUM",
+      "start_date": "2025-12-19",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham DPUM.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MDIA",
+      "start_date": "2025-12-19",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MDIA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MGLV",
+      "start_date": "2025-12-19",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MGLV.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "DPUM",
+      "start_date": "2025-12-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham DPUM.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "UNSP",
+      "start_date": "2025-12-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham UNSP.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BBRM",
+      "start_date": "2025-12-30",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BBRM.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PKPK",
+      "start_date": "2025-12-30",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PKPK.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FIRE",
+      "start_date": "2026-01-06",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FIRE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PKPK",
+      "start_date": "2026-01-06",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PKPK.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "AHAP",
+      "start_date": "2026-01-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham AHAP.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "HUMI",
+      "start_date": "2026-01-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham HUMI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "JMAS",
+      "start_date": "2026-01-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham JMAS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PADI",
+      "start_date": "2026-01-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PADI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ARKO",
+      "start_date": "2026-01-08",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ARKO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BBSS",
+      "start_date": "2026-01-08",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BBSS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BIPI",
+      "start_date": "2026-01-08",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BIPI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FIRE",
+      "start_date": "2026-01-08",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FIRE.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "GRPM",
+      "start_date": "2026-01-08",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham GRPM.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SIPD",
+      "start_date": "2026-01-08",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SIPD.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LEAD",
+      "start_date": "2026-01-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LEAD.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LUCY",
+      "start_date": "2026-01-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LUCY.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NSSS",
+      "start_date": "2026-01-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NSSS.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PPGL",
+      "start_date": "2026-01-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PPGL.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ATAP",
+      "start_date": "2026-01-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ATAP.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "KOCI",
+      "start_date": "2026-01-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham KOCI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LMAX",
+      "start_date": "2026-01-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LMAX.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MDIA",
+      "start_date": "2026-01-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MDIA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MKAP",
+      "start_date": "2026-01-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MKAP.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PADI",
+      "start_date": "2026-01-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PADI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PPGL",
+      "start_date": "2026-01-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PPGL.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "RMKE",
+      "start_date": "2026-01-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham RMKE.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SOCI",
+      "start_date": "2026-01-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SOCI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SPRE",
+      "start_date": "2026-01-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SPRE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TRUE",
+      "start_date": "2026-01-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TRUE.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IFSH",
+      "start_date": "2026-01-14",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IFSH.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SIPD",
+      "start_date": "2026-01-14",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SIPD.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "INDS",
+      "start_date": "2026-01-15",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham INDS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "KOCI",
+      "start_date": "2026-01-15",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham KOCI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SOTS",
+      "start_date": "2026-01-15",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SOTS.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BELL",
+      "start_date": "2026-01-20",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BELL.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BNBA",
+      "start_date": "2026-01-20",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BNBA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "EURO",
+      "start_date": "2026-01-20",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham EURO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "OASA",
+      "start_date": "2026-01-20",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham OASA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ROCK",
+      "start_date": "2026-01-20",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ROCK.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SINI",
+      "start_date": "2026-01-20",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SINI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SPRE",
+      "start_date": "2026-01-20",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SPRE.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BAIK",
+      "start_date": "2026-01-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BAIK.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "HOPE",
+      "start_date": "2026-01-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham HOPE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IBOS",
+      "start_date": "2026-01-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IBOS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "INDS",
+      "start_date": "2026-01-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham INDS.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MGNA",
+      "start_date": "2026-01-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MGNA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "RLCO",
+      "start_date": "2026-01-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham RLCO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "VISI",
+      "start_date": "2026-01-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham VISI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ZATA",
+      "start_date": "2026-01-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ZATA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BELL",
+      "start_date": "2026-01-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BELL.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ENZO",
+      "start_date": "2026-01-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ENZO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MKAP",
+      "start_date": "2026-01-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MKAP.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PBSA",
+      "start_date": "2026-01-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PBSA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "AIMS",
+      "start_date": "2026-01-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham AIMS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IBOS",
+      "start_date": "2026-01-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IBOS.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NATO",
+      "start_date": "2026-01-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NATO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TIRT",
+      "start_date": "2026-01-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TIRT.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "VISI",
+      "start_date": "2026-01-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham VISI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BLUE",
+      "start_date": "2026-01-27",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BLUE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ENZO",
+      "start_date": "2026-01-27",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ENZO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "INAI",
+      "start_date": "2026-01-28",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham INAI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LMPI",
+      "start_date": "2026-01-28",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LMPI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PLAN",
+      "start_date": "2026-01-28",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PLAN.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "STAR",
+      "start_date": "2026-01-29",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham STAR.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LION",
+      "start_date": "2026-02-10",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LION.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "EURO",
+      "start_date": "2026-02-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham EURO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NZIA",
+      "start_date": "2026-02-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NZIA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LUCY",
+      "start_date": "2026-02-20",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LUCY.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TAMA",
+      "start_date": "2026-03-03",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TAMA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "AGII",
+      "start_date": "2026-03-05",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham AGII.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IFSH",
+      "start_date": "2026-03-05",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham IFSH.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TAMA",
+      "start_date": "2026-03-05",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TAMA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ALKA",
+      "start_date": "2026-03-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ALKA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ASPR",
+      "start_date": "2026-04-01",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ASPR.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "YPAS",
+      "start_date": "2026-04-07",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham YPAS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "YPAS",
+      "start_date": "2026-04-09",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham YPAS.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "EURO",
+      "start_date": "2026-04-15",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham EURO.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BAPA",
+      "start_date": "2026-04-21",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BAPA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MDIA",
+      "start_date": "2026-04-23",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MDIA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BAIK",
+      "start_date": "2026-04-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BAIK.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "WBSA",
+      "start_date": "2026-04-24",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham WBSA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "KING",
+      "start_date": "2026-04-28",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham KING.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BOBA",
+      "start_date": "2026-04-29",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BOBA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BAPA",
+      "start_date": "2026-04-30",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BAPA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MSIE",
+      "start_date": "2026-05-05",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MSIE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BKDP",
+      "start_date": "2026-05-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BKDP.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MMIX",
+      "start_date": "2026-06-04",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MMIX.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "FORU",
+      "start_date": "2026-06-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham FORU.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "AGAR",
+      "start_date": "2026-07-22",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham AGAR.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ALKA",
+      "start_date": "2026-07-29",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ALKA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BKDP",
+      "start_date": "2026-07-29",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BKDP.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "RGAS",
+      "start_date": "2026-07-30",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham RGAS.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BAJA",
+      "start_date": "2026-08-04",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BAJA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MDIA",
+      "start_date": "2026-08-05",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MDIA.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TRUK",
+      "start_date": "2026-08-11",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TRUK.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "MDIA",
+      "start_date": "2026-08-13",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham MDIA.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "AGAR",
+      "start_date": "2026-08-19",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham AGAR.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "BEEF",
+      "start_date": "2026-08-19",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham BEEF.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "DOOH",
+      "start_date": "2026-08-19",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham DOOH.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "YPAS",
+      "start_date": "2026-08-19",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham YPAS.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "EKAD",
+      "start_date": "2026-08-27",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham EKAD.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PACK",
+      "start_date": "2026-08-27",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PACK.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TMPO",
+      "start_date": "2026-08-27",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TMPO.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "CSMI",
+      "start_date": "2026-08-28",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham CSMI.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PACK",
+      "start_date": "2026-09-01",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PACK.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LIFE",
+      "start_date": "2026-09-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LIFE.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "PPGL",
+      "start_date": "2026-09-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham PPGL.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "SAFE",
+      "start_date": "2026-09-02",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham SAFE.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "ASLI",
+      "start_date": "2026-09-04",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham ASLI.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "LIFE",
+      "start_date": "2026-09-04",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham LIFE.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "NICK",
+      "start_date": "2026-09-04",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham NICK.JK, dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "TRUK",
+      "start_date": "2026-09-04",
+      "reason": "Terjadinya peningkatan harga kumulatif yang signifikan pada saham TRUK.JK",
+      "matched_keywords": [
+        "peningkatan harga"
+      ],
+      "is_positive": true
+    },
+    {
+      "symbol": "IPPE",
+      "start_date": "2024-09-06",
+      "reason": "Suspend more than 6 month",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "PPRO",
+      "start_date": "2024-10-15",
+      "reason": "Suspend more than 6 month",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "ALMI",
+      "start_date": "2024-10-30",
+      "reason": "Suspend more than 6 month",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "TELE",
+      "start_date": "2024-12-27",
+      "reason": "Suspend more than 6 month",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "KARW",
+      "start_date": "2025-01-14",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "BRRC",
+      "start_date": "2025-01-20",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "TIRT",
+      "start_date": "2025-01-21",
+      "reason": "Bursa menilai bahwa terdapat keraguan atas kelangsungan usaha perseroan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "BRRC",
+      "start_date": "2025-01-30",
+      "reason": "Terjadinya penurunan harga kumulatif yang signifikan pada saham BRRC.JK",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "KSIX",
+      "start_date": "2025-01-30",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "BCIC",
+      "start_date": "2025-01-31",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "DART",
+      "start_date": "2025-01-31",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "FASW",
+      "start_date": "2025-01-31",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "FISH",
+      "start_date": "2025-01-31",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "GGRP",
+      "start_date": "2025-01-31",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "LMSH",
+      "start_date": "2025-01-31",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "MFMI",
+      "start_date": "2025-01-31",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "MTSM",
+      "start_date": "2025-01-31",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "MYTX",
+      "start_date": "2025-01-31",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "PLIN",
+      "start_date": "2025-01-31",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "RSGK",
+      "start_date": "2025-01-31",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "SMCB",
+      "start_date": "2025-01-31",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "WICO",
+      "start_date": "2025-01-31",
+      "reason": "Suspend more than 6 month",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "RCCC",
+      "start_date": "2025-02-12",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "ZINC",
+      "start_date": "2025-02-13",
+      "reason": "Perseroan telah menunda pembayaran amortisasi pokok ke-12 dan bunga ke-24 dari Obligasi I Kapuas Prima Coal Tahun 2018 (ZINC01E) yang seharusnya efektif dibayarkan pada tanggal 13 Februari 2025",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "BEBS",
+      "start_date": "2025-02-17",
+      "reason": "Keterlambatan pembayaran biaya pencatatan tahunan 2025",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "GPSO",
+      "start_date": "2025-02-17",
+      "reason": "Keterlambatan pembayaran biaya pencatatan tahunan 2025",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "HOMI",
+      "start_date": "2025-02-17",
+      "reason": "Keterlambatan pembayaran biaya pencatatan tahunan 2025",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "LCKM",
+      "start_date": "2025-02-17",
+      "reason": "Keterlambatan pembayaran biaya pencatatan tahunan 2025",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "MGLV",
+      "start_date": "2025-02-17",
+      "reason": "Keterlambatan pembayaran biaya pencatatan tahunan 2025",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "PTDU",
+      "start_date": "2025-02-17",
+      "reason": "Keterlambatan pembayaran biaya pencatatan tahunan 2025",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "WMUU",
+      "start_date": "2025-02-17",
+      "reason": "Keterlambatan pembayaran biaya pencatatan tahunan 2025",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "WIKA",
+      "start_date": "2025-02-18",
+      "reason": "Suspend more than 6 month",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "KAQI",
+      "start_date": "2025-03-24",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "FORU",
+      "start_date": "2025-03-25",
+      "reason": "Terjadinya penurunan harga kumulatif yang signifikan pada saham FORU.JK",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "HITS",
+      "start_date": "2025-03-26",
+      "reason": "Terdapat rencana perubahan status Perseroan dari Perusahaan Terbuka menjadi Perusahaan Tertutup (Go Private) dan rencana voluntary delisting saham Perseroan di Bursa Efek Indonesia.",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "FREN",
+      "start_date": "2025-04-15",
+      "reason": "Perseroan akan melakukan tindakan korporasi berupa penggabungan usaha yang akan mengakibatkan saham Perseroan menjadi tidak tercatat di Bursa",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "MEJA",
+      "start_date": "2025-04-30",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "SUPR",
+      "start_date": "2025-04-30",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "MEJA",
+      "start_date": "2025-05-14",
+      "reason": "Terjadinya penurunan harga kumulatif yang signifikan pada saham MEJA.JK",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "DKHH",
+      "start_date": "2025-05-21",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "AKKU",
+      "start_date": "2025-06-30",
+      "reason": "Belum menyampaikan laporan keuangan auditan tahunan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "ALTO",
+      "start_date": "2025-06-30",
+      "reason": "Belum menyampaikan laporan keuangan auditan tahunan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "DADA",
+      "start_date": "2025-06-30",
+      "reason": "Belum menyampaikan laporan keuangan auditan tahunan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "KAEF",
+      "start_date": "2025-06-30",
+      "reason": "Belum menyampaikan laporan keuangan auditan tahunan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "KJEN",
+      "start_date": "2025-06-30",
+      "reason": "Belum menyampaikan laporan keuangan auditan tahunan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "KOPI",
+      "start_date": "2025-06-30",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "MTFN",
+      "start_date": "2025-06-30",
+      "reason": "Belum menyampaikan laporan keuangan auditan tahunan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "OASA",
+      "start_date": "2025-06-30",
+      "reason": "Belum menyampaikan laporan keuangan auditan tahunan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "PMMP",
+      "start_date": "2025-06-30",
+      "reason": "Belum menyampaikan laporan keuangan auditan tahunan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "PTDU",
+      "start_date": "2025-06-30",
+      "reason": "Belum menyampaikan laporan keuangan auditan tahunan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "RAFI",
+      "start_date": "2025-06-30",
+      "reason": "Belum menyampaikan laporan keuangan auditan tahunan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "SQMI",
+      "start_date": "2025-06-30",
+      "reason": "Belum menyampaikan laporan keuangan auditan tahunan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "SWAT",
+      "start_date": "2025-06-30",
+      "reason": "Belum menyampaikan laporan keuangan auditan tahunan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "ZBRA",
+      "start_date": "2025-06-30",
+      "reason": "Belum menyampaikan laporan keuangan auditan tahunan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "AMMS",
+      "start_date": "2025-07-01",
+      "reason": "Belum menyampaikan laporan keuangan auditan tahunan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "DKHH",
+      "start_date": "2025-07-07",
+      "reason": "Terjadinya penurunan harga kumulatif yang signifikan pada saham DKHH.JK",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "MTSM",
+      "start_date": "2025-07-11",
+      "reason": "Efek Perseroan telah berada dalam papan pemantauan khusus selama lebih dari 1 (satu) tahun berturut-turut",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "CSMI",
+      "start_date": "2025-07-16",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "HDTX",
+      "start_date": "2025-07-17",
+      "reason": "Dalam rangka pengalihan saham hasil pelaksanaan pembelian kembali saham (buyback) dalam rangka delisting perseroan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "HDTX",
+      "start_date": "2025-07-18",
+      "reason": "Dalam rangka pengalihan saham hasil pelaksanaan pembelian kembali saham (buyback) dalam rangka delisting perseroan",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "MFIN",
+      "start_date": "2025-07-18",
+      "reason": "Terjadinya penurunan harga kumulatif yang signifikan pada saham MFIN.JK",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "ASLI",
+      "start_date": "2025-07-30",
+      "reason": "Belum menyampaikan laporan keuangan interim per 31 maret 2025 dan/atau belum melakukan pembayaran denda atas keterlambatan penyampaian laporan keuangan tersebut",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "MTFN",
+      "start_date": "2025-07-30",
+      "reason": "Belum menyampaikan laporan keuangan interim per 31 maret 2025 dan/atau belum melakukan pembayaran denda atas keterlambatan penyampaian laporan keuangan tersebut",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "KIAS",
+      "start_date": "2025-07-31",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "CSMI",
+      "start_date": "2025-08-13",
+      "reason": "Terjadinya penurunan harga kumulatif yang signifikan pada saham CSMI.JK",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "FIMP",
+      "start_date": "2025-08-13",
+      "reason": "Efek Perseroan telah berada dalam papan pemantauan khusus selama lebih dari 1 (satu) tahun berturut-turut",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "ZBRA",
+      "start_date": "2025-08-19",
+      "reason": "Sehubungan dengan adanya ketidakpastian atas kelangsungan usaha",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "FASW",
+      "start_date": "2025-09-30",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "KIAS",
+      "start_date": "2025-09-30",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "LMSH",
+      "start_date": "2025-09-30",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "MFMI",
+      "start_date": "2025-09-30",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "MTSM",
+      "start_date": "2025-09-30",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "MYTX",
+      "start_date": "2025-09-30",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "PLIN",
+      "start_date": "2025-09-30",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "RSGK",
+      "start_date": "2025-09-30",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "SMCB",
+      "start_date": "2025-09-30",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "SUPR",
+      "start_date": "2025-09-30",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "WICO",
+      "start_date": "2025-09-30",
+      "reason": "Belum memenuhi ketentuan V.1.1. dan/atau V.1.2. peraturan bursa nomor I-A",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "DEFI",
+      "start_date": "2025-10-07",
+      "reason": "Terjadinya penurunan harga kumulatif yang signifikan pada saham DEFI.JK",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "GLOB",
+      "start_date": "2025-10-27",
+      "reason": "Suspend more than 6 month",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "DPNS",
+      "start_date": "2025-10-31",
+      "reason": "Sehubungan dengan adanya ketidakpastian atas kelangsungan usaha",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "MTPS",
+      "start_date": "2025-11-05",
+      "reason": "Efek Perseroan telah berada dalam papan pemantauan khusus selama lebih dari 1 (satu) tahun berturut-turut",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "INRU",
+      "start_date": "2025-12-17",
+      "reason": "Sehubungan dengan adanya ketidakpastian atas kelangsungan usaha",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "ZBRA",
+      "start_date": "2026-01-22",
+      "reason": "Sehubungan dengan adanya ketidakpastian atas kelangsungan usaha",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "HILL",
+      "start_date": "2026-02-20",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "SSTM",
+      "start_date": "2026-03-17",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "MLPT",
+      "start_date": "2026-03-27",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "FITT",
+      "start_date": "2026-03-31",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "UDNG",
+      "start_date": "2026-04-07",
+      "reason": "Terjadinya penurunan harga kumulatif yang signifikan pada saham UDNG.JK",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "BIMA",
+      "start_date": "2026-04-09",
+      "reason": "Efek Perseroan telah berada dalam papan pemantauan khusus selama lebih dari 1 (satu) tahun berturut-turut",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "POLY",
+      "start_date": "2026-04-09",
+      "reason": "Efek Perseroan telah berada dalam papan pemantauan khusus selama lebih dari 1 (satu) tahun berturut-turut",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "ZINC",
+      "start_date": "2026-04-10",
+      "reason": "Efek Perseroan telah berada dalam papan pemantauan khusus selama lebih dari 1 (satu) tahun berturut-turut",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "ZINC",
+      "start_date": "2026-05-05",
+      "reason": "Efek Perseroan telah berada dalam papan pemantauan khusus selama lebih dari 1 (satu) tahun berturut-turut",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "SHIP",
+      "start_date": "2026-05-20",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "SHIP",
+      "start_date": "2026-06-09",
+      "reason": "Terjadinya penurunan harga kumulatif yang signifikan pada saham SHIP.JK",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "IFSH",
+      "start_date": "2026-06-10",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "FLMC",
+      "start_date": "2026-06-24",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "FLMC",
+      "start_date": "2026-07-03",
+      "reason": "Terjadinya penurunan harga kumulatif yang signifikan pada saham FLMC.JK",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "LUCY",
+      "start_date": "2026-07-17",
+      "reason": "Dalam rangka cooling down sebagai bentuk perlindungan bagi investor",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "COAL",
+      "start_date": "2026-08-12",
+      "reason": "Sehubungan dengan adanya ketidakpastian atas kelangsungan usaha",
+      "matched_keywords": [],
+      "is_positive": false
+    },
+    {
+      "symbol": "INCF",
+      "start_date": "2026-08-12",
+      "reason": "Sehubungan dengan adanya ketidakpastian atas kelangsungan usaha",
+      "matched_keywords": [],
+      "is_positive": false
+    }
+  ]
+}

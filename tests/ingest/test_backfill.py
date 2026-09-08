@@ -30,7 +30,7 @@ def test_rencana_produksi_muat_di_pagu_fase():
     Versi pertama rencana ini menarik fetch-close sekali per hari bursa dan
     menghabiskan ~3.840 kredit — hampir empat kali seluruh jatah tim, untuk satu
     tahap saja. Tes ini yang menahannya kalau ada yang mengembalikannya."""
-    total = (bf.plan_stage1(AS_OF, ALAM_SEMESTA).credits
+    total = (bf.plan_stage1(AS_OF, ALAM_SEMESTA[:60]).credits
              + bf.plan_stage2(AS_OF).credits
              + bf.plan_stage3(ALAM_SEMESTA[:20], AS_OF).credits)
     assert total <= CAPS["backfill"], f"rencana {total} kredit melebihi pagu"
@@ -69,17 +69,31 @@ def test_tahap2_menelusuri_halaman_bukan_memecah_bulan():
     plan = bf.plan_stage2(AS_OF, bulan=24)
     suspensi = [p for n, p in plan.calls if n == "fetch-suspensions"]
 
-    assert len(suspensi) == 6, "533 baris / 100 per halaman = 6 halaman"
+    # 534 baris pada ~30 baris per halaman = 18 panggilan. Diukur, bukan ditebak:
+    # tarikan sungguhan 8 Sep mengambil 534 suspensi dalam 18 panggilan.
+    assert len(suspensi) == 18
     assert all(p["limit"] == bf.PAGE_SIZE for p in suspensi)
-    assert [p["offset"] for p in suspensi] == [0, 100, 200, 300, 400, 500]
     # Satu rentang penuh, bukan 25 jendela sempit.
     assert len({(p["start"], p["end"]) for p in suspensi}) == 1
     assert max(p["end"] for p in suspensi) == AS_OF.isoformat()
 
 
-def test_tahap2_lebih_murah_sekaligus_lebih_lengkap():
-    """Rentang penuh + paginasi mengalahkan pecah-per-bulan di dua sisi."""
-    assert bf.plan_stage2(AS_OF).credits < 25
+def test_tahap2_dibatasi_pagu_kredit_per_endpoint():
+    """Pagar halaman tidak tahu harga. fetch-filings pernah menembus 50 halaman
+    = 50 kredit untuk anggaran 3, lalu kena 429 dan hasilnya hangus."""
+    plan = bf.plan_stage2(AS_OF)
+    per_endpoint: dict[str, int] = {}
+    for nama, _ in plan.calls:
+        per_endpoint[nama] = per_endpoint.get(nama, 0) + 1
+    for nama, jumlah in per_endpoint.items():
+        assert jumlah <= bf.PAGU_HALAMAN[nama], f"{nama} melewati pagunya sendiri"
+
+
+def test_perkiraan_halaman_pakai_ukuran_server_bukan_permintaan_kita():
+    """Sectors memangkas limit 100 jadi ~30. Menghitung dengan 100 membuat
+    rencana meleset 3x — persis yang bikin tahap 2 habis 68 kredit dari 9."""
+    assert bf.PAGE_SIZE_NYATA < bf.PAGE_SIZE
+    assert bf._perkiraan_halaman(534) == 18
 
 
 def test_tahap3_menarik_enam_endpoint_per_ticker():

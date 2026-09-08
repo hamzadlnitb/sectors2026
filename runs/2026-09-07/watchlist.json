@@ -1,0 +1,15 @@
+{
+  "as_of": "2026-09-07",
+  "generated_at": "2026-09-08T13:11:05+00:00",
+  "credits_spent": 0,
+  "rows_written": {
+    "fetch-most-traded-stocks": 10,
+    "fetch-companies-top-changes": 20,
+    "fetch-filings": 14
+  },
+  "skipped": [],
+  "failures": [
+    "fetch-suspensions: respons 'fetch-suspensions' tidak sesuai skema: tidak ada baris yang bisa dibaca (payload dict)\n  cuplikan: {\"results\": [], \"pagination\": {\"total_count\": 0, \"showing\": 0, \"limit\": 20, \"offset\": 0, \"has_next\": false, \"has_previous\": false, \"next_offset\": null, \"previous_offset\": null}}"
+  ],
+  "candidates": []
+}

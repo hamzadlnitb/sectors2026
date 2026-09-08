@@ -7,9 +7,8 @@ sudah menarik 24 bulan — dan Angka 1 dihitung dari 4% data tanpa ada yang sada
 
 from __future__ import annotations
 
-import pytest
-
 from core.sectors.client import CreditAwareClient
+from core.sectors.errors import TransportAttemptError
 from core.sectors.ledger import CreditLedger
 
 
@@ -34,7 +33,8 @@ class HalamanTransport:
 
     def fetch(self, endpoint, params):
         offset = int(params.get("offset", 0))
-        limit = int(params.get("limit", self.per_halaman))
+        # Server berhak memangkas limit yang diminta — Sectors memang begitu.
+        limit = min(int(params.get("limit", self.per_halaman)), self.per_halaman)
         self.offsets.append(offset)
         baris = [
             {"symbol": _ticker(i),
@@ -102,14 +102,53 @@ def test_offset_yang_tidak_maju_dihentikan(tmp_path):
 
 
 def test_pagu_tetap_ditegakkan_di_tengah_penelusuran(tmp_path):
-    """Paginasi bukan jalan pintas melewati pagu kredit."""
-    from core.sectors.errors import BudgetExceeded
+    """Paginasi bukan jalan pintas melewati pagu kredit.
 
+    Pagu yang tertembus MENGHENTIKAN penelusuran, tapi tidak membuang halaman
+    yang sudah dibayar. Versi pertama melempar exception dan menghanguskan
+    seluruh hasil — 50 kredit terbakar untuk nol baris, sungguhan, 8 Sep."""
     t = HalamanTransport(total=1_000, per_halaman=100)
     client = buat(tmp_path, t, cap=3)
-    with pytest.raises(BudgetExceeded):
-        client.paginate("fetch-suspensions", {}, max_pages=50)
-    assert client.ledger.spent("dev") == 3
+
+    rows, credits = client.paginate("fetch-suspensions", {}, max_pages=50)
+
+    assert client.ledger.spent("dev") == 3, "pagu tetap ditegakkan"
+    assert credits == 3
+    assert len(rows) == 300, "tiga halaman yang sudah dibayar tetap terpakai"
+
+
+def test_halaman_gagal_tidak_menghanguskan_yang_sudah_dibayar(tmp_path):
+    """Kejadian nyata: fetch-filings kena 429 di halaman ke-51 dan seluruh 50
+    halaman sebelumnya hilang bersama exception-nya."""
+    class Rewel(HalamanTransport):
+        def fetch(self, endpoint, params):
+            if int(params.get("offset", 0)) >= 200:
+                raise TransportAttemptError("HTTP 429", retryable=False, status=429)
+            return super().fetch(endpoint, params)
+
+    client = buat(tmp_path, Rewel(total=1_000, per_halaman=100))
+    rows, credits = client.paginate("fetch-suspensions", {}, max_pages=50)
+
+    assert len(rows) == 200 and credits == 2
+    assert client.ledger.spent("dev") == 2
+
+
+def test_pagu_kredit_menghentikan_paginasi_yang_kepanjangan(tmp_path):
+    """Pagar halaman tidak tahu harga. 50 halaman = 50 kredit untuk rencana yang
+    menganggarkan 3, dan tidak ada peringatan sampai ledger dibaca."""
+    t = HalamanTransport(total=10_000, per_halaman=100)
+    rows, credits = buat(tmp_path, t).paginate(
+        "fetch-suspensions", {}, max_pages=50, max_credits=4)
+    assert credits == 4 and len(rows) == 400
+
+
+def test_limit_yang_dipangkas_server_diikuti(tmp_path):
+    """Sectors memangkas limit 100 jadi ~20. Memakai angka kita sendiri membuat
+    perkiraan halaman meleset berlipat, dan itu yang bikin anggaran jebol."""
+    t = HalamanTransport(total=60, per_halaman=20)
+    rows, credits = buat(tmp_path, t).paginate("fetch-suspensions", {}, page_size=100)
+    assert len(rows) == 60
+    assert credits == 3, "60 baris / 20 per halaman = 3 panggilan"
 
 
 def test_halaman_kedua_kena_cache_saat_diulang(tmp_path):
