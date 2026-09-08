@@ -458,16 +458,19 @@ class CreditAwareClient:
             if not blok or not blok.get("has_next"):
                 break
 
-            # Server berhak MENGABAIKAN limit yang kita minta. Sectors memangkas
-            # 100 jadi ~20-30, jadi jumlah halaman sebenarnya bisa berlipat dari
-            # perkiraan. Ikuti angka server, jangan angka kita.
+            # Server berhak MENGABAIKAN limit yang kita minta — Sectors memangkas
+            # 100 jadi ~30. Dilaporkan saja, JANGAN dipakai mengubah permintaan
+            # berikutnya: cache permanen berkunci (endpoint, params), jadi limit
+            # yang berubah di tengah membuat seluruh halaman berikutnya jadi
+            # kunci baru dan DIBAYAR ULANG. Pernah terjadi: 17 kredit hangus
+            # untuk suspensi yang sudah ada di cache. Yang menuntun kita ke
+            # halaman berikutnya adalah next_offset dari server, bukan aritmetika
+            # kita sendiri, jadi ukuran halaman memang tidak perlu kita ketahui.
             nyata = blok.get("limit")
-            if isinstance(nyata, int) and 0 < nyata < page_size:
-                if halaman == 0:
-                    log.info("'%s' memangkas limit %d -> %d; perkiraan halaman "
-                             "dikoreksi ke %s", endpoint, page_size, nyata,
-                             blok.get("total_count", "?"))
-                page_size = nyata
+            if halaman == 0 and isinstance(nyata, int) and 0 < nyata < page_size:
+                log.info("'%s' memangkas limit %d -> %d (total %s); perkiraan "
+                         "halaman di rencana harus memakai angka server",
+                         endpoint, page_size, nyata, blok.get("total_count", "?"))
 
             lanjut = blok.get("next_offset")
             if not isinstance(lanjut, int) or lanjut <= offset:

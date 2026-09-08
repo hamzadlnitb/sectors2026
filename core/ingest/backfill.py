@@ -71,6 +71,7 @@ ALASAN_POSITIF = (
 
 # Tier-2 yang ditarik untuk tiap ticker di himpunan positif + kontrol.
 TIER2_PER_TICKER = (
+    "fetch-filings",
     "fetch-daily-transaction",
     "fetch-broker-summary-top",
     "fetch-foreign-flow",
@@ -80,6 +81,7 @@ TIER2_PER_TICKER = (
 )
 
 TABEL_TIER2 = {
+    "fetch-filings": "filings",
     "fetch-daily-transaction": "daily_transaction",
     "fetch-broker-summary-top": "broker_summary",
     "fetch-foreign-flow": "foreign_flow",
@@ -191,12 +193,19 @@ panggilan. Perkiraan halaman WAJIB memakai angka ini; memakai PAGE_SIZE membuat
 rencana meleset 3x dan itulah yang bikin tahap 2 menghabiskan 68 kredit untuk
 anggaran 9."""
 
-PAGU_HALAMAN = {"fetch-suspensions": 25, "fetch-filings": 25}
+PAGU_HALAMAN = {"fetch-suspensions": 25}
 """Pagu kredit per endpoint saat menelusuri halaman. Pagar halaman saja tidak
 tahu harga: fetch-filings pernah menembus 50 halaman = 50 kredit tanpa
 peringatan, lalu kena 429 dan hasilnya hangus."""
 
-BERPAGINASI = ("fetch-suspensions", "fetch-filings")
+BERPAGINASI = ("fetch-suspensions",)
+"""Hanya suspensi yang ditarik market-wide.
+
+fetch-filings market-wide 24 bulan diukur berharga ~600 kredit — 75 kredit cuma
+membeli 3 bulan dari 24. Padahal kalibrasi tidak butuh seluruh pasar: yang
+diperlukan filing di sekitar peristiwa, untuk emiten di himpunan positif dan
+kontrolnya saja. Karena itu filings pindah ke tahap 3, per emiten (1 kredit),
+dan sapuan harian tetap menjaga yang berjalan."""
 
 
 def _perkiraan_halaman(total: int, per_halaman: int = PAGE_SIZE_NYATA) -> int:
@@ -206,7 +215,7 @@ def _perkiraan_halaman(total: int, per_halaman: int = PAGE_SIZE_NYATA) -> int:
 # Total baris yang dilaporkan spike 8 Sep untuk rentang 24 bulan. Dipakai untuk
 # MENGANGGARKAN, bukan sebagai kebenaran — jumlah asli akan berbeda saat backfill
 # benar-benar jalan, dan itu tidak apa-apa selama pagu fase tetap ditegakkan.
-TOTAL_TERAMATI = {"fetch-suspensions": 534, "fetch-filings": 750}
+TOTAL_TERAMATI = {"fetch-suspensions": 534}
 
 
 def plan_stage2(as_of: date, bulan: int = BULAN_PERISTIWA) -> Plan:
@@ -239,7 +248,8 @@ def plan_stage3(symbols: list[str], as_of: date, sessions: int = SESI_HARGA) -> 
         for endpoint in TIER2_PER_TICKER:
             params: dict = {"symbol": symbol}
             if endpoint in ("fetch-daily-transaction", "fetch-broker-summary-top",
-                            "fetch-foreign-flow", "fetch-corporate-actions"):
+                            "fetch-foreign-flow", "fetch-corporate-actions",
+                            "fetch-filings"):
                 params |= {"start": mulai, "end": as_of.isoformat()}
             if endpoint == "fetch-quarterly-financials":
                 params |= {"n_quarters": 8}
@@ -366,6 +376,32 @@ TABEL_TAHAP12 = {
 }
 
 
+def _saran_penyempitan(sisa: int, as_of: date, alam_semesta: list[str]) -> str:
+    """Berapa emiten yang MASIH muat di sisa pagu.
+
+    Menolak rencana tanpa memberi angka pengganti cuma memindahkan pekerjaan
+    berhitung ke orang yang sedang buru-buru — dan di situlah kredit terbakar.
+    """
+    per_riwayat = plan_stage1(as_of, ["XXXX"]).credits          # tahap 1 per emiten
+    per_tier2 = plan_stage3(["XXXX"], as_of).credits            # tahap 3 per emiten
+    peristiwa = plan_stage2(as_of).credits
+
+    ruang = max(0, sisa - peristiwa)
+    baris = [
+        "",
+        f"Muat di sisa {sisa} kredit (tahap 2 sudah termasuk {peristiwa}):",
+        f"  riwayat harga saja      : {ruang // per_riwayat} emiten "
+        f"({per_riwayat} kredit/emiten)",
+        f"  riwayat + Tier-2 penuh  : {ruang // (per_riwayat + per_tier2)} emiten "
+        f"({per_riwayat + per_tier2} kredit/emiten)",
+        "",
+        "Persempit dengan --symbols, atau turunkan --sessions.",
+    ]
+    if alam_semesta:
+        baris.append(f"Alam semesta saat ini {len(alam_semesta)} emiten.")
+    return "\n".join(baris)
+
+
 def main(argv: list[str] | None = None) -> int:
     setup_console()
     ap = argparse.ArgumentParser(description="Backfill historis PANTAU (fase backfill, 400 kredit)")
@@ -416,9 +452,11 @@ def main(argv: list[str] | None = None) -> int:
         elif args.stage in (None, 3):
             print("\ntahap 3 belum bisa direncanakan: himpunan positif kosong. "
                   "Jalankan tahap 2 lebih dulu.")
-        if total > ledger.remaining(PHASE):
-            print(f"\n⚠ rencana melebihi sisa pagu {ledger.remaining(PHASE)} kredit — "
-                  f"persempit dengan --sessions atau --symbols")
+        sisa = ledger.remaining(PHASE)
+        if total > sisa:
+            print(f"\n⚠ rencana {total} kredit melebihi sisa pagu {sisa} — dihentikan "
+                  f"sebelum satu panggilan pun keluar.")
+            print(_saran_penyempitan(sisa, args.as_of, alam_semesta))
             return 2
         return 0
 
