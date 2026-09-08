@@ -70,12 +70,15 @@ ALASAN_POSITIF = (
 )
 
 # Tier-2 yang ditarik untuk tiap ticker di himpunan positif + kontrol.
+# fetch-free-float SENGAJA tidak di sini: ia berbayar 1 kredit per 100 emiten dan
+# bisa ditarik TANPA filter symbol, jadi ~10 kredit menutup free float SELURUH
+# IDX sekaligus. Menariknya per emiten berarti membayar 1 kredit untuk satu baris
+# yang sudah termasuk dalam tarikan market-wide. Lihat MARKET_WIDE.
 TIER2_PER_TICKER = (
     "fetch-filings",
     "fetch-daily-transaction",
     "fetch-broker-summary-top",
     "fetch-foreign-flow",
-    "fetch-free-float",
     "fetch-quarterly-financials",
     "fetch-corporate-actions",
 )
@@ -197,6 +200,14 @@ PAGU_HALAMAN = {"fetch-suspensions": 25}
 """Pagu kredit per endpoint saat menelusuri halaman. Pagar halaman saja tidak
 tahu harga: fetch-filings pernah menembus 50 halaman = 50 kredit tanpa
 peringatan, lalu kena 429 dan hasilnya hangus."""
+
+MARKET_WIDE: tuple[tuple[str, dict, str], ...] = (
+    # (endpoint, params, tabel). Ditarik sekali untuk seluruh pasar karena
+    # harganya per-100-emiten, bukan per-emiten.
+    ("fetch-free-float", {}, "free_float"),
+)
+PAGU_MARKET_WIDE = 12
+"""~950 emiten / 100 per kredit = ~10, plus ruang kalau jumlahnya bertambah."""
 
 BERPAGINASI = ("fetch-suspensions",)
 """Hanya suspensi yang ditarik market-wide.
@@ -348,6 +359,20 @@ def execute_paginated(client: CreditAwareClient, wh: Warehouse, as_of: date,
     mulai = _bulan_lalu(as_of, BULAN_PERISTIWA)
     window = {"start": mulai.isoformat(), "end": as_of.isoformat()}
     spent, gagal = 0, []
+
+    for endpoint, params, tabel in MARKET_WIDE:
+        try:
+            rows, credits = client.paginate(
+                endpoint, {**params, **window} if "start" in params else params,
+                page_size=PAGE_SIZE, phase=PHASE, max_credits=PAGU_MARKET_WIDE,
+            )
+        except SectorsError as exc:
+            gagal.append(f"{endpoint}: {exc}")
+        else:
+            spent += credits
+            if rows:
+                wh.write(tabel, rows)
+            print(f"  {endpoint:<24} {len(rows):>5} baris, {credits} kredit (market-wide)")
 
     for endpoint in BERPAGINASI:
         try:
