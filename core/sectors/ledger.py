@@ -24,6 +24,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
 
+from core.console import setup_console
 from core.sectors.errors import BudgetExceeded
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -224,6 +225,7 @@ def report(ledger: CreditLedger | None = None) -> str:
 
 
 def main() -> int:
+    setup_console()
     path = os.environ.get("PANTAU_LEDGER")
     print(report(CreditLedger(Path(path)) if path else None))
     return 0

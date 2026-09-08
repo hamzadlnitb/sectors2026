@@ -127,4 +127,7 @@ def describe() -> str:
 
 
 if __name__ == "__main__":
+    from core.console import setup_console
+
+    setup_console()
     print(describe())
