@@ -31,6 +31,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from core.env import load_env
 from core.sectors import routing
 from core.sectors.errors import (
     SchemaError,
@@ -144,6 +145,9 @@ class CreditAwareClient:
         max_attempts: int = MAX_ATTEMPTS,
         sleep: Any = time.sleep,
     ) -> None:
+        # .env dimuat di sini, bukan di tiap pemanggil: ini satu-satunya pintu
+        # keluar jaringan, jadi ini juga tempat paling pasti kunci dibutuhkan.
+        load_env()
         self.api_key = api_key if api_key is not None else os.environ.get("SECTORS_API_KEY")
         install(self.api_key)  # redaksi dipasang SEBELUM apa pun sempat dicatat
 

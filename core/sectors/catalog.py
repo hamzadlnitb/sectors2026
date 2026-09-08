@@ -29,6 +29,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from contracts.schemas import ToolCatalogEntry  # noqa: E402
+from core.env import load_env  # noqa: E402
 from core.sectors import routing  # noqa: E402
 from core.sectors.redact import get_logger  # noqa: E402
 
@@ -106,6 +107,7 @@ def mcp_tools(api_key: str | None = None, url: str | None = None) -> list[dict]:
 
     from core.sectors.transport_mcp import DEFAULT_MCP_URL, McpTransport
 
+    load_env()
     key = api_key or os.environ.get("SECTORS_API_KEY")
     if not key:
         raise RuntimeError("SECTORS_API_KEY tidak diset — katalog MCP tidak bisa ditarik")

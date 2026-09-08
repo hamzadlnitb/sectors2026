@@ -1,0 +1,7 @@
+{"credits": 1, "endpoint": "fetch-companies-top-changes", "params_hash": "27c9045fc2001fae", "phase": "dev", "run_id": "spike-2026-09-08", "transport": "rest", "ts": "2026-09-08T10:20:39+00:00"}
+{"credits": 1, "endpoint": "fetch-filings", "params_hash": "5660a0585655f5d9", "phase": "dev", "run_id": "spike-2026-09-08", "transport": "rest", "ts": "2026-09-08T10:20:39+00:00"}
+{"credits": 1, "endpoint": "fetch-most-traded-stocks", "params_hash": "ae680cef42be3f86", "phase": "dev", "run_id": "spike-2026-09-08", "transport": "rest", "ts": "2026-09-08T10:20:39+00:00"}
+{"credits": 1, "endpoint": "fetch-suspensions", "params_hash": "ef4ce0319248acc3", "phase": "dev", "run_id": "spike-2026-09-08", "transport": "rest", "ts": "2026-09-08T10:20:40+00:00"}
+{"credits": 2, "endpoint": "fetch-company-report", "params_hash": "5428630138f085d9", "phase": "dev", "run_id": "spike-2026-09-08", "transport": "rest", "ts": "2026-09-08T10:20:40+00:00"}
+{"credits": 1, "endpoint": "fetch-daily-transaction", "params_hash": "495348f25d61355d", "phase": "dev", "run_id": "spike-2026-09-08", "transport": "rest", "ts": "2026-09-08T10:20:40+00:00"}
+{"credits": 2, "endpoint": "fetch-foreign-flow", "params_hash": "fa1af4b84328f8e6", "phase": "dev", "run_id": "spike-2026-09-08", "transport": "rest", "ts": "2026-09-08T10:20:40+00:00"}

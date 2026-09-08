@@ -1,0 +1,1187 @@
+{
+  "params": {
+    "start": "2026-08-09",
+    "end": "2026-09-07",
+    "n_stock": 10
+  },
+  "payload": {
+    "2026-08-10": [
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 4522740900,
+        "price": 187
+      },
+      {
+        "symbol": "IATA.JK",
+        "company_name": "PT MNC Energy Investments Tbk",
+        "volume": 3545148200,
+        "price": 129
+      },
+      {
+        "symbol": "GMFI.JK",
+        "company_name": "PT Garuda Maintenance Facility Aero Asia Tbk",
+        "volume": 2840533700,
+        "price": 71
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 2246211900,
+        "price": 105
+      },
+      {
+        "symbol": "GIAA.JK",
+        "company_name": "Garuda Indonesia (Persero) Tbk",
+        "volume": 1661761800,
+        "price": 72
+      },
+      {
+        "symbol": "JGLE.JK",
+        "company_name": "PT Graha Andrasentra Propertindo Tbk",
+        "volume": 1569601700,
+        "price": 95
+      },
+      {
+        "symbol": "DSSA.JK",
+        "company_name": "Dian Swastatika Sentosa Tbk",
+        "volume": 1255876400,
+        "price": 985
+      },
+      {
+        "symbol": "DEWA.JK",
+        "company_name": "Darma Henwa Tbk",
+        "volume": 907154600,
+        "price": 474
+      },
+      {
+        "symbol": "WMUU.JK",
+        "company_name": "PT Widodo Makmur Unggas Tbk",
+        "volume": 818925800,
+        "price": 59
+      },
+      {
+        "symbol": "KOTA.JK",
+        "company_name": "PT DMS Propertindo Tbk",
+        "volume": 793369500,
+        "price": 178
+      }
+    ],
+    "2026-08-11": [
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 3659733600,
+        "price": 178
+      },
+      {
+        "symbol": "GIAA.JK",
+        "company_name": "Garuda Indonesia (Persero) Tbk",
+        "volume": 3014175500,
+        "price": 77
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 1534833200,
+        "price": 99
+      },
+      {
+        "symbol": "GMFI.JK",
+        "company_name": "PT Garuda Maintenance Facility Aero Asia Tbk",
+        "volume": 1534775700,
+        "price": 62
+      },
+      {
+        "symbol": "JGLE.JK",
+        "company_name": "PT Graha Andrasentra Propertindo Tbk",
+        "volume": 1328649200,
+        "price": 89
+      },
+      {
+        "symbol": "IATA.JK",
+        "company_name": "PT MNC Energy Investments Tbk",
+        "volume": 1275793200,
+        "price": 126
+      },
+      {
+        "symbol": "DEWA.JK",
+        "company_name": "Darma Henwa Tbk",
+        "volume": 927242300,
+        "price": 442
+      },
+      {
+        "symbol": "DSSA.JK",
+        "company_name": "Dian Swastatika Sentosa Tbk",
+        "volume": 685524500,
+        "price": 945
+      },
+      {
+        "symbol": "KOTA.JK",
+        "company_name": "PT DMS Propertindo Tbk",
+        "volume": 558816200,
+        "price": 175
+      },
+      {
+        "symbol": "MDIA.JK",
+        "company_name": "PT Intermedia Capital Tbk",
+        "volume": 521781200,
+        "price": 246
+      }
+    ],
+    "2026-08-12": [
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 2571564600,
+        "price": 185
+      },
+      {
+        "symbol": "IATA.JK",
+        "company_name": "PT MNC Energy Investments Tbk",
+        "volume": 2394718700,
+        "price": 128
+      },
+      {
+        "symbol": "CUAN.JK",
+        "company_name": "PT Petrindo Jaya Kreasi Tbk",
+        "volume": 1709078600,
+        "price": 870
+      },
+      {
+        "symbol": "JGLE.JK",
+        "company_name": "PT Graha Andrasentra Propertindo Tbk",
+        "volume": 1608247700,
+        "price": 93
+      },
+      {
+        "symbol": "KOTA.JK",
+        "company_name": "PT DMS Propertindo Tbk",
+        "volume": 1428293100,
+        "price": 180
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 1396398100,
+        "price": 102
+      },
+      {
+        "symbol": "MDIA.JK",
+        "company_name": "PT Intermedia Capital Tbk",
+        "volume": 994119200,
+        "price": 280
+      },
+      {
+        "symbol": "GIAA.JK",
+        "company_name": "Garuda Indonesia (Persero) Tbk",
+        "volume": 764410700,
+        "price": 74
+      },
+      {
+        "symbol": "DEWA.JK",
+        "company_name": "Darma Henwa Tbk",
+        "volume": 677386200,
+        "price": 466
+      },
+      {
+        "symbol": "DSSA.JK",
+        "company_name": "Dian Swastatika Sentosa Tbk",
+        "volume": 613046700,
+        "price": 1000
+      }
+    ],
+    "2026-08-13": [
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 2182698300,
+        "price": 178
+      },
+      {
+        "symbol": "CUAN.JK",
+        "company_name": "PT Petrindo Jaya Kreasi Tbk",
+        "volume": 1546039600,
+        "price": 840
+      },
+      {
+        "symbol": "KOTA.JK",
+        "company_name": "PT DMS Propertindo Tbk",
+        "volume": 1077143300,
+        "price": 183
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 1034651500,
+        "price": 99
+      },
+      {
+        "symbol": "JGLE.JK",
+        "company_name": "PT Graha Andrasentra Propertindo Tbk",
+        "volume": 673542200,
+        "price": 91
+      },
+      {
+        "symbol": "DSSA.JK",
+        "company_name": "Dian Swastatika Sentosa Tbk",
+        "volume": 655016100,
+        "price": 990
+      },
+      {
+        "symbol": "SLIS.JK",
+        "company_name": "PT Gaya Abadi Sempurna Tbk",
+        "volume": 634576000,
+        "price": 88
+      },
+      {
+        "symbol": "IATA.JK",
+        "company_name": "PT MNC Energy Investments Tbk",
+        "volume": 595074500,
+        "price": 120
+      },
+      {
+        "symbol": "DEWA.JK",
+        "company_name": "Darma Henwa Tbk",
+        "volume": 523309100,
+        "price": 446
+      },
+      {
+        "symbol": "EPAC.JK",
+        "company_name": "PT Megalestari Epack Sentosaraya Tbk",
+        "volume": 480078900,
+        "price": 61
+      }
+    ],
+    "2026-08-14": [
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 2030936400,
+        "price": 181
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 1524304900,
+        "price": 101
+      },
+      {
+        "symbol": "SLIS.JK",
+        "company_name": "PT Gaya Abadi Sempurna Tbk",
+        "volume": 1372923700,
+        "price": 102
+      },
+      {
+        "symbol": "GIAA.JK",
+        "company_name": "Garuda Indonesia (Persero) Tbk",
+        "volume": 1248689100,
+        "price": 76
+      },
+      {
+        "symbol": "CUAN.JK",
+        "company_name": "PT Petrindo Jaya Kreasi Tbk",
+        "volume": 1028444500,
+        "price": 825
+      },
+      {
+        "symbol": "IATA.JK",
+        "company_name": "PT MNC Energy Investments Tbk",
+        "volume": 855699000,
+        "price": 115
+      },
+      {
+        "symbol": "JGLE.JK",
+        "company_name": "PT Graha Andrasentra Propertindo Tbk",
+        "volume": 734096000,
+        "price": 89
+      },
+      {
+        "symbol": "DSSA.JK",
+        "company_name": "Dian Swastatika Sentosa Tbk",
+        "volume": 549559900,
+        "price": 1005
+      },
+      {
+        "symbol": "GMFI.JK",
+        "company_name": "PT Garuda Maintenance Facility Aero Asia Tbk",
+        "volume": 521256200,
+        "price": 59
+      },
+      {
+        "symbol": "TPIA.JK",
+        "company_name": "PT Chandra Asri Pacific Tbk",
+        "volume": 426815200,
+        "price": 2010
+      }
+    ],
+    "2026-08-18": [
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 2230547000,
+        "price": 184
+      },
+      {
+        "symbol": "INET.JK",
+        "company_name": "PT Sinergi Inti Andalan Prima Tbk",
+        "volume": 1587087300,
+        "price": 292
+      },
+      {
+        "symbol": "KIJA.JK",
+        "company_name": "Kawasan Industri Jababeka Tbk",
+        "volume": 1133528600,
+        "price": 166
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 1036648600,
+        "price": 101
+      },
+      {
+        "symbol": "IATA.JK",
+        "company_name": "PT MNC Energy Investments Tbk",
+        "volume": 1007478100,
+        "price": 110
+      },
+      {
+        "symbol": "DMAS.JK",
+        "company_name": "PT Puradelta Lestari Tbk",
+        "volume": 742868000,
+        "price": 161
+      },
+      {
+        "symbol": "DOOH.JK",
+        "company_name": "PT Era Media Sejahtera Tbk",
+        "volume": 741208100,
+        "price": 326
+      },
+      {
+        "symbol": "BIPI.JK",
+        "company_name": "PT Astrindo Nusantara Infrastruktur Tbk.",
+        "volume": 667237300,
+        "price": 151
+      },
+      {
+        "symbol": "BRMS.JK",
+        "company_name": "Bumi Resources Minerals Tbk",
+        "volume": 636028900,
+        "price": 645
+      },
+      {
+        "symbol": "KOTA.JK",
+        "company_name": "PT DMS Propertindo Tbk",
+        "volume": 594986500,
+        "price": 164
+      }
+    ],
+    "2026-08-19": [
+      {
+        "symbol": "KIJA.JK",
+        "company_name": "Kawasan Industri Jababeka Tbk",
+        "volume": 2631879100,
+        "price": 165
+      },
+      {
+        "symbol": "IATA.JK",
+        "company_name": "PT MNC Energy Investments Tbk",
+        "volume": 1760794600,
+        "price": 125
+      },
+      {
+        "symbol": "INET.JK",
+        "company_name": "PT Sinergi Inti Andalan Prima Tbk",
+        "volume": 1670712500,
+        "price": 288
+      },
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 1046473100,
+        "price": 182
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 919404400,
+        "price": 100
+      },
+      {
+        "symbol": "PIPA.JK",
+        "company_name": "PT Multi Makmur Lemindo Tbk",
+        "volume": 916243300,
+        "price": 143
+      },
+      {
+        "symbol": "JGLE.JK",
+        "company_name": "PT Graha Andrasentra Propertindo Tbk",
+        "volume": 859395100,
+        "price": 90
+      },
+      {
+        "symbol": "APLN.JK",
+        "company_name": "PT Agung Podomoro Land Tbk.",
+        "volume": 780648200,
+        "price": 145
+      },
+      {
+        "symbol": "BKSL.JK",
+        "company_name": "Sentul City Tbk",
+        "volume": 774174100,
+        "price": 79
+      },
+      {
+        "symbol": "BAIK.JK",
+        "company_name": "PT Bersama Mencapai Puncak Tbk.",
+        "volume": 613252800,
+        "price": 340
+      }
+    ],
+    "2026-08-20": [
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 3546576700,
+        "price": 190
+      },
+      {
+        "symbol": "KIJA.JK",
+        "company_name": "Kawasan Industri Jababeka Tbk",
+        "volume": 2514070100,
+        "price": 206
+      },
+      {
+        "symbol": "BWPT.JK",
+        "company_name": "Eagle High Plantations Tbk",
+        "volume": 2117744700,
+        "price": 112
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 2023908100,
+        "price": 104
+      },
+      {
+        "symbol": "INET.JK",
+        "company_name": "PT Sinergi Inti Andalan Prima Tbk",
+        "volume": 914722800,
+        "price": 314
+      },
+      {
+        "symbol": "IATA.JK",
+        "company_name": "PT MNC Energy Investments Tbk",
+        "volume": 885891200,
+        "price": 120
+      },
+      {
+        "symbol": "WEGE.JK",
+        "company_name": "PT Wijaya Karya Bangunan Gedung Tbk",
+        "volume": 885115600,
+        "price": 62
+      },
+      {
+        "symbol": "JGLE.JK",
+        "company_name": "PT Graha Andrasentra Propertindo Tbk",
+        "volume": 854198300,
+        "price": 91
+      },
+      {
+        "symbol": "BRMS.JK",
+        "company_name": "Bumi Resources Minerals Tbk",
+        "volume": 829146100,
+        "price": 685
+      },
+      {
+        "symbol": "BULL.JK",
+        "company_name": "PT Buana Lintas Lautan Tbk.",
+        "volume": 732242600,
+        "price": 462
+      }
+    ],
+    "2026-08-21": [
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 6243279400,
+        "price": 196
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 3605052500,
+        "price": 103
+      },
+      {
+        "symbol": "KIJA.JK",
+        "company_name": "Kawasan Industri Jababeka Tbk",
+        "volume": 1673195400,
+        "price": 200
+      },
+      {
+        "symbol": "KOTA.JK",
+        "company_name": "PT DMS Propertindo Tbk",
+        "volume": 1258620900,
+        "price": 167
+      },
+      {
+        "symbol": "PIPA.JK",
+        "company_name": "PT Multi Makmur Lemindo Tbk",
+        "volume": 1086574500,
+        "price": 179
+      },
+      {
+        "symbol": "BIPI.JK",
+        "company_name": "PT Astrindo Nusantara Infrastruktur Tbk.",
+        "volume": 1085799900,
+        "price": 152
+      },
+      {
+        "symbol": "INET.JK",
+        "company_name": "PT Sinergi Inti Andalan Prima Tbk",
+        "volume": 1018267500,
+        "price": 330
+      },
+      {
+        "symbol": "PADI.JK",
+        "company_name": "Minna Padi Investama Sekuritas Tbk",
+        "volume": 1004949400,
+        "price": 72
+      },
+      {
+        "symbol": "PACK.JK",
+        "company_name": "PT Abadi Nusantara Hijau Investama Tbk",
+        "volume": 767834600,
+        "price": 386
+      },
+      {
+        "symbol": "BWPT.JK",
+        "company_name": "Eagle High Plantations Tbk",
+        "volume": 728930300,
+        "price": 111
+      }
+    ],
+    "2026-08-24": [
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 3431299700,
+        "price": 194
+      },
+      {
+        "symbol": "PADI.JK",
+        "company_name": "Minna Padi Investama Sekuritas Tbk",
+        "volume": 2437224700,
+        "price": 78
+      },
+      {
+        "symbol": "KIJA.JK",
+        "company_name": "Kawasan Industri Jababeka Tbk",
+        "volume": 1328923700,
+        "price": 206
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 1235763300,
+        "price": 101
+      },
+      {
+        "symbol": "PIPA.JK",
+        "company_name": "PT Multi Makmur Lemindo Tbk",
+        "volume": 1035372700,
+        "price": 204
+      },
+      {
+        "symbol": "INET.JK",
+        "company_name": "PT Sinergi Inti Andalan Prima Tbk",
+        "volume": 908182100,
+        "price": 330
+      },
+      {
+        "symbol": "RGAS.JK",
+        "company_name": "PT Kian Santang Muliatama Tbk",
+        "volume": 723820900,
+        "price": 232
+      },
+      {
+        "symbol": "DMAS.JK",
+        "company_name": "PT Puradelta Lestari Tbk",
+        "volume": 680644800,
+        "price": 177
+      },
+      {
+        "symbol": "PACK.JK",
+        "company_name": "PT Abadi Nusantara Hijau Investama Tbk",
+        "volume": 580208800,
+        "price": 424
+      },
+      {
+        "symbol": "DSSA.JK",
+        "company_name": "Dian Swastatika Sentosa Tbk",
+        "volume": 568464500,
+        "price": 1065
+      }
+    ],
+    "2026-08-26": [
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 2738635400,
+        "price": 184
+      },
+      {
+        "symbol": "RGAS.JK",
+        "company_name": "PT Kian Santang Muliatama Tbk",
+        "volume": 1728083000,
+        "price": 268
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 1567166000,
+        "price": 95
+      },
+      {
+        "symbol": "PADI.JK",
+        "company_name": "Minna Padi Investama Sekuritas Tbk",
+        "volume": 1210048700,
+        "price": 71
+      },
+      {
+        "symbol": "KIJA.JK",
+        "company_name": "Kawasan Industri Jababeka Tbk",
+        "volume": 906076200,
+        "price": 183
+      },
+      {
+        "symbol": "JGLE.JK",
+        "company_name": "PT Graha Andrasentra Propertindo Tbk",
+        "volume": 882642800,
+        "price": 77
+      },
+      {
+        "symbol": "IATA.JK",
+        "company_name": "PT MNC Energy Investments Tbk",
+        "volume": 736085900,
+        "price": 108
+      },
+      {
+        "symbol": "INET.JK",
+        "company_name": "PT Sinergi Inti Andalan Prima Tbk",
+        "volume": 675532500,
+        "price": 306
+      },
+      {
+        "symbol": "DSSA.JK",
+        "company_name": "Dian Swastatika Sentosa Tbk",
+        "volume": 630191200,
+        "price": 1070
+      },
+      {
+        "symbol": "BIPI.JK",
+        "company_name": "PT Astrindo Nusantara Infrastruktur Tbk.",
+        "volume": 607803800,
+        "price": 137
+      }
+    ],
+    "2026-08-27": [
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 2732850200,
+        "price": 194
+      },
+      {
+        "symbol": "KIJA.JK",
+        "company_name": "Kawasan Industri Jababeka Tbk",
+        "volume": 2164497500,
+        "price": 218
+      },
+      {
+        "symbol": "INET.JK",
+        "company_name": "PT Sinergi Inti Andalan Prima Tbk",
+        "volume": 1561585100,
+        "price": 350
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 1304902700,
+        "price": 101
+      },
+      {
+        "symbol": "KOTA.JK",
+        "company_name": "PT DMS Propertindo Tbk",
+        "volume": 1159742900,
+        "price": 170
+      },
+      {
+        "symbol": "BIPI.JK",
+        "company_name": "PT Astrindo Nusantara Infrastruktur Tbk.",
+        "volume": 778620000,
+        "price": 151
+      },
+      {
+        "symbol": "JGLE.JK",
+        "company_name": "PT Graha Andrasentra Propertindo Tbk",
+        "volume": 768949200,
+        "price": 84
+      },
+      {
+        "symbol": "IATA.JK",
+        "company_name": "PT MNC Energy Investments Tbk",
+        "volume": 675653200,
+        "price": 117
+      },
+      {
+        "symbol": "DMAS.JK",
+        "company_name": "PT Puradelta Lestari Tbk",
+        "volume": 617506900,
+        "price": 179
+      },
+      {
+        "symbol": "JAST.JK",
+        "company_name": "PT Jasnita Telekomindo Tbk",
+        "volume": 542138200,
+        "price": 101
+      }
+    ],
+    "2026-08-28": [
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 2901144900,
+        "price": 190
+      },
+      {
+        "symbol": "KIJA.JK",
+        "company_name": "Kawasan Industri Jababeka Tbk",
+        "volume": 1446477600,
+        "price": 210
+      },
+      {
+        "symbol": "DSSA.JK",
+        "company_name": "Dian Swastatika Sentosa Tbk",
+        "volume": 1426018900,
+        "price": 1145
+      },
+      {
+        "symbol": "DMAS.JK",
+        "company_name": "PT Puradelta Lestari Tbk",
+        "volume": 1215355400,
+        "price": 199
+      },
+      {
+        "symbol": "INET.JK",
+        "company_name": "PT Sinergi Inti Andalan Prima Tbk",
+        "volume": 1005373700,
+        "price": 340
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 875873200,
+        "price": 98
+      },
+      {
+        "symbol": "RANS.JK",
+        "company_name": "PT Rans Entertainmen Indonesia Tbk",
+        "volume": 846595300,
+        "price": 212
+      },
+      {
+        "symbol": "BWPT.JK",
+        "company_name": "Eagle High Plantations Tbk",
+        "volume": 618699600,
+        "price": 107
+      },
+      {
+        "symbol": "KOTA.JK",
+        "company_name": "PT DMS Propertindo Tbk",
+        "volume": 577543500,
+        "price": 161
+      },
+      {
+        "symbol": "PACK.JK",
+        "company_name": "PT Abadi Nusantara Hijau Investama Tbk",
+        "volume": 538475000,
+        "price": 510
+      }
+    ],
+    "2026-08-31": [
+      {
+        "symbol": "KOTA.JK",
+        "company_name": "PT DMS Propertindo Tbk",
+        "volume": 3829160800,
+        "price": 216
+      },
+      {
+        "symbol": "IATA.JK",
+        "company_name": "PT MNC Energy Investments Tbk",
+        "volume": 2887233500,
+        "price": 126
+      },
+      {
+        "symbol": "JGLE.JK",
+        "company_name": "PT Graha Andrasentra Propertindo Tbk",
+        "volume": 2240496200,
+        "price": 92
+      },
+      {
+        "symbol": "BUKA.JK",
+        "company_name": "PT Bukalapak.com Tbk",
+        "volume": 1883828500,
+        "price": 105
+      },
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 1586243800,
+        "price": 192
+      },
+      {
+        "symbol": "DMAS.JK",
+        "company_name": "PT Puradelta Lestari Tbk",
+        "volume": 1433486400,
+        "price": 208
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 953013700,
+        "price": 98
+      },
+      {
+        "symbol": "INET.JK",
+        "company_name": "PT Sinergi Inti Andalan Prima Tbk",
+        "volume": 916587400,
+        "price": 350
+      },
+      {
+        "symbol": "KPIG.JK",
+        "company_name": "MNC Tourism Indonesia Tbk",
+        "volume": 824417300,
+        "price": 65
+      },
+      {
+        "symbol": "YELO.JK",
+        "company_name": "PT Yelooo Integra Datanet Tbk",
+        "volume": 815974700,
+        "price": 103
+      }
+    ],
+    "2026-09-01": [
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 6992846600,
+        "price": 206
+      },
+      {
+        "symbol": "COCO.JK",
+        "company_name": "PT Wahana Interfood Nusantara Tbk",
+        "volume": 4190605600,
+        "price": 129
+      },
+      {
+        "symbol": "KOTA.JK",
+        "company_name": "PT DMS Propertindo Tbk",
+        "volume": 2850377300,
+        "price": 220
+      },
+      {
+        "symbol": "IATA.JK",
+        "company_name": "PT MNC Energy Investments Tbk",
+        "volume": 2159876100,
+        "price": 124
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 1474824600,
+        "price": 101
+      },
+      {
+        "symbol": "JGLE.JK",
+        "company_name": "PT Graha Andrasentra Propertindo Tbk",
+        "volume": 1050690200,
+        "price": 89
+      },
+      {
+        "symbol": "CUAN.JK",
+        "company_name": "PT Petrindo Jaya Kreasi Tbk",
+        "volume": 950010800,
+        "price": 905
+      },
+      {
+        "symbol": "INET.JK",
+        "company_name": "PT Sinergi Inti Andalan Prima Tbk",
+        "volume": 827637400,
+        "price": 354
+      },
+      {
+        "symbol": "DMAS.JK",
+        "company_name": "PT Puradelta Lestari Tbk",
+        "volume": 822081600,
+        "price": 198
+      },
+      {
+        "symbol": "SQMI.JK",
+        "company_name": "Wilton Makmur Indonesia Tbk",
+        "volume": 786285000,
+        "price": 85
+      }
+    ],
+    "2026-09-02": [
+      {
+        "symbol": "BWPT.JK",
+        "company_name": "Eagle High Plantations Tbk",
+        "volume": 3603237000,
+        "price": 132
+      },
+      {
+        "symbol": "SQMI.JK",
+        "company_name": "Wilton Makmur Indonesia Tbk",
+        "volume": 2470452200,
+        "price": 101
+      },
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 2014477200,
+        "price": 206
+      },
+      {
+        "symbol": "KOTA.JK",
+        "company_name": "PT DMS Propertindo Tbk",
+        "volume": 1879938600,
+        "price": 230
+      },
+      {
+        "symbol": "COCO.JK",
+        "company_name": "PT Wahana Interfood Nusantara Tbk",
+        "volume": 1374180400,
+        "price": 120
+      },
+      {
+        "symbol": "KKES.JK",
+        "company_name": "PT Kusuma Kemindo Sentosa Tbk",
+        "volume": 1371656800,
+        "price": 94
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 769799000,
+        "price": 101
+      },
+      {
+        "symbol": "RGAS.JK",
+        "company_name": "PT Kian Santang Muliatama Tbk",
+        "volume": 685109100,
+        "price": 121
+      },
+      {
+        "symbol": "CUAN.JK",
+        "company_name": "PT Petrindo Jaya Kreasi Tbk",
+        "volume": 676988300,
+        "price": 905
+      },
+      {
+        "symbol": "BULL.JK",
+        "company_name": "PT Buana Lintas Lautan Tbk.",
+        "volume": 546037500,
+        "price": 460
+      }
+    ],
+    "2026-09-03": [
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 4469755300,
+        "price": 206
+      },
+      {
+        "symbol": "IATA.JK",
+        "company_name": "PT MNC Energy Investments Tbk",
+        "volume": 2921978100,
+        "price": 138
+      },
+      {
+        "symbol": "COCO.JK",
+        "company_name": "PT Wahana Interfood Nusantara Tbk",
+        "volume": 2356894700,
+        "price": 130
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 1962780600,
+        "price": 100
+      },
+      {
+        "symbol": "KOTA.JK",
+        "company_name": "PT DMS Propertindo Tbk",
+        "volume": 1165126900,
+        "price": 218
+      },
+      {
+        "symbol": "BWPT.JK",
+        "company_name": "Eagle High Plantations Tbk",
+        "volume": 1039161400,
+        "price": 129
+      },
+      {
+        "symbol": "SRSN.JK",
+        "company_name": "Indo Acidatama Tbk",
+        "volume": 1004196000,
+        "price": 108
+      },
+      {
+        "symbol": "CUAN.JK",
+        "company_name": "PT Petrindo Jaya Kreasi Tbk",
+        "volume": 953582500,
+        "price": 910
+      },
+      {
+        "symbol": "MDIA.JK",
+        "company_name": "PT Intermedia Capital Tbk",
+        "volume": 948387600,
+        "price": 252
+      },
+      {
+        "symbol": "BULL.JK",
+        "company_name": "PT Buana Lintas Lautan Tbk.",
+        "volume": 745850400,
+        "price": 452
+      }
+    ],
+    "2026-09-04": [
+      {
+        "symbol": "COCO.JK",
+        "company_name": "PT Wahana Interfood Nusantara Tbk",
+        "volume": 2148635400,
+        "price": 132
+      },
+      {
+        "symbol": "BULL.JK",
+        "company_name": "PT Buana Lintas Lautan Tbk.",
+        "volume": 1724810100,
+        "price": 436
+      },
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 1646574300,
+        "price": 210
+      },
+      {
+        "symbol": "SQMI.JK",
+        "company_name": "Wilton Makmur Indonesia Tbk",
+        "volume": 1617645300,
+        "price": 103
+      },
+      {
+        "symbol": "IATA.JK",
+        "company_name": "PT MNC Energy Investments Tbk",
+        "volume": 1355909100,
+        "price": 131
+      },
+      {
+        "symbol": "INET.JK",
+        "company_name": "PT Sinergi Inti Andalan Prima Tbk",
+        "volume": 1066668700,
+        "price": 366
+      },
+      {
+        "symbol": "CUAN.JK",
+        "company_name": "PT Petrindo Jaya Kreasi Tbk",
+        "volume": 1015740100,
+        "price": 940
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 767720100,
+        "price": 100
+      },
+      {
+        "symbol": "LAJU.JK",
+        "company_name": "PT Jasa Berdikari Logistics Tbk",
+        "volume": 747187600,
+        "price": 75
+      },
+      {
+        "symbol": "MDIA.JK",
+        "company_name": "PT Intermedia Capital Tbk",
+        "volume": 587747500,
+        "price": 216
+      }
+    ],
+    "2026-09-07": [
+      {
+        "symbol": "BUMI.JK",
+        "company_name": "Bumi Resources Tbk",
+        "volume": 5737171600,
+        "price": 220
+      },
+      {
+        "symbol": "IATA.JK",
+        "company_name": "PT MNC Energy Investments Tbk",
+        "volume": 1522303900,
+        "price": 135
+      },
+      {
+        "symbol": "MEDS.JK",
+        "company_name": "PT Hetzer Medical Indonesia Tbk",
+        "volume": 1173817400,
+        "price": 97
+      },
+      {
+        "symbol": "MDIA.JK",
+        "company_name": "PT Intermedia Capital Tbk",
+        "volume": 1149658100,
+        "price": 250
+      },
+      {
+        "symbol": "DMAS.JK",
+        "company_name": "PT Puradelta Lestari Tbk",
+        "volume": 819761500,
+        "price": 202
+      },
+      {
+        "symbol": "BNBR.JK",
+        "company_name": "Bakrie & Brothers Tbk",
+        "volume": 722740300,
+        "price": 100
+      },
+      {
+        "symbol": "COCO.JK",
+        "company_name": "PT Wahana Interfood Nusantara Tbk",
+        "volume": 607086600,
+        "price": 132
+      },
+      {
+        "symbol": "TOOL.JK",
+        "company_name": "PT Rohartindo Nusantara Luas Tbk",
+        "volume": 582188000,
+        "price": 75
+      },
+      {
+        "symbol": "DEWA.JK",
+        "company_name": "Darma Henwa Tbk",
+        "volume": 505584500,
+        "price": 448
+      },
+      {
+        "symbol": "SQMI.JK",
+        "company_name": "Wilton Makmur Indonesia Tbk",
+        "volume": 489686600,
+        "price": 102
+      }
+    ]
+  }
+}

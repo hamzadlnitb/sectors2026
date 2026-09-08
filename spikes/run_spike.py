@@ -36,6 +36,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+from core.env import load_env  # noqa: E402
 from core.console import setup_console  # noqa: E402
 from core.sectors import catalog, routing  # noqa: E402
 from core.sectors.client import CreditAwareClient  # noqa: E402
@@ -131,6 +132,7 @@ def _bentuk(payload) -> dict:
 
 def main(argv: list[str] | None = None) -> int:
     setup_console()
+    load_env()
     ap = argparse.ArgumentParser(description="Spike verifikasi endpoint F0")
     ap.add_argument("--only", nargs="*", default=None)
     ap.add_argument("--as-of", type=date.fromisoformat, default=date.today())

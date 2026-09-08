@@ -1,0 +1,720 @@
+{
+  "params": {
+    "start": "2026-08-09",
+    "end": "2026-09-07"
+  },
+  "payload": {
+    "results": [
+      {
+        "title": "Jemmy Kurniawan sells shares of Hetzer Medical Indonesia",
+        "body": "This is Jemmy Kurniawan's 20th insider disposal in the last 6 months, totaling a distribution of 103,567,400 shares transacted at an average price of IDR 85. Jemmy Kurniawan's ownership in Hetzer Medical Indonesia has decreased from 53.46% to 53.04% in this period.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-07092026-9218-00.pdf-0.pdf",
+        "timestamp": "2026-09-07T19:36:14",
+        "sector": "healthcare",
+        "sub_sector": "healthcare-equipment-providers",
+        "tags": [
+          "divestment"
+        ],
+        "symbol": "MEDS.JK",
+        "transaction_type": "sell",
+        "holder_type": "insider",
+        "holder_name": "Jemmy Kurniawan",
+        "holding_before": 835312500,
+        "holding_after": 828812500,
+        "amount_transaction": 6500000,
+        "price": 72.769,
+        "transaction_value": 473000000.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-04",
+            "type": "sell",
+            "price": 73,
+            "amount_transacted": 5000000
+          },
+          {
+            "date": "2026-09-04",
+            "type": "sell",
+            "price": 72,
+            "amount_transacted": 1500000
+          }
+        ],
+        "share_percentage_before": 53.46,
+        "share_percentage_after": 53.04,
+        "share_percentage_transaction": 0.42,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Morgan Stanley And Co International Plc buys shares of GoTo Gojek Tokopedia",
+        "body": "Morgan Stanley And Co International Plc's acquisition of GOTO shares is the latest in a series of investments, with the firm adding to their position across 2 companies in the last 6 months. Alongside GOTO, the firm has also acquired shares of AMRT, totaling IDR 436,716,990,306 across all purchases in this period.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-07092026-9537-00.pdf-0.pdf",
+        "timestamp": "2026-09-07T17:10:05",
+        "sector": "technology",
+        "sub_sector": "software-it-services",
+        "tags": [
+          "investment"
+        ],
+        "symbol": "GOTO.JK",
+        "transaction_type": "buy",
+        "holder_type": "institution",
+        "holder_name": "Morgan Stanley And Co International Plc",
+        "holding_before": 65808820258,
+        "holding_after": 75029997584,
+        "amount_transaction": 9221177326,
+        "price": 25.0,
+        "transaction_value": 230529433150.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-02",
+            "type": "buy",
+            "price": 25,
+            "amount_transacted": 9221177326
+          }
+        ],
+        "share_percentage_before": 5.716,
+        "share_percentage_after": 6.517,
+        "share_percentage_transaction": 0.801,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Change in Morgan Stanley And Co International Plc's position in GoTo Gojek Tokopedia",
+        "body": "Morgan Stanley And Co International Plc executed a transaction for 12,697,825,600 shares of GoTo Gojek Tokopedia. This increases their holdings from 75,029,997,584 to 87,487,916,784 shares. The stated purpose of the transaction was capital investment.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-07092026-9537-00.pdf-0.pdf",
+        "timestamp": "2026-09-07T17:10:05",
+        "sector": "technology",
+        "sub_sector": "software-it-services",
+        "tags": [
+          "investment"
+        ],
+        "symbol": "GOTO.JK",
+        "transaction_type": "others",
+        "holder_type": "institution",
+        "holder_name": "Morgan Stanley And Co International Plc",
+        "holding_before": 75029997584,
+        "holding_after": 87487916784,
+        "amount_transaction": 12697825600,
+        "price": 25.0,
+        "transaction_value": 317445640000.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-02",
+            "type": "others",
+            "price": 25,
+            "amount_transacted": 12577872400
+          },
+          {
+            "date": "2026-09-02",
+            "type": "others",
+            "price": 25,
+            "amount_transacted": 119953200
+          }
+        ],
+        "share_percentage_before": 6.517,
+        "share_percentage_after": 7.599,
+        "share_percentage_transaction": 1.082,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Kreatif Media Karya buys shares of Bukalapak.com",
+        "body": "Kreatif Media Karya bought 803,287,800 shares of Bukalapak.com. This increases their holdings from 46,321,746,385 to 47,125,034,185 shares. The stated purpose of the transaction was for investment.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-07092026-8071-00.pdf-0.pdf",
+        "timestamp": "2026-09-07T16:28:10",
+        "sector": "technology",
+        "sub_sector": "software-it-services",
+        "tags": [
+          "investment"
+        ],
+        "symbol": "BUKA.JK",
+        "transaction_type": "buy",
+        "holder_type": "insider",
+        "holder_name": "Kreatif Media Karya",
+        "holding_before": 46321746385,
+        "holding_after": 47125034185,
+        "amount_transaction": 803287800,
+        "price": 126.0,
+        "transaction_value": 101214262800.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-04",
+            "type": "buy",
+            "price": 126,
+            "amount_transacted": 803287800
+          }
+        ],
+        "share_percentage_before": 44.9,
+        "share_percentage_after": 45.68,
+        "share_percentage_transaction": 0.78,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Samuel Sekuritas Indonesia buys shares of Abadi Lestari Indonesia",
+        "body": "This is Samuel Sekuritas Indonesia's 11th insider purchase in the last 6 months, totaling an accumulation of 1,925,818,300 shares transacted at an average price of IDR 619. Samuel Sekuritas Indonesia's ownership in Abadi Lestari Indonesia has increased from 6.36% to 6.57% in this period.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-07092026-4982-00.pdf-0.pdf",
+        "timestamp": "2026-09-07T16:11:37",
+        "sector": "consumer-non-cyclicals",
+        "sub_sector": "food-beverage",
+        "tags": [
+          "investment"
+        ],
+        "symbol": "RLCO.JK",
+        "transaction_type": "buy",
+        "holder_type": "institution",
+        "holder_name": "Samuel Sekuritas Indonesia",
+        "holding_before": 198644500,
+        "holding_after": 205311500,
+        "amount_transaction": 6667000,
+        "price": 1500.0,
+        "transaction_value": 10000500000.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-07",
+            "type": "buy",
+            "price": 1500,
+            "amount_transacted": 6667000
+          }
+        ],
+        "share_percentage_before": 6.36,
+        "share_percentage_after": 6.57,
+        "share_percentage_transaction": 0.21,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Trihartono buys shares of Garuda Maintenance Facility Aero Asia",
+        "body": "Trihartono bought 350,000 shares of Garuda Maintenance Facility Aero Asia. This increases their holdings from 0 to 350,000 shares. The stated purpose of the transaction was expand personal investment portfolio.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-07092026-1844-00.pdf-0.pdf",
+        "timestamp": "2026-09-07T15:12:36",
+        "sector": "infrastructures",
+        "sub_sector": "transportation-infrastructure",
+        "tags": [
+          "investment"
+        ],
+        "symbol": "GMFI.JK",
+        "transaction_type": "buy",
+        "holder_type": "insider",
+        "holder_name": "Trihartono",
+        "holding_before": 0,
+        "holding_after": 350000,
+        "amount_transaction": 350000,
+        "price": 58.0,
+        "transaction_value": 20300000.0,
+        "price_transaction": [
+          {
+            "date": "2026-08-24",
+            "type": "buy",
+            "price": 58,
+            "amount_transacted": 350000
+          }
+        ],
+        "share_percentage_before": 0.0,
+        "share_percentage_after": 0.0,
+        "share_percentage_transaction": 0.0,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Cgs International Securities Singapore sells shares of Indonesian Paradise Property",
+        "body": "Cgs International Securities Singapore's disposal of INPP shares is part of a larger exposure reduction that sees Cgs International Securities Singapore trimming position across 3 companies in the last 6 months. Alongside INPP, Cgs International Securities Singapore has also disposed shares of DILD and SQMI, totaling IDR 752,788,368,600 across all disposals in this period.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-07092026-7898-00.pdf-0.pdf",
+        "timestamp": "2026-09-07T15:07:53",
+        "sector": "properties-real-estate",
+        "sub_sector": "properties-real-estate",
+        "tags": [
+          "divestment"
+        ],
+        "symbol": "INPP.JK",
+        "transaction_type": "sell",
+        "holder_type": "insider",
+        "holder_name": "Cgs International Securities Singapore",
+        "holding_before": 872278900,
+        "holding_after": 0,
+        "amount_transaction": 872278900,
+        "price": 720.0,
+        "transaction_value": 628040808000.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-02",
+            "type": "sell",
+            "price": 720,
+            "amount_transacted": 872278900
+          }
+        ],
+        "share_percentage_before": 7.8,
+        "share_percentage_after": 0.0,
+        "share_percentage_transaction": 7.8,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Tree Of Blessing buys shares of Indonesian Paradise Property",
+        "body": "Tree Of Blessing bought 872,278,900 shares of Indonesian Paradise Property. This increases their holdings from 3,147,549,873 to 4,019,828,773 shares. The stated purpose of the transaction was investment.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-07092026-0079-00.pdf-0.pdf",
+        "timestamp": "2026-09-07T12:00:31",
+        "sector": "properties-real-estate",
+        "sub_sector": "properties-real-estate",
+        "tags": [
+          "investment"
+        ],
+        "symbol": "INPP.JK",
+        "transaction_type": "buy",
+        "holder_type": "insider",
+        "holder_name": "Tree Of Blessing",
+        "holding_before": 3147549873,
+        "holding_after": 4019828773,
+        "amount_transaction": 872278900,
+        "price": 720.0,
+        "transaction_value": 628040808000.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-02",
+            "type": "buy",
+            "price": 720,
+            "amount_transacted": 872278900
+          }
+        ],
+        "share_percentage_before": 28.15,
+        "share_percentage_after": 35.95,
+        "share_percentage_transaction": 7.8,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Cgs International Securities Singapore sells shares of Wilton Makmur Indonesia",
+        "body": "Cgs International Securities Singapore's disposal of SQMI shares is part of a larger exposure reduction that sees Cgs International Securities Singapore trimming position across 2 companies in the last 6 months. Alongside SQMI, Cgs International Securities Singapore has also disposed shares of DILD, totaling IDR 124,072,935,600 across all disposals in this period.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-07092026-5264-00.pdf-0.pdf",
+        "timestamp": "2026-09-07T11:28:53",
+        "sector": "basic-materials",
+        "sub_sector": "basic-materials",
+        "tags": [
+          "divestment"
+        ],
+        "symbol": "SQMI.JK",
+        "transaction_type": "sell",
+        "holder_type": "insider",
+        "holder_name": "Cgs International Securities Singapore",
+        "holding_before": 3276112129,
+        "holding_after": 31209028529,
+        "amount_transaction": 67083600,
+        "price": 71.0,
+        "transaction_value": 4762935600.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-03",
+            "type": "sell",
+            "price": 71,
+            "amount_transacted": 67083600
+          }
+        ],
+        "share_percentage_before": 21.09,
+        "share_percentage_after": 20.65,
+        "share_percentage_transaction": 0.44,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Change in Multi Sarana Nasional's position in Habco Trans Maritima",
+        "body": "Multi Sarana Nasional executed a transaction for 640,000,000 shares of Habco Trans Maritima. This increases their holdings from 1,745,409,861 to 2,385,409,861 shares. The stated purpose of the transaction was investment.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-07092026-0100-00.pdf-0.pdf",
+        "timestamp": "2026-09-07T10:57:07",
+        "sector": "transportation-logistic",
+        "sub_sector": "logistics-deliveries",
+        "tags": [
+          "investment"
+        ],
+        "symbol": "HATM.JK",
+        "transaction_type": "others",
+        "holder_type": "institution",
+        "holder_name": "Multi Sarana Nasional",
+        "holding_before": 1745409861,
+        "holding_after": 2385409861,
+        "amount_transaction": 640000000,
+        "price": 500.0,
+        "transaction_value": 320000000000.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-04",
+            "type": "others",
+            "price": 500,
+            "amount_transacted": 640000000
+          }
+        ],
+        "share_percentage_before": 20.11,
+        "share_percentage_after": 25.59,
+        "share_percentage_transaction": 5.48,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Samuel Sekuritas Indonesia buys shares of Nusantara Sawit Sejahtera",
+        "body": "This is Samuel Sekuritas Indonesia's 23rd insider purchase in the last 6 months, totaling an accumulation of 8,532,224,100 shares transacted at an average price of IDR 756. Samuel Sekuritas Indonesia's ownership in Nusantara Sawit Sejahtera has increased from 24.86% to 28.343% in this period.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-07092026-8982-00.pdf-0.pdf",
+        "timestamp": "2026-09-07T09:50:59",
+        "sector": "consumer-non-cyclicals",
+        "sub_sector": "food-beverage",
+        "tags": [
+          "placement",
+          "repurchase-agreement"
+        ],
+        "symbol": "NSSS.JK",
+        "transaction_type": "buy",
+        "holder_type": "institution",
+        "holder_name": "Samuel Sekuritas Indonesia",
+        "holding_before": 5917373100,
+        "holding_after": 6746437200,
+        "amount_transaction": 829064100,
+        "price": 796.941,
+        "transaction_value": 660714813500.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-04",
+            "type": "buy",
+            "price": 795,
+            "amount_transacted": 507293300
+          },
+          {
+            "date": "2026-09-04",
+            "type": "buy",
+            "price": 800,
+            "amount_transacted": 321770800
+          }
+        ],
+        "share_percentage_before": 24.86,
+        "share_percentage_after": 28.343,
+        "share_percentage_transaction": 3.483,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Samuel Sekuritas Indonesia sells shares of Nusantara Sawit Sejahtera",
+        "body": "This is Samuel Sekuritas Indonesia's 27th insider disposal in the last 6 months, totaling a distribution of 12,107,548,400 shares transacted at an average price of IDR 589. Samuel Sekuritas Indonesia's ownership in Nusantara Sawit Sejahtera has decreased from 28.343% to 26.61% in this period.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-07092026-8982-00.pdf-0.pdf",
+        "timestamp": "2026-09-07T09:50:59",
+        "sector": "consumer-non-cyclicals",
+        "sub_sector": "food-beverage",
+        "tags": [
+          "repurchase-agreement"
+        ],
+        "symbol": "NSSS.JK",
+        "transaction_type": "sell",
+        "holder_type": "institution",
+        "holder_name": "Samuel Sekuritas Indonesia",
+        "holding_before": 6746437200,
+        "holding_after": 6334373200,
+        "amount_transaction": 412064000,
+        "price": 755.0,
+        "transaction_value": 311108320000.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-04",
+            "type": "sell",
+            "price": 755,
+            "amount_transacted": 412064000
+          }
+        ],
+        "share_percentage_before": 28.343,
+        "share_percentage_after": 26.61,
+        "share_percentage_transaction": 1.733,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Samuel Sekuritas Indonesia buys shares of MD Entertainment",
+        "body": "This is Samuel Sekuritas Indonesia's 17th insider purchase in the last 6 months, totaling an accumulation of 1,901,482,300 shares transacted at an average price of IDR 1,753. Samuel Sekuritas Indonesia's ownership in MD Entertainment has increased from 8.37% to 9.64% in this period.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-07092026-0910-00.pdf-0.pdf",
+        "timestamp": "2026-09-07T09:44:43",
+        "sector": "consumer-cyclicals",
+        "sub_sector": "media-entertainment",
+        "tags": [
+          "placement",
+          "repurchase-agreement"
+        ],
+        "symbol": "FILM.JK",
+        "transaction_type": "buy",
+        "holder_type": "institution",
+        "holder_name": "Samuel Sekuritas Indonesia",
+        "holding_before": 911169800,
+        "holding_after": 1049325300,
+        "amount_transaction": 138155500,
+        "price": 740.0,
+        "transaction_value": 102235070000.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-04",
+            "type": "buy",
+            "price": 740,
+            "amount_transacted": 138155500
+          }
+        ],
+        "share_percentage_before": 8.37,
+        "share_percentage_after": 9.64,
+        "share_percentage_transaction": 1.27,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Gt.Denny Ramdhani buys shares of Dana Brata Luhur",
+        "body": "Gt.Denny Ramdhani bought 50,000 shares of Dana Brata Luhur. This increases their holdings from 0 to 50,000 shares. The stated purpose of the transaction was investment.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-07092026-4791-00.pdf-0.pdf",
+        "timestamp": "2026-09-07T08:56:18",
+        "sector": "energy",
+        "sub_sector": "oil-gas-coal",
+        "tags": [
+          "investment"
+        ],
+        "symbol": "TEBE.JK",
+        "transaction_type": "buy",
+        "holder_type": "insider",
+        "holder_name": "Gt.Denny Ramdhani",
+        "holding_before": 0,
+        "holding_after": 50000,
+        "amount_transaction": 50000,
+        "price": 1750.0,
+        "transaction_value": 87500000.0,
+        "price_transaction": [
+          {
+            "date": "2026-08-28",
+            "type": "buy",
+            "price": 1750,
+            "amount_transacted": 50000
+          }
+        ],
+        "share_percentage_before": 0.0,
+        "share_percentage_after": 0.004,
+        "share_percentage_transaction": 0.004,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Edwin Soeryadjaya buys shares of Saratoga Investama Sedaya",
+        "body": "Edwin Soeryadjaya bought 2,250,000 shares of Saratoga Investama Sedaya. This increases their holdings from 4,867,505,690 to 4,869,755,690 shares. The stated purpose of the transaction was investment.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-04092026-2426-00.pdf-0.pdf",
+        "timestamp": "2026-09-04T14:55:37",
+        "sector": "financials",
+        "sub_sector": "holding-investment-companies",
+        "tags": [
+          "investment"
+        ],
+        "symbol": "SRTG.JK",
+        "transaction_type": "buy",
+        "holder_type": "insider",
+        "holder_name": "Edwin Soeryadjaya",
+        "holding_before": 4867505690,
+        "holding_after": 4869755690,
+        "amount_transaction": 2250000,
+        "price": 1809.84,
+        "transaction_value": 4072140000.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-02",
+            "type": "buy",
+            "price": 1823,
+            "amount_transacted": 840000
+          },
+          {
+            "date": "2026-09-03",
+            "type": "buy",
+            "price": 1802,
+            "amount_transacted": 1410000
+          }
+        ],
+        "share_percentage_before": 35.883,
+        "share_percentage_after": 35.9,
+        "share_percentage_transaction": 0.017,
+        "idx_investor_slug": "edwin-soeryadjaya",
+        "idx_conglomerates_group_slug": "saratoga-group"
+      },
+      {
+        "title": "Henry Liem sells shares of Argha Karya Prima Ind",
+        "body": "This is Henry Liem's 38th insider disposal in the last 6 months, totaling a distribution of 6,999,000 shares transacted at an average price of IDR 516. Henry Liem's ownership in Argha Karya Prima Ind has decreased from 1.337% to 1.318% in this period.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-04092026-5351-00.pdf-0.pdf",
+        "timestamp": "2026-09-04T13:19:12",
+        "sector": "basic-materials",
+        "sub_sector": "basic-materials",
+        "tags": [
+          "divestment"
+        ],
+        "symbol": "AKPI.JK",
+        "transaction_type": "sell",
+        "holder_type": "insider",
+        "holder_name": "Henry Liem",
+        "holding_before": 8184659,
+        "holding_after": 8070459,
+        "amount_transaction": 114200,
+        "price": 536.243,
+        "transaction_value": 61239000.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-03",
+            "type": "sell",
+            "price": 545,
+            "amount_transacted": 14200
+          },
+          {
+            "date": "2026-09-03",
+            "type": "sell",
+            "price": 535,
+            "amount_transacted": 100000
+          }
+        ],
+        "share_percentage_before": 1.337,
+        "share_percentage_after": 1.318,
+        "share_percentage_transaction": 0.019,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Jimmy Tandyo sells shares of AKR Corporindo",
+        "body": "This is Jimmy Tandyo's 3rd insider disposal in the last 6 months, totaling a distribution of 3,636,000 shares transacted at an average price of IDR 1,446. Jimmy Tandyo's ownership in AKR Corporindo has decreased from 0.282% to 0.272% in this period.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-03092026-8380-00.pdf-0.pdf",
+        "timestamp": "2026-09-03T21:18:25",
+        "sector": "energy",
+        "sub_sector": "oil-gas-coal",
+        "tags": [
+          "divestment"
+        ],
+        "symbol": "AKRA.JK",
+        "transaction_type": "sell",
+        "holder_type": "insider",
+        "holder_name": "Jimmy Tandyo",
+        "holding_before": 56624700,
+        "holding_after": 54614000,
+        "amount_transaction": 2010700,
+        "price": 1447.125,
+        "transaction_value": 2909734000.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-02",
+            "type": "sell",
+            "price": 1455,
+            "amount_transacted": 1722800
+          },
+          {
+            "date": "2026-09-02",
+            "type": "sell",
+            "price": 1400,
+            "amount_transacted": 287900
+          }
+        ],
+        "share_percentage_before": 0.282,
+        "share_percentage_after": 0.272,
+        "share_percentage_transaction": 0.01,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Samuel Sekuritas Indonesia sells shares of Nusantara Sawit Sejahtera",
+        "body": "This is Samuel Sekuritas Indonesia's 26th insider disposal in the last 6 months, totaling a distribution of 11,695,484,400 shares transacted at an average price of IDR 584. Samuel Sekuritas Indonesia's ownership in Nusantara Sawit Sejahtera has decreased from 26.439% to 24.86% in this period.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-03092026-7863-00.pdf-0.pdf",
+        "timestamp": "2026-09-03T17:46:06",
+        "sector": "consumer-non-cyclicals",
+        "sub_sector": "food-beverage",
+        "tags": [
+          "repurchase-agreement"
+        ],
+        "symbol": "NSSS.JK",
+        "transaction_type": "sell",
+        "holder_type": "institution",
+        "holder_name": "Samuel Sekuritas Indonesia",
+        "holding_before": 6293260000,
+        "holding_after": 5917373100,
+        "amount_transaction": 375886900,
+        "price": 940.0,
+        "transaction_value": 353333686000.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-03",
+            "type": "sell",
+            "price": 940,
+            "amount_transacted": 375886900
+          }
+        ],
+        "share_percentage_before": 26.439,
+        "share_percentage_after": 24.86,
+        "share_percentage_transaction": 1.579,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Samuel Sekuritas Indonesia buys shares of Nusantara Sawit Sejahtera",
+        "body": "This is Samuel Sekuritas Indonesia's 22nd insider purchase in the last 6 months, totaling an accumulation of 7,703,160,000 shares transacted at an average price of IDR 751. Samuel Sekuritas Indonesia's ownership in Nusantara Sawit Sejahtera has increased from 25.15% to 26.439% in this period.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-03092026-7863-00.pdf-0.pdf",
+        "timestamp": "2026-09-03T17:46:06",
+        "sector": "consumer-non-cyclicals",
+        "sub_sector": "food-beverage",
+        "tags": [
+          "placement",
+          "repurchase-agreement"
+        ],
+        "symbol": "NSSS.JK",
+        "transaction_type": "buy",
+        "holder_type": "institution",
+        "holder_name": "Samuel Sekuritas Indonesia",
+        "holding_before": 5986413000,
+        "holding_after": 6293260000,
+        "amount_transaction": 306847000,
+        "price": 820.0,
+        "transaction_value": 251614540000.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-03",
+            "type": "buy",
+            "price": 820,
+            "amount_transacted": 306847000
+          }
+        ],
+        "share_percentage_before": 25.15,
+        "share_percentage_after": 26.439,
+        "share_percentage_transaction": 1.289,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      },
+      {
+        "title": "Samuel Sekuritas Indonesia buys shares of MD Entertainment",
+        "body": "This is Samuel Sekuritas Indonesia's 16th insider purchase in the last 6 months, totaling an accumulation of 1,763,326,800 shares transacted at an average price of IDR 1,832. Samuel Sekuritas Indonesia's ownership in MD Entertainment has increased from 5.88% to 8.37% in this period.",
+        "source": "https://www.idx.co.id/StaticData/NewsAndAnnouncement/ANNOUNCEMENTSTOCK/From_KSEI/LK-03092026-8113-00.pdf-0.pdf",
+        "timestamp": "2026-09-03T17:41:59",
+        "sector": "consumer-cyclicals",
+        "sub_sector": "media-entertainment",
+        "tags": [
+          "placement",
+          "repurchase-agreement"
+        ],
+        "symbol": "FILM.JK",
+        "transaction_type": "buy",
+        "holder_type": "institution",
+        "holder_name": "Samuel Sekuritas Indonesia",
+        "holding_before": 640643500,
+        "holding_after": 911169800,
+        "amount_transaction": 270526300,
+        "price": 760.0,
+        "transaction_value": 205599988000.0,
+        "price_transaction": [
+          {
+            "date": "2026-09-03",
+            "type": "buy",
+            "price": 760,
+            "amount_transacted": 270526300
+          }
+        ],
+        "share_percentage_before": 5.88,
+        "share_percentage_after": 8.37,
+        "share_percentage_transaction": 2.49,
+        "idx_investor_slug": null,
+        "idx_conglomerates_group_slug": null
+      }
+    ],
+    "pagination": {
+      "total_count": 223,
+      "showing": 20,
+      "limit": 20,
+      "offset": 0,
+      "has_next": true,
+      "has_previous": false,
+      "next_offset": 20,
+      "previous_offset": null
+    }
+  }
+}

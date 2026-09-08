@@ -1,0 +1,156 @@
+{
+  "params": {
+    "periods": "1d",
+    "n_stock": 10
+  },
+  "payload": {
+    "top_gainers": {
+      "1d": [
+        {
+          "name": "PT Soho Global Health Tbk",
+          "symbol": "SOHO.JK",
+          "price_change": 0.24896265560166,
+          "last_close_price": 1505,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "PT Intermedia Capital Tbk",
+          "symbol": "MDIA.JK",
+          "price_change": 0.157407407407407,
+          "last_close_price": 250,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "PT Sillo Maritime Perdana Tbk",
+          "symbol": "SHIP.JK",
+          "price_change": 0.14957264957265,
+          "last_close_price": 2690,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "PT Victoria Care Indonesia Tbk",
+          "symbol": "VICI.JK",
+          "price_change": 0.124293785310734,
+          "last_close_price": 995,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "PT Panca Anugrah Wisesa Tbk",
+          "symbol": "MGLV.JK",
+          "price_change": 0.09979633401222,
+          "last_close_price": 13500,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "PT Sumber Global Energy Tbk",
+          "symbol": "SGER.JK",
+          "price_change": 0.0775193798449612,
+          "last_close_price": 695,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "BFI Finance Indonesia Tbk",
+          "symbol": "BFIN.JK",
+          "price_change": 0.068421052631579,
+          "last_close_price": 1015,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "Bumi Resources Tbk",
+          "symbol": "BUMI.JK",
+          "price_change": 0.0476190476190476,
+          "last_close_price": 220,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "PT AKR Corporindo Tbk.",
+          "symbol": "AKRA.JK",
+          "price_change": 0.0469314079422383,
+          "last_close_price": 1450,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "Samudera Indonesia Tbk",
+          "symbol": "SMDR.JK",
+          "price_change": 0.046242774566474,
+          "last_close_price": 362,
+          "latest_close_date": "2026-09-07"
+        }
+      ]
+    },
+    "top_losers": {
+      "1d": [
+        {
+          "name": "PT Metro Healthcare Indonesia Tbk",
+          "symbol": "CARE.JK",
+          "price_change": -0.0614035087719298,
+          "last_close_price": 428,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "PT Sinar Mas Multiartha Tbk",
+          "symbol": "SMMA.JK",
+          "price_change": -0.0581683168316832,
+          "last_close_price": 19025,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "PT Habco Trans Maritima Tbk",
+          "symbol": "HATM.JK",
+          "price_change": -0.0569105691056911,
+          "last_close_price": 580,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "Bank Sinarmas Tbk",
+          "symbol": "BSIM.JK",
+          "price_change": -0.0548523206751055,
+          "last_close_price": 1120,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "PT MD Entertainment Tbk",
+          "symbol": "FILM.JK",
+          "price_change": -0.0425531914893617,
+          "last_close_price": 900,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "PT Bukit Uluwatu Villa Tbk",
+          "symbol": "BUVA.JK",
+          "price_change": -0.038961038961039,
+          "last_close_price": 740,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "Golden Eagle Energy Tbk",
+          "symbol": "SMMT.JK",
+          "price_change": -0.0383141762452107,
+          "last_close_price": 2510,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "PT Sumber Tani Agung Resources Tbk",
+          "symbol": "STAA.JK",
+          "price_change": -0.0381679389312977,
+          "last_close_price": 1260,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "PT Garuda Maintenance Facility Aero Asia Tbk",
+          "symbol": "GMFI.JK",
+          "price_change": -0.0333333333333333,
+          "last_close_price": 58,
+          "latest_close_date": "2026-09-07"
+        },
+        {
+          "name": "PT Merdeka Gold Resources Tbk",
+          "symbol": "EMAS.JK",
+          "price_change": -0.0288184438040346,
+          "last_close_price": 8425,
+          "latest_close_date": "2026-09-07"
+        }
+      ]
+    }
+  }
+}

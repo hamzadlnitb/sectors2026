@@ -4,7 +4,7 @@
 
 Sumber kebenaran: [`core/sectors/routing.py`](../core/sectors/routing.py). Perencana agen menganggarkan dari angka di tabel ini, jadi angka yang salah di sini berarti pagu investigasi yang salah.
 
-> ⚠️ **Belum ada satu pun biaya yang terukur.** Seluruh kolom *kredit* di bawah masih **asumsi**. Jalankan `make spike` (butuh `SECTORS_API_KEY`) untuk mengukurnya; hasilnya masuk ke `spikes/observed.json` dan otomatis menimpa asumsi di sini. Jangan menganggarkan ketat di atas angka yang belum terukur.
+> 12 dari 15 endpoint sudah diukur lewat `make spike` (`spikes/observed.json`, 2026-09-08T10:20:40+00:00). Sisanya masih **asumsi** — lihat kolom *Status*.
 
 ## Tier 1 — sapuan market-wide harian
 
@@ -12,11 +12,11 @@ Dijalankan cron tiap hari bursa. Total **5 kredit/hari** (target ≤6 — dijaga
 
 | Endpoint | Kredit | Status | Transport | Cadangan | Untuk apa |
 | --- | ---: | --- | --- | --- | --- |
-| `fetch-close` | 1 | asumsi | rest | mcp | Harga penutupan seluruh ticker IDX untuk satu tanggal bursa. |
-| `fetch-companies-top-changes` | 1 | asumsi | rest | mcp | Emiten dengan perubahan harga/volume terbesar pada satu periode. |
-| `fetch-filings` | 1 | asumsi | rest | mcp | Filing transaksi insider (pemegang saham & pengurus). |
-| `fetch-most-traded-stocks` | 1 | asumsi | rest | mcp | Saham paling banyak diperdagangkan pada rentang tanggal. |
-| `fetch-suspensions` | 1 | asumsi | rest | mcp | Riwayat suspensi IDX beserta alasan resminya. Sumber label kalibrasi. |
+| `fetch-close` | 1 | terukur | rest | mcp | Harga penutupan seluruh ticker IDX untuk satu tanggal bursa. |
+| `fetch-companies-top-changes` | 1 | terukur | rest | mcp | Emiten dengan perubahan harga/volume terbesar pada satu periode. |
+| `fetch-filings` | 1 | terukur | rest | mcp | Filing transaksi insider (pemegang saham & pengurus). |
+| `fetch-most-traded-stocks` | 1 | terukur | rest | mcp | Saham paling banyak diperdagangkan pada rentang tanggal. |
+| `fetch-suspensions` | 1 | terukur | rest | mcp | Riwayat suspensi IDX beserta alasan resminya. Sumber label kalibrasi. |
 
 ## Tier 2 — hanya lewat probe agen
 
@@ -25,14 +25,14 @@ Tidak pernah dipanggil terjadwal. Hanya keluar saat agen memutuskan satu probe l
 | Endpoint | Kredit | Status | Transport | Cadangan | Untuk apa |
 | --- | ---: | --- | --- | --- | --- |
 | `fetch-broker-summary` | 2 | asumsi | mcp | — | Rincian net buy/sell per kode broker untuk satu ticker. |
-| `fetch-broker-summary-top` | 3 | asumsi | rest | mcp | Broker dengan net buy/sell terbesar pada satu ticker dan rentang tanggal. |
+| `fetch-broker-summary-top` | 3 | terukur | rest | mcp | Broker dengan net buy/sell terbesar pada satu ticker dan rentang tanggal. |
 | `fetch-companies-by-subsector` | 1 | asumsi | mcp | — | Daftar emiten dalam satu subsektor. Dipakai membentuk himpunan kontrol tersamakan saat kalibrasi. |
-| `fetch-company-report` | 2 | asumsi | rest | mcp | Profil emiten: subsektor, kapitalisasi, tanggal listing, ikhtisar keuangan. |
-| `fetch-corporate-actions` | 2 | asumsi | mcp | — | Aksi korporasi: rights issue, stock split, dividen, private placement. |
-| `fetch-daily-transaction` | 1 | asumsi | rest | mcp | Harga, volume, dan kapitalisasi harian satu ticker pada rentang tanggal. |
-| `fetch-foreign-flow` | 2 | asumsi | rest | mcp | Arus dana asing bersih harian pada satu ticker. |
-| `fetch-free-float` | 1 | asumsi | mcp | — | Persentase saham beredar bebas (free float) per emiten. |
-| `fetch-quarterly-financials` | 2 | asumsi | mcp | — | Laporan keuangan kuartalan: pendapatan, laba bersih, total aset. |
+| `fetch-company-report` | 2 | terukur | rest | mcp | Profil emiten: subsektor, kapitalisasi, tanggal listing, ikhtisar keuangan. |
+| `fetch-corporate-actions` | 2 | terukur | mcp | — | Aksi korporasi: rights issue, stock split, dividen, private placement. |
+| `fetch-daily-transaction` | 1 | terukur | rest | mcp | Harga, volume, dan kapitalisasi harian satu ticker pada rentang tanggal. |
+| `fetch-foreign-flow` | 2 | terukur | rest | mcp | Arus dana asing bersih harian pada satu ticker. |
+| `fetch-free-float` | 1 | terukur | mcp | — | Persentase saham beredar bebas (free float) per emiten. |
+| `fetch-quarterly-financials` | 2 | terukur | mcp | — | Laporan keuangan kuartalan: pendapatan, laba bersih, total aset. |
 | `fetch-shareholders-composition` | 2 | asumsi | mcp | — | Komposisi pemegang saham dan porsi kepemilikan asing. |
 
 ## Biaya per probe
