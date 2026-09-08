@@ -46,6 +46,87 @@ def _measured_at() -> str:
         return "waktu tidak tercatat"
 
 
+def _observed_raw() -> dict:
+    import json
+
+    if not routing.OBSERVED_PATH.exists():
+        return {}
+    try:
+        return json.loads(routing.OBSERVED_PATH.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def _ringkas_galat(pesan: object, batas: int = 150) -> str:
+    """Rapikan pesan galat untuk dokumen di repo PUBLIK.
+
+    Jalur absolut dibuang: pesan ImportError memuat direktori site-packages
+    lengkap dengan nama pengguna, dan tidak ada gunanya menerbitkan itu.
+    """
+    import re
+
+    teks = str(pesan)
+    teks = re.sub(r"[A-Za-z]:\\[^\s')\"]+", "<jalur lokal>", teks)
+    teks = re.sub(r"/(?:home|Users)/[^\s')\"]+", "<jalur lokal>", teks)
+    teks = " ".join(teks.split()).replace("|", "\\|")
+    return teks[:batas] + ("…" if len(teks) > batas else "")
+
+
+def _temuan_spike() -> str:
+    """Bagian yang menyebut endpoint GAGAL beserta sebabnya.
+
+    Kegagalan spike adalah hasil spike, bukan aib yang disembunyikan. Tanpa
+    bagian ini, satu-satunya tempat yang tahu `fetch-close` menjawab HTTP 400
+    adalah berkas JSON yang tidak dibaca siapa pun.
+    """
+    endpoints = _observed_raw().get("endpoints", {})
+    if not endpoints:
+        return ""
+
+    gagal = {k: v for k, v in endpoints.items() if not v.get("ok")}
+    berhasil = {k: v for k, v in endpoints.items() if v.get("ok")}
+
+    out = ["## Temuan spike F0", ""]
+    out.append(f"Spike 8 Sep memanggil {len(endpoints)} endpoint sekali masing-masing "
+               f"(9 kredit). Respons mentahnya di [`spikes/raw/`](../spikes/raw) dan "
+               f"di-commit — seluruh lapisan parsing bisa diuji ulang selamanya tanpa "
+               f"jaringan lewat `tests/sectors/test_respons_asli.py`.\n")
+
+    if berhasil:
+        out.append(f"**{len(berhasil)} endpoint menjawab benar** dan biayanya terukur. "
+                   "Bentuk responsnya ternyata **tidak seragam** — ada empat bentuk "
+                   "berbeda (daftar rata, `{results, pagination}`, pembungkus bercontext + "
+                   "`data`, dan dict berkunci tanggal). Adapter per endpoint ada di "
+                   "`core/sectors/schemas.py`.\n")
+
+    if gagal:
+        out.append(f"**{len(gagal)} endpoint GAGAL.** Ini yang harus dibereskan sebelum "
+                   "jalurnya dipakai:\n")
+        out.append("| Endpoint | Sebab saat spike |")
+        out.append("| --- | --- |")
+        for name, info in sorted(gagal.items()):
+            out.append(f"| `{name}` | {_ringkas_galat(info.get('error', '?'))} |")
+        out.append("")
+        out.append("Sebab **SDK mcp** di atas sudah diperbaiki setelah spike: nama fungsinya "
+                   "`streamable_http_client`, bukan `streamablehttp_client`, dan header "
+                   "otorisasi harus lewat klien httpx yang sudah dikonfigurasi. Dikunci "
+                   "`tests/sectors/test_transport_mcp.py`. Endpoint yang gagal **hanya karena "
+                   "itu** kemungkinan besar hidup, tapi belum dibuktikan — perlu spike ulang.\n")
+        out.append("Yang gagal karena **HTTP**, bukan karena SDK, memang jalurnya salah dan "
+                   "belum bisa disimpulkan dari data yang ada: `fetch-close` menjawab "
+                   "`400 Invalid query parameters: date` (jalurnya ada, paramnya salah) dan "
+                   "`fetch-broker-summary-top` menjawab `404` (jalurnya tidak ada). Keduanya "
+                   "butuh spike lanjutan, perkiraan ±4 kredit.\n")
+
+    out.append("> ⚠️ **Paginasi.** `fetch-suspensions` melaporkan `total_count: 533` tapi "
+               "hanya mengirim **20 baris per panggilan**; `fetch-filings` 223 dari 20. "
+               "Backfill yang mengabaikan `limit`/`offset` akan mengira sudah menarik 24 "
+               "bulan padahal baru satu halaman — dan himpunan positif kalibrasi jadi "
+               "sepotong. Anggaran tahap 2 di `core/ingest/backfill.py` **belum** "
+               "memperhitungkan halaman tambahan.\n")
+    return "\n".join(out)
+
+
 def endpoint_costs() -> str:
     tabel = routing.table()
     terukur = sum(1 for e in tabel.values() if e.verified)
@@ -103,6 +184,7 @@ def endpoint_costs() -> str:
                f"penghematan agen (Angka 2, `ARCHITECTURE.md` §6), dan harus tetap di bawah "
                f"pagar 25 kredit per investigasi `[AD-6]`.\n")
 
+    out.append(_temuan_spike())
     out.append("## Anggaran fase")
     out.append("\nDitegakkan `CreditAwareClient`: panggilan yang menembus pagu **ditolak** "
                "dengan `BudgetExceeded`, bukan diperingatkan. `make credits` mencetak posisi "

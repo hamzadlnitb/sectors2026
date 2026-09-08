@@ -50,6 +50,28 @@ Yang dilihat perencana. Biaya probe = jumlah biaya endpoint yang dibungkusnya, d
 
 **Investigasi menyeluruh = 17 kredit** — ini penyebut klaim penghematan agen (Angka 2, `ARCHITECTURE.md` §6), dan harus tetap di bawah pagar 25 kredit per investigasi `[AD-6]`.
 
+## Temuan spike F0
+
+Spike 8 Sep memanggil 12 endpoint sekali masing-masing (9 kredit). Respons mentahnya di [`spikes/raw/`](../spikes/raw) dan di-commit — seluruh lapisan parsing bisa diuji ulang selamanya tanpa jaringan lewat `tests/sectors/test_respons_asli.py`.
+
+**7 endpoint menjawab benar** dan biayanya terukur. Bentuk responsnya ternyata **tidak seragam** — ada empat bentuk berbeda (daftar rata, `{results, pagination}`, pembungkus bercontext + `data`, dan dict berkunci tanggal). Adapter per endpoint ada di `core/sectors/schemas.py`.
+
+**5 endpoint GAGAL.** Ini yang harus dibereskan sebelum jalurnya dipakai:
+
+| Endpoint | Sebab saat spike |
+| --- | --- |
+| `fetch-broker-summary-top` | 'fetch-broker-summary-top' gagal setelah 2 percobaan: SDK mcp tidak terpasang (cannot import name 'streamablehttp_client' from 'mcp.client.streamable_… |
+| `fetch-close` | 'fetch-close' gagal setelah 2 percobaan: SDK mcp tidak terpasang (cannot import name 'streamablehttp_client' from 'mcp.client.streamable_http' (<jalur… |
+| `fetch-corporate-actions` | 'fetch-corporate-actions' gagal setelah 1 percobaan: SDK mcp tidak terpasang (cannot import name 'streamablehttp_client' from 'mcp.client.streamable_h… |
+| `fetch-free-float` | 'fetch-free-float' gagal setelah 1 percobaan: SDK mcp tidak terpasang (cannot import name 'streamablehttp_client' from 'mcp.client.streamable_http' (<… |
+| `fetch-quarterly-financials` | 'fetch-quarterly-financials' gagal setelah 1 percobaan: SDK mcp tidak terpasang (cannot import name 'streamablehttp_client' from 'mcp.client.streamabl… |
+
+Sebab **SDK mcp** di atas sudah diperbaiki setelah spike: nama fungsinya `streamable_http_client`, bukan `streamablehttp_client`, dan header otorisasi harus lewat klien httpx yang sudah dikonfigurasi. Dikunci `tests/sectors/test_transport_mcp.py`. Endpoint yang gagal **hanya karena itu** kemungkinan besar hidup, tapi belum dibuktikan — perlu spike ulang.
+
+Yang gagal karena **HTTP**, bukan karena SDK, memang jalurnya salah dan belum bisa disimpulkan dari data yang ada: `fetch-close` menjawab `400 Invalid query parameters: date` (jalurnya ada, paramnya salah) dan `fetch-broker-summary-top` menjawab `404` (jalurnya tidak ada). Keduanya butuh spike lanjutan, perkiraan ±4 kredit.
+
+> ⚠️ **Paginasi.** `fetch-suspensions` melaporkan `total_count: 533` tapi hanya mengirim **20 baris per panggilan**; `fetch-filings` 223 dari 20. Backfill yang mengabaikan `limit`/`offset` akan mengira sudah menarik 24 bulan padahal baru satu halaman — dan himpunan positif kalibrasi jadi sepotong. Anggaran tahap 2 di `core/ingest/backfill.py` **belum** memperhitungkan halaman tambahan.
+
 ## Anggaran fase
 
 Ditegakkan `CreditAwareClient`: panggilan yang menembus pagu **ditolak** dengan `BudgetExceeded`, bukan diperingatkan. `make credits` mencetak posisi terkini dari `data/credit_ledger.jsonl`.

@@ -41,16 +41,39 @@ DEFAULT_TIMEOUT = 45.0
 
 
 def _import_sdk():
-    """SDK MCP opsional: ketiadaannya melumpuhkan MCP, bukan seluruh pipeline."""
+    """SDK MCP opsional: ketiadaannya melumpuhkan MCP, bukan seluruh pipeline.
+
+    Nama fungsinya `streamable_http_client` (dengan garis bawah). Spike F0
+    membuktikan tebakan `streamablehttp_client` salah, dan lima endpoint gagal
+    bukan karena API-nya melainkan karena ImportError di sini.
+    """
     try:
         from mcp import ClientSession  # type: ignore
-        from mcp.client.streamable_http import streamablehttp_client  # type: ignore
+        from mcp.client.streamable_http import streamable_http_client  # type: ignore
     except ImportError as exc:  # pragma: no cover — hanya di lingkungan tanpa SDK
         raise TransportUnavailable(
-            f"SDK mcp tidak terpasang ({exc}). Jalur REST tetap jalan; "
-            "pasang dengan pip install -r requirements.txt kalau MCP dibutuhkan."
+            f"SDK mcp tidak terpasang atau bentuknya berubah ({exc}). Jalur REST "
+            "tetap jalan; pasang dengan pip install -r requirements.txt kalau MCP "
+            "dibutuhkan."
         ) from exc
-    return ClientSession, streamablehttp_client
+    return ClientSession, streamable_http_client
+
+
+def _http_client(headers: dict[str, str], timeout: float):
+    """Klien HTTP async pembawa header Authorization.
+
+    `streamable_http_client` TIDAK menerima argumen headers — satu-satunya cara
+    menyisipkan kunci adalah lewat klien httpx yang sudah dikonfigurasi. SDK
+    memakai httpx2; kalau tidak ada, httpx biasa dicoba sebagai cadangan.
+    """
+    try:
+        import httpx2  # type: ignore
+
+        return httpx2.AsyncClient(headers=headers, timeout=timeout, follow_redirects=True)
+    except ImportError:  # pragma: no cover
+        import httpx
+
+        return httpx.AsyncClient(headers=headers, timeout=timeout, follow_redirects=True)
 
 
 class _LoopThread:
@@ -98,13 +121,18 @@ class McpTransport:
         self._loop: _LoopThread | None = None
         self._session: Any = None
         self._ctx: Any = None
+        self._session_ctx: Any = None
+        self._http: Any = None
         self._lock = threading.Lock()
 
     # ── sesi ────────────────────────────────────────────────────────────────
     async def _open(self) -> Any:
-        ClientSession, streamablehttp_client = _import_sdk()
-        self._ctx = streamablehttp_client(self.url, headers=self._headers)
-        read, write, _ = await self._ctx.__aenter__()
+        ClientSession, streamable_http_client = _import_sdk()
+        self._http = _http_client(self._headers, self.timeout)
+        self._ctx = streamable_http_client(self.url, http_client=self._http)
+        # Yang di-yield DUA aliran, bukan tiga. Bentuk lama (read, write,
+        # get_session_id) sudah tidak berlaku di SDK yang terpasang.
+        read, write = await self._ctx.__aenter__()
         session_ctx = ClientSession(read, write)
         session = await session_ctx.__aenter__()
         await session.initialize()
@@ -196,8 +224,12 @@ class McpTransport:
                 # harus melepaskan thread loop-nya.
                 with contextlib.suppress(Exception):
                     await ctx.__aexit__(None, None, None)
+        if self._http is not None:
+            with contextlib.suppress(Exception):
+                await self._http.aclose()
         self._ctx = None
         self._session_ctx = None
+        self._http = None
 
 
 def _text_of(result: Any) -> str:
