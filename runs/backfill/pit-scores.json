@@ -1,0 +1,977 @@
+{
+  "generated_at": "2026-09-08T14:46:47+00:00",
+  "metode": "enam probe dijalankan lewat Warehouse.connect(as_of) — point-in-time ditegakkan view, bukan query",
+  "lags": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "peringatan": [
+    "SSS bocor label: skornya memuat riwayat suspensi, dan label positif DIDEFINISIKAN dari suspensi. Keluarkan SSS, atau buang komponen suspensinya, sebelum mencari bobot — kalau tidak model cuma menghafal labelnya.",
+    "BCI dan FFS sering None di T-n: broker summary yang kami tarik adalah agregat per akhir periode dan free float tidak membawa tanggal berlaku, jadi keduanya bertanggal tanggal tarikan dan tersaring keluar di masa lampau. Itu perilaku point-in-time yang BENAR, bukan bug — tapi artinya kedua komponen belum bisa dikalibrasi tanpa tarikan tambahan per tanggal.",
+    "Sampel kecil (8 positif + 8 kontrol) karena anggaran kredit. Himpunan positif sesungguhnya 228 emiten."
+  ],
+  "rows": [
+    {
+      "symbol": "LIFE",
+      "label": 1,
+      "lag": 1,
+      "event_date": "2026-09-04",
+      "as_of": "2026-09-03",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": 12.9,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "JAWA",
+      "label": 0,
+      "lag": 1,
+      "event_date": "2026-09-04",
+      "as_of": "2026-09-03",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "LIFE",
+      "label": 1,
+      "lag": 3,
+      "event_date": "2026-09-04",
+      "as_of": "2026-09-01",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": 4.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "JAWA",
+      "label": 0,
+      "lag": 3,
+      "event_date": "2026-09-04",
+      "as_of": "2026-09-01",
+      "scores": {
+        "BCI": null,
+        "VAS": 10.4,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "LIFE",
+      "label": 1,
+      "lag": 5,
+      "event_date": "2026-09-04",
+      "as_of": "2026-08-28",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 2.0,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "JAWA",
+      "label": 0,
+      "lag": 5,
+      "event_date": "2026-09-04",
+      "as_of": "2026-08-28",
+      "scores": {
+        "BCI": null,
+        "VAS": 4.4,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "LIFE",
+      "label": 1,
+      "lag": 10,
+      "event_date": "2026-09-04",
+      "as_of": "2026-08-20",
+      "scores": {
+        "BCI": null,
+        "VAS": 51.6,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "JAWA",
+      "label": 0,
+      "lag": 10,
+      "event_date": "2026-09-04",
+      "as_of": "2026-08-20",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "NICK",
+      "label": 1,
+      "lag": 1,
+      "event_date": "2026-09-04",
+      "as_of": "2026-09-03",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": 68.5,
+        "FFS": null,
+        "FRD": 22.2,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "INOV",
+      "label": 0,
+      "lag": 1,
+      "event_date": "2026-09-04",
+      "as_of": "2026-09-03",
+      "scores": {
+        "BCI": null,
+        "VAS": 25.5,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 5.8,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "NICK",
+      "label": 1,
+      "lag": 3,
+      "event_date": "2026-09-04",
+      "as_of": "2026-09-01",
+      "scores": {
+        "BCI": null,
+        "VAS": 15.3,
+        "PFD": 54.2,
+        "FFS": null,
+        "FRD": 29.4,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "INOV",
+      "label": 0,
+      "lag": 3,
+      "event_date": "2026-09-04",
+      "as_of": "2026-09-01",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 1.5,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "NICK",
+      "label": 1,
+      "lag": 5,
+      "event_date": "2026-09-04",
+      "as_of": "2026-08-28",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": 53.0,
+        "FFS": null,
+        "FRD": 29.1,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "INOV",
+      "label": 0,
+      "lag": 5,
+      "event_date": "2026-09-04",
+      "as_of": "2026-08-28",
+      "scores": {
+        "BCI": null,
+        "VAS": 68.4,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 1.2,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "NICK",
+      "label": 1,
+      "lag": 10,
+      "event_date": "2026-09-04",
+      "as_of": "2026-08-20",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 34.5,
+        "FFS": null,
+        "FRD": 30.0,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "INOV",
+      "label": 0,
+      "lag": 10,
+      "event_date": "2026-09-04",
+      "as_of": "2026-08-20",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 2.5,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "TRUK",
+      "label": 1,
+      "lag": 1,
+      "event_date": "2026-09-04",
+      "as_of": "2026-09-03",
+      "scores": {
+        "BCI": null,
+        "VAS": 89.4,
+        "PFD": 86.6,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "CGAS",
+      "label": 0,
+      "lag": 1,
+      "event_date": "2026-09-04",
+      "as_of": "2026-09-03",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "TRUK",
+      "label": 1,
+      "lag": 3,
+      "event_date": "2026-09-04",
+      "as_of": "2026-09-01",
+      "scores": {
+        "BCI": null,
+        "VAS": 15.3,
+        "PFD": 59.1,
+        "FFS": null,
+        "FRD": 8.4,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "CGAS",
+      "label": 0,
+      "lag": 3,
+      "event_date": "2026-09-04",
+      "as_of": "2026-09-01",
+      "scores": {
+        "BCI": null,
+        "VAS": 19.5,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "TRUK",
+      "label": 1,
+      "lag": 5,
+      "event_date": "2026-09-04",
+      "as_of": "2026-08-28",
+      "scores": {
+        "BCI": null,
+        "VAS": 39.5,
+        "PFD": 68.2,
+        "FFS": null,
+        "FRD": 7.6,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "CGAS",
+      "label": 0,
+      "lag": 5,
+      "event_date": "2026-09-04",
+      "as_of": "2026-08-28",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "TRUK",
+      "label": 1,
+      "lag": 10,
+      "event_date": "2026-09-04",
+      "as_of": "2026-08-20",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": 61.2,
+        "FFS": null,
+        "FRD": 10.2,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "CGAS",
+      "label": 0,
+      "lag": 10,
+      "event_date": "2026-09-04",
+      "as_of": "2026-08-20",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "ASLI",
+      "label": 1,
+      "lag": 1,
+      "event_date": "2026-09-04",
+      "as_of": "2026-09-03",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "ARNA",
+      "label": 0,
+      "lag": 1,
+      "event_date": "2026-09-04",
+      "as_of": "2026-09-03",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 44.6,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "ASLI",
+      "label": 1,
+      "lag": 3,
+      "event_date": "2026-09-04",
+      "as_of": "2026-09-01",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "ARNA",
+      "label": 0,
+      "lag": 3,
+      "event_date": "2026-09-04",
+      "as_of": "2026-09-01",
+      "scores": {
+        "BCI": null,
+        "VAS": 6.8,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 52.7,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "ASLI",
+      "label": 1,
+      "lag": 5,
+      "event_date": "2026-09-04",
+      "as_of": "2026-08-28",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "ARNA",
+      "label": 0,
+      "lag": 5,
+      "event_date": "2026-09-04",
+      "as_of": "2026-08-28",
+      "scores": {
+        "BCI": null,
+        "VAS": 12.6,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 40.4,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "ASLI",
+      "label": 1,
+      "lag": 10,
+      "event_date": "2026-09-04",
+      "as_of": "2026-08-20",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "ARNA",
+      "label": 0,
+      "lag": 10,
+      "event_date": "2026-09-04",
+      "as_of": "2026-08-20",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 43.3,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "SAFE",
+      "label": 1,
+      "lag": 1,
+      "event_date": "2026-09-02",
+      "as_of": "2026-09-01",
+      "scores": {
+        "BCI": null,
+        "VAS": 80.3,
+        "PFD": 55.0,
+        "FFS": null,
+        "FRD": 21.2,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "MSKY",
+      "label": 0,
+      "lag": 1,
+      "event_date": "2026-09-02",
+      "as_of": "2026-09-01",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "SAFE",
+      "label": 1,
+      "lag": 3,
+      "event_date": "2026-09-02",
+      "as_of": "2026-08-28",
+      "scores": {
+        "BCI": null,
+        "VAS": 45.2,
+        "PFD": 33.7,
+        "FFS": null,
+        "FRD": 21.5,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "MSKY",
+      "label": 0,
+      "lag": 3,
+      "event_date": "2026-09-02",
+      "as_of": "2026-08-28",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "SAFE",
+      "label": 1,
+      "lag": 5,
+      "event_date": "2026-09-02",
+      "as_of": "2026-08-26",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": 23.9,
+        "FFS": null,
+        "FRD": 28.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "MSKY",
+      "label": 0,
+      "lag": 5,
+      "event_date": "2026-09-02",
+      "as_of": "2026-08-26",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "SAFE",
+      "label": 1,
+      "lag": 10,
+      "event_date": "2026-09-02",
+      "as_of": "2026-08-18",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 22.3,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "MSKY",
+      "label": 0,
+      "lag": 10,
+      "event_date": "2026-09-02",
+      "as_of": "2026-08-18",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "PPGL",
+      "label": 1,
+      "lag": 1,
+      "event_date": "2026-09-02",
+      "as_of": "2026-09-01",
+      "scores": {
+        "BCI": null,
+        "VAS": 98.4,
+        "PFD": null,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "SCCO",
+      "label": 0,
+      "lag": 1,
+      "event_date": "2026-09-02",
+      "as_of": "2026-09-01",
+      "scores": {
+        "BCI": null,
+        "VAS": 9.9,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 11.5,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "PPGL",
+      "label": 1,
+      "lag": 3,
+      "event_date": "2026-09-02",
+      "as_of": "2026-08-28",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": null,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "SCCO",
+      "label": 0,
+      "lag": 3,
+      "event_date": "2026-09-02",
+      "as_of": "2026-08-28",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 8.7,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "PPGL",
+      "label": 1,
+      "lag": 5,
+      "event_date": "2026-09-02",
+      "as_of": "2026-08-26",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": null,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "SCCO",
+      "label": 0,
+      "lag": 5,
+      "event_date": "2026-09-02",
+      "as_of": "2026-08-26",
+      "scores": {
+        "BCI": null,
+        "VAS": 7.3,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 27.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "PPGL",
+      "label": 1,
+      "lag": 10,
+      "event_date": "2026-09-02",
+      "as_of": "2026-08-18",
+      "scores": {
+        "BCI": null,
+        "VAS": 39.4,
+        "PFD": null,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 55.0
+      }
+    },
+    {
+      "symbol": "SCCO",
+      "label": 0,
+      "lag": 10,
+      "event_date": "2026-09-02",
+      "as_of": "2026-08-18",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 39.2,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "PACK",
+      "label": 1,
+      "lag": 1,
+      "event_date": "2026-09-01",
+      "as_of": "2026-08-31",
+      "scores": {
+        "BCI": null,
+        "VAS": 34.1,
+        "PFD": null,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 65.0
+      }
+    },
+    {
+      "symbol": "KLBF",
+      "label": 0,
+      "lag": 1,
+      "event_date": "2026-09-01",
+      "as_of": "2026-08-31",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "PACK",
+      "label": 1,
+      "lag": 3,
+      "event_date": "2026-09-01",
+      "as_of": "2026-08-27",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": null,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 65.0
+      }
+    },
+    {
+      "symbol": "KLBF",
+      "label": 0,
+      "lag": 3,
+      "event_date": "2026-09-01",
+      "as_of": "2026-08-27",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "PACK",
+      "label": 1,
+      "lag": 5,
+      "event_date": "2026-09-01",
+      "as_of": "2026-08-24",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": null,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 65.0
+      }
+    },
+    {
+      "symbol": "KLBF",
+      "label": 0,
+      "lag": 5,
+      "event_date": "2026-09-01",
+      "as_of": "2026-08-24",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "PACK",
+      "label": 1,
+      "lag": 10,
+      "event_date": "2026-09-01",
+      "as_of": "2026-08-14",
+      "scores": {
+        "BCI": null,
+        "VAS": 49.8,
+        "PFD": null,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 75.0
+      }
+    },
+    {
+      "symbol": "KLBF",
+      "label": 0,
+      "lag": 10,
+      "event_date": "2026-09-01",
+      "as_of": "2026-08-14",
+      "scores": {
+        "BCI": null,
+        "VAS": 20.3,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "CSMI",
+      "label": 1,
+      "lag": 1,
+      "event_date": "2026-08-28",
+      "as_of": "2026-08-27",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": 2.7,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 40.0
+      }
+    },
+    {
+      "symbol": "CTTH",
+      "label": 0,
+      "lag": 1,
+      "event_date": "2026-08-28",
+      "as_of": "2026-08-27",
+      "scores": {
+        "BCI": null,
+        "VAS": 2.6,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "CSMI",
+      "label": 1,
+      "lag": 3,
+      "event_date": "2026-08-28",
+      "as_of": "2026-08-24",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 40.0
+      }
+    },
+    {
+      "symbol": "CTTH",
+      "label": 0,
+      "lag": 3,
+      "event_date": "2026-08-28",
+      "as_of": "2026-08-24",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "CSMI",
+      "label": 1,
+      "lag": 5,
+      "event_date": "2026-08-28",
+      "as_of": "2026-08-20",
+      "scores": {
+        "BCI": null,
+        "VAS": 37.2,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 40.0
+      }
+    },
+    {
+      "symbol": "CTTH",
+      "label": 0,
+      "lag": 5,
+      "event_date": "2026-08-28",
+      "as_of": "2026-08-20",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    },
+    {
+      "symbol": "CSMI",
+      "label": 1,
+      "lag": 10,
+      "event_date": "2026-08-28",
+      "as_of": "2026-08-12",
+      "scores": {
+        "BCI": null,
+        "VAS": 100.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 40.0
+      }
+    },
+    {
+      "symbol": "CTTH",
+      "label": 0,
+      "lag": 10,
+      "event_date": "2026-08-28",
+      "as_of": "2026-08-12",
+      "scores": {
+        "BCI": null,
+        "VAS": 0.0,
+        "PFD": 0.0,
+        "FFS": null,
+        "FRD": 0.0,
+        "SSS": 0.0
+      }
+    }
+  ]
+}

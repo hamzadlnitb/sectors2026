@@ -39,14 +39,13 @@ class PriceFundamentalProbe(BaseProbe):
         window = ctx.sessions(RETURN_SESSIONS + 10)
         since = window[0] if window else None
 
-        harga = ctx.symbol_frame("daily_close", symbol, since=since)
+        harga = ctx.price_history(symbol, since=since)
         if len(harga) < MIN_SESSIONS:
             return Finding.unavailable(
                 f"riwayat harga hanya {len(harga)} hari bursa, minimum {MIN_SESSIONS} "
                 f"— return 90 hari tidak bisa dihitung"
             )
 
-        harga = harga[harga["close_price"].notna()]
         awal = float(harga["close_price"].iloc[0])
         akhir = float(harga["close_price"].iloc[-1])
         if awal <= 0:

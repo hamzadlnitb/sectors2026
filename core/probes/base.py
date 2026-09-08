@@ -117,6 +117,28 @@ class Context:
         df = self.frame(table, where, params)
         return df.sort_values(cut) if cut and cut in df.columns else df
 
+    def price_history(self, symbol: str, since: date | None = None) -> pd.DataFrame:
+        """Riwayat harga satu emiten, dari tabel mana pun yang memilikinya.
+
+        daily_transaction lebih dulu: sejak fetch-close dikeluarkan dari sapuan
+        harian (1 kredit per halaman, ~32 halaman sehari), daily_close cuma
+        memuat penggerak harga terbesar hari itu. Probe yang membacanya sendirian
+        akan mengira emiten paling likuid sekalipun tidak punya riwayat.
+        """
+        potongan = []
+        for tabel in ("daily_transaction", "daily_close"):
+            df = self.symbol_frame(tabel, symbol, since=since)
+            if not df.empty:
+                potongan.append(df[["trade_date", "close_price"]])
+        if not potongan:
+            return pd.DataFrame(columns=["trade_date", "close_price"])
+
+        gabung = pd.concat(potongan, ignore_index=True)
+        gabung = gabung[gabung["close_price"].notna()]
+        return (gabung.drop_duplicates(subset="trade_date", keep="first")
+                      .sort_values("trade_date")
+                      .reset_index(drop=True))
+
     def sessions(self, lookback: int) -> list[date]:
         from core.ingest.warehouse import trading_days
 

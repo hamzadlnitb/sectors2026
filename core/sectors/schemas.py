@@ -176,13 +176,16 @@ class BrokerSummary(SymbolRow):
     trade_date: date = Field(validation_alias=AliasChoices("trade_date", "date"))
     broker_code: str = Field(validation_alias=AliasChoices("broker_code", "broker", "code"))
     net_value: float | None = Field(
-        default=None, validation_alias=AliasChoices("net_value", "net", "net_amount")
+        default=None,
+        validation_alias=AliasChoices("net_idr", "net_value", "net", "net_amount"),
     )
     buy_value: float | None = Field(
-        default=None, validation_alias=AliasChoices("buy_value", "buy", "total_buy")
+        default=None,
+        validation_alias=AliasChoices("buy_idr", "buy_value", "buy", "total_buy"),
     )
     sell_value: float | None = Field(
-        default=None, validation_alias=AliasChoices("sell_value", "sell", "total_sell")
+        default=None,
+        validation_alias=AliasChoices("sell_idr", "sell_value", "sell", "total_sell"),
     )
 
     @field_validator("broker_code", mode="before")
@@ -380,7 +383,68 @@ def _flatten_company_report(payload: Any) -> list[dict]:
     return [{k: v for k, v in baris.items() if v is not None}]
 
 
+def _flatten_broker_top(payload: Any) -> list[dict]:
+    """{symbol, start, end, top_buyers: [...], top_sellers: [...]} -> baris broker.
+
+    Responsnya AGREGAT sepanjang periode, bukan rincian per hari bursa — tidak
+    ada trade_date di baris mana pun. Tanggal akhir periode dipakai sebagai
+    trade_date: itu pernyataan yang jujur ("posisi bersih broker per tanggal
+    ini"), dan BCI memang menjumlahkan sepanjang jendela, jadi tidak ada
+    informasi yang hilang.
+    """
+    if not isinstance(payload, dict):
+        return unwrap(payload)
+    konteks = {"symbol": payload.get("symbol"), "trade_date": payload.get("end")}
+    keluar: list[dict] = []
+    for sisi in ("top_buyers", "top_sellers"):
+        for r in payload.get(sisi) or []:
+            if isinstance(r, dict):
+                keluar.append({**konteks, "side": sisi, **r})
+    return keluar
+
+
+# Jenis aksi korporasi -> nama kolom tanggalnya. Tiap jenis memakai nama
+# sendiri, jadi tidak ada satu alias yang menutup semuanya.
+_TANGGAL_AKSI = {
+    "agm": "agm_date", "bonus": "payment_date", "dividend": "ex_date",
+    "right_issue": "ex_date", "stock_split": "date", "warrant": "ex_date",
+    "upcoming_dividend": "ex_date",
+}
+
+
+def _flatten_corporate_actions(payload: Any) -> list[dict]:
+    """{symbol, corporate_actions: {agm: [...], right_issue: [...]}} -> baris rata.
+
+    Jenis aksinya jadi action_type — itu yang dibaca probe SSS untuk mengenali
+    rights issue dan private placement.
+    """
+    if not isinstance(payload, dict):
+        return unwrap(payload)
+    symbol = payload.get("symbol")
+    blok = payload.get("corporate_actions")
+    if not isinstance(blok, dict):
+        return unwrap(payload)
+
+    keluar: list[dict] = []
+    for tipe, baris in blok.items():
+        kolom = _TANGGAL_AKSI.get(tipe, "ex_date")
+        for r in baris or []:
+            if not isinstance(r, dict):
+                continue
+            tanggal = r.get(kolom) or r.get("ex_date") or r.get("date")
+            if not tanggal:
+                continue  # aksi tanpa tanggal tidak bisa dipakai point-in-time
+            rincian = {k: v for k, v in r.items() if v not in (None, "")}
+            keluar.append({
+                "symbol": symbol, "action_date": tanggal, "action_type": tipe,
+                "detail": json.dumps(rincian, ensure_ascii=False)[:400],
+            })
+    return keluar
+
+
 SHAPES: dict[str, Any] = {
+    "fetch-broker-summary-top": _flatten_broker_top,
+    "fetch-corporate-actions": _flatten_corporate_actions,
     "fetch-most-traded-stocks": _flatten_keyed_by_date,
     "fetch-companies-top-changes": _flatten_top_changes,
     "fetch-company-report": _flatten_company_report,
