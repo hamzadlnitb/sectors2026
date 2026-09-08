@@ -33,7 +33,7 @@ from pathlib import Path
 import pandas as pd
 
 from core.console import setup_console
-from core.ingest.warehouse import Warehouse
+from core.ingest.warehouse import Warehouse, price_frame
 from core.sectors.client import CreditAwareClient
 from core.sectors.errors import SectorsError, TransportUnavailable
 from core.sectors.ledger import CreditLedger
@@ -120,12 +120,18 @@ def sweep(client: CreditAwareClient, wh: Warehouse, as_of: date) -> SweepResult:
             continue
 
         frame = _to_table(endpoint, rows, as_of)
-        total = wh.write(table, frame) if len(frame) else 0
         result.credits_spent += resp.credits_spent
         result.rows_written[endpoint] = len(frame)
         asal = "cache" if resp.cached else f"{resp.credits_spent} kredit"
-        result.say(f"  {endpoint:<28} {len(frame):>5} baris -> {table} "
-                   f"(kini {total} baris, {asal})")
+        if len(frame):
+            total = wh.write(table, frame)
+            result.say(f"  {endpoint:<28} {len(frame):>5} baris -> {table} "
+                       f"(kini {total} baris, {asal})")
+        else:
+            # Nol baris itu jawaban sah — hari bursa tanpa suspensi memang begitu.
+            # Jangan cetak "kini 0 baris": tabelnya tidak disentuh sama sekali,
+            # dan angka itu terbaca seperti data yang terhapus.
+            result.say(f"  {endpoint:<28} {'0':>5} baris (tidak ada yang baru, {asal})")
 
     result.say(f"total {result.credits_spent} kredit; {client.stats.summary()}")
     return result
@@ -170,11 +176,9 @@ def screen(wh: Warehouse, as_of: date, size: int = WATCHLIST_SIZE) -> list[dict]
     dan sengaja memakai sinyal yang gratis — kalau penyaringannya sendiri
     berbayar, seluruh alasan keberadaan agen (menghemat kredit) runtuh.
     """
-    harga = wh.frame("daily_close", as_of=as_of)
+    harga = price_frame(wh, as_of=as_of)
     if harga.empty:
         return []
-
-    harga = harga.sort_values(["symbol", "trade_date"])
     trans = wh.frame("daily_transaction", as_of=as_of)
     profil = wh.frame("company_profile", as_of=as_of).set_index("symbol") \
         if wh.exists("company_profile") else pd.DataFrame()

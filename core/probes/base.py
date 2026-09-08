@@ -125,19 +125,12 @@ class Context:
         memuat penggerak harga terbesar hari itu. Probe yang membacanya sendirian
         akan mengira emiten paling likuid sekalipun tidak punya riwayat.
         """
-        potongan = []
-        for tabel in ("daily_transaction", "daily_close"):
-            df = self.symbol_frame(tabel, symbol, since=since)
-            if not df.empty:
-                potongan.append(df[["trade_date", "close_price"]])
-        if not potongan:
-            return pd.DataFrame(columns=["trade_date", "close_price"])
+        from core.ingest.warehouse import price_frame
 
-        gabung = pd.concat(potongan, ignore_index=True)
-        gabung = gabung[gabung["close_price"].notna()]
-        return (gabung.drop_duplicates(subset="trade_date", keep="first")
-                      .sort_values("trade_date")
-                      .reset_index(drop=True))
+        df = price_frame(self.warehouse, as_of=self.as_of, symbol=symbol)
+        if since is not None and not df.empty:
+            df = df[pd.to_datetime(df["trade_date"]).dt.date >= since]
+        return df.reset_index(drop=True)
 
     def sessions(self, lookback: int) -> list[date]:
         from core.ingest.warehouse import trading_days
