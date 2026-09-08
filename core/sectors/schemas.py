@@ -50,10 +50,31 @@ def normalize_symbol(value: str) -> str:
     return sym
 
 
+def _as_date(value: Any) -> Any:
+    """Ambil bagian tanggal dari stempel waktu ISO.
+
+    fetch-filings mengirim "2026-09-07T19:36:14" untuk field yang di kontrak
+    bertipe DATE. Membiarkannya berarti tiap filing ditolak validator, dan
+    probe SSS kehilangan seluruh sinyal insider. Jamnya sengaja dibuang: data
+    Sectors EOD, jadi presisi jam tidak berarti apa-apa dan hanya akan bikin
+    kunci primer warehouse meleset. [K7]
+    """
+    if isinstance(value, str) and "T" in value:
+        return value.split("T", 1)[0]
+    return value
+
+
 class Row(BaseModel):
     """Induk semua baris respons. Longgar terhadap kolom tambahan, ketat pada isi."""
 
     model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    @field_validator("*", mode="before")
+    @classmethod
+    def _potong_stempel_waktu(cls, v: Any, info) -> Any:
+        if info.field_name and info.field_name.endswith(("_date", "as_of")):
+            return _as_date(v)
+        return v
 
 
 class SymbolRow(Row):
@@ -95,8 +116,14 @@ class TopChange(SymbolRow):
         default=None, validation_alias=AliasChoices("price_change", "change", "pct_change")
     )
     last_close: float | None = Field(
-        default=None, validation_alias=AliasChoices("last_close", "close", "price")
+        default=None,
+        validation_alias=AliasChoices("last_close_price", "last_close", "close", "price"),
     )
+    trade_date: date | None = Field(
+        default=None, validation_alias=AliasChoices("latest_close_date", "trade_date", "date")
+    )
+    direction: str | None = None
+    """'top_gainers' atau 'top_losers' — diturunkan adapter dari bentuk bersarangnya."""
 
 
 class Suspension(SymbolRow):
@@ -116,7 +143,7 @@ class Suspension(SymbolRow):
 
 class Filing(SymbolRow):
     filing_date: date = Field(
-        validation_alias=AliasChoices("filing_date", "date", "transaction_date")
+        validation_alias=AliasChoices("filing_date", "timestamp", "date", "transaction_date")
     )
     holder_name: str | None = Field(
         default=None, validation_alias=AliasChoices("holder_name", "holder", "name")
@@ -168,7 +195,9 @@ class ForeignFlow(SymbolRow):
     trade_date: date = Field(validation_alias=AliasChoices("trade_date", "date"))
     net_value: float | None = Field(
         default=None,
-        validation_alias=AliasChoices("net_value", "foreign_net", "net", "foreign_net_buy"),
+        validation_alias=AliasChoices(
+            "net_foreign_inflow", "net_value", "foreign_net", "net", "foreign_net_buy"
+        ),
     )
 
 
@@ -263,24 +292,118 @@ ROW_MODELS: dict[str, type[Row]] = {
 # Kunci pembungkus yang lazim dipakai API: {"data": [...]} dan sejenisnya.
 _ENVELOPE_KEYS = ("data", "results", "items", "rows", "records")
 
+# Konteks yang hidup di LEVEL PEMBUNGKUS dan harus diturunkan ke tiap baris.
+# fetch-foreign-flow adalah alasannya: barisnya cuma {date, net_foreign_inflow},
+# sementara symbol-nya ada sekali di atas. Tanpa penurunan ini, tiap baris arus
+# asing kehilangan identitas emitennya.
+_ENVELOPE_CONTEXT = ("symbol", "ticker")
+
 
 def unwrap(payload: Any) -> list[dict]:
     """Kupas pembungkus respons jadi daftar baris.
 
-    Menerima list, {"data": [...]}, dan objek tunggal. Bentuk lain ditolak di
-    parse_rows() dengan pesan yang menyebut bentuk apa yang datang.
+    Menerima list, {"data": [...]}, dan objek tunggal. Konteks di level
+    pembungkus diturunkan ke tiap baris; baris menang kalau kuncinya bentrok.
     """
     if isinstance(payload, list):
         return [r for r in payload if isinstance(r, dict)]
     if isinstance(payload, dict):
+        konteks = {k: payload[k] for k in _ENVELOPE_CONTEXT if k in payload}
         for key in _ENVELOPE_KEYS:
             inner = payload.get(key)
             if isinstance(inner, list):
-                return [r for r in inner if isinstance(r, dict)]
+                return [{**konteks, **r} for r in inner if isinstance(r, dict)]
             if isinstance(inner, dict):
-                return [inner]
+                return [{**konteks, **inner}]
         return [payload]
     return []
+
+
+# ── Adapter bentuk per endpoint ─────────────────────────────────────────────
+# Spike F0 membuktikan Sectors memakai EMPAT bentuk respons yang berbeda, bukan
+# satu. Memaksakan satu unwrap generik untuk semuanya berarti tiga di antaranya
+# diam-diam salah baca. Tiap adapter di bawah punya padanannya di spikes/raw/,
+# dan tests/sectors/test_respons_asli.py menjalankannya atas berkas itu.
+
+def _flatten_keyed_by_date(payload: Any) -> list[dict]:
+    """{"2026-08-10": [...], "2026-08-11": [...]} → baris ber-'date'.
+
+    Bentuk fetch-most-traded-stocks. Tanggalnya ada di KUNCI, bukan di baris,
+    jadi tanpa penurunan ini seluruh riwayat menumpuk di satu tanggal.
+    """
+    if not isinstance(payload, dict):
+        return unwrap(payload)
+    keluar: list[dict] = []
+    for tanggal, baris in payload.items():
+        if isinstance(baris, list):
+            keluar += [{"date": tanggal, **r} for r in baris if isinstance(r, dict)]
+    return keluar
+
+
+def _flatten_top_changes(payload: Any) -> list[dict]:
+    """{"top_gainers": {"1d": [...]}, "top_losers": {"1d": [...]}} → baris rata.
+
+    Arah pergerakan ikut dibawa sebagai 'direction': penyaring kandidat perlu
+    membedakan yang naik dari yang turun, dan itu hilang kalau digabung buta.
+    """
+    if not isinstance(payload, dict):
+        return unwrap(payload)
+    keluar: list[dict] = []
+    for arah in ("top_gainers", "top_losers"):
+        per_periode = payload.get(arah)
+        if not isinstance(per_periode, dict):
+            continue
+        for periode, baris in per_periode.items():
+            if isinstance(baris, list):
+                keluar += [{"direction": arah, "period": periode, **r}
+                           for r in baris if isinstance(r, dict)]
+    return keluar
+
+
+def _flatten_company_report(payload: Any) -> list[dict]:
+    """Laporan emiten bersarang → satu baris profil rata.
+
+    Hanya bagian yang dipakai warehouse yang diambil. Sisanya (dividend,
+    management, peers, future) sengaja dibuang: menyimpan seluruh laporan
+    berarti menyimpan 100 KB per emiten untuk lima kolom yang terpakai.
+    """
+    if not isinstance(payload, dict):
+        return unwrap(payload)
+    overview = payload.get("overview") or {}
+    baris = {
+        "symbol": payload.get("symbol"),
+        "company_name": payload.get("company_name"),
+        "sub_sector": overview.get("sub_sector") or overview.get("sub_industry"),
+        "market_cap": overview.get("market_cap"),
+        "listing_date": overview.get("listing_date"),
+    }
+    return [{k: v for k, v in baris.items() if v is not None}]
+
+
+SHAPES: dict[str, Any] = {
+    "fetch-most-traded-stocks": _flatten_keyed_by_date,
+    "fetch-companies-top-changes": _flatten_top_changes,
+    "fetch-company-report": _flatten_company_report,
+}
+
+
+def flatten(endpoint: str, payload: Any) -> list[dict]:
+    """Payload mentah → daftar baris rata, sesuai bentuk asli endpoint ini."""
+    return SHAPES.get(endpoint, unwrap)(payload)
+
+
+def pagination_of(payload: Any) -> dict | None:
+    """Blok paginasi kalau ada.
+
+    Penting untuk anggaran: fetch-suspensions mengembalikan 20 baris per
+    panggilan dari total 533. Backfill yang mengabaikan ini akan mengira sudah
+    menarik 24 bulan padahal baru satu halaman. Lihat docs/endpoint-costs.md.
+    """
+    if isinstance(payload, dict):
+        blok = payload.get("pagination")
+        if isinstance(blok, dict):
+            return blok
+    return None
 
 
 def preview(payload: Any, limit: int = 220) -> str:
@@ -306,7 +429,7 @@ def parse_rows[T: Row](endpoint: str, payload: Any, model: type[T] | None = None
         detail = payload.get("error") or payload.get("detail")
         raise SchemaError(endpoint, f"API mengembalikan galat: {detail}", preview(payload))
 
-    raw = unwrap(payload)
+    raw = flatten(endpoint, payload)
     if not raw:
         kind = type(payload).__name__
         raise SchemaError(endpoint, f"tidak ada baris yang bisa dibaca (payload {kind})",

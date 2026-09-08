@@ -53,7 +53,8 @@ def test_hasil_spike_menimpa_asumsi(tmp_path, monkeypatch):
     """Angka terukur menang atas tebakan — dan barisnya jadi 'terverifikasi'."""
     observed = tmp_path / "observed.json"
     observed.write_text(json.dumps({
-        "endpoints": {"fetch-close": {"credit_cost": 3, "rest_path": "/daily/close-all/"}}
+        "endpoints": {"fetch-close": {"ok": True, "verified": True,
+                                      "credit_cost": 3, "rest_path": "/daily/close-all/"}}
     }), encoding="utf-8")
     monkeypatch.setattr(routing, "OBSERVED_PATH", observed)
 
@@ -63,6 +64,21 @@ def test_hasil_spike_menimpa_asumsi(tmp_path, monkeypatch):
     assert ep.verified is True
     # Yang tidak diukur tetap ditandai belum terverifikasi.
     assert routing.route("fetch-filings").verified is False
+
+
+def test_endpoint_gagal_tidak_dianggap_terukur(tmp_path, monkeypatch):
+    """Spike mencatat kegagalan juga. Menandainya terukur akan membuat
+    docs/endpoint-costs.md mengaku 'terukur' untuk endpoint yang menjawab 404."""
+    observed = tmp_path / "observed.json"
+    observed.write_text(json.dumps({"endpoints": {
+        "fetch-close": {"ok": False, "verified": False, "credit_cost": 9,
+                        "error": "HTTP 404"},
+    }}), encoding="utf-8")
+    monkeypatch.setattr(routing, "OBSERVED_PATH", observed)
+
+    ep = routing.route("fetch-close")
+    assert ep.verified is False
+    assert ep.credit_cost == 1, "biaya dari panggilan yang gagal tidak boleh dipakai"
 
 
 def test_observed_rusak_tidak_menjatuhkan_tabel(tmp_path, monkeypatch):

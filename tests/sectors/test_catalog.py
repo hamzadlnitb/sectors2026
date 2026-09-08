@@ -42,8 +42,16 @@ def test_biaya_alat_sama_dengan_jumlah_endpointnya():
 
 
 def test_status_verifikasi_ikut_terbawa():
-    """Selama spike belum jalan, perencana harus tahu angkanya masih asumsi."""
-    assert all(e["cost_verified"] is False for e in catalog.for_planner())
+    """Perencana harus tahu mana biaya terukur dan mana yang masih tebakan.
+
+    Sengaja tidak mematok angkanya: spike menambah endpoint terukur dari waktu
+    ke waktu, dan tes yang mematok jumlah akan merah tiap kali spike jalan —
+    lalu dilonggarkan orang, lalu berhenti berarti.
+    """
+    for entry in catalog.for_planner():
+        assert isinstance(entry["cost_verified"], bool)
+        # Alat dianggap terukur hanya kalau SELURUH endpoint di baliknya terukur.
+        assert entry["cost_verified"] == all(r["verified"] for r in entry["routes"])
 
 
 def test_katalog_statis_lolos_kontrak():

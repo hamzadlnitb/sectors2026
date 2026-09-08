@@ -206,16 +206,25 @@ def load_observed(path: Path | None = None) -> dict[str, dict]:
 
 
 def _overlay(base: dict[str, Endpoint], observed: dict[str, dict]) -> dict[str, Endpoint]:
-    """Angka terukur menang atas asumsi. Yang tidak terukur tetap ditandai belum verified."""
+    """Angka terukur menang atas asumsi. Yang tidak terukur tetap ditandai belum verified.
+
+    Kehadiran nama di spikes/observed.json TIDAK berarti terukur: spike juga
+    mencatat endpoint yang GAGAL, lengkap dengan sebabnya. Menandai semuanya
+    verified akan membuat docs/endpoint-costs.md mengaku "terukur" untuk
+    endpoint yang sebenarnya menjawab HTTP 404 — persis kebohongan yang seluruh
+    mekanisme ini dibuat untuk mencegahnya. Yang menentukan flag verified milik
+    entri itu sendiri.
+    """
     out = dict(base)
     for name, obs in observed.items():
         current = out.get(name)
         if current is None or not isinstance(obs, dict):
             continue
-        patch: dict = {"verified": True}
-        if isinstance(obs.get("credit_cost"), int):
+        terukur = bool(obs.get("verified")) and bool(obs.get("ok", True))
+        patch: dict = {"verified": terukur}
+        if terukur and isinstance(obs.get("credit_cost"), int):
             patch["credit_cost"] = obs["credit_cost"]
-        if obs.get("rest_path"):
+        if terukur and obs.get("rest_path"):
             patch["rest_path"] = obs["rest_path"]
         out[name] = replace(current, **patch)
     return out
