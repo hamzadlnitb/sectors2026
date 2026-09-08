@@ -24,6 +24,13 @@ def wh():
 ALAM_SEMESTA = [f"T{i:03d}" for i in range(80)]
 
 
+def test_free_float_tidak_ditarik_per_emiten():
+    """1 kredit per 100 emiten dan bisa market-wide: menariknya per emiten berarti
+    membayar 1 kredit untuk satu baris yang sudah termasuk tarikan market-wide."""
+    assert "fetch-free-float" not in bf.TIER2_PER_TICKER
+    assert any(e == "fetch-free-float" for e, _, _ in bf.MARKET_WIDE)
+
+
 def test_rencana_produksi_muat_di_pagu_fase():
     """80 ticker riwayat + peristiwa + Tier-2 untuk 20 ticker harus muat di 400.
 
@@ -103,10 +110,10 @@ def test_tahap3_menarik_enam_endpoint_per_ticker():
 
 
 def test_biaya_per_ticker_wajar():
-    """~11 kredit/ticker. Pagu 250 untuk tahap 3 berarti ±22 ticker; kalau
-    biayanya naik diam-diam, cakupan kalibrasi menyusut tanpa ada yang sadar."""
+    """Biaya per emiten menentukan besar sampel kalibrasi: tiap kenaikan 1 kredit
+    memotong sampel. Kalau naik diam-diam, cakupan menyusut tanpa ada yang sadar."""
     satu = bf.plan_stage3(["FIXB"], AS_OF).credits
-    assert satu <= 12
+    assert satu == 13, "profil 2 + filings 1 + harga 1 + broker 2 + asing 1 + kuartal 5 + aksi 1"
     assert bf.plan_stage3(["FIXB", "FIXC"], AS_OF).credits == 2 * satu
 
 
