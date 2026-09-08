@@ -1,0 +1,133 @@
+# Gerbang kualitas. Merah = tidak boleh merge.
+#
+# Empat gerbang, urut dari yang paling cepat gagal:
+#   lint            ruff
+#   check-contracts fixture wajib cocok dengan contracts/schemas.py
+#   vocab           larangan kosakata saran finansial [K5] — fatal kalau lolos
+#   test            gateway kredit, warehouse, enam probe, point-in-time
+#
+# Nol jaringan, nol API key. Kalau ada tes yang butuh keduanya, tes itu salah
+# tempat — tandai dengan @pytest.mark.network dan jalankan manual.
+
+name: CI
+
+on:
+  push:
+    branches: [main, "feat/**"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Pasang dependensi
+        run: make setup
+
+      - name: Lint
+        run: make lint
+
+      - name: Kontrak vs fixture
+        run: make check-contracts
+
+      - name: Larangan kosakata [K5]
+        run: make vocab
+
+      - name: Tes
+        run: make test
+
+      # Membuktikan janji AD-2 pada tiap push, bukan cuma saat direkam video:
+      # mesin bersih, nol kredensial, sistem tetap jalan.
+      - name: Demo tanpa API key
+        env:
+          SECTORS_API_KEY: ""
+        run: make demo
+
+      # Fixture di-commit. Kalau membangkitkannya ulang menghasilkan berkas yang
+      # berbeda, berarti seed tidak lagi menentukan isinya — dan tes probe
+      # berhenti bisa diulang.
+      - name: Fixture bisa dibangkitkan ulang secara identik
+        run: |
+          make warehouse-mini
+          git diff --exit-code --stat fixtures/warehouse-mini/ || {
+            echo "::error::fixtures/warehouse-mini/ berubah setelah dibangkitkan ulang — seed tidak deterministik"
+            exit 1
+          }
+
+      # Dokumen biaya dibangkitkan dari routing.py. Kalau tabelnya diubah tanpa
+      # menjalankan make docs, perencana menganggarkan dari angka yang basi.
+      - name: Dokumen biaya sinkron dengan tabel perutean
+        run: |
+          make docs
+          git diff --exit-code --stat docs/ || {
+            echo "::error::docs/ basi — jalankan: make docs"
+            exit 1
+          }
+
+  rahasia:
+    name: Nol kunci API di riwayat git
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Pemeriksaan yang PALING berarti: apakah kunci yang sedang dipakai benar-
+      # benar ada di riwayat. Cocok persis, jadi nol positif palsu — tidak seperti
+      # pola tebakan yang akan menandai nilai uji dan lama-lama dimatikan orang.
+      # Kuncinya tidak pernah dicetak; hanya ya/tidak.
+      - name: Kunci yang sedang dipakai tidak ada di riwayat
+        env:
+          SECTORS_API_KEY: ${{ secrets.SECTORS_API_KEY }}
+        run: |
+          if [ -z "${SECTORS_API_KEY}" ]; then
+            echo "::notice::secret SECTORS_API_KEY belum diset; pemeriksaan cocok-persis dilewati"
+            exit 0
+          fi
+          if git log -p --all | grep -qF "${SECTORS_API_KEY}"; then
+            echo "::error::kunci API yang sedang dipakai DITEMUKAN di riwayat git. Cabut kunci di sectors.app SEKARANG, terbitkan yang baru, perbarui secret."
+            exit 1
+          fi
+          echo "kunci aktif tidak ada di riwayat"
+
+      # Jaring kedua untuk kunci lama yang sudah tidak jadi secret. tests/
+      # dikecualikan: nilai uji memang berbentuk seperti kunci, dan penjaga yang
+      # selalu merah akan dimatikan orang dalam seminggu.
+      - name: Sisir pola kunci di luar tests/
+        run: |
+          if git log -p --all -- ':(exclude)tests' \
+             | grep -nEi '^\+.*(sectors[_-]?api[_-]?key|x-api-key)["'"'"']?\s*[:=]\s*["'"'"']?[A-Za-z0-9]{20,}'; then
+            echo "::error::ada yang menyerupai kunci API di riwayat git"
+            exit 1
+          fi
+          echo "riwayat bersih"
+
+      # .env.example memang di-commit dan memang harus — ia berisi placeholder.
+      # Yang dilarang .env sungguhan.
+      - name: .env tidak pernah ter-commit
+        run: |
+          if git log --all --name-only --pretty=format: | sort -u \
+             | grep -E '^\.env($|\.)' | grep -v '^\.env\.example$'; then
+            echo "::error::.env pernah masuk riwayat git"
+            exit 1
+          fi
+          echo ".env aman (.env.example boleh)"

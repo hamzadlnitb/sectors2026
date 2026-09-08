@@ -1,0 +1,90 @@
+{
+  "params": {
+    "symbol": "BBCA",
+    "start": "2026-08-09",
+    "end": "2026-09-07"
+  },
+  "payload": {
+    "symbol": "BBCA.JK",
+    "start": "2026-08-09",
+    "end": "2026-09-07",
+    "data": [
+      {
+        "date": "2026-08-10",
+        "net_foreign_inflow": 83044972500
+      },
+      {
+        "date": "2026-08-11",
+        "net_foreign_inflow": -95956990000
+      },
+      {
+        "date": "2026-08-12",
+        "net_foreign_inflow": 129873532500
+      },
+      {
+        "date": "2026-08-13",
+        "net_foreign_inflow": 64917720000
+      },
+      {
+        "date": "2026-08-14",
+        "net_foreign_inflow": 31179585000
+      },
+      {
+        "date": "2026-08-18",
+        "net_foreign_inflow": 53710845000
+      },
+      {
+        "date": "2026-08-19",
+        "net_foreign_inflow": 62232562500
+      },
+      {
+        "date": "2026-08-20",
+        "net_foreign_inflow": 92495660000
+      },
+      {
+        "date": "2026-08-21",
+        "net_foreign_inflow": 78326167500
+      },
+      {
+        "date": "2026-08-24",
+        "net_foreign_inflow": -3797325000
+      },
+      {
+        "date": "2026-08-26",
+        "net_foreign_inflow": 36004030000
+      },
+      {
+        "date": "2026-08-27",
+        "net_foreign_inflow": 20101672500
+      },
+      {
+        "date": "2026-08-28",
+        "net_foreign_inflow": 154943970000
+      },
+      {
+        "date": "2026-08-31",
+        "net_foreign_inflow": -116602657500
+      },
+      {
+        "date": "2026-09-01",
+        "net_foreign_inflow": 356702647500
+      },
+      {
+        "date": "2026-09-02",
+        "net_foreign_inflow": 0
+      },
+      {
+        "date": "2026-09-03",
+        "net_foreign_inflow": 137221755000
+      },
+      {
+        "date": "2026-09-04",
+        "net_foreign_inflow": -20697305000
+      },
+      {
+        "date": "2026-09-07",
+        "net_foreign_inflow": -44157117500
+      }
+    ]
+  }
+}

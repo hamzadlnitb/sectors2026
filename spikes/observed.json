@@ -1,0 +1,194 @@
+{
+  "measured_at": "2026-09-08T10:20:40+00:00",
+  "note": "Diisi make spike. credit_cost menimpa asumsi di core/sectors/routing.py. verified=false berarti angkanya masih asumsi.",
+  "endpoints": {
+    "fetch-close": {
+      "ok": false,
+      "error": "'fetch-close' gagal setelah 2 percobaan: SDK mcp tidak terpasang (cannot import name 'streamablehttp_client' from 'mcp.client.streamable_http' (C:\\Users\\melco\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python312\\site-packages\\mcp\\client\\stream",
+      "credit_cost": 1,
+      "verified": false
+    },
+    "fetch-companies-top-changes": {
+      "ok": true,
+      "credit_cost": 1,
+      "verified": true,
+      "transport": "rest",
+      "cached": false,
+      "shape": {
+        "kind": "dict",
+        "rows": 1,
+        "keys": [
+          "top_gainers",
+          "top_losers"
+        ]
+      }
+    },
+    "fetch-filings": {
+      "ok": true,
+      "credit_cost": 1,
+      "verified": true,
+      "transport": "rest",
+      "cached": false,
+      "shape": {
+        "kind": "dict",
+        "rows": 20,
+        "keys": [
+          "amount_transaction",
+          "body",
+          "holder_name",
+          "holder_type",
+          "holding_after",
+          "holding_before",
+          "idx_conglomerates_group_slug",
+          "idx_investor_slug",
+          "price",
+          "price_transaction",
+          "sector",
+          "share_percentage_after",
+          "share_percentage_before",
+          "share_percentage_transaction",
+          "source",
+          "sub_sector",
+          "symbol",
+          "tags",
+          "timestamp",
+          "title",
+          "transaction_type",
+          "transaction_value"
+        ]
+      }
+    },
+    "fetch-most-traded-stocks": {
+      "ok": true,
+      "credit_cost": 1,
+      "verified": true,
+      "transport": "rest",
+      "cached": false,
+      "shape": {
+        "kind": "dict",
+        "rows": 1,
+        "keys": [
+          "2026-08-10",
+          "2026-08-11",
+          "2026-08-12",
+          "2026-08-13",
+          "2026-08-14",
+          "2026-08-18",
+          "2026-08-19",
+          "2026-08-20",
+          "2026-08-21",
+          "2026-08-24",
+          "2026-08-26",
+          "2026-08-27",
+          "2026-08-28",
+          "2026-08-31",
+          "2026-09-01",
+          "2026-09-02",
+          "2026-09-03",
+          "2026-09-04",
+          "2026-09-07"
+        ]
+      }
+    },
+    "fetch-suspensions": {
+      "ok": true,
+      "credit_cost": 1,
+      "verified": true,
+      "transport": "rest",
+      "cached": false,
+      "shape": {
+        "kind": "dict",
+        "rows": 20,
+        "keys": [
+          "pdf_url",
+          "reason",
+          "suspension_date",
+          "symbol"
+        ]
+      }
+    },
+    "fetch-broker-summary-top": {
+      "ok": false,
+      "error": "'fetch-broker-summary-top' gagal setelah 2 percobaan: SDK mcp tidak terpasang (cannot import name 'streamablehttp_client' from 'mcp.client.streamable_http' (C:\\Users\\melco\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python312\\site-packages\\mcp\\",
+      "credit_cost": 3,
+      "verified": false
+    },
+    "fetch-company-report": {
+      "ok": true,
+      "credit_cost": 2,
+      "verified": true,
+      "transport": "rest",
+      "cached": false,
+      "shape": {
+        "kind": "dict",
+        "rows": 1,
+        "keys": [
+          "company_name",
+          "dividend",
+          "financials",
+          "future",
+          "management",
+          "overview",
+          "ownership",
+          "peers",
+          "symbol",
+          "valuation"
+        ]
+      }
+    },
+    "fetch-corporate-actions": {
+      "ok": false,
+      "error": "'fetch-corporate-actions' gagal setelah 1 percobaan: SDK mcp tidak terpasang (cannot import name 'streamablehttp_client' from 'mcp.client.streamable_http' (C:\\Users\\melco\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python312\\site-packages\\mcp\\c",
+      "credit_cost": 2,
+      "verified": false
+    },
+    "fetch-daily-transaction": {
+      "ok": true,
+      "credit_cost": 1,
+      "verified": true,
+      "transport": "rest",
+      "cached": false,
+      "shape": {
+        "kind": "list",
+        "rows": 19,
+        "keys": [
+          "close",
+          "date",
+          "high",
+          "low",
+          "market_cap",
+          "open",
+          "symbol",
+          "volume"
+        ]
+      }
+    },
+    "fetch-foreign-flow": {
+      "ok": true,
+      "credit_cost": 2,
+      "verified": true,
+      "transport": "rest",
+      "cached": false,
+      "shape": {
+        "kind": "dict",
+        "rows": 19,
+        "keys": [
+          "date",
+          "net_foreign_inflow"
+        ]
+      }
+    },
+    "fetch-free-float": {
+      "ok": false,
+      "error": "'fetch-free-float' gagal setelah 1 percobaan: SDK mcp tidak terpasang (cannot import name 'streamablehttp_client' from 'mcp.client.streamable_http' (C:\\Users\\melco\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python312\\site-packages\\mcp\\client\\s",
+      "credit_cost": 1,
+      "verified": false
+    },
+    "fetch-quarterly-financials": {
+      "ok": false,
+      "error": "'fetch-quarterly-financials' gagal setelah 1 percobaan: SDK mcp tidak terpasang (cannot import name 'streamablehttp_client' from 'mcp.client.streamable_http' (C:\\Users\\melco\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python312\\site-packages\\mc",
+      "credit_cost": 2,
+      "verified": false
+    }
+  }
+}

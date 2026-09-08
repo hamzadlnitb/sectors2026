@@ -1,0 +1,126 @@
+# Pipeline harian otonom. GERBANG KERAS TIM: hidup paling lambat Senin 14 Sep.
+#
+# Jam bukti "not faked for the demo" mulai berdetak di sini. Kita butuh >=10 hari
+# bursa artefak runs/ yang di-commit tanpa disentuh manusia, dan itu tidak bisa
+# dikejar belakangan — 10 hari bursa butuh 10 hari bursa. [T5]
+#
+# TAHAP 1 (sekarang) : sapuan Tier-1 + watchlist -> commit runs/YYYY-MM-DD/
+# TAHAP 2 (~19 Sep)  : panggil agen Hamzah untuk top-N -> runs/investigations/
+#                      Ditambahkan setelah `make investigate` hijau end-to-end.
+
+name: Pipeline harian
+
+on:
+  schedule:
+    # 10:30 UTC = 17:30 WIB, Senin–Jumat. Bursa tutup 16:00 WIB, jadi ini
+    # sesudah data EOD tersedia dan sebelum tengah malam WIB.
+    # Catatan: cron GitHub tidak menjamin ketepatan menit dan bisa telat
+    # sampai belasan menit saat runner ramai. Tidak masalah — data EOD tidak
+    # berubah, dan tanggal artefaknya tetap benar.
+    - cron: "30 10 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      as_of:
+        description: "Tanggal acuan (YYYY-MM-DD). Kosong = hari ini UTC."
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+# Dua jalannya sekaligus akan saling menimpa commit warehouse.
+concurrency:
+  group: pipeline-harian
+  cancel-in-progress: false
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Butuh riwayat untuk rebase sebelum push — commit otomatis tidak
+          # boleh menimpa kerja orang. [QA M4]
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - run: make setup
+
+      # Gagal keras dan terlihat. Secret yang hilang tanpa pesan akan tampak
+      # seperti "sapuan kosong" berhari-hari sebelum ada yang sadar.
+      - name: Pastikan API key ada
+        env:
+          SECTORS_API_KEY: ${{ secrets.SECTORS_API_KEY }}
+        run: |
+          if [ -z "$SECTORS_API_KEY" ]; then
+            echo "::error::secret SECTORS_API_KEY tidak ada. Setel di Settings > Secrets > Actions."
+            exit 1
+          fi
+
+      - name: Tentukan tanggal acuan
+        id: tanggal
+        run: |
+          AS_OF="${{ inputs.as_of }}"
+          [ -z "$AS_OF" ] && AS_OF="$(date -u +%F)"
+          echo "as_of=$AS_OF" >> "$GITHUB_OUTPUT"
+          echo "Tanggal acuan: $AS_OF"
+
+      - name: Posisi kredit sebelum
+        run: make credits
+
+      - name: Sapuan Tier-1
+        env:
+          SECTORS_API_KEY: ${{ secrets.SECTORS_API_KEY }}
+        run: |
+          python -m core.ingest.tier1_market \
+            --as-of "${{ steps.tanggal.outputs.as_of }}" \
+            --run-dir "runs/${{ steps.tanggal.outputs.as_of }}"
+
+      - name: Posisi kredit sesudah
+        run: make credits
+
+      # Narasi belum ada di tahap 1, tapi penjaga dipasang sejak sekarang supaya
+      # tahap 2 tidak pernah sempat men-commit kalimat terlarang. [K5]
+      - name: Larangan kosakata atas artefak baru
+        run: make vocab
+
+      - name: Commit artefak
+        run: |
+          git config user.name "pantau-bot"
+          git config user.email "pantau-bot@users.noreply.github.com"
+
+          git add runs/ data/warehouse/ data/credit_ledger.jsonl
+          if git diff --cached --quiet; then
+            echo "tidak ada perubahan untuk di-commit"
+            exit 0
+          fi
+
+          git commit -m "chore(runs): sapuan Tier-1 ${{ steps.tanggal.outputs.as_of }} [otomatis]"
+
+          # Rebase dulu: lajur lain merge ke main tiap hari, dan commit otomatis
+          # tidak boleh menimpa kerja mereka.
+          for attempt in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push && exit 0
+            echo "percobaan push $attempt gagal, coba lagi"
+            sleep $((attempt * 5))
+          done
+          echo "::error::gagal push artefak setelah 3 percobaan"
+          exit 1
+
+      # Bukti untuk juri: artefak bisa diunduh dari halaman run, ber-timestamp,
+      # walau commit-nya gagal karena alasan lain.
+      - name: Unggah artefak run
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-${{ steps.tanggal.outputs.as_of }}
+          path: runs/${{ steps.tanggal.outputs.as_of }}/
+          if-no-files-found: warn
+          retention-days: 30

@@ -1,0 +1,15 @@
+# Runtime — sengaja membosankan. Semua terpasang di mesin bersih tanpa toolchain.
+httpx==0.28.1
+pydantic==2.13.4
+pandas==2.1.2
+numpy==1.26.1
+duckdb==1.5.5
+pyarrow==25.0.1
+python-dotenv==1.2.3
+
+# Transport MCP [AD-7]. Dipisah supaya jalur REST tetap hidup kalau ini bermasalah.
+mcp==2.2.0
+
+# Kualitas — dipakai CI.
+pytest==9.1.1
+ruff==0.16.6

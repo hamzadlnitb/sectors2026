@@ -29,22 +29,48 @@ menghitung skor, tapi memutuskan **bukti mana yang layak dibeli untuk saham ini,
 
 ## Status
 
-🚧 Perencanaan. Belum ada kode. Lihat `TASK.md` fase F0.
+🚧 Dalam pembangunan, tiga lajur paralel. Lihat `TASK.md`.
 
-## Quickstart (target — berlaku setelah F3)
+| Lajur | Isi | Status |
+| --- | --- | --- |
+| Data, Transport & Probe | gateway kredit, warehouse, enam probe, ingest, cron, CI | fondasi jalan — lihat di bawah |
+| Agen, Skoring & Eval | perencana, penyelidik, penilai, kalibrasi, ablasi | belum |
+| Web & Lapisan Ekspor | halaman investigasi, buku bukti, papan waspada | belum |
+
+**Yang sudah bisa dijalankan hari ini, tanpa API key:** `make demo` menjalankan
+enam probe atas warehouse yang di-commit; `make test` menjalankan 182 tes tanpa
+menyentuh jaringan sama sekali.
+
+⚠️ **Belum ada satu pun biaya endpoint yang terukur.** Angka kredit di
+[`docs/endpoint-costs.md`](docs/endpoint-costs.md) masih asumsi sampai
+`make spike` dijalankan dengan API key. Kolom *Status* di dokumen itu
+mengatakannya per baris.
+
+## Quickstart
+
+Tanpa kredensial apa pun:
 
 ```bash
-git clone <repo> && cd pantau
-make demo      # jalan penuh dari snapshot yang di-commit, TANPA API key
+git clone <repo> && cd sectors2026
+make setup
+make demo      # enam probe atas snapshot yang di-commit, nol jaringan
 ```
 
 ```bash
-make investigate SYMBOL=BBCA   # jalankan agen sungguhan (butuh SECTORS_API_KEY)
-make eval                      # agen vs menyeluruh vs urutan tetap vs acak
-make pipeline                  # pipeline harian
-make credits                   # posisi ledger kredit
-make test                      # unit test probe, pagar agen, validator sitasi
+make probes    # daftar alat agen + harga kreditnya
+make credits   # posisi ledger kredit
+make ci        # lint + kontrak + larangan kosakata + tes
 ```
+
+Dengan `SECTORS_API_KEY` di `.env`:
+
+```bash
+make spike     # verifikasi endpoint + ukur biaya kredit aktual (maks 40 kredit)
+make pipeline  # sapuan Tier-1 harian + watchlist (±5 kredit)
+make backfill  # rencana tarikan historis — cetak dulu, jangan langsung jalan
+```
+
+Menyusul dari dua lajur lain: `make investigate SYMBOL=XXXX`, `make eval`.
 
 ## Cara kerja
 

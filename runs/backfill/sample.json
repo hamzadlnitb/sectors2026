@@ -1,0 +1,126 @@
+{
+  "as_of": "2026-09-07",
+  "generated_at": "2026-09-08T14:31:54+00:00",
+  "metode_kontrol": "free float terdekat, belum pernah disuspend",
+  "keterbatasan": "Pencocokan kapitalisasi & subsektor yang diminta ARCHITECTURE §6 belum bisa dilakukan: company_profile baru terisi setelah Tier-2 ditarik. Periksa ulang keseimbangan sampel setelah data ada, dan buang pasangan yang subsektornya jauh berbeda.",
+  "positif_tersedia": 228,
+  "positif_dipakai": 8,
+  "positives": [
+    {
+      "symbol": "LIFE",
+      "peristiwa": 4,
+      "suspensi_terakhir": "2026-09-04",
+      "free_float": 0.075
+    },
+    {
+      "symbol": "NICK",
+      "peristiwa": 2,
+      "suspensi_terakhir": "2026-09-04",
+      "free_float": 0.2162
+    },
+    {
+      "symbol": "TRUK",
+      "peristiwa": 2,
+      "suspensi_terakhir": "2026-09-04",
+      "free_float": 0.2983
+    },
+    {
+      "symbol": "ASLI",
+      "peristiwa": 3,
+      "suspensi_terakhir": "2026-09-04",
+      "free_float": 0.3728
+    },
+    {
+      "symbol": "SAFE",
+      "peristiwa": 1,
+      "suspensi_terakhir": "2026-09-02",
+      "free_float": 0.0807
+    },
+    {
+      "symbol": "PPGL",
+      "peristiwa": 3,
+      "suspensi_terakhir": "2026-09-02",
+      "free_float": 0.2408
+    },
+    {
+      "symbol": "PACK",
+      "peristiwa": 5,
+      "suspensi_terakhir": "2026-09-01",
+      "free_float": 0.3819
+    },
+    {
+      "symbol": "CSMI",
+      "peristiwa": 1,
+      "suspensi_terakhir": "2026-08-28",
+      "free_float": 0.4385
+    }
+  ],
+  "controls": [
+    {
+      "symbol": "JAWA",
+      "dipasangkan_dengan": "LIFE",
+      "free_float": 0.075,
+      "selisih_float": 0.0
+    },
+    {
+      "symbol": "INOV",
+      "dipasangkan_dengan": "NICK",
+      "free_float": 0.2162,
+      "selisih_float": 0.0
+    },
+    {
+      "symbol": "CGAS",
+      "dipasangkan_dengan": "TRUK",
+      "free_float": 0.2983,
+      "selisih_float": 0.0
+    },
+    {
+      "symbol": "ARNA",
+      "dipasangkan_dengan": "ASLI",
+      "free_float": 0.3726,
+      "selisih_float": 0.0002
+    },
+    {
+      "symbol": "MSKY",
+      "dipasangkan_dengan": "SAFE",
+      "free_float": 0.081,
+      "selisih_float": 0.0003
+    },
+    {
+      "symbol": "SCCO",
+      "dipasangkan_dengan": "PPGL",
+      "free_float": 0.2413,
+      "selisih_float": 0.0005
+    },
+    {
+      "symbol": "KLBF",
+      "dipasangkan_dengan": "PACK",
+      "free_float": 0.3847,
+      "selisih_float": 0.0028
+    },
+    {
+      "symbol": "CTTH",
+      "dipasangkan_dengan": "CSMI",
+      "free_float": 0.4363,
+      "selisih_float": 0.0022
+    }
+  ],
+  "symbols": [
+    "LIFE",
+    "NICK",
+    "TRUK",
+    "ASLI",
+    "SAFE",
+    "PPGL",
+    "PACK",
+    "CSMI",
+    "JAWA",
+    "INOV",
+    "CGAS",
+    "ARNA",
+    "MSKY",
+    "SCCO",
+    "KLBF",
+    "CTTH"
+  ]
+}
