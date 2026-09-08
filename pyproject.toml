@@ -1,0 +1,26 @@
+# Konfigurasi alat saja. Repo TIDAK dipasang sebagai paket — juri cukup
+# `pip install -r requirements.txt` lalu jalankan dari akar repo. Satu langkah
+# lebih sedikit yang bisa gagal di mesin bersih. [T7]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+exclude = ["web", ".venv", "data", "runs", "spikes"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = [
+    "E501",    # panjang baris diurus formatter, bukan linter
+    "SIM108",  # ternary tidak selalu lebih terbaca
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q --strict-markers"
+markers = [
+    "network: butuh SECTORS_API_KEY dan jaringan — TIDAK dijalankan CI",
+]
