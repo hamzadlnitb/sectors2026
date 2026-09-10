@@ -111,4 +111,4 @@ get-subsectors
 ```
 
 ---
-_Dibangkitkan 2026-09-08 oleh `make docs`._
+_Dibangkitkan `make docs` dari tabel perutean · sidik isi `1ee2aebe43cf`._

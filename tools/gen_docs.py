@@ -11,8 +11,8 @@ Hamzah menganggarkan dari angka yang salah tanpa ada yang sadar.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import sys
-from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -269,12 +269,21 @@ def main(argv: list[str] | None = None) -> int:
     setup_console()
     argparse.ArgumentParser(description="Bangkitkan dokumen biaya & katalog").parse_args(argv)
     DOCS.mkdir(parents=True, exist_ok=True)
-    stamp = datetime.now(UTC).strftime("%Y-%m-%d")
     for name, isi in (("endpoint-costs.md", endpoint_costs()),
                       ("mcp-catalog.md", mcp_catalog())):
         path = DOCS / name
-        path.write_text(isi.rstrip() + f"\n\n---\n_Dibangkitkan {stamp} oleh `make docs`._\n",
-                        encoding="utf-8")
+        badan = isi.rstrip()
+        # Sidik jari isi, BUKAN tanggal. CI menjalankan `make docs` lalu menuntut
+        # git diff kosong; dengan penanda tanggal, gerbang itu merah setiap hari
+        # setelah pembangkitan terakhir — bukan karena dokumennya basi, tapi
+        # karena kalendernya berjalan. Yang ingin dijaga gerbang itu adalah
+        # dokumen tetap sinkron dengan tabel perutean, dan sidik jari isi
+        # menjawabnya persis: ia berubah kalau dan hanya kalau isinya berubah.
+        sidik = hashlib.sha256(badan.encode("utf-8")).hexdigest()[:12]
+        path.write_text(
+            f"{badan}\n\n---\n_Dibangkitkan `make docs` dari tabel perutean · "
+            f"sidik isi `{sidik}`._\n",
+            encoding="utf-8")
         print(f"tulis {path.relative_to(ROOT)}")
     return 0
 
