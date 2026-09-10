@@ -35,9 +35,16 @@ fixture dan transkrip lama ketahuan basi.
 
 | # | Pengaju | Perubahan | Alasan | Dampak ke lajur lain | Status |
 | --- | --- | --- | --- | --- | --- |
-| C2 | Melco · 8 Sep | `warehouse.sql`: `free_float` PK dari `(symbol)` jadi `(symbol, as_of)` | PK `(symbol)` hanya memuat **satu** snapshot per emiten, jadi tiap tarikan baru menimpa yang lama dan riwayat free float hilang | **Hamzah:** kalibrasi menghitung sub-skor pada T-1/T-3/T-5/T-10; tanpa riwayat, FFS di tanggal itu terpaksa memakai angka hari ini — persis lookahead yang dilarang C1. Tabelnya jadi punya beberapa baris per emiten, jadi pembacaan wajib "ambil `as_of` terbesar yang ≤ tanggal acuan". **Nadhilla:** nihil, tidak membaca warehouse langsung | ⏳ menunggu persetujuan Hamzah & Nadhilla |
+| C4 | Melco · 8 Sep, diperbarui 10 Sep | `warehouse.sql`: `free_float` PK dari `(symbol)` jadi `(symbol, as_of)` | PK `(symbol)` hanya memuat **satu** snapshot per emiten, jadi tiap tarikan baru menimpa yang lama dan riwayat free float hilang | **Hamzah:** kalibrasi menghitung sub-skor pada T-1/T-3/T-5/T-10; tanpa riwayat, FFS di tanggal itu terpaksa memakai angka hari ini — persis lookahead yang dilarang C1. Tabelnya jadi punya beberapa baris per emiten, jadi pembacaan wajib "ambil `as_of` terbesar yang ≤ tanggal acuan". **Nadhilla:** nihil, tidak membaca warehouse langsung | ⏳ menunggu persetujuan Hamzah & Nadhilla — **baca pembaruan 10 Sep, alasannya bergeser** |
 
-### C2 — rincian
+### C4 — rincian
+
+> **Dulu bernomor C2.** Dinomori ulang 10 Sep karena Hamzah memakai C2 dan C3
+> untuk perbaikan `check.py` dan validator narasi, dan keduanya sudah masuk
+> Riwayat serta dirujuk kode yang sudah merge. Sempat ada tujuh rujukan "C2" di
+> repo yang menunjuk **dua hal berbeda** — persis kekacauan yang berkas ini ada
+> untuk mencegahnya. Yang pindah adalah entri yang masih menggantung, karena itu
+> yang paling murah. Nomor tidak pernah dipakai ulang.
 
 **Ditemukan lewat tes, bukan review.** `tests/probes/test_point_in_time.py`
 menyuntikkan data setelah `as_of` lalu membandingkan hasil probe sebelum dan
@@ -52,8 +59,43 @@ di kode, bukan disembunyikan — DDL di `contracts/` tidak disentuh.
 
 **Kalau ditolak:** FFS harus ditandai bukan-point-in-time dan dikeluarkan dari
 kalibrasi Hamzah, atau riwayat free float disimpan di tabel terpisah di luar
-kontrak. Keduanya lebih mahal daripada mengubah satu baris DDL sekarang, selagi
-belum ada data yang terlanjur ditulis.
+kontrak.
+
+#### Pembaruan 10 Sep — alasannya bergeser, baca ini sebelum memutuskan
+
+Tarikan sungguhan mengubah gambarannya, dan itu harus disampaikan sebelum
+ketiganya memutuskan.
+
+**`fetch-free-float` TIDAK mengirim tanggal berlaku sama sekali.** 961 emiten
+ditarik market-wide (1 kredit), seluruhnya dengan `as_of` kosong. Yang tersimpan
+adalah stempel **tanggal tarikan**, bukan tanggal berlaku sebenarnya — lihat
+`_stempel_as_of()` di `core/ingest/backfill.py`.
+
+Konsekuensinya klaim awal saya terlalu optimistis:
+
+* **Yang TIDAK diselamatkan perubahan ini:** riwayat lampau. Sectors hanya
+  menyediakan angka terkini, jadi free float pada T-10 tidak ada di mana pun dan
+  tidak bisa dibackfill dengan kredit berapa pun. FFS memang belum bisa ikut
+  kalibrasi historis, dengan atau tanpa C4. Sudah tercatat sebagai peringatan di
+  `runs/backfill/pit-scores.json`, terlihat sebagai kolom `n/a` di sana.
+* **Yang MASIH diselamatkan:** snapshot yang kita kumpulkan sendiri mulai
+  sekarang. Dengan PK `(symbol)`, tarikan kedua menimpa yang pertama dan riwayat
+  tidak pernah terbentuk — bahkan riwayat yang kita bangun dengan tangan sendiri.
+
+**Jadi C4 tetap layak, tapi bukan karena alasan yang saya tulis 8 Sep.** Bukan
+"selamatkan kalibrasi sekarang", melainkan "jangan buang riwayat yang baru mulai
+dikumpulkan". Nilainya jangka menengah, bukan langsung.
+
+**Ongkos menolaknya juga lebih rendah dari perkiraan awal**, karena FFS memang
+sudah tidak bisa dikalibrasi historis. Menolak C4 adalah keputusan yang bisa
+dipertahankan — asalkan disadari FFS lalu permanen jadi sinyal keadaan-terkini,
+bukan komponen berkalibrasi, dan halaman Metodologi mengatakannya.
+
+Catatan cakupan serupa untuk **BCI**: `fetch-broker-summary-top` mengembalikan
+agregat per akhir periode tanpa rincian harian, jadi ia pun bertanggal tanggal
+tarikan. Bedanya BCI **tidak butuh perubahan kontrak** — `broker_summary` sudah
+ber-PK `(trade_date, symbol, broker_code)`. Yang ia butuhkan tarikan terpisah per
+tanggal acuan: soal kredit, bukan soal bentuk data.
 
 ---
 

@@ -66,7 +66,7 @@ def test_tabel_tanpa_kunci_primer_tetap_dideduplikasi(tmp_path):
 
 def test_free_float_menyimpan_riwayat_bukan_menimpanya(tmp_path):
     """PK kontrak cuma (symbol), yang berarti satu snapshot per emiten dan
-    riwayat hilang. Penggabungan memakai (symbol, as_of) — contracts/CHANGES.md C2.
+    riwayat hilang. Penggabungan memakai (symbol, as_of) — contracts/CHANGES.md C4.
 
     Tanpa ini, FFS pada T-1/T-3/T-5/T-10 terpaksa memakai angka hari ini, dan
     kalibrasi bobot Hamzah bocor lookahead."""

@@ -55,7 +55,7 @@ class Table:
     """Kunci yang benar-benar dipakai saat menggabungkan baris baru.
 
     Biasanya sama dengan keys. Berbeda HANYA untuk free_float, dan perbedaannya
-    sedang diajukan sebagai perubahan kontrak — lihat contracts/CHANGES.md C2.
+    sedang diajukan sebagai perubahan kontrak — lihat contracts/CHANGES.md C4.
     """
 
     @property
@@ -74,7 +74,7 @@ TABLES: dict[str, Table] = {
     # menghitung sub-skor pada T-1/T-3/T-5/T-10, dan tanpa riwayat, FFS di
     # tanggal-tanggal itu terpaksa memakai angka hari ini — persis lookahead yang
     # kita larang. Penggabungan di sini memakai (symbol, as_of); perubahan
-    # kontraknya diajukan di contracts/CHANGES.md C2.
+    # kontraknya diajukan di contracts/CHANGES.md C4.
     "free_float": Table("free_float", "as_of", ("symbol",),
                         merge_keys=("symbol", "as_of")),
     "suspensions": Table("suspensions", "start_date", ("symbol", "start_date")),
