@@ -34,10 +34,16 @@ CREATE TABLE IF NOT EXISTS foreign_flow (
     PRIMARY KEY (trade_date, symbol)
 );
 
+-- PK (symbol, as_of), bukan (symbol) saja: satu baris per emiten berarti tiap
+-- tarikan menimpa yang lama dan riwayat free float tidak pernah terbentuk.
+-- Pembacaan point-in-time WAJIB "ambil as_of terbesar yang <= tanggal acuan".
+-- Sectors tidak menyediakan riwayat free float, jadi yang terkumpul di sini
+-- hanya snapshot yang kita tarik sendiri. [CHANGES.md C4]
 CREATE TABLE IF NOT EXISTS free_float (
-    symbol           VARCHAR PRIMARY KEY,
+    symbol           VARCHAR  NOT NULL,
     free_float_pct   DOUBLE,
-    as_of            DATE
+    as_of            DATE     NOT NULL,
+    PRIMARY KEY (symbol, as_of)
 );
 
 CREATE TABLE IF NOT EXISTS suspensions (       -- sumber label kalibrasi

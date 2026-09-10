@@ -52,10 +52,13 @@ class Table:
     allow_null_cut: bool = False
     """True hanya untuk tabel identitas — lihat catatan di company_profile."""
     merge_keys: tuple[str, ...] = ()
-    """Kunci yang benar-benar dipakai saat menggabungkan baris baru.
+    """Kunci penggabungan kalau berbeda dari `keys`. Kosong = pakai `keys`.
 
-    Biasanya sama dengan keys. Berbeda HANYA untuk free_float, dan perbedaannya
-    sedang diajukan sebagai perubahan kontrak — lihat contracts/CHANGES.md C4.
+    Sejak C4 disetujui tidak ada lagi tabel yang memakainya — DDL kontrak sudah
+    memuat kunci yang benar untuk semuanya. Field-nya dipertahankan karena ia
+    murah dan memberi jalan keluar yang TERLIHAT kalau kelak ada tabel yang
+    kunci penggabungannya memang harus beda dari PK-nya: lebih baik satu field
+    dengan komentar daripada cabang khusus yang tersembunyi di dalam write().
     """
 
     @property
@@ -69,14 +72,10 @@ TABLES: dict[str, Table] = {
     "broker_summary": Table("broker_summary", "trade_date",
                             ("trade_date", "symbol", "broker_code")),
     "foreign_flow": Table("foreign_flow", "trade_date", ("trade_date", "symbol")),
-    # PK di contracts/warehouse.sql cuma (symbol), jadi tiap tarikan baru akan
-    # MENIMPA snapshot lama dan riwayat free float hilang. Kalibrasi Hamzah
-    # menghitung sub-skor pada T-1/T-3/T-5/T-10, dan tanpa riwayat, FFS di
-    # tanggal-tanggal itu terpaksa memakai angka hari ini — persis lookahead yang
-    # kita larang. Penggabungan di sini memakai (symbol, as_of); perubahan
-    # kontraknya diajukan di contracts/CHANGES.md C4.
-    "free_float": Table("free_float", "as_of", ("symbol",),
-                        merge_keys=("symbol", "as_of")),
+    # PK (symbol, as_of) sejak C4 — riwayat snapshot dipertahankan, bukan ditimpa.
+    # Pembacaan point-in-time mengambil as_of terbesar yang <= tanggal acuan;
+    # itu ditegakkan view di connect(), bukan diserahkan ke pemanggil.
+    "free_float": Table("free_float", "as_of", ("symbol", "as_of")),
     "suspensions": Table("suspensions", "start_date", ("symbol", "start_date")),
     "filings": Table("filings", "filing_date"),
     "corporate_actions": Table("corporate_actions", "action_date"),

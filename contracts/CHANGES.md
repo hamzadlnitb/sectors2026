@@ -33,11 +33,38 @@ fixture dan transkrip lama ketahuan basi.
 
 ## Diajukan
 
-| # | Pengaju | Perubahan | Alasan | Dampak ke lajur lain | Status |
-| --- | --- | --- | --- | --- | --- |
-| C4 | Melco · 8 Sep, diperbarui 10 Sep | `warehouse.sql`: `free_float` PK dari `(symbol)` jadi `(symbol, as_of)` | PK `(symbol)` hanya memuat **satu** snapshot per emiten, jadi tiap tarikan baru menimpa yang lama dan riwayat free float hilang | **Hamzah:** kalibrasi menghitung sub-skor pada T-1/T-3/T-5/T-10; tanpa riwayat, FFS di tanggal itu terpaksa memakai angka hari ini — persis lookahead yang dilarang C1. Tabelnya jadi punya beberapa baris per emiten, jadi pembacaan wajib "ambil `as_of` terbesar yang ≤ tanggal acuan". **Nadhilla:** nihil, tidak membaca warehouse langsung | ⏳ menunggu persetujuan Hamzah & Nadhilla — **baca pembaruan 10 Sep, alasannya bergeser** |
+_(kosong — tidak ada permintaan perubahan yang menggantung)_
 
-### C4 — rincian
+---
+
+## Riwayat
+
+### C4 · 10 Sep 2026 · `free_float` PK jadi `(symbol, as_of)` — DISETUJUI
+
+**Cara persetujuannya, supaya tercatat apa adanya:** Melco memutuskan dan
+menyatakan menanggung tanggung jawabnya, bukan lewat konsensus bertiga seperti
+yang diminta aturan di kepala berkas ini. Hamzah dan Nadhilla belum sempat
+menanggapi menjelang beku 12 Sep. Dicatat terbuka karena aturan yang dilanggar
+diam-diam lebih buruk daripada aturan yang dilanggar sadar — dan karena
+perubahan ini menyentuh berkas milik bersama.
+
+Ongkos kalau keputusan ini keliru rendah: nol perubahan perilaku, 315 tes tetap
+hijau, dan mengembalikannya cukup satu baris DDL selama belum ada riwayat yang
+terlanjur terkumpul. Kalau salah satu dari mereka keberatan, ajukan pembatalan
+sebagai entri baru — jangan sunting entri ini.
+
+**Yang berubah:** `PRIMARY KEY (symbol)` → `PRIMARY KEY (symbol, as_of)`,
+keduanya `NOT NULL`. `Table.merge_keys` di `core/ingest/warehouse.py` tidak lagi
+menyimpang dari kontrak; penyimpangan sementaranya dihapus.
+
+**Pembacaan wajib** "ambil `as_of` terbesar yang ≤ tanggal acuan" — ditegakkan
+view di `connect()`, bukan diserahkan ke pemanggil.
+
+`schema_version` tetap `1.0`: bentuk data yang menyeberang antar lajur
+(`ProbeResult`, `EvidenceEntry`, `InvestigationTranscript`) tidak berubah sama
+sekali. Yang berubah hanya kunci tabel internal warehouse.
+
+#### Alasan asli (diajukan 8 Sep) dan koreksinya
 
 > **Dulu bernomor C2.** Dinomori ulang 10 Sep karena Hamzah memakai C2 dan C3
 > untuk perbaikan `check.py` dan validator narasi, dan keduanya sudah masuk
@@ -99,9 +126,6 @@ tanggal acuan: soal kredit, bukan soal bentuk data.
 
 ---
 
----
-
-## Riwayat
 
 ### C3 · 10 Sep 2026 · Validator narasi tidak pernah memeriksa nama emiten
 
