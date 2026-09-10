@@ -273,3 +273,7 @@
 {"credits": 1, "endpoint": "fetch-companies-top-changes", "params_hash": "d78bac96433948b7", "phase": "daily", "run_id": "2026-09-09", "transport": "rest", "ts": "2026-09-09T14:43:40+00:00"}
 {"credits": 1, "endpoint": "fetch-suspensions", "params_hash": "da1e94a5d7fe4198", "phase": "daily", "run_id": "2026-09-09", "transport": "rest", "ts": "2026-09-09T14:43:41+00:00"}
 {"credits": 1, "endpoint": "fetch-filings", "params_hash": "f9853aa6cd98063a", "phase": "daily", "run_id": "2026-09-09", "transport": "rest", "ts": "2026-09-09T14:43:41+00:00"}
+{"credits": 2, "endpoint": "fetch-most-traded-stocks", "params_hash": "46fb81e8a6032d25", "phase": "daily", "run_id": "2026-09-10", "transport": "rest", "ts": "2026-09-10T14:33:56+00:00"}
+{"credits": 1, "endpoint": "fetch-companies-top-changes", "params_hash": "d78bac96433948b7", "phase": "daily", "run_id": "2026-09-10", "transport": "rest", "ts": "2026-09-10T14:33:56+00:00"}
+{"credits": 1, "endpoint": "fetch-suspensions", "params_hash": "6ec6c60ca44c21d8", "phase": "daily", "run_id": "2026-09-10", "transport": "rest", "ts": "2026-09-10T14:33:57+00:00"}
+{"credits": 1, "endpoint": "fetch-filings", "params_hash": "1a53263ed52d93d6", "phase": "daily", "run_id": "2026-09-10", "transport": "rest", "ts": "2026-09-10T14:33:57+00:00"}
