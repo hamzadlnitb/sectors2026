@@ -61,6 +61,55 @@ belum ada data yang terlanjur ditulis.
 
 ## Riwayat
 
+### C3 · 10 Sep 2026 · Validator narasi tidak pernah memeriksa nama emiten
+
+Ditemukan pada uji end-to-end pertama lawan MiniMax M3. Narasi yang dihasilkan
+**lolos validator angka sepenuhnya** — setiap angkanya bersumber dari buku bukti —
+tetapi berbunyi *"Investigasi pada saham JAJA…"* untuk investigasi emiten **JAWA**.
+
+Validator hanya membaca angka, karena itulah yang C1 rancang. Tapi menyebut emiten
+yang salah lebih berbahaya daripada angka yang salah: angka yang meleset membuat
+pembaca salah menilai satu saham, sedangkan nama yang meleset membuatnya bertindak
+di saham yang sama sekali lain. Dan juri praktisi pasar akan menangkapnya dalam
+sedetik.
+
+Ditambahkan `core/narrative/validate.py::unsupported_tickers()`: setiap token empat
+huruf kapital di narasi yang bukan emiten yang sedang diselidiki diperlakukan sebagai
+halusinasi, kecuali segelintir singkatan pasar modal yang didaftar eksplisit
+(`RUPS`, `IUPK`, …). Menambah entri ke daftar itu melemahkan pemeriksaan, jadi
+tambahkan hanya kalau istilahnya benar-benar muncul dan benar-benar sah.
+
+`narrate()` kini jatuh ke template deterministik kalau pemeriksaan ini gagal, sama
+seperti pada angka tak bersumber. Tes memakai keluaran MiniMax aslinya, bukan contoh
+karangan: `tests/narrative/test_ticker.py::test_emiten_karangan_tertangkap`.
+
+Tidak ada perubahan bentuk data — `schema_version` tetap `1.0`.
+
+**Pelajaran, menguatkan C2:** validator hanya memeriksa apa yang terpikir saat
+menulisnya. Yang menemukan celah ini bukan review, melainkan satu panggilan sungguhan
+ke model sungguhan.
+
+
+### C2 · 10 Sep 2026 · Dua invarian `check.py` menolak transkrip yang sah
+
+Ditemukan saat menulis `core/agent/` — bukan saat mereview kontrak. Keduanya
+muncul dari perilaku yang kontraknya sendiri wajibkan, jadi tidak mungkin
+terlihat sebelum ada agen yang benar-benar berjalan.
+
+| # | Invarian lama | Kenapa salah | Sekarang |
+| --- | --- | --- | --- |
+| 1 | `ran == marked` — probe yang dijalankan harus persis sama dengan komponen terselidiki | Kontrak mewajibkan probe yang menyerah ditandai `investigated=False` (menyerah ≠ nol, `core/probes/base.py` aturan 2). Probe itu tetap punya langkah, jadi masuk `ran` tapi tidak masuk `marked` → transkrip sah ditolak. `new_probe` juga ikut dihitung, padahal ia **niat** saat eskalasi, bukan eksekusi: kalau pagar menutup loop sebelum probe barunya jalan, transkrip ditolak juga | `marked ⊆ ran`, dan `new_probe` tidak lagi dihitung. Arah yang benar-benar berbahaya cuma satu: komponen mengaku terselidiki tanpa ada langkah yang menjalankannya |
+| 2 | `sum(biaya bukti) == credits_total` | Probe yang menyerah tetap membakar kredit saat fetch, tapi kontrak mengosongkan `evidence`-nya. Akibatnya biaya bukti selalu lebih kecil dari total begitu ada satu probe menyerah — dan itu kejadian biasa, bukan kasus tepi | Langkah jadi sumber kebenaran biaya: `sum(biaya langkah) == credits_total`, dan `sum(biaya bukti) <= credits_total` |
+
+Ketiga fixture lama tetap lolos aturan baru, jadi tidak ada yang perlu
+dibangkitkan ulang dan `schema_version` tetap `1.0` — bentuk datanya tidak
+berubah, hanya validatornya yang diperbaiki.
+
+**Pelajaran untuk sisa lomba:** dua-duanya lolos dari review terpusat C1 dan
+baru ketahuan saat ada kode yang berjalan di atasnya. Kontrak yang belum pernah
+dipakai kode sungguhan belum benar-benar tervalidasi.
+
+
 ### C1 · 8 Sep 2026 · Review kontrak v1 — 8 perbaikan
 
 Review dilakukan terpusat supaya kontrak punya satu sumber kebenaran, bukan hasil tiga

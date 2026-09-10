@@ -12,7 +12,8 @@ export PYTHONIOENCODING = utf-8
 
 .DEFAULT_GOAL := help
 .PHONY: help setup demo pipeline backfill spike mcp-catalog credits \
-        test lint vocab check-contracts fixtures warehouse-mini docs ci probes
+        test lint vocab check-contracts fixtures warehouse-mini docs ci probes \
+        investigate investigate-offline calibrate
 
 help:  ## Daftar perintah
 	@echo "PANTAU — perintah yang tersedia"
@@ -37,6 +38,12 @@ credits:  ## Posisi kredit dari data/credit_ledger.jsonl
 
 warehouse-mini:  ## Bangkitkan ulang fixtures/warehouse-mini (seed tetap)
 	$(PY) fixtures/warehouse-mini/generate.py
+
+investigate-offline:  ## Investigasi agen tanpa kunci API — FakeLLM, nol jaringan
+	$(PY) -m core.agent $(SYMBOL) $(if $(AS_OF),--as-of $(AS_OF),) --offline
+
+calibrate:  ## Kalibrasi ulang bobot dari warehouse yang di-commit
+	$(PY) notebooks/calibration.py --tulis
 
 fixtures:  ## Bangkitkan ulang fixture transkrip
 	$(PY) fixtures/generate.py
@@ -66,6 +73,9 @@ pipeline:  ## [KEY] Sapuan Tier-1 harian + watchlist (±5 kredit)
 
 backfill:  ## [KEY] Tarikan historis untuk kalibrasi. JALANKAN --dry-run DULU
 	$(PY) -m core.ingest.backfill --dry-run
+
+investigate:  ## [KEY] Investigasi agen dengan LLM sungguhan. SYMBOL=BBCA
+	$(PY) -m core.agent $(SYMBOL) $(if $(AS_OF),--as-of $(AS_OF),)
 
 spike:  ## [KEY] Verifikasi endpoint F0 + ukur biaya aktual (maks 40 kredit)
 	$(PY) spikes/run_spike.py

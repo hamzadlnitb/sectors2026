@@ -137,15 +137,21 @@ sekitar **18 Sep**. Sampai saat itu, stub dan fixture adalah cara kerja yang sah
 
 ### Gerbang lintas-lajur
 
-| Tanggal | Gerbang | Pemilik |
-| --- | --- | --- |
-| 9 Sep | Bentuk data terverifikasi, atau rencana cadangan dijalankan | Melco |
-| 10 Sep | Satu probe hijau + tiga fixture beku + Vercel hidup | Melco, Nadhilla |
-| 12 Sep | Warehouse terisi · enam probe hijau · **Angka 1** ada | Melco, Hamzah |
-| **14 Sep** | 🔴 **Cron hidup** — jam bukti otonom mulai berdetak | Melco |
-| 18 Sep | `make investigate` jalan end-to-end | Hamzah |
-| **21 Sep** | 🔴 **Angka 2** ada — atau klaim diubah hari itu juga | Hamzah |
-| 22 Sep | Produk end-to-end pakai transkrip asli, ter-deploy | Nadhilla |
+| Tanggal | Gerbang | Pemilik | Status · 10 Sep |
+| --- | --- | --- | --- |
+| 9 Sep | Bentuk data terverifikasi, atau rencana cadangan dijalankan | Melco | ✅ |
+| 10 Sep | Satu probe hijau + tiga fixture beku + Vercel hidup | Melco, Nadhilla | ✅ probe & fixture · Vercel? |
+| 12 Sep | Warehouse terisi · enam probe hijau · **Angka 1** ada | Melco, Hamzah | ⚠️ probe hijau, **warehouse kurang** |
+| **13 Sep** | 🔴 **M7 backfill** menutup celah BCI + FFS | Melco | ❌ baru ditambahkan |
+| **14 Sep** | 🔴 **Cron hidup** — jam bukti otonom mulai berdetak | Melco | ✅ jalan sejak 7 Sep |
+| 18 Sep | `make investigate` jalan end-to-end | Hamzah | ✅ **selesai 10 Sep** |
+| **21 Sep** | 🔴 **Angka 2** ada — atau klaim diubah hari itu juga | Hamzah | ❌ terhambat M7 |
+| 22 Sep | Produk end-to-end pakai transkrip asli, ter-deploy | Nadhilla | 🔄 transkrip asli sudah tersedia |
+
+> **Jalur kritis sekarang: M7 → kalibrasi ulang → H3 eval.** Ketiganya berurutan, dan Angka 1
+> maupun Angka 2 bergantung padanya. Kalau M7 meleset dari 13 Sep, gerbang 21 Sep ikut goyah
+> dan kita harus memutuskan lebih awal apakah klaim penghematan kredit diganti jadi kualitatif
+> (`ARCHITECTURE.md` §11 baris pertama).
 
 ---
 
