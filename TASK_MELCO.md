@@ -126,6 +126,30 @@ Plus `data/warehouse/*.parquet` dan `registry.py` (definisi tool untuk LLM: nama
 - [ ] Laporkan posisi kredit ke tim tiap Minggu malam
 - [ ] **25 Sep:** verifikasi `runs/` memuat **≥10 hari bursa berturut-turut**
 
+### M7 · Backfill penutup celah kalibrasi · **11–13 Sep** 🔴 BARU
+> Ditemukan lajur agen saat kalibrasi dijalankan sungguhan, 10 Sep.
+> **Ini sekarang penghambat tunggal Angka 1 dan Angka 2.**
+
+`broker_summary` dan `free_float` masing-masing cuma punya **satu tanggal** di warehouse
+(2026-09-07), dan tanggal itu jatuh **sesudah** sebagian besar titik T-k kalibrasi. Setelah
+saringan point-in-time keduanya kosong, sehingga **BCI + FFS — 0,43 dari total bobot —
+tidak pernah terisi sekali pun.** Bobot yang dipakai sekarang prior domain, bukan hasil
+kalibrasi, dan cuma 9 peristiwa positif yang bisa dinilai.
+
+Rincian dan ambang penggantinya ada di `reports/validation.md`.
+
+- [ ] `daily_transaction` — ~150 emiten × 120 sesi, menutupi rentang **24 bulan**
+- [ ] `broker_summary` — **20 sesi per emiten kandidat**, bukan satu tanggal
+- [ ] `free_float` — snapshot **bulanan**, bukan sekali
+- [ ] `company_profile` — seluruh emiten kandidat (sekarang cuma 16 baris)
+- [ ] Sasaran: **≥30 episode positif yang bisa dinilai, rentang ≥12 bulan**
+      (konstanta `MIN_POSITIF_UNTUK_KALIBRASI` di `notebooks/calibration.py`)
+- [ ] Kabari Hamzah begitu mendarat — kalibrasi dan eval agen langsung dijalankan ulang
+
+⚠️ **Anggaran:** posisi terakhir 275 dari 1.000 kredit terpakai. Jalankan `--dry-run` dulu
+dan laporkan perkiraan biayanya ke tim **sebelum** membelanjakan; ini tarikan terbesar yang
+tersisa dan tidak boleh menghabiskan pagu operasi harian.
+
 ---
 
 ## Anggaran kredit — lu penjaganya
@@ -149,6 +173,7 @@ Alarm di 70% dan 90%. Kalau ada yang minta kredit di luar pagu, jawabannya tidak
 | 12 Sep | Warehouse terisi + enam probe hijau |
 | **14 Sep** | 🔴 **Cron hidup** — tidak bisa ditawar |
 | 11 Sep | Putusan MCP: lanjut atau REST-only |
+| **13 Sep** | 🔴 **M7 mendarat** — tanpa ini Angka 1 dan Angka 2 kosong |
 
 ## Kalau lu terblokir
 Endpoint tidak sesuai asumsi → **jangan diam**, langsung ke `TASK.md` §Rencana Cadangan dan kabari tim hari itu juga. Batas keputusan untuk masalah bentuk data adalah **9 Sep**; lewat itu, mengubah desain jadi mahal.

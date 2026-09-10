@@ -8,6 +8,42 @@ Tugas di file ini **termasuk QA-nya sendiri**. Video & submission dikerjakan bar
 
 ---
 
+## Status · 10 Sep 2026
+
+| Fase | Status |
+| --- | --- |
+| H1 skoring | ✅ selesai — `core/scoring/` + 10 tes |
+| H1 kalibrasi | ⚠️ **jalan, tapi belum bisa dipercaya** — lihat Penghambat di bawah |
+| H2 agen | ✅ selesai — tiga tahap + memori + pagar, 29 tes |
+| H2 narasi | ✅ selesai — 43 tes, termasuk penolakan halusinasi angka **dan emiten** |
+| **H3 eval agen** | ❌ **BELUM DIMULAI** — `evals/` masih kosong. Ini gerbang keras 21 Sep |
+| H4 dukungan | 🔄 berjalan |
+
+**315 tes lolos** tanpa jaringan dan tanpa kunci API. ruff, `contracts/check.py`, dan
+`vocab_guard` bersih. PR: [#4](https://github.com/hamzadlnitb/sectors2026/pull/4).
+
+### 🔴 Penghambat — Angka 1 belum punya isi
+
+`broker_summary` dan `free_float` masing-masing hanya punya **satu tanggal** di warehouse
+(2026-09-07), yang jatuh sesudah sebagian besar titik T-k. Setelah saringan point-in-time,
+**BCI + FFS — 0,43 dari total bobot — tidak pernah terisi sekali pun.**
+
+Akibatnya: hanya 9 positif yang bisa dinilai, semuanya dalam rentang tiga minggu; bobot
+sekarang adalah prior domain bertanda `cal-2026-09-10-sementara`; dan angka validasi yang
+ada membuktikan pipa hitungnya jalan, **bukan performa yang boleh dikutip di video**.
+
+Ini juga menghambat H3: eval agen butuh probe yang benar-benar bisa jalan pada banyak
+emiten. Kebutuhan data ada di `reports/validation.md`; tugasnya sudah masuk
+`TASK_MELCO.md` M7.
+
+### Temuan yang mengubah kontrak dan berkas orang lain
+- `contracts/CHANGES.md` **C2** — dua invarian `check.py` menolak transkrip yang sah
+- `contracts/CHANGES.md` **C3** — validator narasi tidak memeriksa nama emiten
+- `requirements.txt` mempin numpy/pandas tanpa wheel untuk Python 3.13 (CI dan `.venv`
+  pakai 3.12 jadi aman, tapi `make setup` gagal di `python3` sistem) — keputusan tim
+
+---
+
 ## Milik lu
 
 ```
@@ -41,35 +77,43 @@ tests/agent/ · tests/scoring/ · tests/narrative/
 ### H1 · Skoring & kalibrasi — Angka 1 · 9–12 Sep
 > Bobot komposit harus keluar dari data, bukan dari tebakan. Ini prasyarat agen bisa dinilai.
 
-- [ ] `scoring/facts.py` — buku bukti: nilai + endpoint + params + `as_of` `[T12]`
-- [ ] `scoring/composite.py` — pembobotan, band 0/30/60/80, dan **tingkat keyakinan** (berapa bobot yang tercakup, karena agen boleh berhenti lebih awal) `ARCHITECTURE.md` §4
-- [ ] Bangun **himpunan positif** dari suspensi (saring alasan terkait pergerakan/aktivitas tidak wajar) — data mentahnya dari Melco M3
-- [ ] Bangun **himpunan kontrol** tersamakan (kapitalisasi + subsektor)
-- [ ] Hitung enam sub-skor pada **T-1 / T-3 / T-5 / T-10** hari bursa — **strictly point-in-time, nol lookahead**
-- [ ] Cari bobot: logistic regression atau grid search. Pilih yang bisa dijelaskan dalam 15 detik di video
-- [ ] Split waktu: kalibrasi 18 bulan pertama, uji 6 bulan terakhir yang belum pernah dilihat
-- [ ] `reports/validation.md` **Angka 1** — Precision@20, recall pada ambang ≥60, **median lead time**, plus **batasan yang diakui terbuka** `[T6][T7]`
+- [x] `scoring/facts.py` — buku bukti: nilai + endpoint + params + `as_of` `[T12]`
+- [x] `scoring/composite.py` — pembobotan, band 0/30/60/80, dan **tingkat keyakinan** (berapa bobot yang tercakup, karena agen boleh berhenti lebih awal) `ARCHITECTURE.md` §4
+- [x] Bangun **himpunan positif** dari suspensi (saring alasan terkait pergerakan/aktivitas tidak wajar) — data mentahnya dari Melco M3
+- [x] Bangun **himpunan kontrol** tersamakan (kapitalisasi + subsektor)
+- [x] Hitung enam sub-skor pada **T-1 / T-3 / T-5 / T-10** hari bursa — **strictly point-in-time, nol lookahead**
+- [x] Cari bobot: logistic regression atau grid search. Pilih yang bisa dijelaskan dalam 15 detik di video
+- [x] Split waktu: kalibrasi 18 bulan pertama, uji 6 bulan terakhir yang belum pernah dilihat
+- [x] `reports/validation.md` **Angka 1** — Precision@20, recall pada ambang ≥60, **median lead time**, plus **batasan yang diakui terbuka** `[T6][T7]`
 - [ ] **QA:** tes anti-lookahead (skor pada T-5 tidak boleh berubah kalau data setelah T-5 dihapus) · komponen hilang → skor tetap keluar dengan keyakinan turun, bukan crash
 
 ### H2 · Agen · 11–18 Sep · ★ inti Track 1
 > ✅ **Gerbang: `make investigate` jalan end-to-end paling lambat 18 Sep.**
 
-- [ ] `agent/planner.py` — dari sinyal Tier-1 + memori → hipotesis, probe terurut, permintaan pagu kredit. Keluaran **JSON terstruktur**, tidak pernah prosa bebas
-- [ ] `agent/investigator.py` — loop: eksekusi probe → evaluasi temuan (`confirmed` / `refuted` / `inconclusive`) → `continue` / `escalate` / `conclude`
-- [ ] `agent/budget.py` — pagu per-investigasi (25 kredit) & per-hari. Eskalasi **bisa ditolak**, dan agen harus tetap menyimpulkan dengan bukti seadanya
-- [ ] `agent/guardrails.py` — maks 8 langkah, timeout per langkah, validasi skema, satu probe hanya sekali per investigasi, penutupan aman saat pagar tertembus `[AD-6]`
-- [ ] `agent/memory.py` — riwayat per-ticker di DuckDB; investigasi ulang menghasilkan **rencana berbeda** yang diarahkan ke apa yang berubah
-- [ ] `agent/transcript.py` — transkrip yang bisa diputar ulang, sesuai kontrak
-- [ ] `agent/adjudicator.py` — buku bukti → **skor deterministik** → narasi
-- [ ] `narrative/generate.py` — Claude menyusun 3–4 kalimat Bahasa Indonesia **hanya dari buku bukti**
-- [ ] `narrative/validate.py` — tiap token angka wajib punya padanan di buku bukti; gagal → **fallback template deterministik** `[AD-4]`
-- [ ] `make investigate SYMBOL=XXXX` jalan end-to-end
+- [x] `agent/planner.py` — dari sinyal Tier-1 + memori → hipotesis, probe terurut, permintaan pagu kredit. Keluaran **JSON terstruktur**, tidak pernah prosa bebas
+- [x] `agent/investigator.py` — loop: eksekusi probe → evaluasi temuan (`confirmed` / `refuted` / `inconclusive`) → `continue` / `escalate` / `conclude`
+- [x] `agent/budget.py` — pagu per-investigasi (25 kredit) & per-hari. Eskalasi **bisa ditolak**, dan agen harus tetap menyimpulkan dengan bukti seadanya
+- [x] `agent/guardrails.py` — maks 8 langkah, timeout per langkah, validasi skema, satu probe hanya sekali per investigasi, penutupan aman saat pagar tertembus `[AD-6]`
+- [x] `agent/memory.py` — riwayat per-ticker di DuckDB; investigasi ulang menghasilkan **rencana berbeda** yang diarahkan ke apa yang berubah
+- [x] `agent/transcript.py` — transkrip yang bisa diputar ulang, sesuai kontrak
+- [x] `agent/adjudicator.py` — buku bukti → **skor deterministik** → narasi
+- [x] `narrative/generate.py` — Claude menyusun 3–4 kalimat Bahasa Indonesia **hanya dari buku bukti**
+- [x] `narrative/validate.py` — tiap token angka wajib punya padanan di buku bukti; gagal → **fallback template deterministik** `[AD-4]`
+- [x] `make investigate SYMBOL=XXXX` jalan end-to-end
 - [ ] **QA:** buku bukti dipalsukan → validator menolak · agen ngelantur → pagar menutup aman · pagu habis → putusan berkeyakinan rendah, bukan crash · keluaran LLM tidak sesuai skema → retry lalu fallback · narasi lolos larangan kosakata CI Melco
 
 > **Empat perilaku yang wajib terlihat di transkrip**, karena inilah pembeda agen dari if-else berbaju LLM: **perutean adaptif** (membuka jalur bukti di luar rencana awal), **penghentian dini** (berhenti begitu cukup), **eskalasi** (minta tambahan pagu dengan alasan tertulis), **memori** (investigasi ulang berbeda rencananya). Pastikan ada di transkrip **dan** bisa ditunjuk di video. `ARCHITECTURE.md` §3
 
-### H3 · Eval agen — Angka 2 · 19–21 Sep 🔴
+### H3 · Eval agen — Angka 2 · 19–21 Sep 🔴 ← **PEKERJAAN BERIKUTNYA**
 > **Gerbang keras tim.** Kalau agen tidak mengalahkan urutan tetap, klaim utama kita runtuh dan kita **harus tahu sebelum merekam video**, bukan sesudah.
+
+> ⚠️ Sub-agent yang menggarap ini stall sebelum menghasilkan berkas. `evals/` masih kosong.
+> Rancangannya sudah matang di `ARCHITECTURE.md` §6, tinggal ditulis.
+>
+> ⚠️ Terhambat M7: dengan `broker_summary` dan `free_float` cuma satu tanggal, dua dari enam
+> probe tidak akan pernah jalan di eval — dan ablasi atas empat probe tidak membuktikan
+> perencanaan sadar biaya. **Jangan jalankan eval sebelum backfill mendarat**, hasilnya akan
+> menyesatkan.
 
 - [ ] `evals/cases.yaml` — 30–50 ticker uji: campuran normal, mencurigakan, dan yang benar-benar pernah disuspend
 - [ ] `evals/agent_eval.py` — empat jalur: **agen** vs **menyeluruh** vs **urutan tetap** vs **acak berpagu sama**
@@ -81,7 +125,7 @@ tests/agent/ · tests/scoring/ · tests/narrative/
 
 ### H4 · Dukungan & jaga · 21–25 Sep
 - [ ] Serahkan transkrip asli ke Nadhilla untuk menggantikan fixture
-- [ ] Bantu Melco menyambungkan agen ke cron tahap 2 (±19 Sep)
+- [x] Bantu Melco menyambungkan agen ke cron tahap 2 (±19 Sep)
 - [ ] Perbaiki hanya masalah yang muncul **berulang** di user testing; sisanya ke `reports/feedback.md`
 - [ ] Isi bagian metodologi (rumus, bobot, dua angka, batasan) — Nadhilla yang merender
 
@@ -97,11 +141,11 @@ Kalau batas ini kabur, angka jadi bisa dikarang dan kredibilitas kita habis di d
 **Anggaran LLM terpisah dari kredit Sectors** `[K9]`. Cache transkrip berkunci `(ticker, tanggal, versi_prompt)`. Jalankan eval pakai model kecil sampai perilakunya stabil, baru naikkan.
 
 ## Gerbang yang lu pegang
-| Tanggal | Gerbang |
-| --- | --- |
-| 12 Sep | Angka 1 ada di `reports/validation.md` |
-| 18 Sep | `make investigate` jalan end-to-end |
-| **21 Sep** | 🔴 **Angka 2 ada — atau klaim diubah hari itu juga** |
+| Tanggal | Gerbang | Status |
+| --- | --- | --- |
+| 12 Sep | Angka 1 ada di `reports/validation.md` | ⚠️ ada, tapi belum bermakna — terhambat M7 |
+| 18 Sep | `make investigate` jalan end-to-end | ✅ **selesai 10 Sep**, delapan hari lebih awal |
+| **21 Sep** | 🔴 **Angka 2 ada — atau klaim diubah hari itu juga** | ❌ belum mulai, terhambat M7 |
 
 ## Kalau lu terblokir
 Melco telat → tetap jalan pakai stub, jangan menunggu. Waktu habis di H2 → potong **memori agen** lebih dulu (perencana + penyelidik + penilai sudah cukup memenuhi syarat Track 1); jangan potong eval, karena tanpa Angka 2 kita kehilangan pembeda. Batas keputusan **18 Sep**.

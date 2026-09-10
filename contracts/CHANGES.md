@@ -61,6 +61,35 @@ belum ada data yang terlanjur ditulis.
 
 ## Riwayat
 
+### C3 · 10 Sep 2026 · Validator narasi tidak pernah memeriksa nama emiten
+
+Ditemukan pada uji end-to-end pertama lawan MiniMax M3. Narasi yang dihasilkan
+**lolos validator angka sepenuhnya** — setiap angkanya bersumber dari buku bukti —
+tetapi berbunyi *"Investigasi pada saham JAJA…"* untuk investigasi emiten **JAWA**.
+
+Validator hanya membaca angka, karena itulah yang C1 rancang. Tapi menyebut emiten
+yang salah lebih berbahaya daripada angka yang salah: angka yang meleset membuat
+pembaca salah menilai satu saham, sedangkan nama yang meleset membuatnya bertindak
+di saham yang sama sekali lain. Dan juri praktisi pasar akan menangkapnya dalam
+sedetik.
+
+Ditambahkan `core/narrative/validate.py::unsupported_tickers()`: setiap token empat
+huruf kapital di narasi yang bukan emiten yang sedang diselidiki diperlakukan sebagai
+halusinasi, kecuali segelintir singkatan pasar modal yang didaftar eksplisit
+(`RUPS`, `IUPK`, …). Menambah entri ke daftar itu melemahkan pemeriksaan, jadi
+tambahkan hanya kalau istilahnya benar-benar muncul dan benar-benar sah.
+
+`narrate()` kini jatuh ke template deterministik kalau pemeriksaan ini gagal, sama
+seperti pada angka tak bersumber. Tes memakai keluaran MiniMax aslinya, bukan contoh
+karangan: `tests/narrative/test_ticker.py::test_emiten_karangan_tertangkap`.
+
+Tidak ada perubahan bentuk data — `schema_version` tetap `1.0`.
+
+**Pelajaran, menguatkan C2:** validator hanya memeriksa apa yang terpikir saat
+menulisnya. Yang menemukan celah ini bukan review, melainkan satu panggilan sungguhan
+ke model sungguhan.
+
+
 ### C2 · 10 Sep 2026 · Dua invarian `check.py` menolak transkrip yang sah
 
 Ditemukan saat menulis `core/agent/` — bukan saat mereview kontrak. Keduanya
