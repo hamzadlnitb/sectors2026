@@ -13,3 +13,7 @@ mcp==2.2.0
 # Kualitas — dipakai CI.
 pytest==9.1.1
 ruff==0.16.6
+
+# LLM. SDK Anthropic dipakai untuk KEDUA penyedia — MiniMax M3
+# Anthropic-compatible, cuma base_url dan model yang beda. [core/llm.py]
+anthropic==1.4.0

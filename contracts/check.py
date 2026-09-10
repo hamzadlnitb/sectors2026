@@ -51,18 +51,26 @@ def check(path: Path) -> list[str]:
         if not c.investigated and c.sub_score is not None:
             errors.append(f"komponen {c.code} tidak diselidiki tapi punya sub_score")
 
-    # Probe yang dijalankan harus tercermin di komponen yang ditandai terselidiki.
+    # Setiap komponen yang ditandai terselidiki WAJIB punya langkah yang
+    # menjalankannya. Kebalikannya tidak berlaku: probe boleh dijalankan lalu
+    # menyerah (sub_score None), dan kontrak menandainya tidak terselidiki
+    # karena "menyerah" bukan "nol". new_probe sengaja TIDAK dihitung — ia
+    # niat pada saat eskalasi, bukan eksekusi. [CHANGES.md C2]
     ran = {PROBE_TO_COMPONENT[s.probe] for s in t.steps}
-    ran |= {PROBE_TO_COMPONENT[s.new_probe] for s in t.steps if s.new_probe}
     marked = {c.code for c in t.components if c.investigated}
-    if ran != marked:
-        errors.append(f"probe dijalankan {sorted(ran)} != komponen terselidiki {sorted(marked)}")
+    if not marked <= ran:
+        errors.append(
+            f"komponen terselidiki {sorted(marked - ran)} tidak punya langkah yang menjalankannya"
+        )
 
-    # Biaya harus berjumlah benar dari DUA sisi, dan penghematan tidak boleh diklaim palsu.
-    if sum(e.credits_spent for e in t.evidence) != t.credits_total:
-        errors.append("credits_total tidak sama dengan jumlah biaya bukti")
+    # Langkah adalah sumber kebenaran biaya: probe yang menyerah tetap membakar
+    # kredit saat fetch, tapi kontrak mengosongkan buktinya. Jadi bukti hanya
+    # sebagian dari total, bukan seluruhnya. [CHANGES.md C2]
+    biaya_bukti = sum(e.credits_spent for e in t.evidence)
     if sum(s.credits_spent for s in t.steps) != t.credits_total:
         errors.append("credits_total tidak sama dengan jumlah biaya langkah")
+    if biaya_bukti > t.credits_total:
+        errors.append(f"biaya bukti {biaya_bukti} melebihi credits_total {t.credits_total}")
 
     # Aritmetika pagu harus utuh, termasuk tambahan yang dikabulkan saat eskalasi.
     remaining = t.plan.credit_budget_requested

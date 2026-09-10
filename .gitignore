@@ -27,3 +27,6 @@ web/out/
 .DS_Store
 .idea/
 .vscode/
+
+# Cache respons LLM (besar, bisa dibangun ulang, berisi jejak prompt)
+data/llm_cache/
