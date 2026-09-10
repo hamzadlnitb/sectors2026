@@ -86,4 +86,4 @@ Ditegakkan `CreditAwareClient`: panggilan yang menembus pagu **ditolak** dengan 
 | **Total** | **1000** |
 
 ---
-_Dibangkitkan 2026-09-08 oleh `make docs`._
+_Dibangkitkan `make docs` dari tabel perutean · sidik isi `9710c8a16930`._
