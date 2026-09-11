@@ -95,9 +95,14 @@ export default function MetodologiPage() {
               <div className="title">Apakah skornya berarti?</div>
             </div>
             <div className="vb">
-              <Metric label="Precision@20" tgt="proporsi 20 skor teratas yang benar peristiwa" />
-              <Metric label="Recall pada ambang ≥60" tgt="peristiwa tertangkap band waspada+" />
-              <Metric label="Median lead time" tgt="berapa hari bursa sebelum suspensi" />
+              <Metric label="Precision@20" value="0,45" tgt="bagian uji 0,32 · k=20" />
+              <Metric label="Recall pada ambang ≥60" value="0,33" tgt="bagian uji 0,33" />
+              <Metric label="Median lead time" value="5,0 hari" tgt="bagian uji 7,5 · sebelum suspensi" />
+              <div className="vnote">
+                <b>Provisional.</b> Sampel kecil (9 positif / 22 kontrol dari warehouse yang di-commit); Precision@20 di sini
+                mendekati proporsi positif — bukti pipa perhitungan jalan, bukan klaim performa. Sumber:{" "}
+                <b>reports/validation.md</b> (2026-09-10, split-waktu).
+              </div>
             </div>
           </div>
           <div className="valcard">
@@ -110,6 +115,7 @@ export default function MetodologiPage() {
               <Metric label="Kesepakatan band vs baseline" tgt="target ≥ 90%" />
               <Metric label="Presisi eskalasi" tgt="probe di luar rencana yang mengubah band" />
               <Metric label="Ablasi vs urutan tetap & acak" tgt="agen harus mengalahkan keduanya" />
+              <div className="vnote"><b>Menunggu eval agen</b> — <b>evals/</b> belum dijalankan.</div>
             </div>
           </div>
         </div>
@@ -118,8 +124,8 @@ export default function MetodologiPage() {
             <circle cx="12" cy="12" r="9" /><path d="M12 8v4M12 16h.01" strokeLinecap="round" />
           </svg>
           <span>
-            Angka final diisi dari kalibrasi split-waktu (18 bulan latih, 6 bulan uji yang belum pernah dilihat) —
-            <b style={{ color: "var(--text)" }}> reports/validation.md</b>. Ditampilkan apa adanya begitu tersedia, termasuk kalau mengecewakan.
+            Angka 1 sudah dari kalibrasi split-waktu tapi <b style={{ color: "var(--text)" }}>provisional</b> (sampel kecil).
+            Angka 2 menyusul dari <b style={{ color: "var(--text)" }}>evals/</b> (agen vs menyeluruh vs ablasi). Ditampilkan apa adanya, termasuk kalau mengecewakan.
           </span>
         </div>
       </section>
@@ -144,12 +150,12 @@ export default function MetodologiPage() {
   );
 }
 
-function Metric({ label, tgt }: { label: string; tgt: string }) {
+function Metric({ label, tgt, value }: { label: string; tgt: string; value?: string }) {
   return (
     <div className="metric">
       <div className="ml">{label}</div>
       <div className="mr">
-        <div className="val pending">—</div>
+        <div className={value ? "val" : "val pending"}>{value ?? "—"}</div>
         <div className="tgt">{tgt}</div>
       </div>
     </div>
