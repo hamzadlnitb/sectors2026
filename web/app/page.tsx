@@ -1,5 +1,4 @@
 import SearchBox from "@/components/SearchBox";
-import ReasoningTrail from "@/components/ReasoningTrail";
 import InvestigationCard from "@/components/InvestigationCard";
 import { loadIndex, symbolToId } from "@/lib/transcript";
 import "./landing.css";
@@ -14,25 +13,20 @@ export default function Landing() {
   return (
     <main>
       <section className="hero">
-        <div>
-          <span className="eyebrow">
-            <span className="live" /> Investigator Saham AI · IDX
-          </span>
-          <h1>
-            Investigator AI yang <span className="hl">menunjukkan cara</span> ia sampai ke kesimpulan.
-            <span className="cur" />
-          </h1>
-          <p className="sub">
-            Saham ini lagi ramai — <b>nyata atau digoreng?</b> PANTAU menyelidikinya seperti analis:
-            memutuskan sendiri bukti apa yang layak dikejar, lalu memperlihatkan <b>tiap langkahnya</b>.
-          </p>
-          <SearchBox routes={routes} />
-          <div className="microcopy">
-            <span className="tick">▸</span> Nol saran investasi. Tiap angka bisa ditelusuri ke sumbernya.
-          </div>
-        </div>
-        <div>
-          <ReasoningTrail />
+        <span className="eyebrow">
+          <span className="live" /> Investigator Saham AI · IDX
+        </span>
+        <h1>
+          Saham lagi ramai. Nyata, atau <span className="hl">digoreng</span>?
+          <span className="cur" />
+        </h1>
+        <p className="sub">
+          Selidiki saham IDX seperti analis — PANTAU memutuskan sendiri bukti apa yang dikejar,
+          lalu memperlihatkan <b>tiap langkah buktinya</b>.
+        </p>
+        <SearchBox routes={routes} />
+        <div className="microcopy">
+          <span className="tick">▸</span> Nol saran investasi. Tiap angka bisa ditelusuri ke sumbernya.
         </div>
       </section>
 
