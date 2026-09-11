@@ -59,7 +59,7 @@ tests/web/ · tests/export/
 - [x] Tiap angka di narasi **bisa diklik** → endpoint Sectors + parameter + `as_of` `[T12]`
 - [x] Tampilkan biaya kredit tiap entri bukti
 - [x] Tandai jelas kalau narasi jatuh ke **template deterministik** (artinya validator Hamzah menolak keluaran LLM) — kejujuran ini justru menambah kredibilitas
-- [ ] **QA:** tidak ada angka di narasi yang tidak punya entri bukti · `as_of` selalu tampil, karena data Sectors EOD dan kita harus jujur soal keterlambatan `[K7]`
+- [x] **QA:** tidak ada angka di narasi yang tidak punya entri bukti · `as_of` selalu tampil, karena data Sectors EOD dan kita harus jujur soal keterlambatan `[K7]`
 
 ### N4 · Papan Waspada & Metodologi · 16–22 Sep
 - [x] **Papan Waspada** — arsip investigasi otonom bertanggal, bisa ditelusuri mundur. Ini membuat bukti unattended run terlihat **di dalam produk**, bukan cuma di repo `[T5]`
