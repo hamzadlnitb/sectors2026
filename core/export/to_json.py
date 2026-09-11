@@ -25,7 +25,7 @@ import argparse
 import json
 import os
 import sys
-from datetime import datetime, timezone, UTC
+from datetime import UTC, datetime
 from pathlib import Path
 
 # contracts/check.py (dan konsol Windows) memakai encoding bawaan OS — cp1252 di
