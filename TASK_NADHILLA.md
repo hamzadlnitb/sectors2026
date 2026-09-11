@@ -37,28 +37,28 @@ tests/web/ · tests/export/
 ## Fase
 
 ### N1 · Fondasi & fixture · 8–10 Sep
-- [ ] Bareng tim: bekukan `InvestigationTranscript`, lalu tulis **tiga fixture** yang mewakili tiga keadaan UI yang berbeda: `normal.json` (agen berhenti setelah 2 langkah), `waspada.json` (investigasi penuh), `eskalasi.json` (agen membuka probe di luar rencana). Tanpa ketiganya, UI lu cuma teruji di satu jalur
+- [x] Bareng tim: bekukan `InvestigationTranscript`, lalu tulis **tiga fixture** yang mewakili tiga keadaan UI yang berbeda: `normal.json` (agen berhenti setelah 2 langkah), `waspada.json` (investigasi penuh), `eskalasi.json` (agen membuka probe di luar rencana). Tanpa ketiganya, UI lu cuma teruji di satu jalur
 - [ ] Next.js 15 App Router + Tailwind + Recharts, deploy Vercel kosong hari ini juga — supaya masalah deploy ketahuan sekarang, bukan tanggal 25
-- [ ] `core/export/to_json.py` — kontrak tulis ke `web/public/data/` dan `runs/`
-- [ ] **Aturan mati:** web **hanya membaca JSON statis**. Nol panggilan Sectors API, nol panggilan LLM saat runtime `[AD-1]`. Ini yang membuat demo tidak bisa gagal
+- [x] `core/export/to_json.py` — kontrak tulis ke `web/public/data/` dan `runs/`
+- [x] **Aturan mati:** web **hanya membaca JSON statis**. Nol panggilan Sectors API, nol panggilan LLM saat runtime `[AD-1]`. Ini yang membuat demo tidak bisa gagal
 
 ### N2 · Halaman Investigasi · 10–16 Sep · ★ layar utama video
 > Ini satu-satunya layar yang membuktikan ada agen di balik produk. Kerjakan paling serius.
 
-- [ ] **Putar ulang transkrip langkah demi langkah** — bukan menampilkan hasil akhir. Penonton harus melihat: rencana awal (hipotesis + probe terurut + pagu kredit), lalu tiap langkah muncul berurutan dengan temuannya, lalu putusan
-- [ ] Tandai jelas **empat momen agentik** — ini yang dinilai Track 1 `ARCHITECTURE.md` §3:
+- [x] **Putar ulang transkrip langkah demi langkah** — bukan menampilkan hasil akhir. Penonton harus melihat: rencana awal (hipotesis + probe terurut + pagu kredit), lalu tiap langkah muncul berurutan dengan temuannya, lalu putusan
+- [x] Tandai jelas **empat momen agentik** — ini yang dinilai Track 1 `ARCHITECTURE.md` §3:
       · **perutean adaptif** — agen membuka probe di luar rencana awal
       · **penghentian dini** — agen berhenti karena bukti sudah cukup, dan hemat berapa kredit
       · **eskalasi** — agen minta tambah pagu, beserta alasan tertulisnya
       · **memori** — investigasi ulang menghasilkan rencana berbeda
-- [ ] Skor besar + band + **tingkat keyakinan** + **kredit terpakai vs baseline menyeluruh** (angka ini klaim utama tim, jangan dikubur di pojok)
+- [x] Skor besar + band + **tingkat keyakinan** + **kredit terpakai vs baseline menyeluruh** (angka ini klaim utama tim, jangan dikubur di pojok)
 - [ ] Kontrol putar ulang: jeda, mundur, lompat ke langkah. Juri menonton asinkron dan akan mengulang
 - [ ] **QA:** ketiga fixture render benar · transkrip 2 langkah dan 8 langkah sama rapinya · `finding: refuted` dan `inconclusive` punya tampilan sendiri, bukan diperlakukan seperti `confirmed`
 
 ### N3 · Buku Bukti · 14–18 Sep
-- [ ] Tiap angka di narasi **bisa diklik** → endpoint Sectors + parameter + `as_of` `[T12]`
-- [ ] Tampilkan biaya kredit tiap entri bukti
-- [ ] Tandai jelas kalau narasi jatuh ke **template deterministik** (artinya validator Hamzah menolak keluaran LLM) — kejujuran ini justru menambah kredibilitas
+- [x] Tiap angka di narasi **bisa diklik** → endpoint Sectors + parameter + `as_of` `[T12]`
+- [x] Tampilkan biaya kredit tiap entri bukti
+- [x] Tandai jelas kalau narasi jatuh ke **template deterministik** (artinya validator Hamzah menolak keluaran LLM) — kejujuran ini justru menambah kredibilitas
 - [ ] **QA:** tidak ada angka di narasi yang tidak punya entri bukti · `as_of` selalu tampil, karena data Sectors EOD dan kita harus jujur soal keterlambatan `[K7]`
 
 ### N4 · Papan Waspada & Metodologi · 16–22 Sep
