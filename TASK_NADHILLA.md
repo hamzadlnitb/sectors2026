@@ -52,7 +52,7 @@ tests/web/ · tests/export/
       · **eskalasi** — agen minta tambah pagu, beserta alasan tertulisnya
       · **memori** — investigasi ulang menghasilkan rencana berbeda
 - [x] Skor besar + band + **tingkat keyakinan** + **kredit terpakai vs baseline menyeluruh** (angka ini klaim utama tim, jangan dikubur di pojok)
-- [ ] Kontrol putar ulang: jeda, mundur, lompat ke langkah. Juri menonton asinkron dan akan mengulang
+- [x] Kontrol putar ulang: jeda, mundur, lompat ke langkah. Juri menonton asinkron dan akan mengulang
 - [ ] **QA:** ketiga fixture render benar · transkrip 2 langkah dan 8 langkah sama rapinya · `finding: refuted` dan `inconclusive` punya tampilan sendiri, bukan diperlakukan seperti `confirmed`
 
 ### N3 · Buku Bukti · 14–18 Sep
