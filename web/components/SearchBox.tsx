@@ -29,7 +29,7 @@ export default function SearchBox({ routes }: { routes: Record<string, string> }
         value={q}
         onChange={(e) => setQ(e.target.value.toUpperCase().slice(0, 4))}
       />
-      <button type="submit">Selidiki →</button>
+      <button type="submit">Investigasi →</button>
     </form>
   );
 }
