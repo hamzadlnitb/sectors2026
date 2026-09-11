@@ -52,17 +52,17 @@ tests/web/ · tests/export/
       · **eskalasi** — agen minta tambah pagu, beserta alasan tertulisnya
       · **memori** — investigasi ulang menghasilkan rencana berbeda
 - [x] Skor besar + band + **tingkat keyakinan** + **kredit terpakai vs baseline menyeluruh** (angka ini klaim utama tim, jangan dikubur di pojok)
-- [ ] Kontrol putar ulang: jeda, mundur, lompat ke langkah. Juri menonton asinkron dan akan mengulang
+- [x] Kontrol putar ulang: jeda, mundur, lompat ke langkah. Juri menonton asinkron dan akan mengulang
 - [ ] **QA:** ketiga fixture render benar · transkrip 2 langkah dan 8 langkah sama rapinya · `finding: refuted` dan `inconclusive` punya tampilan sendiri, bukan diperlakukan seperti `confirmed`
 
 ### N3 · Buku Bukti · 14–18 Sep
 - [x] Tiap angka di narasi **bisa diklik** → endpoint Sectors + parameter + `as_of` `[T12]`
 - [x] Tampilkan biaya kredit tiap entri bukti
 - [x] Tandai jelas kalau narasi jatuh ke **template deterministik** (artinya validator Hamzah menolak keluaran LLM) — kejujuran ini justru menambah kredibilitas
-- [ ] **QA:** tidak ada angka di narasi yang tidak punya entri bukti · `as_of` selalu tampil, karena data Sectors EOD dan kita harus jujur soal keterlambatan `[K7]`
+- [x] **QA:** tidak ada angka di narasi yang tidak punya entri bukti · `as_of` selalu tampil, karena data Sectors EOD dan kita harus jujur soal keterlambatan `[K7]`
 
 ### N4 · Papan Waspada & Metodologi · 16–22 Sep
-- [ ] **Papan Waspada** — arsip investigasi otonom bertanggal, bisa ditelusuri mundur. Ini membuat bukti unattended run terlihat **di dalam produk**, bukan cuma di repo `[T5]`
+- [x] **Papan Waspada** — arsip investigasi otonom bertanggal, bisa ditelusuri mundur. Ini membuat bukti unattended run terlihat **di dalam produk**, bukan cuma di repo `[T5]`
 - [ ] **Metodologi** — rumus enam komponen, bobot hasil kalibrasi, **dua angka validasi**, dan **batasan yang diakui terbuka**. Isinya dari Hamzah, lu yang merender `[T6][T7]`
 - [ ] Disclaimer permanen di setiap halaman: *"PANTAU adalah alat informasi dan analisis, bukan saran investasi."* `[K5]`
 - [ ] **Nol kosakata saran finansial** di seluruh teks UI — "beli", "jual", "target harga", "rekomendasi", "cuan", "pasti naik". CI Melco akan menangkapnya, tapi jangan sampai ketahuan CI duluan

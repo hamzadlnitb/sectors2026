@@ -1,0 +1,47 @@
+/* Metodologi — how the score is built, the two validation numbers, limits. */
+
+.method-lede { font-size: 15px; line-height: 1.6; color: var(--text); max-width: 66ch; }
+.method-lede b { color: var(--accent); font-weight: 600; }
+
+.formula { margin-top: 16px; padding: 16px 18px; border: 1px dashed var(--dash); border-radius: 12px; background: var(--surface); font-family: var(--font-jbm), monospace; font-size: 13px; color: var(--text); overflow-x: auto; }
+.formula .muted { color: var(--dim); }
+
+.comp { display: grid; grid-template-columns: 52px 1fr; gap: 14px; padding: 15px 2px; border-bottom: 1px dashed var(--dash); }
+.comp:last-child { border-bottom: none; }
+.comp .code { font-family: var(--font-jbm), monospace; font-weight: 800; font-size: 13px; color: var(--accent); border: 1px solid var(--dash); border-radius: 7px; padding: 6px 0; text-align: center; height: fit-content; }
+.comp .cname { font-weight: 700; font-size: 14px; }
+.comp .cq { font-size: 12.5px; color: var(--muted); margin-top: 3px; line-height: 1.45; }
+.comp .cfoot { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 9px; font-family: var(--font-jbm), monospace; font-size: 11px; }
+.comp .csrc { color: var(--dim); }
+.comp .cw { display: flex; align-items: center; gap: 8px; color: var(--muted); }
+.comp .cw .bar { width: 74px; height: 5px; border-radius: 3px; background: var(--inset); overflow: hidden; }
+.comp .cw .bar > i { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
+
+.bands { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.brow { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 9px; }
+.brow .range { font-family: var(--font-jbm), monospace; font-size: 12px; min-width: 64px; color: var(--dim); }
+.brow .txt { font-size: 13px; color: var(--muted); }
+
+.vgrid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 720px) { .vgrid { grid-template-columns: 1fr 1fr; } }
+.valcard { border: 1px solid var(--border-strong); border-radius: 13px; overflow: hidden; background: var(--surface); }
+.valcard .vh { padding: 14px 16px; border-bottom: 1px dashed var(--dash); background: var(--surface-2); }
+.valcard .vh .q { font-family: var(--font-jbm), monospace; font-size: 11px; color: var(--accent); }
+.valcard .vh .title { font-weight: 700; font-size: 14px; margin-top: 3px; }
+.valcard .vb { padding: 6px 16px 12px; }
+.metric { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 1px solid color-mix(in srgb, var(--border) 55%, transparent); }
+.metric:last-child { border-bottom: none; }
+.metric .ml { font-size: 12.5px; color: var(--muted); }
+.metric .mr { text-align: right; font-family: var(--font-jbm), monospace; }
+.metric .val { font-weight: 800; font-size: 15px; color: var(--dim); }
+.metric .val.pending { color: var(--sig-watch); }
+.metric .tgt { font-size: 10.5px; color: var(--dim); margin-top: 2px; }
+.vnote { font-size: 11px; color: var(--dim); line-height: 1.5; padding: 11px 0 2px; }
+.vnote b { color: var(--muted); font-weight: 600; }
+.pending-note { display: flex; gap: 10px; align-items: flex-start; margin-top: 14px; border: 1px dashed var(--dash); background: color-mix(in srgb, var(--sig-watch) 10%, transparent); border-radius: 11px; padding: 13px 15px; font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+.pending-note svg { color: var(--sig-watch); flex-shrink: 0; margin-top: 1px; }
+
+.limits { display: grid; gap: 10px; }
+.limit { display: grid; grid-template-columns: 22px 1fr; gap: 10px; font-size: 13px; line-height: 1.5; color: var(--muted); }
+.limit .m { color: var(--sig-watch); font-family: var(--font-jbm), monospace; }
+.limit b { color: var(--text); font-weight: 600; }

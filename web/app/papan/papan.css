@@ -1,0 +1,30 @@
+/* Papan Waspada — dated archive of autonomous cron runs. */
+
+.papan-intro { display: flex; gap: 12px; align-items: flex-start; border: 1px dashed var(--dash); background: var(--accent-soft); border-radius: 12px; padding: 15px 17px; margin-bottom: 8px; }
+.papan-intro .ic { color: var(--accent); flex-shrink: 0; margin-top: 1px; }
+.papan-intro .txt { font-size: 13px; line-height: 1.55; color: var(--text); }
+.papan-intro .txt b { font-weight: 600; }
+
+.run { margin-top: 22px; }
+.run-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 1px dashed var(--dash); margin-bottom: 4px; font-family: var(--font-jbm), monospace; }
+.run-head .date { font-weight: 800; font-size: 15px; }
+.run-head .meta { color: var(--dim); font-size: 11.5px; display: flex; gap: 14px; flex-wrap: wrap; margin-left: auto; }
+.run-head .meta b { color: var(--muted); font-weight: 600; }
+
+.cand { display: grid; grid-template-columns: 30px 1fr auto; gap: 12px; align-items: center; padding: 12px 4px; border-bottom: 1px solid color-mix(in srgb, var(--border) 55%, transparent); }
+.cand:last-child { border-bottom: none; }
+.cand .rank { font-family: var(--font-jbm), monospace; font-size: 12px; color: var(--dim); text-align: right; }
+.cand .main { min-width: 0; }
+.cand .sym { font-family: var(--font-jbm), monospace; font-weight: 800; font-size: 15px; letter-spacing: 0.03em; }
+.cand a.sym:hover { color: var(--accent); }
+.cand .why { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+.cand .right { display: flex; align-items: center; gap: 12px; }
+.cand .sel { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-jbm), monospace; font-size: 11px; padding: 3px 9px; border-radius: 6px; white-space: nowrap; }
+.cand .sel .bd { width: 7px; height: 7px; border-radius: 50%; }
+.cand .sel.pending { color: var(--dim); border: 1px dashed var(--dash); }
+.cand .sscore { font-family: var(--font-jbm), monospace; font-size: 12px; color: var(--dim); text-align: right; min-width: 74px; }
+.cand .sscore .bar { height: 4px; border-radius: 2px; background: var(--inset); margin-top: 5px; overflow: hidden; }
+.cand .sscore .bar > i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+
+.run.more { text-align: center; }
+.run.more span { font-family: var(--font-jbm), monospace; font-size: 11.5px; color: var(--dim); }
