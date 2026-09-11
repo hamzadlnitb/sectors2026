@@ -1,0 +1,142 @@
+{
+  "generated_at": "2026-09-11T09:12:54+00:00",
+  "investigations": [
+    {
+      "id": "FIXC-2026-09-05",
+      "symbol": "FIXC",
+      "as_of": "2026-09-05",
+      "pantau_score": 87,
+      "band": "sangat_waspada",
+      "confidence": 0.6,
+      "steps": 4,
+      "credits_total": 13,
+      "baseline_credits": 23,
+      "savings_pct": 43,
+      "memory_ref": "FIXC-2026-08-24",
+      "narrative_source": "llm",
+      "moments": [
+        "adaptive",
+        "escalation",
+        "early_stop",
+        "memory"
+      ],
+      "headline": "Banyak indikator menunjukkan pola tidak biasa secara bersamaan"
+    },
+    {
+      "id": "FIXB-2026-09-05",
+      "symbol": "FIXB",
+      "as_of": "2026-09-05",
+      "pantau_score": 74,
+      "band": "waspada",
+      "confidence": 0.88,
+      "steps": 5,
+      "credits_total": 21,
+      "baseline_credits": 23,
+      "savings_pct": 9,
+      "memory_ref": null,
+      "narrative_source": "llm",
+      "moments": [
+        "early_stop"
+      ],
+      "headline": "Beberapa indikator menunjukkan pola tidak biasa"
+    },
+    {
+      "id": "SCCO-2026-09-09",
+      "symbol": "SCCO",
+      "as_of": "2026-09-09",
+      "pantau_score": 59,
+      "band": "perhatian",
+      "confidence": 0.4,
+      "steps": 2,
+      "credits_total": 0,
+      "baseline_credits": 16,
+      "savings_pct": 100,
+      "memory_ref": null,
+      "narrative_source": "llm",
+      "moments": [
+        "early_stop"
+      ],
+      "headline": "SCCO menunjukkan anomali volume yang material, dengan rasio volume hari terakhir 4,0× terhadap median baseline dan Z-…"
+    },
+    {
+      "id": "TRUK-2026-09-09",
+      "symbol": "TRUK",
+      "as_of": "2026-09-09",
+      "pantau_score": 20,
+      "band": "normal",
+      "confidence": 0.4,
+      "steps": 2,
+      "credits_total": 0,
+      "baseline_credits": 16,
+      "savings_pct": 100,
+      "memory_ref": null,
+      "narrative_source": "template",
+      "moments": [
+        "early_stop"
+      ],
+      "headline": "Tidak ada pola tidak biasa yang menonjol pada TRUK"
+    },
+    {
+      "id": "FIXA-2026-09-05",
+      "symbol": "FIXA",
+      "as_of": "2026-09-05",
+      "pantau_score": 18,
+      "band": "normal",
+      "confidence": 0.3,
+      "steps": 2,
+      "credits_total": 4,
+      "baseline_credits": 23,
+      "savings_pct": 83,
+      "memory_ref": null,
+      "narrative_source": "llm",
+      "moments": [
+        "early_stop"
+      ],
+      "headline": "Tidak ada pola tidak biasa terdeteksi"
+    },
+    {
+      "id": "JAWA-2026-09-09",
+      "symbol": "JAWA",
+      "as_of": "2026-09-09",
+      "pantau_score": 16,
+      "band": "normal",
+      "confidence": 0.22,
+      "steps": 1,
+      "credits_total": 0,
+      "baseline_credits": 16,
+      "savings_pct": 100,
+      "memory_ref": null,
+      "narrative_source": "template",
+      "moments": [
+        "early_stop"
+      ],
+      "headline": "Tidak ada pola tidak biasa yang menonjol pada JAWA"
+    }
+  ],
+  "watchlist_dates": [
+    {
+      "as_of": "2026-09-10",
+      "generated_at": "2026-09-10T14:33:58+00:00",
+      "credits_spent": 5,
+      "candidates": 15
+    },
+    {
+      "as_of": "2026-09-09",
+      "generated_at": "2026-09-09T14:43:41+00:00",
+      "credits_spent": 5,
+      "candidates": 15
+    },
+    {
+      "as_of": "2026-09-08",
+      "generated_at": "2026-09-08T20:30:32+00:00",
+      "credits_spent": 5,
+      "candidates": 0
+    },
+    {
+      "as_of": "2026-09-07",
+      "generated_at": "2026-09-08T13:11:05+00:00",
+      "credits_spent": 0,
+      "candidates": 0
+    }
+  ]
+}

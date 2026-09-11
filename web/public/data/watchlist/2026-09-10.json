@@ -1,0 +1,195 @@
+{
+  "as_of": "2026-09-10",
+  "generated_at": "2026-09-10T14:33:58+00:00",
+  "credits_spent": 5,
+  "rows_written": {
+    "fetch-most-traded-stocks": 10,
+    "fetch-companies-top-changes": 20,
+    "fetch-suspensions": 2,
+    "fetch-filings": 11
+  },
+  "skipped": [],
+  "failures": [],
+  "candidates": [
+    {
+      "symbol": "ASLI",
+      "score": 0.7226,
+      "signals": {
+        "return_5d": 0.2903,
+        "return_20d": 1.0202,
+        "volume_z": 12.7612,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "volume 12.8σ di atas baseline; harga +29% dalam 5 hari bursa; kapitalisasi kecil"
+    },
+    {
+      "symbol": "NICK",
+      "score": 0.6686,
+      "signals": {
+        "return_5d": 0.2565,
+        "return_20d": 0.6961,
+        "volume_z": 1.2845,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "harga +26% dalam 5 hari bursa; kapitalisasi kecil"
+    },
+    {
+      "symbol": "JAWA",
+      "score": 0.5226,
+      "signals": {
+        "return_5d": 0.0534,
+        "return_20d": 0.0615,
+        "volume_z": 1.0077,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "PPGL",
+      "score": 0.3305,
+      "signals": {
+        "return_5d": 0.322,
+        "return_20d": 1.3168,
+        "volume_z": -1.0329,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "harga +32% dalam 5 hari bursa; kapitalisasi kecil"
+    },
+    {
+      "symbol": "SCCO",
+      "score": 0.3253,
+      "signals": {
+        "return_5d": 0.1064,
+        "return_20d": 0.1354,
+        "volume_z": 2.6759,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "volume 2.7σ di atas baseline; harga +11% dalam 5 hari bursa; kapitalisasi kecil"
+    },
+    {
+      "symbol": "SAFE",
+      "score": 0.3125,
+      "signals": {
+        "return_5d": 0.25,
+        "return_20d": 1.1985,
+        "volume_z": -1.4142,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "harga +25% dalam 5 hari bursa; kapitalisasi kecil"
+    },
+    {
+      "symbol": "KLBF",
+      "score": 0.2723,
+      "signals": {
+        "return_5d": 0.0,
+        "return_20d": -0.0063,
+        "volume_z": 4.084,
+        "small_cap": 0.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "volume 4.1σ di atas baseline"
+    },
+    {
+      "symbol": "CGAS",
+      "score": 0.263,
+      "signals": {
+        "return_5d": 0.0268,
+        "return_20d": -0.0065,
+        "volume_z": 2.3447,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "volume 2.3σ di atas baseline; kapitalisasi kecil"
+    },
+    {
+      "symbol": "TRUK",
+      "score": 0.2568,
+      "signals": {
+        "return_5d": 0.2647,
+        "return_20d": 0.6045,
+        "volume_z": -0.8811,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "harga +26% dalam 5 hari bursa; kapitalisasi kecil"
+    },
+    {
+      "symbol": "CSMI",
+      "score": 0.25,
+      "signals": {
+        "return_5d": 0.0,
+        "return_20d": 1.3462,
+        "volume_z": -0.9434,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "LIFE",
+      "score": 0.2205,
+      "signals": {
+        "return_5d": 0.2821,
+        "return_20d": 1.166,
+        "volume_z": -0.9713,
+        "small_cap": 0.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "harga +28% dalam 5 hari bursa"
+    },
+    {
+      "symbol": "PACK",
+      "score": 0.15,
+      "signals": {
+        "return_5d": 0.0,
+        "return_20d": 1.0741,
+        "volume_z": -0.9442,
+        "small_cap": 0.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "tidak ada sinyal menonjol"
+    },
+    {
+      "symbol": "CTTH",
+      "score": 0.11,
+      "signals": {
+        "return_5d": 0.04,
+        "return_20d": -0.037,
+        "volume_z": -0.3759,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "ARNA",
+      "score": 0.109,
+      "signals": {
+        "return_5d": 0.0241,
+        "return_20d": 0.02,
+        "volume_z": -0.1527,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "MSKY",
+      "score": 0.1078,
+      "signals": {
+        "return_5d": 0.0312,
+        "return_20d": -0.0435,
+        "volume_z": -0.5005,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    }
+  ]
+}

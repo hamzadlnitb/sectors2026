@@ -1,0 +1,143 @@
+/* PANTAU design system — "Investigator Terminal", theme-aware.
+   Palette: warm case-file (paper light + warm-dark). Accent teal, danger oxblood.
+   Fonts: JetBrains Mono (chrome/data) + Inter (prose), via next/font vars. */
+
+@import "tailwindcss";
+
+/* ── Tokens: DARK default (warm terminal) ──────────────────────────── */
+:root {
+  --bg: #14110C; --surface: #1B1710; --surface-2: #221C14; --inset: #100D08;
+  --border: #332B1E; --border-strong: #463A28;
+  --dash: rgba(79, 158, 142, 0.45);
+  --text: #F0E7D5; --muted: #A99C86; --dim: #6E6350;
+  --accent: #4F9E8E; --accent-bright: #66B8A6; --accent-soft: rgba(79, 158, 142, 0.13); --on-accent: #12100A;
+  --sig-normal: #8FB25A; --sig-watch: #D6A63F; --sig-alert: #E07B3A; --sig-danger: #E0645B;
+  --grid: rgba(79, 158, 142, 0.05);
+}
+:root[data-theme="light"] {
+  --bg: #F1EADB; --surface: #FBF6EA; --surface-2: #ECE3D0; --inset: #E7DDC8;
+  --border: #D8CBB0; --border-strong: #C5B693;
+  --dash: rgba(42, 110, 98, 0.5);
+  --text: #231F18; --muted: #6E6552; --dim: #9C9078;
+  --accent: #2A6E62; --accent-bright: #338173; --accent-soft: rgba(42, 110, 98, 0.1); --on-accent: #FBF6EA;
+  --sig-normal: #5E7D3E; --sig-watch: #A8791A; --sig-alert: #C2611F; --sig-danger: #A6301F;
+  --grid: rgba(35, 31, 24, 0.045);
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #F1EADB; --surface: #FBF6EA; --surface-2: #ECE3D0; --inset: #E7DDC8;
+    --border: #D8CBB0; --border-strong: #C5B693;
+    --dash: rgba(42, 110, 98, 0.5);
+    --text: #231F18; --muted: #6E6552; --dim: #9C9078;
+    --accent: #2A6E62; --accent-bright: #338173; --accent-soft: rgba(42, 110, 98, 0.1); --on-accent: #FBF6EA;
+    --sig-normal: #5E7D3E; --sig-watch: #A8791A; --sig-alert: #C2611F; --sig-danger: #A6301F;
+    --grid: rgba(35, 31, 24, 0.045);
+  }
+}
+
+* { box-sizing: border-box; }
+html, body { padding: 0; margin: 0; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+}
+.mono { font-family: var(--font-jbm), "JetBrains Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--accent-soft); }
+
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+.wrap { position: relative; z-index: 1; }
+
+/* ── Top bar ───────────────────────────────────────────────────────── */
+.topbar {
+  display: flex; align-items: center; gap: 16px; max-width: 1120px; margin: 0 auto;
+  padding: 15px clamp(16px, 4vw, 34px); border-bottom: 1px dashed var(--dash);
+  position: sticky; top: 0; z-index: 20;
+  background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px);
+}
+.brand { display: flex; align-items: center; gap: 9px; font-family: var(--font-jbm), monospace; font-weight: 800; letter-spacing: 0.12em; font-size: 15px; }
+.brand svg { display: block; }
+.nav-links { display: none; gap: 6px; margin-left: 10px; }
+@media (min-width: 760px) { .nav-links { display: flex; } }
+.nav-links a { font-family: var(--font-jbm), monospace; font-size: 12.5px; color: var(--muted); padding: 6px 10px; border-radius: 6px; }
+.nav-links a.active { color: var(--text); background: var(--surface); border: 1px solid var(--border); }
+.nav-links a:hover { color: var(--text); }
+.sp { flex: 1; }
+.asof { display: none; font-family: var(--font-jbm), monospace; font-size: 11.5px; color: var(--dim); }
+@media (min-width: 620px) { .asof { display: block; } }
+.spectrum { display: none; gap: 3px; align-items: flex-end; height: 18px; margin-right: 4px; }
+@media (min-width: 560px) { .spectrum { display: flex; } }
+.spectrum i { width: 3px; border-radius: 2px; }
+.toggle {
+  display: inline-flex; align-items: center; gap: 7px; background: var(--surface); border: 1px solid var(--border);
+  color: var(--muted); border-radius: 8px; padding: 7px 11px; font-family: var(--font-jbm), monospace; font-size: 12px; cursor: pointer;
+}
+.toggle:hover { color: var(--text); border-color: var(--border-strong); }
+.toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+main { max-width: 1120px; margin: 0 auto; padding: clamp(22px, 4vw, 40px) clamp(16px, 4vw, 34px) 30px; }
+
+/* ── Section labels ────────────────────────────────────────────────── */
+section { margin-top: 40px; }
+.sec-label { display: flex; align-items: center; gap: 11px; margin-bottom: 16px; font-family: var(--font-jbm), monospace; }
+.sec-label h2 { font-size: 12.5px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); margin: 0; white-space: nowrap; }
+.sec-label .n { font-size: 11px; color: var(--accent); }
+.sec-label::after { content: ""; flex: 1; height: 1px; border-top: 1px dashed var(--dash); }
+
+/* ── Panels ────────────────────────────────────────────────────────── */
+.panel { background: var(--surface); border: 1px solid var(--border-strong); border-radius: 14px; overflow: hidden; }
+.panel-head { display: flex; align-items: center; gap: 10px; padding: 11px 16px; border-bottom: 1px dashed var(--dash); background: var(--surface-2); font-family: var(--font-jbm), monospace; }
+.panel-head .dots { display: flex; gap: 5px; }
+.panel-head .dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--border-strong); }
+.panel-head .t { font-size: 12px; color: var(--muted); }
+.panel-head .t b { color: var(--text); font-weight: 700; }
+.panel-head .r { margin-left: auto; font-size: 11px; color: var(--dim); }
+
+/* ── Buttons ───────────────────────────────────────────────────────── */
+.ctrl { display: inline-flex; align-items: center; gap: 7px; background: var(--surface); border: 1px solid var(--border); color: var(--text); border-radius: 9px; padding: 8px 13px; font-family: var(--font-jbm), monospace; font-size: 12.5px; cursor: pointer; }
+.ctrl:hover { border-color: var(--accent); }
+.ctrl.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 700; }
+.ctrl:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── Band chip ─────────────────────────────────────────────────────── */
+.bandchip { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-jbm), monospace; font-weight: 700; font-size: 12.5px; letter-spacing: 0.08em; padding: 6px 13px; border-radius: 7px; }
+.bandchip .d { width: 8px; height: 8px; border-radius: 50%; }
+.bandchip.normal { color: var(--sig-normal); background: color-mix(in srgb, var(--sig-normal) 13%, transparent); border: 1px solid color-mix(in srgb, var(--sig-normal) 40%, transparent); }
+.bandchip.normal .d { background: var(--sig-normal); }
+.bandchip.watch { color: var(--sig-watch); background: color-mix(in srgb, var(--sig-watch) 14%, transparent); border: 1px solid color-mix(in srgb, var(--sig-watch) 42%, transparent); }
+.bandchip.watch .d { background: var(--sig-watch); }
+.bandchip.alert { color: var(--sig-alert); background: color-mix(in srgb, var(--sig-alert) 13%, transparent); border: 1px solid color-mix(in srgb, var(--sig-alert) 42%, transparent); }
+.bandchip.alert .d { background: var(--sig-alert); }
+.bandchip.high { color: var(--sig-danger); background: color-mix(in srgb, var(--sig-danger) 13%, transparent); border: 1px solid color-mix(in srgb, var(--sig-danger) 40%, transparent); }
+.bandchip.high .d { background: var(--sig-danger); box-shadow: 0 0 0 3px color-mix(in srgb, var(--sig-danger) 22%, transparent); }
+
+/* ── Disclaimer / footer ───────────────────────────────────────────── */
+.disclaimer { margin-top: 44px; display: flex; gap: 11px; align-items: center; border: 1px dashed var(--dash); border-radius: 11px; padding: 15px 17px; font-size: 12.5px; color: var(--muted); }
+.disclaimer svg { color: var(--dim); flex-shrink: 0; }
+.footnote { text-align: center; margin: 22px auto 70px; font-family: var(--font-jbm), monospace; font-size: 11px; color: var(--dim); }
+
+/* ── Investigation card (shared: landing board, index, papan) ──────── */
+.crumb { display: inline-block; font-family: var(--font-jbm), monospace; font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+.crumb:hover { color: var(--accent); }
+.cards { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 560px) { .cards { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+.card { display: flex; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color .15s, transform .15s; }
+.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.card .strip { width: 6px; flex-shrink: 0; }
+.card .cbody { flex: 1; padding: 15px 16px; min-width: 0; }
+.card .crow { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.card .sym { font-family: var(--font-jbm), monospace; font-weight: 800; font-size: 17px; letter-spacing: 0.03em; }
+.card .sc { font-family: var(--font-jbm), monospace; font-weight: 700; font-size: 20px; }
+.card .band { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-jbm), monospace; font-size: 11px; margin-top: 8px; }
+.card .band .bd { width: 8px; height: 8px; border-radius: 50%; }
+.card .why { font-size: 12px; color: var(--muted); margin-top: 9px; line-height: 1.4; }
+.card .cmeta { display: flex; gap: 12px; margin-top: 11px; font-family: var(--font-jbm), monospace; font-size: 10.5px; color: var(--dim); }
+.card .cmeta .esc { color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

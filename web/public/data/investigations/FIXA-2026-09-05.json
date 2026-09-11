@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.0",
+  "symbol": "FIXA",
+  "as_of": "2026-09-05",
+  "weights_version": "cal-fixture",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "h1",
+        "claim": "Volume bergerak tidak wajar",
+        "probes": [
+          "volume_anomaly"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "h2",
+        "claim": "Saham beredar terlalu sedikit sehingga mudah digerakkan",
+        "probes": [
+          "free_float"
+        ],
+        "priority": 2
+      }
+    ],
+    "credit_budget_requested": 8,
+    "rationale": "Sinyal Tier-1 tenang: volume mendekati rata-rata, kapitalisasi besar. Mulai dari dua probe termurah dan berhenti kalau keduanya bersih."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "h1",
+      "probe": "volume_anomaly",
+      "finding": "refuted",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume hanya 0,4σ di atas baseline. Hipotesis pergerakan tidak wajar terbantah.",
+      "credits_spent": 2,
+      "credits_remaining": 6
+    },
+    {
+      "step": 2,
+      "hypothesis": "h2",
+      "probe": "free_float",
+      "finding": "refuted",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Free float 62% terlalu longgar untuk digerakkan segelintir pihak. Dua hipotesis terbantah; melanjutkan ke probe mahal tidak sepadan.",
+      "credits_spent": 2,
+      "credits_remaining": 4
+    }
+  ],
+  "evidence": [
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 0.4,
+      "display": "0,4σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "FIXA",
+        "start": "2026-06-08",
+        "end": "2026-09-05"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-05T17:30:00+07:00",
+      "credits_spent": 2
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari ini vs rata-rata",
+      "value": 1.1,
+      "display": "1,1×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "FIXA",
+        "start": "2026-06-08",
+        "end": "2026-09-05"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-05T17:30:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.62,
+      "display": "62%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "sub_sector": "banks"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-05T17:30:00+07:00",
+      "credits_spent": 2
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.24,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 20.0,
+      "weight": 0.18,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.16,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 15.0,
+      "weight": 0.12,
+      "evidence_ids": [
+        "ffs.pct"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.18,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 18,
+  "band": "normal",
+  "confidence": 0.3,
+  "credits_total": 4,
+  "baseline_credits": 23,
+  "narrative": "Tidak ada pola tidak biasa terdeteksi. Volume perdagangan hanya 0,4σ di atas baseline 90 hari, dan free float 62% membuat saham ini sulit digerakkan oleh segelintir pihak. Penyelidikan dihentikan setelah dua langkah karena kedua hipotesis awal terbantah.",
+  "narrative_source": "llm",
+  "memory_ref": null,
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

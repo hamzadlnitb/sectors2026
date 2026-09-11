@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0",
+  "symbol": "JAWA",
+  "as_of": "2026-09-09",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1_volume_drive_penurunan_27pct",
+        "claim": "Penurunan harga 27% kemungkinan didorong oleh anomaly volume / akumulasi segelintir broker, bukan fundamental — perlu cek dulu apakah ada distribusi tidak wajar.",
+        "probes": [
+          "volume_anomaly",
+          "broker_concentration"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2_distribusi_ke_ritel_via_asing",
+        "claim": "Foreign flow 30 hari bisa menjelaskan apakah penurunan -27% merupakan distribusi bandar ke ritel/asing (topping pattern) — penting di subsektor F&B yang sensitif sentimen.",
+        "probes": [
+          "foreign_flow"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "H3_konteks_struktural_float_History",
+        "claim": "Free float kecil bisa membuat harga sangat mudah digerakkan, dan catatan suspensi/rights issue/insider sale memberi konteks korporasi atas move -27%.",
+        "probes": [
+          "free_float",
+          "structural"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 10,
+    "rationale": "JAJA: harga sudah turun 27% dalam 119 hari bursa — ini adalah sinyal Tier-1 yang paling dominan dan jadi pertanyaan utama investigasi. Sebelum menyentuh probe mahal (price_fundamental 6 kredit, broker_concentration 3 kredit, structural 3 kredit), saya mulai dari probe termurah yang paling efisien:\n\nUrutan dan justifikasi:\n1. volume_anomaly (1 kredit) — selalu jadi langkah pertama. Jika z-score tidak abnormal, berarti tidak ada akumulasi/distribusi besar dan -27% mungkin sekadar drift. Probe termurah dengan info screening tertinggi.\n2. Saya TIDAK mengajukan price_fundamental (6 kredit) di hipotesis manapun. -27% adalah penurunan, bukan kenaikan tajam, dan earnings YoY butuh waktu parsing; tidak efisien di sini.\n3. foreign_flow (2 kredit, prioritas 2) — di subsektor F&B, distribusi asing sering jadi mekanisme penurunan. Disilangkan dengan arah harga turun, ini sangat informatif.\n4. free_float (1 kredit, prioritas 3) — murah, dan jika float kecil, sensitivitas harga terhadap modal kecil menjadi faktor struktural penting. Layak dibeli sebelum structural.\n5. broker_concentration (3 kredit) hanya layak jika volume_anomaly menunjukkan anomali (saya cantumkan di H1 sebagai probe lanjutan bersyarat). Karena saya tidak tahu hasil volume dulu, saya tetap memasukkannya dalam paket agar tersedia — total 3+1+2+1+3 = 10 kredit.\n6. structural (3 kredit) di akhir karena paling relevan setelah pola teknis terdeteksi.\n\nTotal 10 kredit dari pagu 25 — sisa 15 kredit disimpan agar tidak boros pada emiten dengan kapitalisasi 2.24T dan data publik yang sudah cukup menjelaskan (119 hari bursa). Over-budget tidak menambah keyakinan di tahap awal; ini rencana ramping yang menjawab pertanyaan terbesar (apa yang terjadi di balik -27%) dengan biaya minimum."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1_volume_drive_penurunan_27pct",
+      "probe": "volume_anomaly",
+      "finding": "refuted",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume tidak abnormal (hanya 0,9σ dan 1,8× median), sehingga tidak ada justifikasi untuk probe broker_concentration maupun structural yang dirancang mengikuti anomali volume. Harga_fundamental secara eksplisit tidak dihipotesiskan dalam rencana. Foreign_flow dan free_float tidak akan mengubah simpulan bahwa bukti yang tersedia tidak menunjukkan akumulasi/distribusi besar dan penurunan 27% kemungkinan sekadar drift.",
+      "credits_spent": 0,
+      "credits_remaining": 10
+    }
+  ],
+  "evidence": [
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 1.76,
+      "display": "1,8×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-01-27",
+        "end": "2026-09-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 0.95,
+      "display": "0,9σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-01-27",
+        "end": "2026-09-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 15.8,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": null,
+      "weight": 0.18,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 16,
+  "band": "normal",
+  "confidence": 0.22,
+  "credits_total": 0,
+  "baseline_credits": 16,
+  "narrative": "Tidak ada pola tidak biasa yang menonjol pada JAWA. Bukti yang terkumpul: Volume hari terakhir vs median baseline 1,8×; Z-score volume vs baseline 90 hari 0,9σ. Putusan disusun dari satu langkah penyelidikan yang menyentuh satu probe. Seluruh angka di atas berasal dari buku bukti investigasi ini dan bisa ditelusuri ke sumber datanya.",
+  "narrative_source": "template",
+  "memory_ref": null,
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}
