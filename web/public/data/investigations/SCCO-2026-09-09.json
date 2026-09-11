@@ -1,0 +1,185 @@
+{
+  "schema_version": "1.0",
+  "symbol": "SCCO",
+  "as_of": "2026-09-09",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1",
+        "claim": "Harga SCCO relatif stagnan (+0%) di kapitalisasi 2.14T, namun perlu dicek apakah ada akumulasi senyap oleh segelintir broker di atas float yang tipis — jika iya, ini bisa menjelaskan resistensi harga dan potensi distribusi lanjutan.",
+        "probes": [
+          "free_float",
+          "volume_anomaly",
+          "broker_concentration"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2",
+        "claim": "Dengan subsektor Industrial Goods dan data 119 hari bursa, perubahan harga 0% bisa menutupi divergensi antara aliran asing dan harga — perlu diuji apakah ada distribusi asing ke ritel di tengah harga flat.",
+        "probes": [
+          "foreign_flow"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "H3",
+        "claim": "Sinyal korporasi (suspensi, aksi insider, aksi korporasi) diperlukan sebagai konteks akhir, hanya jika H1 atau H2 menghasilkan anomali yang lolos screening awal.",
+        "probes": [
+          "structural"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 7,
+    "rationale": "Alasan pemilihan probe dari perencana disaring karena memuat bahasa yang menyerempet saran transaksi. Keputusan probe dan pagu kreditnya tetap apa adanya; hanya teks penjelasnya yang diganti."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Free float 24% (moderat rendah) dengan data segar 2 hari sudah memberi satu titik bukti. Probe termurah adalah volume_anomaly (1 kredit) dan sangat informatif untuk konteks SCCO — memberi sinyal apakah ada akumulasi/distribusi abnormal yang bisa menjelaskan atau tidak mendukung free float terkonsentrasi. Sisa pagu 7 kredit masih cukup untuk menyambung probe berikutnya bila perlu.",
+      "credits_spent": 0,
+      "credits_remaining": 7
+    },
+    {
+      "step": 2,
+      "hypothesis": "H1",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Probe volume_anomaly mencatatkan Z-score 3,6σ dan rasio volume 4,0× terhadap median baseline 90 hari. Untuk SCCO di BEI, anomali volume sebesar itu berdiri sendiri sebagai sinyal abnormalitas yang material terhadap risiko perdagangan; ambang umum untuk \"anomali signifikan\" adalah Z ≥ 2,5σ atau rasio ≥ 3×, dan temuan ini melampaui keduanya dengan margin yang cukup lebar.\n\nProbe yang tersisa (broker_concentration, foreign_flow, structural) dirancang untuk menjawab pertanyaan berbeda: siapa pelaku di balik akumulasi, apakah ada dorongan aliran asing, dan ada tidaknya masalah governance/suspensi. Ketiganya akan memperkaya karakterisasi anomali, tetapi tidak akan membatalkan atau memperkuat sinyal inti — anomali volume sudah berdiri tanpa tergantung siapa pelakunya. Probe price_fundamental sudah out of scope untuk sinyal ini (harga SCCO tidak disebut naik tajam dalam bukti yang ada), sehingga menambah kredit untuk probe yang tidak akan mengubah kesimpulan adalah pemborosan pagu.\n\nKarena buk",
+      "credits_spent": 0,
+      "credits_remaining": 7
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 2,
+      "display": "2 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "SCCO"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.2413,
+      "display": "24%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "SCCO"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 4.0,
+      "display": "4,0×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "SCCO",
+        "start": "2026-01-27",
+        "end": "2026-09-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 3.58,
+      "display": "3,6σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "SCCO",
+        "start": "2026-01-27",
+        "end": "2026-09-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 59.7,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 57.5,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 59,
+  "band": "perhatian",
+  "confidence": 0.4,
+  "credits_total": 0,
+  "baseline_credits": 16,
+  "narrative": "SCCO menunjukkan anomali volume yang material, dengan rasio volume hari terakhir 4,0× terhadap median baseline dan Z-score 3,6σ terhadap baseline 90 hari, melampaui ambang signifikansi umum dengan margin lebar. Free float berada di level moderat rendah yaitu 24%, didukung data berumur 2 hari sehingga layak menjadi konteks tetapi belum berdiri sendiri sebagai faktor risiko dominan. Tanpa probe lanjutan yang tersedia, sinyal inti yang ada adalah ketidaklaziman aktivitas perdagangan yang perlu mendapat pantauan lebih lanjut untuk melihat apakah ada akumulasi atau distribusi abnormal yang menjelaskan pola ini. Putusan守住 pada band perhatian karena anomali volume menjadi satu-satunya bukti kuantitatif yang sejauh ini melampaui ambang, tanpa cukup informasi untuk menaikkan atau menurunkan tingkat kewaspadaan.",
+  "narrative_source": "llm",
+  "memory_ref": null,
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}
