@@ -25,7 +25,7 @@ import argparse
 import json
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timezone, UTC
 from pathlib import Path
 
 # contracts/check.py (dan konsol Windows) memakai encoding bawaan OS — cp1252 di
@@ -202,7 +202,7 @@ def main() -> int:
     if not args.check:
         WEB_DATA.mkdir(parents=True, exist_ok=True)
         index = {
-            "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "generated_at": datetime.now(UTC).isoformat(timespec="seconds"),
             "investigations": summaries,
             "watchlist_dates": watch_dates,
         }
