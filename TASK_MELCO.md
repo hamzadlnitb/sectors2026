@@ -126,7 +126,29 @@ Plus `data/warehouse/*.parquet` dan `registry.py` (definisi tool untuk LLM: nama
 - [ ] Laporkan posisi kredit ke tim tiap Minggu malam
 - [ ] **25 Sep:** verifikasi `runs/` memuat **≥10 hari bursa berturut-turut**
 
-### M7 · Backfill penutup celah kalibrasi · **11–13 Sep** 🔴 BARU
+### M7 · Backfill penutup celah kalibrasi · **DIKOREKSI 12 Sep** ⚠️
+
+> **Sebagian besar M7 versi 10 Sep sia-sia, dan yang minta itu gua sendiri.**
+> Setelah tarikan sungguhan: `fetch-free-float` tidak mengirim tanggal berlaku, jadi
+> free float lampau **tidak ada di mana pun** dan tidak bisa dibeli dengan kredit berapa
+> pun. BCI bisa ditarik per tanggal, tapi hanya 18 emiten tersuspend yang punya riwayat
+> harga — tetap di bawah ambang 30 positif. Menarik 24 bulan riwayat broker tidak akan
+> mengangkat kalibrasi melewati ambang. Alasan lengkap: `contracts/CHANGES.md` C5.
+>
+> **Yang benar-benar dibutuhkan sekarang, dan cuma ini:**
+>
+> - [ ] `broker_summary` pada **tanggal terkini** untuk seluruh emiten yang sudah punya
+>       riwayat harga — sekarang 16 dari 39. Selisihnya ±23 panggilan × 2 kredit =
+>       **±46 kredit**. Ini membuka H3 eval agen, bukan kalibrasi
+> - [x] `daily_transaction` diperluas 16 → 39 emiten ✅ sudah mendarat
+> - [ ] `company_profile` untuk 39 emiten itu (sekarang 16 baris) — murah, dipakai
+>       penyamaan kontrol dan sinyal Tier-1
+>
+> **Yang DIBATALKAN:** tarikan 24 bulan `broker_summary`, snapshot `free_float` bulanan
+> untuk keperluan historis, dan sasaran ≥30 positif rentang ≥12 bulan. Ketiganya tidak
+> bisa dicapai dengan data yang tersedia dari Sectors.
+
+#### Rincian lama (10 Sep) — disimpan sebagai jejak keputusan
 > Ditemukan lajur agen saat kalibrasi dijalankan sungguhan, 10 Sep.
 > **Ini sekarang penghambat tunggal Angka 1 dan Angka 2.**
 

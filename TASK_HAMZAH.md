@@ -8,21 +8,52 @@ Tugas di file ini **termasuk QA-nya sendiri**. Video & submission dikerjakan bar
 
 ---
 
-## Status · 10 Sep 2026
+## Status · 12 Sep 2026
 
 | Fase | Status |
 | --- | --- |
 | H1 skoring | ✅ selesai — `core/scoring/` + 10 tes |
-| H1 kalibrasi | ⚠️ **jalan, tapi belum bisa dipercaya** — lihat Penghambat di bawah |
+| H1 kalibrasi | ⚠️ **selesai sejauh yang mungkin** — terkalibrasi 4 dari 6 komponen, lihat bawah |
 | H2 agen | ✅ selesai — tiga tahap + memori + pagar, 29 tes |
 | H2 narasi | ✅ selesai — 43 tes, termasuk penolakan halusinasi angka **dan emiten** |
-| **H3 eval agen** | ❌ **BELUM DIMULAI** — `evals/` masih kosong. Ini gerbang keras 21 Sep |
+| **H3 eval agen** | ❌ **BELUM DIMULAI** — `evals/` masih kosong, tapi **TIDAK lagi terhambat**. Ini pekerjaan berikutnya |
 | H4 dukungan | 🔄 berjalan |
 
 **315 tes lolos** tanpa jaringan dan tanpa kunci API. ruff, `contracts/check.py`, dan
 `vocab_guard` bersih. PR: [#4](https://github.com/hamzadlnitb/sectors2026/pull/4).
 
-### 🔴 Penghambat — Angka 1 belum punya isi
+### ✅ Penghambat 10 Sep sudah terjawab — dan jawabannya bukan yang gua duga
+
+Gua kira Angka 1 terhambat backfill. Setelah Melco menarik data sungguhnya
+(`contracts/CHANGES.md` C4) dan gua verifikasi dengan menjalankan probe pada dua tanggal
+acuan, ternyata **sebagian penghambat itu permanen dan sebagian lagi tidak pernah ada.**
+
+**Permanen:** `fetch-free-float` tidak mengirim tanggal berlaku. Free float lampau tidak
+ada di mana pun dan tidak bisa dibeli dengan kredit berapa pun. FFS **tidak akan pernah**
+ikut kalibrasi historis. BCI bisa ditarik per tanggal, tapi populasi positif (18 emiten)
+tetap di bawah ambang 30.
+
+→ Angka 1 dilaporkan apa adanya: **terkalibrasi atas 4 dari 6 komponen** (VAS, PFD, FRD,
+SSS). Bobot FFS + BCI = 0,43 tetap prior domain, dinyatakan terbuka di
+`reports/validation.md`, `core/scoring/weights.py`, dan wajib muncul di halaman Metodologi.
+
+**Tidak pernah ada:** Angka 2 berjalan pada `as_of` terkini, dan di sana **keenam probe
+hidup**. H3 tidak pernah benar-benar terhambat backfill historis.
+
+| Probe | `as_of` 2026-08-20 | `as_of` 2026-09-11 |
+| --- | --- | --- |
+| `free_float` | n/a | 94 |
+| `broker_concentration` | n/a | 38 |
+| `volume_anomaly` | 100 | 16 |
+
+Satu-satunya prasyarat tersisa untuk H3: `broker_summary` terkini diperluas dari 16 ke 39
+emiten (±46 kredit, sudah masuk `TASK_MELCO.md` M7 versi koreksi). Eval bisa mulai
+sekarang atas 16 emiten yang sudah ada, lalu diperluas.
+
+### Tanggapan atas C4 — sudah diberikan
+C4 **diterima**, tercatat sebagai `contracts/CHANGES.md` **C5**. Tidak ada pembatalan.
+
+### Penghambat lama (10 Sep) — disimpan sebagai jejak keputusan
 
 `broker_summary` dan `free_float` masing-masing hanya punya **satu tanggal** di warehouse
 (2026-09-07), yang jatuh sesudah sebagian besar titik T-k. Setelah saringan point-in-time,
@@ -110,10 +141,10 @@ tests/agent/ · tests/scoring/ · tests/narrative/
 > ⚠️ Sub-agent yang menggarap ini stall sebelum menghasilkan berkas. `evals/` masih kosong.
 > Rancangannya sudah matang di `ARCHITECTURE.md` §6, tinggal ditulis.
 >
-> ⚠️ Terhambat M7: dengan `broker_summary` dan `free_float` cuma satu tanggal, dua dari enam
-> probe tidak akan pernah jalan di eval — dan ablasi atas empat probe tidak membuktikan
-> perencanaan sadar biaya. **Jangan jalankan eval sebelum backfill mendarat**, hasilnya akan
-> menyesatkan.
+> ✅ **Peringatan 10 Sep dicabut.** Gua sempat menulis "jangan jalankan eval sebelum backfill
+> mendarat" — itu keliru. Eval berjalan pada `as_of` terkini, dan di sana keenam probe hidup.
+> Yang tersisa hanya memperluas `broker_summary` terkini dari 16 ke 39 emiten (±46 kredit)
+> supaya alam semesta evalnya cukup lebar. Mulai sekarang atas 16 emiten yang ada.
 
 - [ ] `evals/cases.yaml` — 30–50 ticker uji: campuran normal, mencurigakan, dan yang benar-benar pernah disuspend
 - [ ] `evals/agent_eval.py` — empat jalur: **agen** vs **menyeluruh** vs **urutan tetap** vs **acak berpagu sama**
@@ -143,9 +174,9 @@ Kalau batas ini kabur, angka jadi bisa dikarang dan kredibilitas kita habis di d
 ## Gerbang yang lu pegang
 | Tanggal | Gerbang | Status |
 | --- | --- | --- |
-| 12 Sep | Angka 1 ada di `reports/validation.md` | ⚠️ ada, tapi belum bermakna — terhambat M7 |
+| 12 Sep | Angka 1 ada di `reports/validation.md` | ✅ ada, cakupannya dinyatakan terbuka (4 dari 6) |
 | 18 Sep | `make investigate` jalan end-to-end | ✅ **selesai 10 Sep**, delapan hari lebih awal |
-| **21 Sep** | 🔴 **Angka 2 ada — atau klaim diubah hari itu juga** | ❌ belum mulai, terhambat M7 |
+| **21 Sep** | 🔴 **Angka 2 ada — atau klaim diubah hari itu juga** | ❌ belum mulai, **tidak terhambat** — ini pekerjaan berikutnya |
 
 ## Kalau lu terblokir
 Melco telat → tetap jalan pakai stub, jangan menunggu. Waktu habis di H2 → potong **memori agen** lebih dulu (perencana + penyelidik + penilai sudah cukup memenuhi syarat Track 1); jangan potong eval, karena tanpa Angka 2 kita kehilangan pembeda. Batas keputusan **18 Sep**.

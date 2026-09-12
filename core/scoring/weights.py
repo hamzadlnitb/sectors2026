@@ -56,6 +56,13 @@ WEIGHTS: dict[str, float] = {
 # Sufiks "-sementara" WAJIB bertahan sampai kalibrasi benar-benar berjalan atas
 # sampel yang cukup. Transkrip investigasi menyimpan versi ini apa adanya, jadi
 # siapa pun yang membaca runs/ nanti bisa tahu bobot mana yang belum teruji.
+# CAKUPAN (contracts/CHANGES.md C5, diverifikasi 12 Sep):
+# Terkalibrasi historis : VAS, PFD, FRD, SSS
+# Prior domain permanen : FFS — Sectors tidak menyediakan free float lampau
+# Prior domain sementara: BCI — bisa ditarik per tanggal, tapi populasi positif
+#                         masih di bawah ambang 30
+# FFS + BCI = 0,43 dari total bobot. Jangan sebut "bobot terkalibrasi" tanpa
+# kualifikasi ini di mana pun, termasuk halaman Metodologi dan video.
 WEIGHTS_VERSION: str = "cal-2026-09-10-sementara"
 
 # Ambang minimum sebelum bobot boleh diganti hasil regresi. Angka ini bukan
