@@ -132,3 +132,43 @@ def test_aritmetika_pagu_utuh_termasuk_eskalasi():
     for s in out.steps:
         sisa = sisa - s.credits_spent + s.budget_granted
         assert s.credits_remaining == sisa
+
+
+# ── eskalasi atas probe yang sudah mengantre tapi belum terbeli ─────────────
+# Eval v1 mencatat nol eskalasi dari 16 emiten karena versi pertama menolak setiap
+# kandidat yang sudah mengantre. Tes ini mengunci perilaku yang benar.
+
+def test_eskalasi_sah_untuk_probe_antre_yang_pagunya_tidak_cukup():
+    plan = rencana("volume_anomaly", "broker_concentration", minta=2)
+    out = jalankan(plan, [
+        keputusan(next_action="escalate", new_probe="broker_concentration",
+                  extra_credits=4),
+        keputusan(next_action="conclude"),
+    ])
+    assert out.steps[0].next_action == "escalate"
+    assert out.steps[0].budget_granted > 0
+    assert out.steps[1].probe == "broker_concentration"
+
+
+def test_eskalasi_diturunkan_kalau_probe_toh_sudah_terbeli():
+    # Pagu longgar: probe berikutnya akan jalan tanpa tambahan pagu, jadi menyebutnya
+    # eskalasi akan membuat transkrip mengaku beradaptasi padahal tidak.
+    plan = rencana("volume_anomaly", "free_float", minta=20)
+    out = jalankan(plan, [
+        keputusan(next_action="escalate", new_probe="free_float"),
+        keputusan(next_action="conclude"),
+    ])
+    assert out.steps[0].next_action == "continue"
+    assert out.steps[0].budget_granted == 0
+
+
+def test_probe_eskalasi_tidak_digandakan_di_antrean():
+    plan = rencana("volume_anomaly", "broker_concentration", "free_float", minta=2)
+    out = jalankan(plan, [
+        keputusan(next_action="escalate", new_probe="broker_concentration",
+                  extra_credits=4),
+        keputusan(next_action="continue"),
+        keputusan(next_action="conclude"),
+    ])
+    dijalankan = [s.probe for s in out.steps]
+    assert len(dijalankan) == len(set(dijalankan))

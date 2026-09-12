@@ -215,11 +215,27 @@ def investigate(*, symbol: str, plan: Plan, ctx, budget: Budget, llm,
         alasan = d.reason
         if d.next_action == "escalate":
             kandidat = d.new_probe if d.new_probe in PROBES else None
-            if kandidat is None or kandidat in inv.results or kandidat in antrean:
-                # Eskalasi ke probe yang tidak ada, sudah dijalankan, atau sudah
-                # mengantre bukan perutean adaptif — itu kebisingan. Diturunkan
-                # jadi 'continue' supaya transkrip tidak mengaku beradaptasi.
-                log.info("eskalasi %s ditolak: probe '%s' tidak sah", symbol, d.new_probe)
+            # Eskalasi berarti "aku butuh pagu LEBIH dari yang direncanakan untuk
+            # mencapai probe ini" — bukan semata "probe ini di luar rencana".
+            #
+            # Versi pertama menolak setiap kandidat yang sudah mengantre, dan itu
+            # membuat eskalasi mustahil menyala: perencana merencanakan tiga
+            # hipotesis yang mengantre hampir semua probe, jadi nyaris setiap target
+            # eskalasi sudah ada di antrean. Eval v1 mencatat NOL eskalasi dari 16
+            # emiten — bukan karena agen tidak pernah butuh, tapi karena kodenya
+            # menutup jalannya.
+            #
+            # Yang benar-benar bukan eskalasi: probe tak dikenal, probe yang sudah
+            # dijalankan, dan probe yang toh sudah terbeli dengan pagu sekarang —
+            # yang terakhir itu 'continue' biasa, tidak perlu tambahan pagu.
+            sudah_terbeli = (
+                kandidat is not None
+                and kandidat in antrean
+                and PROBES[kandidat].cost_estimate(symbol) <= budget.remaining
+            )
+            if kandidat is None or kandidat in inv.results or sudah_terbeli:
+                log.info("eskalasi %s diturunkan: probe '%s' tidak butuh tambahan pagu",
+                         symbol, d.new_probe)
                 d = d.model_copy(update={"next_action": "continue", "new_probe": None})
             else:
                 minta = d.extra_credits or PROBES[kandidat].cost_estimate(symbol)
@@ -228,6 +244,8 @@ def investigate(*, symbol: str, plan: Plan, ctx, budget: Budget, llm,
                 alasan = f"{d.reason} [{grant}]"
                 if granted > 0:
                     new_probe = kandidat
+                    if kandidat in antrean:
+                        antrean.remove(kandidat)  # pindah ke depan, jangan digandakan
                     antrean.insert(0, kandidat)  # type: ignore[arg-type]
                 else:
                     # Ditolak: agen WAJIB tetap bisa menyimpulkan. Langkah tetap

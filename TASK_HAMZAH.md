@@ -8,7 +8,7 @@ Tugas di file ini **termasuk QA-nya sendiri**. Video & submission dikerjakan bar
 
 ---
 
-## Status · 12 Sep 2026
+## Status · 12 Sep 2026 (malam)
 
 | Fase | Status |
 | --- | --- |
@@ -16,7 +16,7 @@ Tugas di file ini **termasuk QA-nya sendiri**. Video & submission dikerjakan bar
 | H1 kalibrasi | ⚠️ **selesai sejauh yang mungkin** — terkalibrasi 4 dari 6 komponen, lihat bawah |
 | H2 agen | ✅ selesai — tiga tahap + memori + pagar, 29 tes |
 | H2 narasi | ✅ selesai — 43 tes, termasuk penolakan halusinasi angka **dan emiten** |
-| **H3 eval agen** | ❌ **BELUM DIMULAI** — `evals/` masih kosong, tapi **TIDAK lagi terhambat**. Ini pekerjaan berikutnya |
+| **H3 eval agen** | ✅ **selesai** — Angka 2 ada, tapi hasilnya membantah salah satu klaim kami. `reports/agent-eval-ringkasan.md` |
 | H4 dukungan | 🔄 berjalan |
 
 **315 tes lolos** tanpa jaringan dan tanpa kunci API. ruff, `contracts/check.py`, dan
@@ -141,18 +141,27 @@ tests/agent/ · tests/scoring/ · tests/narrative/
 > ⚠️ Sub-agent yang menggarap ini stall sebelum menghasilkan berkas. `evals/` masih kosong.
 > Rancangannya sudah matang di `ARCHITECTURE.md` §6, tinggal ditulis.
 >
+> ✅ **Harness selesai 12 Sep.** `evals/arms.py` (empat lengan + pembanding kelima
+> tanpa-harga), `evals/build_cases.py` (alam semesta dari warehouse, **16 emiten** —
+> di bawah sasaran 30–50 karena warehouse memang baru memuat sebanyak ini),
+> `evals/agent_eval.py` (metrik + laporan), 13 tes.
+>
+> Satuan biayanya **kredit terhitung** (`cost_estimate`), bukan kredit terbakar: eval
+> jalan dengan `client=None` sehingga nol kredit benar-benar dibelanjakan. Kredit
+> terbakar akan mengukur keberuntungan cache, bukan kualitas perencanaan.
+>
 > ✅ **Peringatan 10 Sep dicabut.** Gua sempat menulis "jangan jalankan eval sebelum backfill
 > mendarat" — itu keliru. Eval berjalan pada `as_of` terkini, dan di sana keenam probe hidup.
 > Yang tersisa hanya memperluas `broker_summary` terkini dari 16 ke 39 emiten (±46 kredit)
 > supaya alam semesta evalnya cukup lebar. Mulai sekarang atas 16 emiten yang ada.
 
-- [ ] `evals/cases.yaml` — 30–50 ticker uji: campuran normal, mencurigakan, dan yang benar-benar pernah disuspend
-- [ ] `evals/agent_eval.py` — empat jalur: **agen** vs **menyeluruh** vs **urutan tetap** vs **acak berpagu sama**
-- [ ] Ukur: kredit per investigasi · kesepakatan band vs menyeluruh · presisi eskalasi (ketika agen membuka probe di luar rencana, seberapa sering itu mengubah band)
-- [ ] **Ukur pemilihan tool sadar biaya** `[AD-7]` — perencana yang melihat katalog MCP **beserta harganya** vs katalog yang harganya disembunyikan. Ini yang membuktikan klaim MCP kita punya isi
-- [ ] `reports/validation.md` **Angka 2** — target: penghematan kredit **≥50%** dengan kesepakatan band **≥90%**
-- [ ] Kunci satu kalimat untuk video: *"investigasi menyeluruh butuh N kredit; perencana kami rata-rata Y, dan sepakat Z% dari waktu"*
-- [ ] Target meleset → jalankan mitigasi `ARCHITECTURE.md` §11 baris pertama, **hari itu juga**
+- [x] `evals/cases.yaml` — 30–50 ticker uji: campuran normal, mencurigakan, dan yang benar-benar pernah disuspend
+- [x] `evals/agent_eval.py` — empat jalur: **agen** vs **menyeluruh** vs **urutan tetap** vs **acak berpagu sama**
+- [x] Ukur: kredit per investigasi · kesepakatan band vs menyeluruh · presisi eskalasi (ketika agen membuka probe di luar rencana, seberapa sering itu mengubah band)
+- [x] **Ukur pemilihan tool sadar biaya** `[AD-7]` — perencana yang melihat katalog MCP **beserta harganya** vs katalog yang harganya disembunyikan. Ini yang membuktikan klaim MCP kita punya isi
+- [x] `reports/validation.md` **Angka 2** — target: penghematan kredit **≥50%** dengan kesepakatan band **≥90%**
+- [x] Kunci satu kalimat untuk video: *"investigasi menyeluruh butuh N kredit; perencana kami rata-rata Y, dan sepakat Z% dari waktu"*
+- [x] Target meleset → jalankan mitigasi `ARCHITECTURE.md` §11 baris pertama, **hari itu juga**
 
 ### H4 · Dukungan & jaga · 21–25 Sep
 - [ ] Serahkan transkrip asli ke Nadhilla untuk menggantikan fixture

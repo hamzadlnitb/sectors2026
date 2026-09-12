@@ -28,10 +28,15 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from contracts.schemas import Hypothesis, Plan  # noqa: E402
+from contracts.schemas import (  # noqa: E402
+    PROBE_TO_COMPONENT,  # noqa: E402
+    Hypothesis,
+    Plan,
+)
 from core.agent.memory import Recollection  # noqa: E402
 from core.llm import JSONInvalid, LLMError  # noqa: E402
 from core.probes.registry import DESCRIPTIONS, PROBES  # noqa: E402
+from core.scoring.weights import WEIGHTS  # noqa: E402
 from core.sectors.redact import get_logger  # noqa: E402
 from tools.vocab_guard import periksa_teks  # noqa: E402
 
@@ -62,12 +67,29 @@ SYSTEM = SYSTEM.format(LARANGAN=LARANGAN)
 
 
 def _catalog_lines(show_price: bool = True) -> str:
-    """Katalog probe untuk perencana. `show_price=False` dipakai eval ablasi
-    untuk mengukur apakah harga benar-benar mengubah pilihan. [AD-7]"""
+    """Katalog probe untuk perencana: biaya DAN bobot komponennya.
+
+    Bobot ditambahkan setelah eval pertama (`reports/agent-eval-v1-tanpa-bobot.md`).
+    Tanpa bobot, perencana menghemat secara buta: ia melihat `structural` mahal lalu
+    tidak pernah memilihnya sekali pun dari 16 emiten, dan melewatkan
+    `broker_concentration` — komponen berbobot terbesar — pada sepertiga kasus. Tiga
+    dari lima ketidaksepakatan band lahir dari situ.
+
+    Perencana yang tahu harga tapi tidak tahu nilai bukan perencana sadar biaya; ia
+    cuma pelit. Yang seharusnya ia timbang adalah keyakinan per kredit.
+
+    `show_price=False` menyembunyikan KEDUANYA — itu lengan ablasi yang mengukur
+    apakah angka-angka ini benar-benar mengubah pilihan. [AD-7]
+    """
     baris = []
     for name, probe in PROBES.items():
-        harga = f" — biaya {probe.cost_estimate('AAAA')} kredit" if show_price else ""
-        baris.append(f"- {name}{harga}: {DESCRIPTIONS.get(name, '')}")
+        if show_price:
+            bobot = WEIGHTS.get(PROBE_TO_COMPONENT[name], 0.0)
+            angka = (f" — biaya {probe.cost_estimate('AAAA')} kredit, "
+                     f"bobot {bobot:.0%} dari skor akhir")
+        else:
+            angka = ""
+        baris.append(f"- {name}{angka}: {DESCRIPTIONS.get(name, '')}")
     return "\n".join(baris)
 
 
@@ -90,6 +112,9 @@ def build_prompt(symbol: str, as_of: date, signals: dict,
         _catalog_lines(show_price),
         "",
         f"Pagu keras: {ceiling} kredit per investigasi. Minta sesuai rencanamu.",
+        "",
+        "Timbang keyakinan per kredit, bukan kredit saja: melewatkan probe berbobot "
+        "besar membuat skor akhir berkeyakinan rendah walau murah.",
     ]
     if memory:
         bagian += ["", "Riwayat:", memory.briefing(as_of)]

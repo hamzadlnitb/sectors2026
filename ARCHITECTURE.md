@@ -273,7 +273,11 @@ Pembagian transport ditentukan **per-endpoint di sebuah tabel**, bukan diputuska
 | Ekor panjang tool spesialis yang dipakai probe | **MCP** | 65+ tool siap pakai; tidak perlu menulis 65 wrapper REST tangan |
 | Penyaringan bahasa alami (`fetch-companies-by-subsector` argumen `q`) | **MCP** | kemampuan yang tidak muncul kalau kita bungkus REST sendiri |
 
-**Yang membuat ini "innovative use of MCP", bukan sekadar "memakai MCP":** perencana agen melihat katalog tool MCP **beserta harga kreditnya**, lalu memilih di bawah pagu anggaran. Pemilihan tool MCP yang sadar biaya — itu yang tidak ada di recipe resmi mana pun, dan itu yang jadi Angka 2 di §6. `[K1][T3]`
+**Yang membuat ini "innovative use of MCP", bukan sekadar "memakai MCP":** seluruh akses MCP melewati gateway yang sama dengan REST, sehingga tiap tool call tercegat, terhitung biayanya, dan tercatat di ledger yang di-commit. Katalog tool MCP beserta harganya disajikan ke perencana agen sebagai dasar penganggaran.
+
+> ⚠️ **Klaim sebelumnya direvisi oleh data kami sendiri (12 Sep).** Semula bagian ini berbunyi bahwa keunggulannya adalah *pemilihan tool MCP yang sadar biaya*. Eval membantahnya: perencana yang melihat harga **dan** bobot konsisten lebih buruk (68,8% kesepakatan band) daripada yang tidak melihat keduanya (75,0%), di dua generasi berturut-turut, dengan kepekaan harga 100% — artinya ia benar-benar membaca angka itu lalu memakainya untuk memutuskan lebih buruk.
+>
+> Yang bertahan sebagai klaim terukur adalah **alokasi pagu adaptif antar-emiten**, bukan pemilihan tool. Rincian dan batasannya di `reports/agent-eval-ringkasan.md`. `[K1][T3][T7]`
 
 > **Yang tetap dijaga:** ini tidak melunakkan syarat Track 1. Yang didiskualifikasi adalah *menyambungkan klien AI jadi ke MCP dengan prompt*. Kita menulis klien MCP sendiri, di dalam orkestrasi sendiri, dengan penganggaran dan pagar sendiri. `RESEARCH.md` §1 tabel track
 
@@ -321,7 +325,13 @@ Dilaporkan:
 - **Kredit per investigasi** — agen vs menyeluruh (target: penghematan ≥50%)
 - **Kesepakatan band** — persentase putusan agen yang sama bandnya dengan baseline menyeluruh (target: ≥90%)
 - **Presisi eskalasi** — ketika agen membuka probe di luar rencana, seberapa sering probe itu memang menghasilkan bukti yang mengubah band
-- **Ablasi:** agen vs pengurutan tetap (semua probe, urutan tetap) vs pemilihan acak dengan pagu sama. Kalau agen tidak mengalahkan urutan tetap, kita punya masalah dan harus tahu **sebelum** merekam video
+- **Ablasi:** agen vs pengurutan tetap vs pemilihan acak berpagu sama vs **oracle knapsack**
+
+> ⚠️ **Hasil 12 Sep: agen TIDAK mengalahkan urutan tetap pada metrik ini, dan tidak akan pernah bisa.** Pada pagu tetap, pemilihan probe adalah knapsack — ada jawaban optimal yang dihitung `evals/arms.himpunan_optimal()` tanpa LLM. Metrik ini mengukur masalah yang sudah selesai secara matematis.
+>
+> Angka 2 karena itu pindah ke **eval portofolio** (`evals/portfolio.py`): satu pagu total, alokasi bebas. Di sana agen menang 68,8% lawan 62,5% pada pagu yang sama — kemampuan yang knapsack tidak punya, karena knapsack harus diberi pagu.
+>
+> Sebagian keunggulan itu berasal dari granularitas biaya probe, bukan kecerdasan, dan belum terpisahkan. Ukuran sampel 16 emiten membuat selisihnya setara satu emiten. Keduanya dinyatakan terbuka di `reports/agent-eval-ringkasan.md`; jangan kutip angka ini tanpa kualifikasinya. `[T7]`
 
 **Kejujuran wajib:** himpunan positif kecil, dan suspensi bukan sinonim manipulasi. Batasan ini ditulis terbuka di halaman Metodologi dan disebut di video. Juri praktisi pasar akan tahu kalau kita melebih-lebihkan; mengakuinya duluan justru menambah kredibilitas. `[T7]`
 
