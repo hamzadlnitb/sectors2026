@@ -35,6 +35,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
@@ -82,9 +83,16 @@ def jalankan(kasus: list[dict], *, as_of: date, offline: bool) -> dict:
     acuan = {s: a.band for s, a in acuan_arm.items()}
 
     agen = Portofolio("agen")
-    for s in simbol:
-        agen.per_emiten[s] = arms.agen(s, _ctx(as_of), llm, as_of=as_of)
-        print(f"  {s}  agen {agen.per_emiten[s].credits:2d} kredit")
+    from evals.agent_eval import PEKERJA
+
+    def _agen(s: str):
+        hasil = arms.agen(s, _ctx(as_of), llm, as_of=as_of)
+        print(f"  {s}  agen {hasil.credits:2d} kredit", flush=True)
+        return s, hasil
+
+    with ThreadPoolExecutor(max_workers=max(1, PEKERJA)) as pool:
+        for s, hasil in pool.map(_agen, simbol):
+            agen.per_emiten[s] = hasil
 
     total = agen.kredit
     # Pembagian rata: sisa dibagi ke emiten pertama supaya total benar-benar sama,

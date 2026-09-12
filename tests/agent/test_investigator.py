@@ -172,3 +172,79 @@ def test_probe_eskalasi_tidak_digandakan_di_antrean():
     ])
     dijalankan = [s.probe for s in out.steps]
     assert len(dijalankan) == len(set(dijalankan))
+
+
+# ── pemotongan jatah token ──────────────────────────────────────────────────
+# MiniMax mengeluarkan blok `thinking` sebelum `tool_use`, memakan jatah yang sama.
+# Kalau habis di tengah thinking, respons pulang tanpa tool_use sama sekali.
+
+def test_terpotong_dibedakan_dari_penolakan():
+    from core.llm import LLM, Truncated
+
+    class Blok:
+        def __init__(self, tipe): self.type = tipe
+
+    class Resp:
+        content = [Blok("thinking")]
+        stop_reason = "max_tokens"
+
+    try:
+        LLM._extract(Resp(), expect_tool=True)
+    except Truncated as exc:
+        assert "jatah token habis" in str(exc)
+    else:
+        raise AssertionError("pemotongan harus melempar Truncated")
+
+
+def test_thinking_sebelum_tool_use_tetap_terbaca():
+    from core.llm import LLM
+
+    class Thinking:
+        type = "thinking"
+
+    class ToolUse:
+        type = "tool_use"
+        input = {"finding": "confirmed"}
+
+    class Resp:
+        content = [Thinking(), ToolUse()]
+        stop_reason = "tool_use"
+
+    assert LLM._extract(Resp(), expect_tool=True) == {"finding": "confirmed"}
+
+
+def test_json_dipungut_saat_model_menjawab_teks_bukan_tool():
+    """MiniMax kadang mengabaikan tool_choice dan menjawab teks berisi JSON.
+
+    Membuangnya ke jalur cadangan berarti mengukur aturan, bukan agen.
+    """
+    from core.llm import LLM
+
+    class Blok:
+        def __init__(self, tipe, teks=""):
+            self.type, self.text = tipe, teks
+
+    class Resp:
+        content = [Blok("thinking"), Blok("text", '```json\n{"finding": "refuted"}\n```')]
+        stop_reason = "end_turn"
+
+    assert LLM._extract(Resp(), expect_tool=True) == {"finding": "refuted"}
+
+
+def test_teks_tanpa_json_tetap_dianggap_gagal():
+    from core.llm import LLM, LLMError
+
+    class Blok:
+        def __init__(self, tipe, teks=""):
+            self.type, self.text = tipe, teks
+
+    class Resp:
+        content = [Blok("text", "Maaf, saya tidak bisa membantu.")]
+        stop_reason = "end_turn"
+
+    try:
+        LLM._extract(Resp(), expect_tool=True)
+    except LLMError:
+        pass
+    else:
+        raise AssertionError("teks tanpa JSON harus tetap gagal")

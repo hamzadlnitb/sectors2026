@@ -23,8 +23,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import statistics as stat
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
@@ -66,31 +68,48 @@ def _llm(offline: bool):
     return LLM.from_env(eval_mode=True)
 
 
-def jalankan(kasus: list[dict], *, as_of: date, offline: bool) -> list[Baris]:
+PEKERJA = int(os.getenv("PANTAU_EVAL_WORKERS", "4"))
+"""Investigasi antar-emiten saling bebas dan didominasi tunggu jaringan, jadi
+menjalankannya berurutan berarti menunggu ~16 detik per panggilan LLM secara
+percuma. Empat utas memangkas eval 16 emiten dari ~20 menit ke ~5 tanpa mengubah
+satu pun angkanya: tiap emiten punya Context dan Warehouse sendiri, dan ledger
+maupun cache LLM sudah dilindungi kunci. Naikkan lewat env kalau penyedia
+mengizinkan; terlalu tinggi akan kena rate limit dan justru melambat."""
+
+
+def _satu(k: dict, *, as_of: date, llm) -> Baris:
+    sym = k["symbol"]
+    baris = Baris(symbol=sym)
+
+    baris.per_lengan["menyeluruh"] = arms.menyeluruh(sym, _ctx(as_of))
+    a = arms.agen(sym, _ctx(as_of), llm, as_of=as_of, show_price=True)
+    baris.per_lengan["agen"] = a
+
+    # Pembanding diberi pagu SAMA dengan yang benar-benar dipakai agen.
+    # Tanpa penyamaan ini kita cuma membuktikan "menjalankan lebih sedikit
+    # probe lebih murah", yang tidak perlu dibuktikan.
+    pagu = max(a.credits, 1)
+    baris.per_lengan["urutan_tetap"] = arms.urutan_tetap(sym, _ctx(as_of), pagu)
+    baris.per_lengan["acak"] = arms.acak(sym, _ctx(as_of), pagu)
+    baris.per_lengan["agen_tanpa_harga"] = arms.agen(
+        sym, _ctx(as_of), llm, as_of=as_of, show_price=False)
+
+    print(f"  {sym}  agen {a.credits:2d}/{baris.baseline} kredit, "
+          f"band {a.band} ({a.steps} langkah)", flush=True)
+    return baris
+
+
+def jalankan(kasus: list[dict], *, as_of: date, offline: bool,
+             pekerja: int | None = None) -> list[Baris]:
     llm = _llm(offline)
-    keluar: list[Baris] = []
-
-    for k in kasus:
-        sym = k["symbol"]
-        baris = Baris(symbol=sym)
-
-        baris.per_lengan["menyeluruh"] = arms.menyeluruh(sym, _ctx(as_of))
-        a = arms.agen(sym, _ctx(as_of), llm, as_of=as_of, show_price=True)
-        baris.per_lengan["agen"] = a
-
-        # Pembanding diberi pagu SAMA dengan yang benar-benar dipakai agen.
-        # Tanpa penyamaan ini kita cuma membuktikan "menjalankan lebih sedikit
-        # probe lebih murah", yang tidak perlu dibuktikan.
-        pagu = max(a.credits, 1)
-        baris.per_lengan["urutan_tetap"] = arms.urutan_tetap(sym, _ctx(as_of), pagu)
-        baris.per_lengan["acak"] = arms.acak(sym, _ctx(as_of), pagu)
-        baris.per_lengan["agen_tanpa_harga"] = arms.agen(
-            sym, _ctx(as_of), llm, as_of=as_of, show_price=False)
-
-        keluar.append(baris)
-        print(f"  {sym}  agen {a.credits:2d}/{baris.baseline} kredit, "
-              f"band {a.band} ({a.steps} langkah)")
-    return keluar
+    n = max(1, pekerja or PEKERJA)
+    if n == 1:
+        return [_satu(k, as_of=as_of, llm=llm) for k in kasus]
+    with ThreadPoolExecutor(max_workers=n) as pool:
+        # Urutan hasil dipertahankan supaya laporan tidak berubah urutannya
+        # antar-jalan — transkrip dan laporan yang bisa diputar ulang harus
+        # stabil sampai ke urutan barisnya. [AD-1]
+        return list(pool.map(lambda k: _satu(k, as_of=as_of, llm=llm), kasus))
 
 
 def presisi_eskalasi(baris: list[Baris], as_of: date) -> tuple[int, int]:
@@ -229,6 +248,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--offline", action="store_true", help="FakeLLM, nol jaringan")
     ap.add_argument("--tulis", action="store_true", help="tulis reports/agent-eval.md")
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--pekerja", type=int, default=None,
+                    help=f"utas paralel (bawaan {PEKERJA})")
     ap.add_argument("--as-of", type=date.fromisoformat, default=date(2026, 9, 11))
     args = ap.parse_args(argv)
 
@@ -238,7 +259,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"{len(kasus)} kasus, acuan {args.as_of}"
           f"{' (offline)' if args.offline else ''}")
 
-    baris = jalankan(kasus, as_of=args.as_of, offline=args.offline)
+    baris = jalankan(kasus, as_of=args.as_of, offline=args.offline,
+                     pekerja=args.pekerja)
     r = ringkas(baris, args.as_of)
 
     HASIL.mkdir(parents=True, exist_ok=True)

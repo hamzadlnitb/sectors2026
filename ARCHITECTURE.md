@@ -277,7 +277,9 @@ Pembagian transport ditentukan **per-endpoint di sebuah tabel**, bukan diputuska
 
 > ⚠️ **Klaim sebelumnya direvisi oleh data kami sendiri (12 Sep).** Semula bagian ini berbunyi bahwa keunggulannya adalah *pemilihan tool MCP yang sadar biaya*. Eval membantahnya: perencana yang melihat harga **dan** bobot konsisten lebih buruk (68,8% kesepakatan band) daripada yang tidak melihat keduanya (75,0%), di dua generasi berturut-turut, dengan kepekaan harga 100% — artinya ia benar-benar membaca angka itu lalu memakainya untuk memutuskan lebih buruk.
 >
-> Yang bertahan sebagai klaim terukur adalah **alokasi pagu adaptif antar-emiten**, bukan pemilihan tool. Rincian dan batasannya di `reports/agent-eval-ringkasan.md`. `[K1][T3][T7]`
+> **Pembaruan 13 Sep:** kesimpulan itu sendiri ternyata terbaca dari eval yang cacat — instruksi trade-off biaya ikut terkirim ke lengan buta, dan blok `thinking` MiniMax sering memotong `tool_use` sehingga agen diam-diam jatuh ke keputusan if-else. Setelah keduanya diperbaiki, **tidak ada beda yang terdeteksi antar-lengan**, termasuk untuk alokasi adaptif.
+>
+> Jadi tidak ada klaim performa yang bertahan. Yang bertahan adalah rekayasanya: gateway terukur untuk MCP dan REST, ledger yang di-commit, pagar agen, validator sitasi, dan transkrip yang bisa diputar ulang — semuanya bisa diverifikasi juri dari repo tanpa bergantung pada satu angka. `[K1][T3][T7]`
 
 > **Yang tetap dijaga:** ini tidak melunakkan syarat Track 1. Yang didiskualifikasi adalah *menyambungkan klien AI jadi ke MCP dengan prompt*. Kita menulis klien MCP sendiri, di dalam orkestrasi sendiri, dengan penganggaran dan pagar sendiri. `RESEARCH.md` §1 tabel track
 
@@ -327,7 +329,9 @@ Dilaporkan:
 - **Presisi eskalasi** — ketika agen membuka probe di luar rencana, seberapa sering probe itu memang menghasilkan bukti yang mengubah band
 - **Ablasi:** agen vs pengurutan tetap vs pemilihan acak berpagu sama vs **oracle knapsack**
 
-> ⚠️ **Hasil 12 Sep: agen TIDAK mengalahkan urutan tetap pada metrik ini, dan tidak akan pernah bisa.** Pada pagu tetap, pemilihan probe adalah knapsack — ada jawaban optimal yang dihitung `evals/arms.himpunan_optimal()` tanpa LLM. Metrik ini mengukur masalah yang sudah selesai secara matematis.
+> ⚠️ **Hasil akhir 13 Sep: Angka 2 dicabut — eksperimennya tidak mampu membedakan menang dari kalah.** Dua jalan pada commit yang sama dengan data yang sama bergoyang 6–12 poin persentase, sebesar seluruh selisih antar-lengan yang pernah kami kejar. Satu emiten dari 16 bernilai 6,25 pp. Rinciannya di `reports/agent-eval-ringkasan.md`; jangan kutip angka performa apa pun dari eval ini di video maupun README sampai sampelnya diperbesar dan tiap lengan diulang.
+>
+> **Hasil 12 Sep: agen TIDAK mengalahkan urutan tetap pada metrik per-emiten, dan tidak akan pernah bisa.** Pada pagu tetap, pemilihan probe adalah knapsack — ada jawaban optimal yang dihitung `evals/arms.himpunan_optimal()` tanpa LLM. Metrik ini mengukur masalah yang sudah selesai secara matematis.
 >
 > Angka 2 karena itu pindah ke **eval portofolio** (`evals/portfolio.py`): satu pagu total, alokasi bebas. Di sana agen menang 68,8% lawan 62,5% pada pagu yang sama — kemampuan yang knapsack tidak punya, karena knapsack harus diberi pagu.
 >

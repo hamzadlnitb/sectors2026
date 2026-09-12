@@ -1,114 +1,106 @@
 # reports/agent-eval-ringkasan.md — Angka 2, kesimpulan
 
-Ringkasan tiga generasi eval per-emiten dan satu eval portofolio, 16 emiten,
-acuan 2026-09-11. Berkas mentahnya di `runs/evals/`, laporan per-generasi di
-`reports/agent-eval-v1-tanpa-bobot.md`, `-v2-dengan-bobot.md`, dan `agent-eval.md`.
-
-**Semua generasi disimpan permanen, termasuk yang kalah.** Perbandingan ini hanya
-berarti kalau angka yang mempermalukan kami ikut terbaca.
+16 emiten, acuan 2026-09-11. Berkas mentah di `runs/evals/`, laporan per-generasi
+di `reports/agent-eval*.md`. Semua generasi disimpan, termasuk yang kalah.
 
 ---
 
-## Kesimpulan dalam tiga kalimat
+## Kesimpulan: Angka 2 tidak bisa diklaim, dan alasannya bukan agennya kalah
 
-1. **Pemilihan probe pada pagu tetap: agen tidak menambah apa pun.** Solver knapsack
-   yang diberi alokasi agen menghasilkan kesepakatan band yang sama persis (68,8%)
-   dengan biaya sedikit lebih murah. Ruang itu memang tertutup — ada jawaban optimal
-   yang bisa dihitung tanpa LLM.
-2. **Alokasi pagu antar-emiten: agen menang.** 68,8% melawan 62,5% pada pagu total
-   yang sama. Ini kemampuan yang knapsack tidak punya, karena knapsack harus diberi
-   pagu.
-3. **Membuka harga dan bobot ke perencana justru memperburuk.** Varian yang tidak
-   melihat keduanya konsisten lebih baik. Klaim "pemilihan tool sadar biaya" di AD-7
-   **dibantah oleh data kami sendiri** dan harus direvisi, bukan dihaluskan.
+**Kebisingan antar-jalan sebesar seluruh selisih yang kami kejar.** Dua jalan pada
+commit yang sama (`721b8a9`), data yang sama, hanya LLM yang nondeterministik:
 
----
-
-## Eval per-emiten — pagu sama untuk tiap emiten
-
-| Lengan | v1 tanpa bobot | v2 dengan bobot | v3 + perbaikan eskalasi |
+| Metrik | v5 | v6 | Selisih |
 | --- | --- | --- | --- |
-| **Agen** | 5,31 kr / **68,8%** | 6,38 kr / **68,8%** | 5,88 kr / **68,8%** |
-| Urutan tetap | 5,31 kr / 81,2% | 6,38 kr / 68,8% | 5,81 kr / 68,8% |
-| Acak berpagu sama | 5,00 kr / 75,0% | 6,31 kr / 68,8% | 5,62 kr / 75,0% |
-| **Agen tanpa lihat harga** | 5,50 kr / 68,8% | 5,88 kr / **75,0%** | 6,19 kr / **75,0%** |
-| Kepekaan harga | 93,8% | 100% | 100% |
-| Eskalasi | 0 | 0 | **0** |
+| Per-emiten: agen | 75,0% | 68,8% | −6,2 pp |
+| Per-emiten: urutan tetap | 75,0% | 68,8% | −6,2 pp |
+| Per-emiten: acak | 68,8% | 75,0% | +6,2 pp |
+| Portofolio: agen | 81,2% | 68,8% | −12,4 pp |
+| Portofolio: pagu rata | 93,8% | 81,2% | −12,6 pp |
 
-Agen tidak bergerak dari 68,8% di ketiga generasi. Dua intervensi — membuka bobot
-komponen, lalu memperbaiki gerbang eskalasi — tidak menggeser angkanya sama sekali.
+Satu emiten dari 16 bernilai **6,25 poin persentase**. Setiap selisih di tabel ini
+berukuran satu sampai dua emiten — sama besar dengan goyangan yang terjadi ketika
+**tidak ada yang diubah sama sekali**.
 
-### Kenapa metrik ini tidak bisa dimenangkan
+Artinya seluruh perbandingan generasi di bawah, dan seluruh usaha menaikkan agen
+dari 68,8% ke 75,0%, **membaca kebisingan sebagai sinyal.** Termasuk kesimpulan
+"membuka harga memperburuk" yang sempat kami tulis dan cabut.
 
-Pada pagu tetap, "pilih probe supaya cakupan bobot maksimum" adalah **knapsack**.
-`evals/arms.himpunan_optimal()` menyelesaikannya secara pasti lewat enumerasi 63
-kombinasi. Di pagu 5 — pagu rata-rata agen — himpunan optimalnya persis
-`{broker_concentration, free_float, volume_anomaly}`, yang memang dipilih agen di
-mayoritas kasus.
-
-LLM hanya bisa menyamai atau kalah di ruang tertutup seperti itu. Metrik ini
-mengukur masalah yang sudah selesai secara matematis, bukan kemampuan yang kami
-klaim.
+**Konsekuensinya: klaim penghematan kredit dicabut, bukan dihaluskan.** Bukan karena
+agen terbukti kalah, melainkan karena eksperimen ini tidak mampu membedakan menang
+dari kalah pada ukuran sampel yang ada.
 
 ---
 
-## Eval portofolio — satu pagu total, alokasi bebas
+## Hasil bersih terakhir (commit `721b8a9`, jalan v6)
 
-Pagu total **92 kredit** untuk 16 emiten. Pembanding membaginya rata (5–6 per
-emiten); agen mengalokasikan sendiri.
-
-| Lengan | Belanja | Sepakat band |
+| Lengan | Per-emiten | Portofolio |
 | --- | --- | --- |
-| **Agen (alokasi bebas)** | 92 / 92 | **68,8%** |
-| Urutan tetap, pagu rata | 80 / 92 | 62,5% |
-| Oracle knapsack, pagu rata | 80 / 92 | 62,5% |
-| Oracle memakai alokasi agen | 90 / 92 | **68,8%** |
-| Menyeluruh (acuan) | 256 | 100% |
+| **Agen** | 6,38 kr / 68,8% | 102 kr / 68,8% |
+| Urutan tetap | 6,38 kr / 68,8% | 92 kr / 81,2% |
+| Acak berpagu sama | 6,19 kr / 75,0% | — |
+| Oracle knapsack | — | 92 kr / 81,2% |
+| Menyeluruh (acuan) | 16 kr / 100% | 256 kr / 100% |
 
-Sebaran alokasi agen: **1 sampai 13 kredit**, median 5. Pembagian rata memberi 5
-untuk semua.
-
-### Membaca hasilnya dengan jujur
-
-**Yang benar-benar dimenangkan agen adalah alokasi, bukan pemilihan.** Baris
-"oracle memakai alokasi agen" membuktikannya: begitu knapsack diberi alokasi yang
-sama, ia menyamai agen persis (68,8%) dengan 2 kredit lebih murah. Jadi kontribusi
-LLM ada di keputusan *berapa yang pantas dibelanjakan untuk emiten ini*, bukan
-*probe mana yang dibeli*.
-
-**Sebagian keunggulan itu bukan kecerdasan, melainkan granularitas.** Biaya probe
-lumpy (1, 1, 2, 3, 3, 6), sehingga jatah 5–6 kredit per emiten menyisakan remah yang
-tidak bisa dibelanjakan — pembagian rata hanya terpakai 80 dari 92 kredit. Alokasi
-terpusat memakai pagu lebih habis. Berapa bagian dari selisih 68,8% vs 62,5% yang
-berasal dari efek ini belum terpisahkan, dan **tidak boleh diklaim sebagai
-kecerdasan agen** sampai terpisahkan.
+Agen tidak mengungguli pembanding mana pun di kedua metrik, dan pada jalan ini acak
+malah di atasnya. Dengan kebisingan ±6–12 pp, satu-satunya pembacaan yang jujur:
+**tidak ada beda yang terdeteksi.**
 
 ---
 
-## Tiga hal yang harus diubah di luar berkas ini
+## Yang tetap berdiri tanpa Angka 2
 
-1. **AD-7 harus direvisi.** Klaim "pemilihan tool MCP yang sadar biaya" dibantah:
-   perencana yang melihat harga dan bobot konsisten lebih buruk (68,8%) daripada yang
-   tidak (75,0%), di dua generasi berturut-turut, dengan kepekaan harga 100% —
-   artinya ia benar-benar membaca angka itu lalu memakainya untuk memutuskan lebih
-   buruk. Klaim penggantinya: **alokasi pagu adaptif antar-emiten**.
-2. **Eskalasi tetap nol setelah gerbangnya diperbaiki.** Perbaikan itu memang
-   menghapus penghalang struktural (tertes di `tests/agent/`), tapi model tetap tidak
-   pernah memilih `escalate` pada data nyata. Sampai ada bukti sebaliknya, **eskalasi
-   tidak boleh ditampilkan di video sebagai perilaku yang terjadi di lapangan.**
-3. **Ukuran sampel 16 emiten.** Selisih 68,8% vs 62,5% adalah 11 lawan 10 dari 16 —
-   satu emiten. Itu terlalu tipis untuk disebut kemenangan tanpa kualifikasi.
+Pemilihan probe pada pagu tetap adalah **knapsack** — `evals/arms.himpunan_optimal()`
+menyelesaikannya secara pasti lewat enumerasi 63 kombinasi, tanpa LLM. Lengan "oracle
+memakai alokasi agen" menyamai agen persis di kedua jalan. Ruang itu memang tertutup;
+tidak ada kecerdasan yang bisa ditunjukkan di sana, dan seharusnya kami tahu itu
+sebelum mengukur, bukan sesudah.
+
+Yang bisa diverifikasi juri tanpa bergantung pada satu angka performa:
+
+- klien MCP tulis sendiri, satu gateway, tiap tool call termeter, ledger di-commit
+- pagar agen: 8 langkah, 25 kredit, satu probe sekali, penutupan aman — tertes
+- validator sitasi menolak angka **dan nama emiten** karangan — diuji dengan keluaran
+  MiniMax asli yang menyebut "JAJA" untuk investigasi "JAWA"
+- transkrip bisa diputar ulang: juri mengulang, hasilnya identik
+- `make demo` jalan di mesin bersih tanpa API key
+- eval ini sendiri, berikut catatan kegagalannya
+
+---
+
+## Cacat yang ditemukan lewat eval ini (semuanya sudah diperbaiki)
+
+| Cacat | Akibatnya pada angka |
+| --- | --- |
+| Blok `thinking` MiniMax memakan jatah `max_tokens` sebelum `tool_use` terbit | Agen diam-diam jatuh ke keputusan if-else. Eval v1–v3 sebagian mengukur jalur cadangan, bukan agen |
+| `tool_choice` yang memaksa kadang diabaikan; model menjawab teks berisi JSON | Keputusan LLM yang sebenarnya ada dibuang, diganti aturan |
+| Instruksi trade-off biaya ditambahkan tanpa syarat | Lengan buta ikut menerimanya, jadi ablasi mengubah dua hal sekaligus |
+| Gerbang eskalasi menolak probe yang sudah mengantre | Eskalasi mustahil menyala; nol dari 16 emiten di semua jalan |
+
+Tiga yang pertama membuat eval v1–v4 tidak layak dikutip. Yang layak hanya v5 dan v6
+— dan keduanya justru yang memperlihatkan kebisingannya.
+
+---
+
+## Kalau mau Angka 2 yang berarti
+
+Bukan menyetel agen, melainkan menaikkan daya pisah eksperimennya:
+
+1. **Perbesar sampel.** Untuk mendeteksi selisih 10 pp dengan yakin, 16 emiten jauh
+   dari cukup. Prasyaratnya `broker_summary` terkini diperluas (`TASK_MELCO.md` M7).
+2. **Ulangi tiap lengan beberapa kali** dan laporkan rentangnya, bukan satu angka.
+   Tanpa itu, satu jalan tidak bisa dibedakan dari keberuntungan.
+3. **Kurangi nondeterminisme**: `temperature` sudah 0, tapi blok thinking MiniMax
+   tetap membuat keluaran bergoyang. Membandingkan penyedia bisa jadi eval tersendiri.
+
+Sampai ketiganya ada, **Angka 2 tidak boleh muncul di video maupun README.**
 
 ---
 
 ## Batasan
 
-- 16 emiten, satu tanggal acuan. Tidak menunjukkan kestabilan antar-waktu.
+- Satu tanggal acuan, 16 emiten, satu penyedia LLM.
 - Lengan menyeluruh dipakai sebagai acuan band padahal ia sendiri tidak terkalibrasi
-  penuh: FFS dan BCI berbobot prior domain (`contracts/CHANGES.md` C5). Kesepakatan
-  band mengukur konsistensi terhadap penyelidikan lengkap, **bukan** ketepatan
-  terhadap kebenaran pasar.
+  penuh: FFS dan BCI berbobot prior domain (`contracts/CHANGES.md` C5).
 - Satuan biaya adalah kredit terhitung (`cost_estimate`), bukan kredit terbakar.
   Alasannya di docstring `evals/arms.py`.
-- Perencana LLM berhasil pada 15 dari 16 kasus; sisanya memakai rencana cadangan
-  berbasis aturan dan tidak dihitung sebagai bukti kecerdasan agen.

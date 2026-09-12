@@ -112,10 +112,19 @@ def build_prompt(symbol: str, as_of: date, signals: dict,
         _catalog_lines(show_price),
         "",
         f"Pagu keras: {ceiling} kredit per investigasi. Minta sesuai rencanamu.",
-        "",
-        "Timbang keyakinan per kredit, bukan kredit saja: melewatkan probe berbobot "
-        "besar membuat skor akhir berkeyakinan rendah walau murah.",
     ]
+    if show_price:
+        # WAJIB bersyarat. Kalimat ini sendiri adalah informasi tentang trade-off
+        # biaya-vs-keyakinan, jadi memberikannya ke lengan buta membuat ablasi
+        # mengukur dua perubahan sekaligus. Versi pertama menambahkannya tanpa
+        # syarat, dan lengan buta naik 68,8% -> 75,0% tanpa ada yang berubah pada
+        # apa yang ia lihat — kenaikan yang keliru gua baca sebagai bukti bahwa
+        # membuka harga itu merugikan.
+        bagian += [
+            "",
+            "Timbang keyakinan per kredit, bukan kredit saja: melewatkan probe "
+            "berbobot besar membuat skor akhir berkeyakinan rendah walau murah.",
+        ]
     if memory:
         bagian += ["", "Riwayat:", memory.briefing(as_of)]
     bagian += [
@@ -162,7 +171,7 @@ def plan(*, symbol: str, as_of: date, signals: dict, ceiling: int,
     prompt = build_prompt(symbol, as_of, signals, memory, ceiling, show_price)
     try:
         hasil = llm.ask_json(Plan, system=SYSTEM, prompt=prompt,
-                             prompt_version=PROMPT_VERSION, max_tokens=1500)
+                             prompt_version=PROMPT_VERSION, max_tokens=3000)
     except (JSONInvalid, LLMError) as exc:
         log.warning("perencana gagal untuk %s (%s) — memakai rencana cadangan", symbol, exc)
         return fallback_plan(symbol, signals, ceiling), False

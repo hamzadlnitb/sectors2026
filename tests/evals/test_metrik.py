@@ -97,3 +97,25 @@ def test_kasus_yang_dimuat_punya_bentuk_yang_dijanjikan():
         assert k["symbol"].isupper() and len(k["symbol"]) == 4
         assert isinstance(k["sesi"], int) and k["sesi"] >= 40
         assert isinstance(k["pernah_suspend"], bool)
+
+
+def test_paralel_menghasilkan_urutan_dan_hasil_yang_sama_dengan_serial():
+    """Paralelisasi tidak boleh mengubah satu pun angka, juga tidak urutannya.
+
+    Laporan yang bisa diputar ulang harus stabil sampai ke urutan barisnya, dan
+    `pool.map` menjaga urutan masukan — tes ini yang mengunci janji itu kalau
+    suatu saat ada yang menggantinya dengan `as_completed`.
+    """
+    from datetime import date
+
+    from evals.build_cases import muat
+
+    kasus = muat()[:4]
+    serial = ev.jalankan(kasus, as_of=date(2026, 9, 11), offline=True, pekerja=1)
+    paralel = ev.jalankan(kasus, as_of=date(2026, 9, 11), offline=True, pekerja=4)
+
+    assert [b.symbol for b in serial] == [b.symbol for b in paralel]
+    for a, b in zip(serial, paralel, strict=True):
+        for lengan in a.per_lengan:
+            assert a.per_lengan[lengan].credits == b.per_lengan[lengan].credits
+            assert a.per_lengan[lengan].band == b.per_lengan[lengan].band

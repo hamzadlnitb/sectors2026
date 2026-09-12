@@ -158,7 +158,7 @@ def _decide(*, symbol: str, hasil: ProbeResult, plan: Plan, antrean: list[str],
     ])
     try:
         d = llm.ask_json(Decision, system=SYSTEM, prompt=prompt,
-                         prompt_version=PROMPT_VERSION, max_tokens=800)
+                         prompt_version=PROMPT_VERSION, max_tokens=2500)
         inv.llm_decisions += 1
         return d
     except (JSONInvalid, LLMError) as exc:
