@@ -31,6 +31,7 @@ import hashlib
 import json
 import os
 import sys
+import threading
 import time
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
@@ -50,11 +51,56 @@ ROOT = Path(__file__).resolve().parents[1]
 CACHE_DIR = ROOT / "data" / "llm_cache"
 LEDGER = ROOT / "data" / "llm_ledger.jsonl"
 
+_LEDGER_LOCK = threading.Lock()
+"""Eval menjalankan puluhan investigasi paralel. Tanpa kunci ini, dua utas yang
+menulis ledger bersamaan menghasilkan baris JSON yang saling menyisip — dan
+ledger yang rusak adalah bukti pemakaian yang rusak. [AD-5]"""
+
 T = TypeVar("T", bound=BaseModel)
 
 
 class LLMError(RuntimeError):
     """Kegagalan yang tidak bisa dipulihkan sendiri oleh klien."""
+
+
+def _json_dari_teks(resp: Any) -> Any | None:
+    """Pungut objek JSON dari blok teks, kalau ada. None kalau tidak ketemu.
+
+    Menangani tiga bungkus yang lazim: JSON telanjang, pagar ```json, dan prosa
+    yang mengapit satu objek. Sengaja hanya mencari objek terluar — array atau
+    dua objek berurutan berarti model menjawab sesuatu yang lain, dan menebaknya
+    lebih berbahaya daripada menyerah.
+    """
+    for block in getattr(resp, "content", []) or []:
+        if getattr(block, "type", None) != "text":
+            continue
+        teks = (getattr(block, "text", "") or "").strip()
+        if "```" in teks:
+            bagian = teks.split("```")
+            for b in bagian:
+                b = b.removeprefix("json").strip()
+                if b.startswith("{"):
+                    teks = b
+                    break
+        awal, akhir = teks.find("{"), teks.rfind("}")
+        if awal == -1 or akhir <= awal:
+            continue
+        try:
+            nilai = json.loads(teks[awal:akhir + 1])
+        except ValueError:
+            continue
+        if isinstance(nilai, dict):
+            return nilai
+    return None
+
+
+class Truncated(LLMError):
+    """Jatah token habis sebelum blok yang diharapkan keluar.
+
+    Dipisah dari LLMError biasa karena obatnya berbeda: mengulang permintaan yang
+    sama akan terpotong lagi di titik yang sama. Yang perlu dinaikkan adalah
+    jatahnya.
+    """
 
 
 class JSONInvalid(LLMError):
@@ -105,10 +151,24 @@ def _providers() -> dict[str, Provider]:
 
 @dataclass
 class Usage:
+    """Penghitung pemakaian. Kenaikannya dilindungi kunci karena satu objek LLM
+    dipakai bersama banyak utas saat eval berjalan paralel."""
+
     input_tokens: int = 0
     output_tokens: int = 0
     calls: int = 0
     cache_hits: int = 0
+    _lock: threading.Lock = field(default_factory=threading.Lock, repr=False)
+
+    def catat(self, inp: int, out: int) -> None:
+        with self._lock:
+            self.input_tokens += inp
+            self.output_tokens += out
+            self.calls += 1
+
+    def catat_cache(self) -> None:
+        with self._lock:
+            self.cache_hits += 1
 
 
 class LLM:
@@ -218,7 +278,7 @@ class LLM:
         key = self._cache_key(system, messages, tools, prompt_version, max_tokens, temperature)
         cached = self._cache_read(key)
         if cached is not None:
-            self.usage.cache_hits += 1
+            self.usage.catat_cache()
             return cached
 
         kwargs: dict[str, Any] = {
@@ -235,38 +295,81 @@ class LLM:
             kwargs["extra_body"] = {"temperature": temperature}
 
         started = time.monotonic()
-        try:
-            resp = self.client.messages.create(**kwargs)
-        except Exception as exc:  # noqa: BLE001 — dibungkus supaya pemanggil
-            # cuma perlu menangani LLMError, bukan galat SDK tiap penyedia.
-            raise LLMError(f"{self.provider.name}/{self.model}: {type(exc).__name__}: {exc}") from exc
-
-        result = self._extract(resp, expect_tool=bool(tools))
+        for percobaan in range(2):
+            try:
+                resp = self.client.messages.create(**kwargs)
+            except Exception as exc:  # noqa: BLE001 — dibungkus supaya pemanggil
+                # cuma perlu menangani LLMError, bukan galat SDK tiap penyedia.
+                raise LLMError(
+                    f"{self.provider.name}/{self.model}: {type(exc).__name__}: {exc}"
+                ) from exc
+            try:
+                result = self._extract(resp, expect_tool=bool(tools))
+                break
+            except Truncated as exc:
+                # Sekali saja, dan hanya untuk pemotongan: naikkan jatah lalu ulang.
+                # Blok thinking MiniMax panjangnya bergantung isi prompt, jadi jatah
+                # tetap yang cukup untuk satu emiten bisa kurang untuk emiten lain.
+                if percobaan == 1:
+                    raise
+                kwargs["max_tokens"] = min(max_tokens * 3, 8000)
+                log.info("terpotong (%s) — mengulang dengan jatah %d token",
+                         exc, kwargs["max_tokens"])
         self._record(resp, prompt_version, time.monotonic() - started)
         self._cache_write(key, result)
         return result
 
     @staticmethod
     def _extract(resp: Any, *, expect_tool: bool) -> Any:
+        """Ambil blok yang diharapkan dari respons.
+
+        MiniMax mengeluarkan blok `thinking` SEBELUM `tool_use`, dan thinking itu
+        memakan jatah `max_tokens` yang sama. Kalau jatahnya habis di tengah
+        thinking, respons pulang hanya berisi thinking — `stop_reason` jadi
+        "max_tokens" dan tidak ada tool_use sama sekali. Itu penyebab sebenarnya
+        di balik "model menolak atau terpotong" yang sering muncul di eval, dan
+        obatnya menaikkan jatah, bukan mengulang permintaan yang sama.
+        """
+        tipe = [getattr(b, "type", None) for b in (getattr(resp, "content", []) or [])]
         for block in getattr(resp, "content", []) or []:
             if expect_tool and getattr(block, "type", None) == "tool_use":
                 return block.input
             if not expect_tool and getattr(block, "type", None) == "text":
                 return block.text
+
+        alasan = getattr(resp, "stop_reason", None)
+
+        # MiniMax kadang mengabaikan tool_choice yang memaksa dan menjawab teks
+        # biasa — stop_reason "end_turn" dengan blok ['thinking', 'text']. Isinya
+        # hampir selalu JSON yang kita minta, cuma tidak dibungkus tool_use.
+        # Menjatuhkannya ke jalur cadangan berarti membuang keputusan LLM yang
+        # sebenarnya ada, lalu menggantinya if-else — dan eval jadi mengukur
+        # aturan, bukan agen. Jadi JSON-nya dipungut, tapi TETAP divalidasi skema
+        # oleh pemanggil; yang dilonggarkan cuma bungkusnya, bukan bentuknya.
+        if expect_tool and alasan != "max_tokens":
+            dipungut = _json_dari_teks(resp)
+            if dipungut is not None:
+                log.info("tool_use absen (stop_reason=%s) — JSON dipungut dari blok teks",
+                         alasan)
+                return dipungut
+
+        if alasan == "max_tokens":
+            raise Truncated(
+                f"jatah token habis sebelum blok {'tool_use' if expect_tool else 'text'} "
+                f"keluar (blok yang sempat terbit: {tipe or 'tidak ada'})"
+            )
         raise LLMError(
-            "respons tidak memuat blok yang diharapkan "
-            f"({'tool_use' if expect_tool else 'text'}) — model menolak atau terpotong"
+            f"respons tidak memuat blok {'tool_use' if expect_tool else 'text'} "
+            f"(stop_reason={alasan}, blok={tipe or 'tidak ada'})"
         )
 
     def _record(self, resp: Any, prompt_version: str, seconds: float) -> None:
         u = getattr(resp, "usage", None)
         inp = int(getattr(u, "input_tokens", 0) or 0)
         out = int(getattr(u, "output_tokens", 0) or 0)
-        self.usage.input_tokens += inp
-        self.usage.output_tokens += out
-        self.usage.calls += 1
+        self.usage.catat(inp, out)
         LEDGER.parent.mkdir(parents=True, exist_ok=True)
-        with LEDGER.open("a", encoding="utf-8") as fh:
+        with _LEDGER_LOCK, LEDGER.open("a", encoding="utf-8") as fh:
             fh.write(json.dumps({
                 "at": datetime.now(UTC).isoformat(timespec="seconds"),
                 "provider": self.provider.name, "model": self.model,
@@ -296,10 +399,19 @@ class LLM:
             return None
 
     def _cache_write(self, key: str, result: Any) -> None:
+        """Tulis atomik: tulis ke berkas sementara lalu ganti nama.
+
+        Dua utas yang menulis kunci sama bersamaan bisa menghasilkan berkas
+        separuh tertulis, dan pembaca berikutnya melihat JSON rusak lalu diam-diam
+        menganggapnya cache miss. Rename bersifat atomik di POSIX, jadi pembaca
+        selalu melihat berkas utuh — versi lama atau baru, tidak pernah setengah.
+        """
         self.cache_dir.mkdir(parents=True, exist_ok=True)
-        (self.cache_dir / f"{key}.json").write_text(
-            json.dumps({"result": result}, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
+        target = self.cache_dir / f"{key}.json"
+        tmp = self.cache_dir / f"{key}.{os.getpid()}.{threading.get_ident()}.tmp"
+        tmp.write_text(json.dumps({"result": result}, ensure_ascii=False, indent=2),
+                       encoding="utf-8")
+        tmp.replace(target)
 
 
 # ── palsu untuk tes ─────────────────────────────────────────────────────────

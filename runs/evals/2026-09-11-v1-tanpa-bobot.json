@@ -1,0 +1,51 @@
+{
+  "as_of": "2026-09-11",
+  "n_kasus": 16,
+  "lengan": {
+    "menyeluruh": {
+      "kredit_rata2": 16,
+      "kredit_total": 256,
+      "hemat_persen": 0.0,
+      "sepakat_band": 16,
+      "sepakat_persen": 100.0
+    },
+    "agen": {
+      "kredit_rata2": 5.31,
+      "kredit_total": 85,
+      "hemat_persen": 66.8,
+      "sepakat_band": 11,
+      "sepakat_persen": 68.8
+    },
+    "urutan_tetap": {
+      "kredit_rata2": 5.31,
+      "kredit_total": 85,
+      "hemat_persen": 66.8,
+      "sepakat_band": 13,
+      "sepakat_persen": 81.2
+    },
+    "acak": {
+      "kredit_rata2": 5,
+      "kredit_total": 80,
+      "hemat_persen": 68.8,
+      "sepakat_band": 12,
+      "sepakat_persen": 75.0
+    },
+    "agen_tanpa_harga": {
+      "kredit_rata2": 5.5,
+      "kredit_total": 88,
+      "hemat_persen": 65.6,
+      "sepakat_band": 11,
+      "sepakat_persen": 68.8
+    }
+  },
+  "eskalasi": {
+    "total": 0,
+    "mengubah_band": 0,
+    "presisi_persen": null
+  },
+  "kepekaan_harga": {
+    "kasus_pilihan_berbeda": 15,
+    "persen": 93.8
+  },
+  "perencana_llm": 15
+}

@@ -1,0 +1,51 @@
+{
+  "as_of": "2026-09-11",
+  "n_kasus": 16,
+  "pagu_total": 102,
+  "jatah_rata": 6,
+  "alokasi_agen": {
+    "ASLI": 16,
+    "CSMI": 7,
+    "LIFE": 13,
+    "NICK": 7,
+    "PACK": 5,
+    "PPGL": 5,
+    "SAFE": 7,
+    "TRUK": 1,
+    "ARNA": 7,
+    "CGAS": 7,
+    "CTTH": 1,
+    "INOV": 7,
+    "JAWA": 7,
+    "KLBF": 4,
+    "MSKY": 1,
+    "SCCO": 7
+  },
+  "lengan": {
+    "agen": {
+      "kredit_total": 102,
+      "sepakat": 11,
+      "sepakat_persen": 68.8
+    },
+    "rata_urutan_tetap": {
+      "kredit_total": 92,
+      "sepakat": 13,
+      "sepakat_persen": 81.2
+    },
+    "rata_oracle": {
+      "kredit_total": 92,
+      "sepakat": 13,
+      "sepakat_persen": 81.2
+    },
+    "oracle_pakai_alokasi_agen": {
+      "kredit_total": 102,
+      "sepakat": 11,
+      "sepakat_persen": 68.8
+    },
+    "menyeluruh": {
+      "kredit_total": 256,
+      "sepakat": 16,
+      "sepakat_persen": 100.0
+    }
+  }
+}
