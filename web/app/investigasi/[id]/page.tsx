@@ -134,12 +134,6 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
       {/* ── Evidence + verdict ── */}
       <EvidenceVerdict evidence={t.evidence} narrative={t.narrative} narrativeSource={t.narrative_source} />
 
-      <div className="disclaimer">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-          <circle cx="12" cy="12" r="9.5" /><path d="M12 8v5" strokeLinecap="round" /><circle cx="12" cy="16.4" r="0.4" fill="currentColor" stroke="none" />
-        </svg>
-        {t.disclaimer}
-      </div>
       <div className="footnote">zero API &amp; LLM calls at runtime · replays a stored transcript · {t.symbol} · {t.weights_version}</div>
     </main>
   );

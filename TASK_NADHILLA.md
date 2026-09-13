@@ -63,13 +63,13 @@ tests/web/ · tests/export/
 
 ### N4 · Papan Waspada & Metodologi · 16–22 Sep
 - [x] **Papan Waspada** — arsip investigasi otonom bertanggal, bisa ditelusuri mundur. Ini membuat bukti unattended run terlihat **di dalam produk**, bukan cuma di repo `[T5]`
-- [ ] **Metodologi** — rumus enam komponen, bobot hasil kalibrasi, **dua angka validasi**, dan **batasan yang diakui terbuka**. Isinya dari Hamzah, lu yang merender `[T6][T7]`
-- [ ] Disclaimer permanen di setiap halaman: *"PANTAU adalah alat informasi dan analisis, bukan saran investasi."* `[K5]`
-- [ ] **Nol kosakata saran finansial** di seluruh teks UI — "beli", "jual", "target harga", "rekomendasi", "cuan", "pasti naik". CI Melco akan menangkapnya, tapi jangan sampai ketahuan CI duluan
+- [x] **Metodologi** — rumus enam komponen, bobot hasil kalibrasi, **dua angka validasi**, dan **batasan yang diakui terbuka**. Isinya dari Hamzah, lu yang merender `[T6][T7]`
+- [x] Disclaimer permanen di setiap halaman: *"PANTAU adalah alat informasi dan analisis, bukan saran investasi."* `[K5]`
+- [x] **Nol kosakata saran finansial** di seluruh teks UI — "beli", "jual", "target harga", "rekomendasi", "cuan", "pasti naik". CI Melco akan menangkapnya, tapi jangan sampai ketahuan CI duluan
 
 ### N5 · Lokalisasi & mobile · 18–22 Sep
 - [ ] Bahasa Indonesia penuh, format IDR, tanggal & jam WIB, kalender bursa `[T14]`
-- [ ] **Mobile-first** — persona kita pegang HP di angkot, bukan Bloomberg terminal `[T1]`
+- [x] **Mobile-first** — persona kita pegang HP di angkot, bukan Bloomberg terminal `[T1]`
 - [ ] Tukar fixture → transkrip asli dari Hamzah (±18 Sep). Kalau ada yang pecah di sini, berarti kontraknya bocor — laporkan, jangan tambal diam-diam
 - [ ] **QA:** uji di HP asli, bukan cuma devtools · teks panjang Bahasa Indonesia tidak merusak layout · halaman tetap terbaca saat transkrip minimal
 

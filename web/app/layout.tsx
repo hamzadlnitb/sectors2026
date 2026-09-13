@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import TopBar from "@/components/TopBar";
+import SiteDisclaimer from "@/components/SiteDisclaimer";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <div className="wrap">
           <TopBar />
           {children}
+          <SiteDisclaimer />
         </div>
       </body>
     </html>
