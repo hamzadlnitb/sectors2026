@@ -1,0 +1,12 @@
+[14:32:33Z] sapuan Tier-1 untuk 2026-09-11
+[14:32:34Z]   fetch-most-traded-stocks        10 baris -> daily_transaction (kini 1954 baris, 2 kredit)
+[14:32:34Z]   fetch-companies-top-changes     20 baris -> daily_close (kini 100 baris, 1 kredit)
+[14:32:34Z]   fetch-suspensions                1 baris -> suspensions (kini 539 baris, 1 kredit)
+[14:32:35Z]   fetch-filings                    8 baris -> filings (kini 841 baris, 1 kredit)
+[14:32:35Z] total 5 kredit; 4 panggilan, 0 dari cache (0%), 5 kredit terpakai
+[14:32:35Z] watchlist: 15 kandidat
+[14:32:35Z]   ASLI  skor 0.723  volume 12.8σ di atas baseline; harga +29% dalam 5 hari bursa; kapitalisasi kecil
+[14:32:35Z]   NICK  skor 0.669  harga +26% dalam 5 hari bursa; kapitalisasi kecil
+[14:32:35Z]   JAWA  skor 0.523  kapitalisasi kecil
+[14:32:35Z]   PPGL  skor 0.331  harga +32% dalam 5 hari bursa; kapitalisasi kecil
+[14:32:35Z]   SCCO  skor 0.325  volume 2.7σ di atas baseline; harga +11% dalam 5 hari bursa; kapitalisasi kecil
