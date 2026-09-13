@@ -53,7 +53,8 @@ tests/web/ · tests/export/
       · **memori** — investigasi ulang menghasilkan rencana berbeda
 - [x] Skor besar + band + **tingkat keyakinan** + **kredit terpakai vs baseline menyeluruh** (angka ini klaim utama tim, jangan dikubur di pojok)
 - [x] Kontrol putar ulang: jeda, mundur, lompat ke langkah. Juri menonton asinkron dan akan mengulang
-- [ ] **QA:** ketiga fixture render benar · transkrip 2 langkah dan 8 langkah sama rapinya · `finding: refuted` dan `inconclusive` punya tampilan sendiri, bukan diperlakukan seperti `confirmed`
+- [x] **QA:** ketiga fixture render benar · transkrip 2 langkah dan 8 langkah sama rapinya · `finding: refuted` dan `inconclusive` punya tampilan sendiri, bukan diperlakukan seperti `confirmed`
+      · _catatan: hanya ada 6 probe & tiap probe sekali → maks realistis 6 langkah; fixture `campuran.json` (FIXD) menguji 6 langkah + refuted + inconclusive + narasi template sekaligus_
 
 ### N3 · Buku Bukti · 14–18 Sep
 - [x] Tiap angka di narasi **bisa diklik** → endpoint Sectors + parameter + `as_of` `[T12]`

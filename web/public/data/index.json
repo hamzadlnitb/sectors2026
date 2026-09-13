@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-11T09:12:54+00:00",
+  "generated_at": "2026-09-13T14:22:16+00:00",
   "investigations": [
     {
       "id": "FIXC-2026-09-05",
@@ -38,6 +38,22 @@
       "moments": [
         "early_stop"
       ],
+      "headline": "Beberapa indikator menunjukkan pola tidak biasa"
+    },
+    {
+      "id": "FIXD-2026-09-05",
+      "symbol": "FIXD",
+      "as_of": "2026-09-05",
+      "pantau_score": 63,
+      "band": "waspada",
+      "confidence": 0.82,
+      "steps": 6,
+      "credits_total": 22,
+      "baseline_credits": 23,
+      "savings_pct": 4,
+      "memory_ref": null,
+      "narrative_source": "template",
+      "moments": [],
       "headline": "Beberapa indikator menunjukkan pola tidak biasa"
     },
     {
