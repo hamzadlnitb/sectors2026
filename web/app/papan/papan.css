@@ -51,3 +51,25 @@
 .rp-links { display: flex; flex-wrap: wrap; gap: 16px; padding: 12px 16px; border-top: 1px dashed var(--dash); }
 .rp-links a { font-family: var(--font-jbm), monospace; font-size: 12px; color: var(--accent); border-bottom: 1px solid var(--dash); }
 .rp-links a:hover { border-color: var(--accent); }
+
+/* calendar date picker */
+.cal { border: 1px dashed var(--dash); border-radius: 13px; padding: 14px 16px 12px; margin: 4px 0 20px; max-width: 320px; }
+.cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.cal-title { font-weight: 700; font-size: 13px; color: var(--text); }
+.cal-nav { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 7px; cursor: pointer; font-size: 15px; line-height: 1; }
+.cal-nav:hover { color: var(--text); border-color: var(--accent); }
+.cal-nav:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-dow { text-align: center; font-family: var(--font-jbm), monospace; font-size: 10px; color: var(--dim); padding-bottom: 4px; }
+.cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-family: var(--font-jbm), monospace; font-size: 12.5px; border-radius: 8px; color: var(--dim); position: relative; padding: 0; }
+.cal-day.empty { visibility: hidden; }
+button.cal-day { border: none; background: none; font: inherit; }
+.cal-day.run { color: var(--text); background: var(--surface); border: 1px solid color-mix(in srgb, var(--accent) 32%, var(--border)); cursor: pointer; }
+.cal-day.run:hover { border-color: var(--accent); }
+.cal-day.run.on { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.cal-day.run:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cal-day .pip { position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+.cal-day.run.on .pip { background: var(--on-accent); }
+.cal-day:not(.run) .pip { display: none; }
+.cal-legend { display: flex; align-items: center; gap: 7px; margin-top: 12px; font-size: 10.5px; color: var(--dim); }
+.cal-legend .pip { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }

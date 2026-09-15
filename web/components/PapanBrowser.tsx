@@ -24,13 +24,12 @@ const SIG: Record<string, string> = {
 };
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+const FULL_MONTHS = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+const DOW = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
+const pad = (n: number) => String(n).padStart(2, "0");
 function fmtLong(d: string) {
   const [y, m, day] = d.split("-").map(Number);
   return `${day} ${MONTHS[(m || 1) - 1]} ${y}`;
-}
-function fmtShort(d: string) {
-  const [, m, day] = d.split("-").map(Number);
-  return `${day} ${MONTHS[(m || 1) - 1]}`;
 }
 
 export default function PapanBrowser({
@@ -43,24 +42,50 @@ export default function PapanBrowser({
   repoUrl: string;
 }) {
   const [selected, setSelected] = useState(runs[0]?.date ?? "");
+  const initParts = (runs[0]?.date ?? "2026-01-01").split("-").map(Number);
+  const [view, setView] = useState({ y: initParts[0], m: initParts[1] });
   const run = runs.find((r) => r.date === selected) ?? runs[0];
   if (!run) return null;
 
+  const runByDate = new Map(runs.map((r) => [r.date, r]));
+  const startDow = (new Date(Date.UTC(view.y, view.m - 1, 1)).getUTCDay() + 6) % 7; // Mon=0
+  const daysInMonth = new Date(Date.UTC(view.y, view.m, 0)).getUTCDate();
+  const cells: (number | null)[] = [];
+  for (let i = 0; i < startDow; i++) cells.push(null);
+  for (let d = 1; d <= daysInMonth; d++) cells.push(d);
+  const prevMonth = () => setView((v) => (v.m === 1 ? { y: v.y - 1, m: 12 } : { y: v.y, m: v.m - 1 }));
+  const nextMonth = () => setView((v) => (v.m === 12 ? { y: v.y + 1, m: 1 } : { y: v.y, m: v.m + 1 }));
+
   return (
     <>
-      <div className="date-radios" role="radiogroup" aria-label="Pilih tanggal arsip">
-        {runs.map((r) => (
-          <label key={r.date} className={`dr${selected === r.date ? " on" : ""}`}>
-            <input
-              type="radio"
-              name="papan-date"
-              checked={selected === r.date}
-              onChange={() => setSelected(r.date)}
-            />
-            <span className="d">{fmtShort(r.date)}</span>
-            <span className="c mono">{r.candidateCount}</span>
-          </label>
-        ))}
+      <div className="cal">
+        <div className="cal-head">
+          <button className="cal-nav" onClick={prevMonth} aria-label="Bulan sebelumnya">‹</button>
+          <span className="cal-title mono">{FULL_MONTHS[view.m - 1]} {view.y}</span>
+          <button className="cal-nav" onClick={nextMonth} aria-label="Bulan berikutnya">›</button>
+        </div>
+        <div className="cal-grid">
+          {DOW.map((d) => <span className="cal-dow" key={d}>{d}</span>)}
+          {cells.map((day, i) => {
+            if (day === null) return <span className="cal-day empty" key={`e${i}`} />;
+            const ds = `${view.y}-${pad(view.m)}-${pad(day)}`;
+            const r = runByDate.get(ds);
+            if (!r) return <span className="cal-day" key={ds}>{day}</span>;
+            return (
+              <button
+                key={ds}
+                className={`cal-day run${selected === ds ? " on" : ""}`}
+                onClick={() => setSelected(ds)}
+                aria-pressed={selected === ds}
+                aria-label={`${day} ${FULL_MONTHS[view.m - 1]} — ${r.candidateCount} kandidat`}
+              >
+                {day}
+                <span className="pip" />
+              </button>
+            );
+          })}
+        </div>
+        <div className="cal-legend mono"><span className="pip" /> ada run · pilih untuk telusuri</div>
       </div>
 
       {/* autonomy proof */}
