@@ -47,10 +47,8 @@ WEB_DATA = ROOT / "web" / "public" / "data"
 INV_OUT = WEB_DATA / "investigations"
 WATCH_OUT = WEB_DATA / "watchlist"
 
-TRANSCRIPT_SOURCES = [
-    ROOT / "runs" / "investigations",
-    ROOT / "fixtures" / "transcripts",
-]
+REAL_SOURCE = ROOT / "runs" / "investigations"      # transkrip agen sungguhan (kanonik)
+FIXTURE_SOURCE = ROOT / "fixtures" / "transcripts"  # placeholder UI — hanya untuk dev/test
 WATCHLIST_GLOB = "runs/*/watchlist.json"
 
 
@@ -108,10 +106,10 @@ def summarize(t: InvestigationTranscript, ident: str) -> dict:
     }
 
 
-def collect_transcripts() -> list[tuple[Path, InvestigationTranscript, list[str]]]:
+def collect_transcripts(sources: list[Path]) -> list[tuple[Path, InvestigationTranscript, list[str]]]:
     """Kembalikan (path, transkrip, error) untuk tiap berkas sumber."""
     out: list[tuple[Path, InvestigationTranscript, list[str]]] = []
-    for src in TRANSCRIPT_SOURCES:
+    for src in sources:
         if not src.exists():
             continue
         for path in sorted(src.glob("*.json")):
@@ -125,7 +123,7 @@ def collect_transcripts() -> list[tuple[Path, InvestigationTranscript, list[str]
     return out
 
 
-def write_investigations(check_only: bool) -> tuple[list[dict], bool]:
+def write_investigations(check_only: bool, sources: list[Path]) -> tuple[list[dict], bool]:
     summaries: list[dict] = []
     failed = False
 
@@ -134,7 +132,7 @@ def write_investigations(check_only: bool) -> tuple[list[dict], bool]:
         for old in INV_OUT.glob("*.json"):
             old.unlink()
 
-    for path, t, errors in collect_transcripts():
+    for path, t, errors in collect_transcripts(sources):
         if t is None or errors:
             failed = True
             print(f"✗ {path.name}")
@@ -194,9 +192,12 @@ def write_watchlists(check_only: bool) -> list[dict]:
 def main() -> int:
     ap = argparse.ArgumentParser(description="Ekspor transkrip + watchlist ke web/public/data")
     ap.add_argument("--check", action="store_true", help="validasi saja, jangan tulis")
+    ap.add_argument("--with-fixtures", action="store_true",
+                    help="sertakan fixtures/transcripts (default: hanya transkrip asli runs/investigations)")
     args = ap.parse_args()
 
-    summaries, failed = write_investigations(args.check)
+    sources = [REAL_SOURCE] + ([FIXTURE_SOURCE] if args.with_fixtures else [])
+    summaries, failed = write_investigations(args.check, sources)
     watch_dates = write_watchlists(args.check)
 
     if not args.check:
