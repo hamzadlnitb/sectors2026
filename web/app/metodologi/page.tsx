@@ -34,7 +34,7 @@ export default function MetodologiPage() {
 
   return (
     <main>
-      <div className="sec-label"><h2>Metodologi</h2><span className="n">// bagaimana skor dibangun</span></div>
+      <div className="sec-label"><h2>Metodologi</h2><span className="n">{"//"} bagaimana skor dibangun</span></div>
 
       <p className="method-lede">
         Agen memutuskan <b>apa</b> yang diselidiki; kode memutuskan <b>berapa</b> skornya. Enam sub-skor
@@ -49,7 +49,7 @@ export default function MetodologiPage() {
       <section>
         <div className="sec-label">
           <h2>Enam komponen</h2>
-          <span className="n">// bobot {version ? `kalibrasi ${version}` : "menunggu kalibrasi"}</span>
+          <span className="n">{"//"} bobot {version ? `kalibrasi ${version}` : "menunggu kalibrasi"}</span>
         </div>
         <div className="panel" style={{ padding: "6px 16px" }}>
           {COMPONENTS.map((c) => {
@@ -75,7 +75,7 @@ export default function MetodologiPage() {
       </section>
 
       <section>
-        <div className="sec-label"><h2>Band interpretasi</h2><span className="n">// ambang</span></div>
+        <div className="sec-label"><h2>Band interpretasi</h2><span className="n">{"//"} ambang</span></div>
         <div className="bands">
           {BANDS.map((b) => (
             <div className="brow" key={b.range}>
@@ -87,7 +87,7 @@ export default function MetodologiPage() {
       </section>
 
       <section>
-        <div className="sec-label"><h2>Dua angka validasi</h2><span className="n">// dua angka, apa adanya</span></div>
+        <div className="sec-label"><h2>Dua angka validasi</h2><span className="n">{"//"} dua angka, apa adanya</span></div>
         <div className="vgrid">
           <div className="valcard">
             <div className="vh">
@@ -137,7 +137,7 @@ export default function MetodologiPage() {
       </section>
 
       <section>
-        <div className="sec-label"><h2>Batasan yang diakui terbuka</h2><span className="n">// kejujuran = kredibilitas</span></div>
+        <div className="sec-label"><h2>Batasan yang diakui terbuka</h2><span className="n">{"//"} kejujuran = kredibilitas</span></div>
         <div className="limits">
           <div className="limit"><span className="m">01</span><span><b>Suspensi bukan sinonim manipulasi.</b> Himpunan positif kecil; suspensi karena pergerakan tidak wajar hanya proksi terdekat, bukan label sempurna.</span></div>
           <div className="limit"><span className="m">02</span><span><b>FFS bukan point-in-time historis.</b> Sectors hanya menyediakan free float terkini, jadi FFS berperan sebagai sinyal keadaan-terkini — bukan komponen berkalibrasi lintas waktu.</span></div>

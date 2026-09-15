@@ -84,7 +84,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
       {/* ── Agentic moments ── */}
       {moments.length > 0 && (
         <section>
-          <div className="sec-label"><h2>Agentic moments</h2><span className="n">// Track 1</span></div>
+          <div className="sec-label"><h2>Agentic moments</h2><span className="n">{"//"} Track 1</span></div>
           <div className="moments">
             {moments.map((m) => <MomentCard key={m.kind} m={m} />)}
           </div>
@@ -102,7 +102,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
 
       {/* ── Plan ── */}
       <section>
-        <div className="sec-label"><h2>Investigation plan</h2><span className="n">// planner</span></div>
+        <div className="sec-label"><h2>Investigation plan</h2><span className="n">{"//"} planner</span></div>
         <div className="panel">
           <div className="plan-top">
             <span className="lbl">{t.plan.hypotheses.length} hypotheses, by priority</span>
@@ -127,7 +127,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
 
       {/* ── Reasoning replay ── */}
       <section>
-        <div className="sec-label"><h2>Reasoning replay</h2><span className="n">// investigator</span></div>
+        <div className="sec-label"><h2>Reasoning replay</h2><span className="n">{"//"} investigator</span></div>
         <ReplayTimeline steps={steps} />
       </section>
 

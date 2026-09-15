@@ -26,7 +26,9 @@ export default function ReplayTimeline({ steps }: { steps: RenderStep[] }) {
   }, [playing, n]);
 
   useEffect(() => {
-    if (shown >= n) setPlaying(false);
+    if (shown < n) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hentikan autoplay saat langkah terakhir tercapai
+    setPlaying(false);
   }, [shown, n]);
 
   function togglePlay() {

@@ -47,7 +47,7 @@ export default function Landing() {
       </section>
 
       <section>
-        <div className="sec-label"><h2>Cara kerja</h2><span className="n">// detect · investigate · explain</span></div>
+        <div className="sec-label"><h2>Cara kerja</h2><span className="n">{"//"} detect · investigate · explain</span></div>
         <div className="process">
           {PROCESS.map((p) => (
             <div className="pstep" key={p.n}>
@@ -60,7 +60,7 @@ export default function Landing() {
       </section>
 
       <section>
-        <div className="sec-label"><h2>Enam sinyal yang dicek</h2><span className="n">// enam komponen skor</span></div>
+        <div className="sec-label"><h2>Enam sinyal yang dicek</h2><span className="n">{"//"} enam komponen skor</span></div>
         <div className="signals">
           {SIGNALS.map((s) => (
             <div className="sig" key={s.code}>

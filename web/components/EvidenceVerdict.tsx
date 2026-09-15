@@ -67,7 +67,7 @@ export default function EvidenceVerdict({
       <section>
         <div className="sec-label">
           <h2>Evidence ledger</h2>
-          <span className="n">// {evidence.length} entries · each traceable</span>
+          <span className="n">{"//"} {evidence.length} entries · each traceable</span>
         </div>
         <div className="ev-list">
           {evidence.map((e) => (
@@ -100,7 +100,7 @@ export default function EvidenceVerdict({
       <section>
         <div className="sec-label">
           <h2>Verdict</h2>
-          <span className="n">// adjudicator</span>
+          <span className="n">{"//"} adjudicator</span>
         </div>
         <div className="panel narr">
           {narrativeSource === "llm" ? (
