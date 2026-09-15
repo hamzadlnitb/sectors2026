@@ -30,11 +30,9 @@ const pad = (n: number) => String(n).padStart(2, "0");
 export default function PapanBrowser({
   runs,
   invBySymbol,
-  repoUrl,
 }: {
   runs: PapanRun[];
   invBySymbol: Record<string, InvRef>;
-  repoUrl: string;
 }) {
   const [selected, setSelected] = useState(runs[0]?.date ?? "");
   const initParts = (runs[0]?.date ?? "2026-01-01").split("-").map(Number);
@@ -95,22 +93,6 @@ export default function PapanBrowser({
           })}
         </div>
           <div className="cal-legend mono"><span className="pip" /> ada run · pilih untuk telusuri</div>
-        </div>
-      </div>
-
-      {/* autonomy proof — run.log + verifikasi GitHub */}
-      <div className="run-proof">
-        <pre className="rp-log mono">{run.runLog.length ? run.runLog.join("\n") : "(log tidak tersedia)"}</pre>
-        <div className="rp-links">
-          <a href={`${repoUrl}/blob/main/runs/${run.date}/run.log`} target="_blank" rel="noopener noreferrer">
-            run.log di GitHub →
-          </a>
-          <a href={`${repoUrl}/commits/main/runs/${run.date}`} target="_blank" rel="noopener noreferrer">
-            commit pantau-bot →
-          </a>
-          <a href={`${repoUrl}/actions`} target="_blank" rel="noopener noreferrer">
-            GitHub Actions →
-          </a>
         </div>
       </div>
 

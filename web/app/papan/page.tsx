@@ -4,8 +4,6 @@ import { loadIndex } from "@/lib/transcript";
 import { loadWatchlist, loadWatchlistDates } from "@/lib/watchlist";
 import "./papan.css";
 
-const REPO_URL = "https://github.com/hamzadlnitb/sectors2026";
-
 function utcTime(iso: string | null | undefined): string {
   if (!iso) return "";
   const m = iso.match(/T(\d{2}):(\d{2})/);
@@ -49,7 +47,7 @@ export default function PapanPage() {
           <p style={{ margin: 0, color: "var(--muted)" }}>Belum ada run watchlist yang diekspor.</p>
         </div>
       ) : (
-        <PapanBrowser runs={runs} invBySymbol={invBySymbol} repoUrl={REPO_URL} />
+        <PapanBrowser runs={runs} invBySymbol={invBySymbol} />
       )}
 
       <div className="footnote">
