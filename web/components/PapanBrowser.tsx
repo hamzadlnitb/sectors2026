@@ -23,14 +23,9 @@ const SIG: Record<string, string> = {
   high: "var(--sig-danger)",
 };
 
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
 const FULL_MONTHS = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 const DOW = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
 const pad = (n: number) => String(n).padStart(2, "0");
-function fmtLong(d: string) {
-  const [y, m, day] = d.split("-").map(Number);
-  return `${day} ${MONTHS[(m || 1) - 1]} ${y}`;
-}
 
 export default function PapanBrowser({
   runs,
@@ -58,8 +53,22 @@ export default function PapanBrowser({
 
   return (
     <>
-      <div className="cal">
-        <div className="cal-head">
+      <div className="papan-top">
+        <div className="papan-intro">
+          <span className="ic">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <div className="txt">
+            Tiap hari bursa, cron <b>17:30 WIB</b> menyapu sinyal Tier-1, menyusun watchlist kandidat, lalu agen
+            menyelidiki yang paling mencurigakan — <b>tanpa ditunggui manusia</b>. Pilih tanggal untuk menelusuri
+            arsipnya; tiap run ber-timestamp dan bisa diverifikasi ke commit <b>pantau-bot</b> di GitHub. Skor
+            kandidat = skor <b>seleksi</b>, bukan skor PANTAU.
+          </div>
+        </div>
+        <div className="cal">
+          <div className="cal-head">
           <button className="cal-nav" onClick={prevMonth} aria-label="Bulan sebelumnya">‹</button>
           <span className="cal-title mono">{FULL_MONTHS[view.m - 1]} {view.y}</span>
           <button className="cal-nav" onClick={nextMonth} aria-label="Bulan berikutnya">›</button>
@@ -85,16 +94,12 @@ export default function PapanBrowser({
             );
           })}
         </div>
-        <div className="cal-legend mono"><span className="pip" /> ada run · pilih untuk telusuri</div>
+          <div className="cal-legend mono"><span className="pip" /> ada run · pilih untuk telusuri</div>
+        </div>
       </div>
 
-      {/* autonomy proof */}
+      {/* autonomy proof — run.log + verifikasi GitHub */}
       <div className="run-proof">
-        <div className="rp-head">
-          <span className="dots"><i /><i /><i /></span>
-          <span className="rp-title mono">cron · <b>pantau-bot</b> · sapuan Tier-1 {fmtLong(run.date)}</span>
-          <span className="rp-meta mono">{run.time} · {run.credits ?? 0} kredit</span>
-        </div>
         <pre className="rp-log mono">{run.runLog.length ? run.runLog.join("\n") : "(log tidak tersedia)"}</pre>
         <div className="rp-links">
           <a href={`${repoUrl}/blob/main/runs/${run.date}/run.log`} target="_blank" rel="noopener noreferrer">
@@ -110,7 +115,7 @@ export default function PapanBrowser({
       </div>
 
       {/* candidate list */}
-      <div className="run-list">
+      <div className="run-list" key={run.date}>
         {run.candidates.map((c, i) => {
           const inv = invBySymbol[c.symbol];
           const band = inv ? bandMeta(inv.band) : null;

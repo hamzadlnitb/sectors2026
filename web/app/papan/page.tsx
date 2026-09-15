@@ -44,20 +44,6 @@ export default function PapanPage() {
         <span className="n">{"//"} arsip run otonom</span>
       </div>
 
-      <div className="papan-intro">
-        <span className="ic">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-            <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </span>
-        <div className="txt">
-          Tiap hari bursa, cron <b>17:30 WIB</b> menyapu sinyal Tier-1, menyusun watchlist kandidat, lalu agen
-          menyelidiki yang paling mencurigakan — <b>tanpa ditunggui manusia</b>. Pilih tanggal untuk menelusuri arsipnya;
-          tiap run ber-timestamp dan bisa diverifikasi ke commit <b>pantau-bot</b> di GitHub. Skor kandidat = skor
-          <b> seleksi</b>, bukan skor PANTAU.
-        </div>
-      </div>
-
       {runs.length === 0 ? (
         <div className="panel" style={{ padding: "clamp(20px,4vw,32px)", marginTop: 16 }}>
           <p style={{ margin: 0, color: "var(--muted)" }}>Belum ada run watchlist yang diekspor.</p>
