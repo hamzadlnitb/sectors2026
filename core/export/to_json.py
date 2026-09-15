@@ -166,6 +166,10 @@ def write_watchlists(check_only: bool) -> list[dict]:
             print(f"✗ watchlist {path}: {exc}")
             continue
         as_of = data.get("as_of") or path.parent.name
+        # Sertakan run.log (bukti timestamp cron tak-ditunggui) di payload watchlist.
+        log_path = path.parent / "run.log"
+        if log_path.exists():
+            data["run_log"] = log_path.read_text(encoding="utf-8").splitlines()
         dates.append(
             {
                 "as_of": as_of,
