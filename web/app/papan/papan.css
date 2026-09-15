@@ -76,3 +76,17 @@ button.cal-day { border: none; background: none; font: inherit; }
 .cal-day:not(.run) .pip { display: none; }
 .cal-legend { display: flex; align-items: center; gap: 7px; margin-top: 12px; font-size: 10.5px; color: var(--dim); }
 .cal-legend .pip { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+
+/* collapsible date picker */
+.datepick { position: relative; display: inline-block; }
+.dp-trigger { display: inline-flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border-strong); border-radius: 10px; padding: 10px 14px; font-family: var(--font-jbm), monospace; font-size: 13px; color: var(--text); cursor: pointer; white-space: nowrap; }
+.dp-trigger:hover { border-color: var(--accent); }
+.dp-trigger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dp-trigger > svg:first-child { color: var(--accent); flex-shrink: 0; }
+.dp-trigger .dp-date { font-weight: 700; }
+.dp-trigger .dp-count { color: var(--dim); font-size: 11px; }
+.dp-chev { color: var(--muted); transition: transform .2s; flex-shrink: 0; }
+.dp-chev.up { transform: rotate(180deg); }
+.dp-pop { position: absolute; top: calc(100% + 8px); left: 0; z-index: 25; }
+.dp-pop .cal { margin: 0; background: var(--surface); box-shadow: 0 10px 34px rgba(0,0,0,0.45); }
+:root[data-theme="light"] .dp-pop .cal { box-shadow: 0 10px 34px rgba(35,31,24,0.16); }

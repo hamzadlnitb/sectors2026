@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { bandMeta, type Band } from "@/lib/bands";
 import type { Candidate } from "@/lib/watchlist";
 
@@ -26,6 +26,10 @@ const SIG: Record<string, string> = {
 const FULL_MONTHS = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 const DOW = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
 const pad = (n: number) => String(n).padStart(2, "0");
+function fmtLong(d: string) {
+  const [y, m, day] = d.split("-").map(Number);
+  return `${day} ${FULL_MONTHS[(m || 1) - 1]} ${y}`;
+}
 
 export default function PapanBrowser({
   runs,
@@ -37,6 +41,16 @@ export default function PapanBrowser({
   const [selected, setSelected] = useState(runs[0]?.date ?? "");
   const initParts = (runs[0]?.date ?? "2026-01-01").split("-").map(Number);
   const [view, setView] = useState({ y: initParts[0], m: initParts[1] });
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const onDoc = (e: MouseEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, [open]);
   const run = runs.find((r) => r.date === selected) ?? runs[0];
   if (!run) return null;
 
@@ -65,34 +79,50 @@ export default function PapanBrowser({
             kandidat = skor <b>seleksi</b>, bukan skor PANTAU.
           </div>
         </div>
-        <div className="cal">
-          <div className="cal-head">
-          <button className="cal-nav" onClick={prevMonth} aria-label="Bulan sebelumnya">‹</button>
-          <span className="cal-title mono">{FULL_MONTHS[view.m - 1]} {view.y}</span>
-          <button className="cal-nav" onClick={nextMonth} aria-label="Bulan berikutnya">›</button>
-        </div>
-        <div className="cal-grid">
-          {DOW.map((d) => <span className="cal-dow" key={d}>{d}</span>)}
-          {cells.map((day, i) => {
-            if (day === null) return <span className="cal-day empty" key={`e${i}`} />;
-            const ds = `${view.y}-${pad(view.m)}-${pad(day)}`;
-            const r = runByDate.get(ds);
-            if (!r) return <span className="cal-day" key={ds}>{day}</span>;
-            return (
-              <button
-                key={ds}
-                className={`cal-day run${selected === ds ? " on" : ""}`}
-                onClick={() => setSelected(ds)}
-                aria-pressed={selected === ds}
-                aria-label={`${day} ${FULL_MONTHS[view.m - 1]} — ${r.candidateCount} kandidat`}
-              >
-                {day}
-                <span className="pip" />
-              </button>
-            );
-          })}
-        </div>
-          <div className="cal-legend mono"><span className="pip" /> ada run · pilih untuk telusuri</div>
+        <div className="datepick" ref={wrapRef}>
+          <button className="dp-trigger" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-haspopup="dialog">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+              <rect x="3.5" y="5" width="17" height="16" rx="2" /><path d="M3.5 9.5h17M8 3v4M16 3v4" strokeLinecap="round" />
+            </svg>
+            <span className="dp-date">{fmtLong(selected)}</span>
+            <span className="dp-count mono">{run.candidateCount} kandidat</span>
+            <svg className={`dp-chev${open ? " up" : ""}`} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          {open && (
+            <div className="dp-pop" role="dialog" aria-label="Pilih tanggal">
+              <div className="cal">
+                <div className="cal-head">
+                  <button className="cal-nav" onClick={prevMonth} aria-label="Bulan sebelumnya">‹</button>
+                  <span className="cal-title mono">{FULL_MONTHS[view.m - 1]} {view.y}</span>
+                  <button className="cal-nav" onClick={nextMonth} aria-label="Bulan berikutnya">›</button>
+                </div>
+                <div className="cal-grid">
+                  {DOW.map((d) => <span className="cal-dow" key={d}>{d}</span>)}
+                  {cells.map((day, i) => {
+                    if (day === null) return <span className="cal-day empty" key={`e${i}`} />;
+                    const ds = `${view.y}-${pad(view.m)}-${pad(day)}`;
+                    const r = runByDate.get(ds);
+                    if (!r) return <span className="cal-day" key={ds}>{day}</span>;
+                    return (
+                      <button
+                        key={ds}
+                        className={`cal-day run${selected === ds ? " on" : ""}`}
+                        onClick={() => { setSelected(ds); setOpen(false); }}
+                        aria-pressed={selected === ds}
+                        aria-label={`${day} ${FULL_MONTHS[view.m - 1]} — ${r.candidateCount} kandidat`}
+                      >
+                        {day}
+                        <span className="pip" />
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="cal-legend mono"><span className="pip" /> ada run · pilih untuk telusuri</div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
