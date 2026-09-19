@@ -4,9 +4,10 @@
 # bursa artefak runs/ yang di-commit tanpa disentuh manusia, dan itu tidak bisa
 # dikejar belakangan — 10 hari bursa butuh 10 hari bursa. [T5]
 #
-# TAHAP 1 (sekarang) : sapuan Tier-1 + watchlist -> commit runs/YYYY-MM-DD/
-# TAHAP 2 (~19 Sep)  : panggil agen Hamzah untuk top-N -> runs/investigations/
-#                      Ditambahkan setelah `make investigate` hijau end-to-end.
+# TAHAP 1 : sapuan Tier-1 + watchlist -> commit runs/YYYY-MM-DD/
+# TAHAP 2 : agen menyelidiki top-N kandidat -> commit runs/investigations/
+#           Aktif kalau secret MINIMAX_API_KEY ada; kalau tidak, dilewati (bukan
+#           gagal) supaya Tahap 1 tetap menyumbang bukti otonom tiap hari.
 
 name: Pipeline harian
 
@@ -24,6 +25,16 @@ on:
         description: "Tanggal acuan (YYYY-MM-DD). Kosong = hari ini UTC."
         required: false
         type: string
+      investigate:
+        description: "Jalankan Tahap 2 (agen menyelidiki top-N). Butuh MINIMAX_API_KEY."
+        required: false
+        type: boolean
+        default: true
+      top_n:
+        description: "Berapa kandidat teratas diselidiki Tahap 2."
+        required: false
+        type: string
+        default: "3"
 
 permissions:
   contents: write
@@ -83,11 +94,33 @@ jobs:
             --as-of "${{ steps.tanggal.outputs.as_of }}" \
             --run-dir "runs/${{ steps.tanggal.outputs.as_of }}"
 
+      # ── TAHAP 2 — agen menyelidiki top-N kandidat ──────────────────────────
+      # Dilewati (bukan gagal) kalau MINIMAX_API_KEY tidak ada: Tahap 1 sudah
+      # menyumbang artefak, dan cron tidak boleh merah cuma karena LLM belum
+      # disetel. Anggaran ganda: pagu fase `daily` di CreditAwareClient + top-N
+      # kecil. LLM MiniMax terpisah dari kredit Sectors [K9].
+      - name: Tahap 2 — investigasi agen
+        env:
+          SECTORS_API_KEY: ${{ secrets.SECTORS_API_KEY }}
+          MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
+          PANTAU_LLM_PROVIDER: minimax
+        run: |
+          if [ "${{ inputs.investigate }}" = "false" ]; then
+            echo "Tahap 2 dilewati (input investigate=false)"; exit 0
+          fi
+          if [ -z "$MINIMAX_API_KEY" ]; then
+            echo "::warning::MINIMAX_API_KEY tidak ada — Tahap 2 dilewati. Setel secret untuk mengaktifkan investigasi otonom."
+            exit 0
+          fi
+          python tools/investigate_watchlist.py \
+            --as-of "${{ steps.tanggal.outputs.as_of }}" \
+            --top "${{ inputs.top_n || '3' }}"
+
       - name: Posisi kredit sesudah
         run: make credits
 
-      # Narasi belum ada di tahap 1, tapi penjaga dipasang sejak sekarang supaya
-      # tahap 2 tidak pernah sempat men-commit kalimat terlarang. [K5]
+      # Menyaring artefak SESUDAH Tahap 2, supaya narasi LLM tersimpan ikut
+      # diperiksa — kalimat terlarang tidak boleh sempat ter-commit. [K5]
       - name: Larangan kosakata atas artefak baru
         run: make vocab
 
@@ -96,13 +129,23 @@ jobs:
           git config user.name "pantau-bot"
           git config user.email "pantau-bot@users.noreply.github.com"
 
-          git add runs/ data/warehouse/ data/credit_ledger.jsonl
+          git add runs/ data/warehouse/ data/credit_ledger.jsonl data/memory.duckdb
           if git diff --cached --quiet; then
             echo "tidak ada perubahan untuk di-commit"
             exit 0
           fi
 
-          git commit -m "chore(runs): sapuan Tier-1 ${{ steps.tanggal.outputs.as_of }} [otomatis]"
+          # Sebut investigasi di pesan commit kalau ada transkrip baru hari ini —
+          # supaya riwayat commit membedakan hari yang cuma sapuan dari hari yang
+          # benar-benar menyelidiki.
+          N=$(git diff --cached --name-only \
+              | grep -c "runs/investigations/.*${{ steps.tanggal.outputs.as_of }}" || true)
+          if [ "$N" -gt 0 ]; then
+            MSG="chore(runs): sapuan Tier-1 + ${N} investigasi ${{ steps.tanggal.outputs.as_of }} [otomatis]"
+          else
+            MSG="chore(runs): sapuan Tier-1 ${{ steps.tanggal.outputs.as_of }} [otomatis]"
+          fi
+          git commit -m "$MSG"
 
           # Rebase dulu: lajur lain merge ke main tiap hari, dan commit otomatis
           # tidak boleh menimpa kerja mereka.
