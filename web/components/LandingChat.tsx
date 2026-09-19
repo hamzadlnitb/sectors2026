@@ -94,6 +94,7 @@ export default function LandingChat({ items }: { items: IndexEntry[] }) {
   };
   const [log, setLog] = useState<Msg[]>([{ role: "agent", answer: greeting }]);
   const [input, setInput] = useState("");
+  const [open, setOpen] = useState(false);
 
   function ask(q: string) {
     const norm = q.toLowerCase();
@@ -107,12 +108,29 @@ export default function LandingChat({ items }: { items: IndexEntry[] }) {
   }
 
   return (
-    <section className="agentchat">
-      <div className="sec-label">
-        <h2>Coba tanya agen</h2>
-        <span className="n">{"//"} jawaban dari investigasi hari ini · nol saran</span>
-      </div>
-      <div className="chat">
+    <>
+      <button
+        className={`chat-fab ${open ? "hide" : ""}`}
+        onClick={() => setOpen(true)}
+        aria-label="Buka chat — tanya agen"
+        aria-expanded={open}
+      >
+        <span className="ping" />
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" aria-hidden="true">
+          <path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 20l1.4-4.2A8.5 8.5 0 1 1 21 11.5z" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+        Tanya agen
+      </button>
+
+      <div className={`chat-pop ${open ? "open" : ""}`} role="dialog" aria-label="Chat — tanya agen" aria-hidden={!open}>
+        <div className="chat-pop-head">
+          <span className="ttl">Coba tanya agen <span className="n">{"//"} hasil hari ini</span></span>
+          <button className="cx" onClick={() => setOpen(false)} aria-label="Tutup chat">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
         <div className="chat-log">
           {log.map((m, i) =>
             m.role === "user" ? (
@@ -160,6 +178,6 @@ export default function LandingChat({ items }: { items: IndexEntry[] }) {
           <button type="submit">Kirim →</button>
         </form>
       </div>
-    </section>
+    </>
   );
 }
