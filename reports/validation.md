@@ -8,6 +8,34 @@ Bobot yang berlaku: `cal-2026-09-10-sementara` — BCI 0,25, VAS 0,22, PFD 0,12,
 
 ---
 
+## ⚠️ Cakupan: terkalibrasi atas empat dari enam komponen
+
+**FFS dan BCI tidak ikut kalibrasi historis, dan untuk FFS itu permanen.**
+
+`fetch-free-float` tidak mengirim tanggal berlaku — Sectors hanya menyediakan angka
+terkini, jadi free float pada T-10 tidak ada di mana pun dan tidak bisa dibeli dengan
+kredit berapa pun. `fetch-broker-summary-top` mengembalikan agregat bertanggal tarikan;
+BCI secara teknis bisa ditarik per tanggal acuan, tapi dengan hanya 18 emiten tersuspend
+yang punya riwayat harga, hasilnya tetap di bawah ambang 30 positif.
+
+Diverifikasi dengan menjalankan probe pada dua tanggal acuan:
+
+| Probe | `as_of` 2026-08-20 | `as_of` 2026-09-11 |
+| --- | --- | --- |
+| `free_float` | n/a | 94 |
+| `broker_concentration` | n/a | 38 |
+| `volume_anomaly` | 100 | 16 |
+
+**Konsekuensinya untuk angka di bawah:** yang terkalibrasi adalah VAS, PFD, FRD, dan SSS.
+Bobot FFS (0,18) dan BCI (0,25) — **0,43 dari total** — tetap prior domain. Halaman
+Metodologi wajib mengatakannya; jangan pernah menyebut Angka 1 sebagai "bobot terkalibrasi"
+tanpa kualifikasi ini.
+
+**Yang tidak terdampak:** Angka 2 berjalan pada tanggal terkini, dan di sana keenam probe
+hidup. Lihat `contracts/CHANGES.md` C5.
+
+---
+
 ## Ringkasan satu paragraf
 
 Protokol §6 dijalankan penuh dan **belum menghasilkan bobot terkalibrasi.**

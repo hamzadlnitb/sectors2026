@@ -1,0 +1,74 @@
+# Alam semesta eval agen — DIBANGKITKAN, jangan disunting tangan.
+#   python3 evals/build_cases.py --tulis
+#
+# 16 emiten dengan >= 40 sesi harga di warehouse yang di-commit.
+# 8 pernah disuspend, 16 punya data broker.
+#
+# Jumlah ini di bawah sasaran 30-50 di TASK_HAMZAH.md, dan itu bukan kelalaian:
+# warehouse memang baru memuat sebanyak ini. Angka 2 dilaporkan dengan ukuran
+# sampel yang dinyatakan terbuka, bukan dengan alam semesta yang dikarang.
+kasus:
+  - symbol: ASLI
+    sesi: 119
+    punya_broker: true
+    pernah_suspend: true
+  - symbol: CSMI
+    sesi: 119
+    punya_broker: true
+    pernah_suspend: true
+  - symbol: LIFE
+    sesi: 119
+    punya_broker: true
+    pernah_suspend: true
+  - symbol: NICK
+    sesi: 119
+    punya_broker: true
+    pernah_suspend: true
+  - symbol: PACK
+    sesi: 119
+    punya_broker: true
+    pernah_suspend: true
+  - symbol: PPGL
+    sesi: 119
+    punya_broker: true
+    pernah_suspend: true
+  - symbol: SAFE
+    sesi: 119
+    punya_broker: true
+    pernah_suspend: true
+  - symbol: TRUK
+    sesi: 119
+    punya_broker: true
+    pernah_suspend: true
+  - symbol: ARNA
+    sesi: 119
+    punya_broker: true
+    pernah_suspend: false
+  - symbol: CGAS
+    sesi: 119
+    punya_broker: true
+    pernah_suspend: false
+  - symbol: CTTH
+    sesi: 119
+    punya_broker: true
+    pernah_suspend: false
+  - symbol: INOV
+    sesi: 119
+    punya_broker: true
+    pernah_suspend: false
+  - symbol: JAWA
+    sesi: 119
+    punya_broker: true
+    pernah_suspend: false
+  - symbol: KLBF
+    sesi: 119
+    punya_broker: true
+    pernah_suspend: false
+  - symbol: MSKY
+    sesi: 119
+    punya_broker: true
+    pernah_suspend: false
+  - symbol: SCCO
+    sesi: 119
+    punya_broker: true
+    pernah_suspend: false
