@@ -74,8 +74,10 @@ button.cal-day { border: none; background: none; font: inherit; }
 .cal-day .pip { position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
 .cal-day.run.on .pip { background: var(--on-accent); }
 .cal-day:not(.run) .pip { display: none; }
+.cal-day.weekend { color: color-mix(in srgb, var(--dim) 55%, transparent); }
 .cal-legend { display: flex; align-items: center; gap: 7px; margin-top: 12px; font-size: 10.5px; color: var(--dim); }
 .cal-legend .pip { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+.cal-legend .we-key { color: color-mix(in srgb, var(--dim) 55%, transparent); }
 
 /* collapsible date picker */
 .datepick { position: relative; display: inline-block; }

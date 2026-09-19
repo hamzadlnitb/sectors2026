@@ -2,13 +2,8 @@ import PapanBrowser, { type InvRef, type PapanRun } from "@/components/PapanBrow
 import type { Band } from "@/lib/bands";
 import { loadIndex } from "@/lib/transcript";
 import { loadWatchlist, loadWatchlistDates } from "@/lib/watchlist";
+import { wibTime } from "@/lib/format";
 import "./papan.css";
-
-function utcTime(iso: string | null | undefined): string {
-  if (!iso) return "";
-  const m = iso.match(/T(\d{2}):(\d{2})/);
-  return m ? `${m[1]}:${m[2]} UTC` : "";
-}
 
 export default function PapanPage() {
   const index = loadIndex();
@@ -25,7 +20,7 @@ export default function PapanPage() {
       return wl
         ? {
             date: d.as_of,
-            time: utcTime(d.generated_at),
+            time: wibTime(d.generated_at),
             credits: d.credits_spent,
             candidateCount: wl.candidates.length,
             candidates: wl.candidates,

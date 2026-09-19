@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { bandMeta, type Band } from "@/lib/bands";
+import { isWeekend, weekdayId } from "@/lib/format";
 import type { Candidate } from "@/lib/watchlist";
 
 export type PapanRun = {
@@ -28,7 +29,7 @@ const DOW = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
 const pad = (n: number) => String(n).padStart(2, "0");
 function fmtLong(d: string) {
   const [y, m, day] = d.split("-").map(Number);
-  return `${day} ${FULL_MONTHS[(m || 1) - 1]} ${y}`;
+  return `${weekdayId(d)}, ${day} ${FULL_MONTHS[(m || 1) - 1]} ${y}`;
 }
 
 export default function PapanBrowser({
@@ -104,7 +105,7 @@ export default function PapanBrowser({
                     if (day === null) return <span className="cal-day empty" key={`e${i}`} />;
                     const ds = `${view.y}-${pad(view.m)}-${pad(day)}`;
                     const r = runByDate.get(ds);
-                    if (!r) return <span className="cal-day" key={ds}>{day}</span>;
+                    if (!r) return <span className={`cal-day${isWeekend(ds) ? " weekend" : ""}`} key={ds}>{day}</span>;
                     return (
                       <button
                         key={ds}
@@ -119,7 +120,7 @@ export default function PapanBrowser({
                     );
                   })}
                 </div>
-                <div className="cal-legend mono"><span className="pip" /> ada run · pilih untuk telusuri</div>
+                <div className="cal-legend mono"><span className="pip" /> ada run · <span className="we-key">Sab/Min</span> bursa tutup</div>
               </div>
             </div>
           )}

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { bandMeta } from "@/lib/bands";
-import { fmtDate } from "@/lib/format";
+import { fmtDate, wibTime } from "@/lib/format";
 import type { ActivityEvent } from "@/lib/activity";
 
 const SIG: Record<string, string> = {
@@ -9,13 +9,6 @@ const SIG: Record<string, string> = {
   alert: "var(--sig-alert)",
   high: "var(--sig-danger)",
 };
-
-function timeLabel(ts: string): string {
-  const m = ts.match(/T(\d{2}):(\d{2}):\d{2}([+-]\d{2})/);
-  if (!m) return "";
-  const zone = m[3] === "+07" ? "WIB" : m[3] === "+00" ? "UTC" : `UTC${m[3]}`;
-  return `${m[1]}:${m[2]} ${zone}`;
-}
 
 export default function ActivityFeed({ events }: { events: ActivityEvent[] }) {
   if (events.length === 0) return null;
@@ -39,7 +32,7 @@ function SweepRow({ e }: { e: ActivityEvent }) {
     <div className="feed-row">
       <span className="fr-dot" style={{ background: "var(--accent)" }} />
       <div className="fr-body">
-        <div className="fr-time mono">{fmtDate(e.date)} · {timeLabel(e.ts)}</div>
+        <div className="fr-time mono">{fmtDate(e.date)} · {wibTime(e.ts)}</div>
         <div className="fr-title">Sapuan Tier-1 <span className="fr-kind mono">cron</span></div>
         <div className="fr-detail">
           <span className="mono">{e.candidates}</span> kandidat ditandai · <span className="mono">{e.credits ?? 0}</span> kredit
@@ -56,7 +49,7 @@ function InvRow({ e }: { e: ActivityEvent }) {
     <div className="feed-row">
       <span className="fr-dot" style={{ background: color }} />
       <div className="fr-body">
-        <div className="fr-time mono">{fmtDate(e.date)} · {timeLabel(e.ts)}</div>
+        <div className="fr-time mono">{fmtDate(e.date)} · {wibTime(e.ts)}</div>
         <div className="fr-title">
           Investigasi{" "}
           {e.id ? <Link href={`/investigasi/${e.id}`}>{e.symbol}</Link> : <span>{e.symbol}</span>}{" "}
