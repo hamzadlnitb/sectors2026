@@ -1,0 +1,120 @@
+{
+  "generated_at": "2026-09-19T04:58:21+00:00",
+  "events": [
+    {
+      "ts": "2026-09-18T14:35:35+00:00",
+      "date": "2026-09-18",
+      "kind": "sweep",
+      "candidates": 15,
+      "credits": 5
+    },
+    {
+      "ts": "2026-09-17T15:10:31+00:00",
+      "date": "2026-09-17",
+      "kind": "sweep",
+      "candidates": 15,
+      "credits": 5
+    },
+    {
+      "ts": "2026-09-16T15:07:31+00:00",
+      "date": "2026-09-16",
+      "kind": "sweep",
+      "candidates": 15,
+      "credits": 5
+    },
+    {
+      "ts": "2026-09-15T15:10:16+00:00",
+      "date": "2026-09-15",
+      "kind": "sweep",
+      "candidates": 15,
+      "credits": 5
+    },
+    {
+      "ts": "2026-09-14T16:27:31+00:00",
+      "date": "2026-09-14",
+      "kind": "sweep",
+      "candidates": 15,
+      "credits": 5
+    },
+    {
+      "ts": "2026-09-11T14:32:35+00:00",
+      "date": "2026-09-11",
+      "kind": "sweep",
+      "candidates": 15,
+      "credits": 5
+    },
+    {
+      "ts": "2026-09-10T14:33:58+00:00",
+      "date": "2026-09-10",
+      "kind": "sweep",
+      "candidates": 15,
+      "credits": 5
+    },
+    {
+      "ts": "2026-09-09T17:30:00+07:00",
+      "date": "2026-09-09",
+      "kind": "investigation",
+      "id": "SCCO-2026-09-09",
+      "symbol": "SCCO",
+      "band": "perhatian",
+      "pantau_score": 59,
+      "steps": 2,
+      "credits": 0,
+      "savings_pct": 100,
+      "moments": [
+        "early_stop"
+      ]
+    },
+    {
+      "ts": "2026-09-09T17:30:00+07:00",
+      "date": "2026-09-09",
+      "kind": "investigation",
+      "id": "TRUK-2026-09-09",
+      "symbol": "TRUK",
+      "band": "normal",
+      "pantau_score": 20,
+      "steps": 2,
+      "credits": 0,
+      "savings_pct": 100,
+      "moments": [
+        "early_stop"
+      ]
+    },
+    {
+      "ts": "2026-09-09T17:30:00+07:00",
+      "date": "2026-09-09",
+      "kind": "investigation",
+      "id": "JAWA-2026-09-09",
+      "symbol": "JAWA",
+      "band": "normal",
+      "pantau_score": 16,
+      "steps": 1,
+      "credits": 0,
+      "savings_pct": 100,
+      "moments": [
+        "early_stop"
+      ]
+    },
+    {
+      "ts": "2026-09-09T14:43:41+00:00",
+      "date": "2026-09-09",
+      "kind": "sweep",
+      "candidates": 15,
+      "credits": 5
+    },
+    {
+      "ts": "2026-09-08T20:30:32+00:00",
+      "date": "2026-09-08",
+      "kind": "sweep",
+      "candidates": 0,
+      "credits": 5
+    },
+    {
+      "ts": "2026-09-08T13:11:05+00:00",
+      "date": "2026-09-07",
+      "kind": "sweep",
+      "candidates": 0,
+      "credits": 0
+    }
+  ]
+}

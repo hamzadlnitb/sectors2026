@@ -1,7 +1,9 @@
 import Link from "next/link";
 import SearchBox from "@/components/SearchBox";
 import InvestigationCard from "@/components/InvestigationCard";
+import ActivityFeed from "@/components/ActivityFeed";
 import { loadIndex, symbolToId } from "@/lib/transcript";
+import { loadActivity } from "@/lib/activity";
 import "./landing.css";
 
 const PROCESS = [
@@ -25,6 +27,7 @@ export default function Landing() {
   const rows = index.investigations.slice(0, 6);
   const flagged = index.investigations.filter((e) => e.band === "waspada" || e.band === "sangat_waspada").length;
   const escalated = index.investigations.filter((e) => e.moments.includes("escalation")).length;
+  const activity = loadActivity();
 
   return (
     <main>
@@ -101,6 +104,8 @@ export default function Landing() {
           <Link href="/papan">Lihat Papan Waspada →</Link>
         </div>
       </section>
+
+      <ActivityFeed events={activity.events.slice(0, 12)} />
 
       <div className="footnote">
         zero API &amp; LLM calls at runtime · web hanya memutar ulang transkrip investigasi tersimpan

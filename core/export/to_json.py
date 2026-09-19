@@ -193,6 +193,36 @@ def write_watchlists(check_only: bool) -> list[dict]:
     return dates
 
 
+def build_activity(summaries: list[dict], watch_dates: list[dict]) -> dict:
+    """Feed aktivitas agen (kronologis) untuk dashboard #4 — gabungan sapuan
+    Tier-1 harian (Melco) + investigasi agen (Hamzah). Statis, dari runs/."""
+    events: list[dict] = []
+    for w in watch_dates:
+        events.append({
+            "ts": w.get("generated_at") or f"{w['as_of']}T00:00:00+00:00",
+            "date": w["as_of"],
+            "kind": "sweep",
+            "candidates": w.get("candidates", 0),
+            "credits": w.get("credits_spent"),
+        })
+    for s in summaries:
+        events.append({
+            "ts": f"{s['as_of']}T17:30:00+07:00",  # EOD WIB (transkrip hanya bertanggal)
+            "date": s["as_of"],
+            "kind": "investigation",
+            "id": s["id"],
+            "symbol": s["symbol"],
+            "band": s["band"],
+            "pantau_score": s["pantau_score"],
+            "steps": s["steps"],
+            "credits": s["credits_total"],
+            "savings_pct": s["savings_pct"],
+            "moments": s["moments"],
+        })
+    events.sort(key=lambda e: e["ts"], reverse=True)
+    return {"generated_at": datetime.now(UTC).isoformat(timespec="seconds"), "events": events}
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Ekspor transkrip + watchlist ke web/public/data")
     ap.add_argument("--check", action="store_true", help="validasi saja, jangan tulis")
@@ -214,7 +244,11 @@ def main() -> int:
         (WEB_DATA / "index.json").write_text(
             json.dumps(index, ensure_ascii=False, indent=2), encoding="utf-8"
         )
-        print(f"\n→ {len(summaries)} investigasi, {len(watch_dates)} watchlist ditulis ke {WEB_DATA.relative_to(ROOT)}")
+        activity = build_activity(summaries, watch_dates)
+        (WEB_DATA / "activity.json").write_text(
+            json.dumps(activity, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        print(f"\n→ {len(summaries)} investigasi, {len(watch_dates)} watchlist, {len(activity['events'])} aktivitas ditulis ke {WEB_DATA.relative_to(ROOT)}")
 
     if failed:
         print("\n✗ ada transkrip yang tidak lolos kontrak — tidak diekspor.")
