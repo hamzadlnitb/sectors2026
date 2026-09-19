@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { loadIndex, loadInvestigation } from "@/lib/transcript";
 import "./metodologi.css";
+
+export const metadata: Metadata = {
+  title: "Metodologi",
+  description: "Enam komponen skor PANTAU, bobot hasil kalibrasi, angka validasi, dan batasan yang diakui terbuka.",
+};
 
 const COMPONENTS = [
   { code: "BCI", name: "Broker Concentration Index", q: "Berapa persen net buy dikuasai 3 broker teratas? (HHI)", src: "fetch-broker-summary-top" },

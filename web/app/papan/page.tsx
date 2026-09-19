@@ -1,9 +1,15 @@
+import type { Metadata } from "next";
 import PapanBrowser, { type InvRef, type PapanRun } from "@/components/PapanBrowser";
 import type { Band } from "@/lib/bands";
 import { loadIndex } from "@/lib/transcript";
 import { loadWatchlist, loadWatchlistDates } from "@/lib/watchlist";
 import { wibTime } from "@/lib/format";
 import "./papan.css";
+
+export const metadata: Metadata = {
+  title: "Papan Waspada",
+  description: "Arsip run otonom bertanggal — watchlist kandidat hasil sapuan Tier-1 harian, bisa ditelusuri mundur.",
+};
 
 export default function PapanPage() {
   const index = loadIndex();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import ChatPanel from "@/components/ChatPanel";
 import { bandMeta } from "@/lib/bands";
@@ -14,6 +14,19 @@ import type { IndexEntry } from "@/lib/transcript";
 export default function LandingChat({ items, mode = "static" }: { items: IndexEntry[]; mode?: "static" | "live" }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const fabRef = useRef<HTMLButtonElement>(null);
+  const popRef = useRef<HTMLDivElement>(null);
+
+  // Buka → fokus ke input; Escape → tutup & kembalikan fokus ke tombol pemicu.
+  useEffect(() => {
+    if (!open) return;
+    popRef.current?.querySelector("input")?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { setOpen(false); fabRef.current?.focus(); }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
 
   function resolveTool(ref: ToolRef): (() => void) | undefined {
     if (ref.kind === "route") return () => router.push(ref.id);
@@ -104,6 +117,7 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
   return (
     <>
       <button
+        ref={fabRef}
         className={`chat-fab ${open ? "hide" : ""}`}
         onClick={() => setOpen(true)}
         aria-label="Buka chat — tanya agen"
@@ -116,7 +130,7 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
         Tanya agen
       </button>
 
-      <div className={`chat-pop ${open ? "open" : ""}`} role="dialog" aria-label="Chat — tanya agen" aria-hidden={!open}>
+      <div ref={popRef} className={`chat-pop ${open ? "open" : ""}`} role="dialog" aria-modal="false" aria-label="Chat — tanya agen" aria-hidden={!open} inert={!open}>
         <div className="chat-pop-head">
           <span className="ttl">Coba tanya agen <span className="n">{"//"} hasil hari ini</span></span>
           <button className="cx" onClick={() => setOpen(false)} aria-label="Tutup chat">

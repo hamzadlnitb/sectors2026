@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import ReplayTimeline, { type RenderStep } from "@/components/ReplayTimeline";
 import EvidenceVerdict from "@/components/EvidenceVerdict";
@@ -18,6 +19,15 @@ const ARC = "M20 150 A120 120 0 0 1 260 150";
 
 export function generateStaticParams() {
   return listInvestigationIds().map((id) => ({ id }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const t = loadInvestigation(id);
+  const band = bandMeta(t.band);
+  const title = `Investigasi ${t.symbol} — ${band.label}`;
+  const description = `Skor PANTAU ${t.pantau_score}/100 (${band.label}) untuk ${t.symbol} · ${t.steps.length} langkah investigasi otonom, tiap angka tertelusuri ke buktinya. Bukan saran investasi.`;
+  return { title, description, openGraph: { title, description }, twitter: { title, description } };
 }
 
 export default async function InvestigationPage({ params }: { params: Promise<{ id: string }> }) {

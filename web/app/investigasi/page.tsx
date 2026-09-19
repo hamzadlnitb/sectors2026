@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import InvestigationCard from "@/components/InvestigationCard";
 import { loadIndex } from "@/lib/transcript";
+
+export const metadata: Metadata = {
+  title: "Semua investigasi",
+  description: "Arsip investigasi otonom PANTAU atas saham IDX — skor, band, dan jejak penalaran tiap emiten.",
+};
 
 export default function InvestigasiIndex() {
   const { investigations } = loadIndex();

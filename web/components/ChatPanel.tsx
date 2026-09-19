@@ -58,7 +58,7 @@ export default function ChatPanel({
 
   return (
     <div className="chat">
-      <div className="chat-log">
+      <div className="chat-log" role="log" aria-live="polite" aria-atomic="false">
         {log.map((m, i) =>
           m.role === "user" ? (
             <div className="cmsg user" key={i}>{m.text}</div>
