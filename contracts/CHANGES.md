@@ -39,6 +39,64 @@ _(kosong — tidak ada permintaan perubahan yang menggantung)_
 
 ## Riwayat
 
+### C5 · 12 Sep 2026 · Tanggapan Hamzah atas C4, dan batas kalibrasi yang sebenarnya
+
+**C4 diterima.** Ongkosnya nol, dan alasan revisi 10 Sep lebih jujur daripada yang
+8 Sep: ini bukan penyelamat kalibrasi, melainkan penjaga riwayat yang baru mulai
+dikumpulkan. Dengan PK `(symbol)`, tarikan kedua menimpa yang pertama dan riwayat
+tidak pernah terbentuk — bahkan riwayat yang kita bangun sendiri. Itu argumen yang
+berdiri sendiri. Tidak ada pembatalan yang diajukan.
+
+Soal caranya: keputusan sepihak menjelang beku, dicatat terbuka, dengan jalan
+pulang satu baris DDL. Itu penanganan yang benar untuk perubahan berongkos nol,
+dan mencatatnya apa adanya lebih berharga daripada persetujuan formal yang
+terlambat.
+
+#### Konsekuensi yang lebih besar daripada C4 itu sendiri
+
+Temuan Melco — `fetch-free-float` tidak mengirim tanggal berlaku — gua verifikasi
+langsung dengan menjalankan probe pada dua tanggal acuan:
+
+| Probe | `as_of` 2026-08-20 | `as_of` 2026-09-11 |
+| --- | --- | --- |
+| `free_float` | n/a | 94 |
+| `broker_concentration` | n/a | 38 |
+| `volume_anomaly` | 100 | 16 |
+
+Saringan point-in-time bekerja persis seperti seharusnya, dan justru itu yang
+memperlihatkan batasnya: **FFS dan BCI tidak bisa dihitung pada tanggal lampau,
+jadi keduanya tidak bisa ikut kalibrasi historis.** Untuk FFS ini permanen —
+Sectors hanya menyediakan angka terkini, dan tidak ada jumlah kredit yang bisa
+membelinya. Untuk BCI ini soal kredit, tapi dengan hanya 18 emiten tersuspend yang
+punya riwayat harga, kalibrasinya tetap di bawah ambang 30 positif.
+
+**Keputusan, sebagai pemilik lajur kalibrasi:** berhenti mengejar kalibrasi
+historis untuk FFS dan BCI. Bobot keduanya (0,18 + 0,25 = **0,43 dari total**)
+tetap prior domain, dinyatakan terbuka di halaman Metodologi dan di
+`reports/validation.md`. Angka 1 dilaporkan apa adanya sebagai terkalibrasi atas
+**empat dari enam komponen**. Melebih-lebihkannya akan ditangkap juri praktisi
+pasar dalam sedetik; mengakuinya duluan justru menambah kredibilitas. `[T7]`
+
+#### Yang TIDAK terhambat — dan ini membalik prioritas
+
+Angka 2 (efisiensi perutean agen) berjalan pada `as_of` terkini, bukan lampau.
+Pada tanggal terkini **keenam probe hidup**, seperti terlihat di kolom kanan tabel
+di atas. Jadi:
+
+* **H3 eval agen TIDAK terhambat backfill historis.** Bisa dimulai sekarang.
+* Angka 2 tidak bergantung pada bobot terkalibrasi: ia mengukur kesepakatan band
+  antar-lengan eval, dan seluruh lengan memakai bobot yang sama.
+* Yang dibutuhkan hanya **keluasan** `broker_summary` pada tanggal terkini: kini
+  16 emiten, sementara 39 emiten punya riwayat harga. Menutup selisihnya ±23
+  panggilan × 2 kredit = **±46 kredit**.
+
+**Akibatnya M7 di `TASK_MELCO.md` — tarikan 24 bulan yang gua minta 10 Sep —
+sebagian besar sia-sia dan gua koreksi sendiri.** Yang berharga tinggal perluasan
+`daily_transaction` (sudah dikerjakan: 16 → 39 emiten) dan `broker_summary`
+terkini yang murah itu. Menarik 24 bulan riwayat broker tidak akan mengangkat
+kalibrasi melewati ambang, dan tidak dibutuhkan Angka 2.
+
+
 ### C4 · 10 Sep 2026 · `free_float` PK jadi `(symbol, as_of)` — DISETUJUI
 
 **Cara persetujuannya, supaya tercatat apa adanya:** Melco memutuskan dan
