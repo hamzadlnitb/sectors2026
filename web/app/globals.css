@@ -179,6 +179,9 @@ section { margin-top: 40px; }
 .cmsg.agent .ctools { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
 .cmsg.agent .ctools button { font-family: var(--font-jbm), monospace; font-size: 11.5px; color: var(--accent); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent); border-radius: 7px; padding: 4px 9px; cursor: pointer; transition: background .18s; }
 .cmsg.agent .ctools button:hover { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+.cmsg.agent .ctools button:disabled { opacity: .5; cursor: default; }
+.cmsg.agent.streaming .ctext::after { content: "▍"; color: var(--accent); margin-left: 1px; animation: chatblink 1s step-end infinite; }
+@keyframes chatblink { 50% { opacity: 0; } }
 .chat-chips { display: flex; flex-wrap: wrap; gap: 7px; padding: 12px clamp(14px, 2.2vw, 20px); border-top: 1px dashed var(--dash); }
 .chat-chips button { font-size: 12.5px; color: var(--muted); background: transparent; border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px; cursor: pointer; transition: border-color .18s, color .18s; }
 .chat-chips button:hover { color: var(--text); border-color: var(--border-strong); }
@@ -221,7 +224,8 @@ section { margin-top: 40px; }
 .chat-pop-head .ttl .n { font-family: var(--font-jbm), monospace; font-size: 10.5px; font-weight: 400; color: var(--dim); margin-left: 4px; }
 .chat-pop-head .cx { display: inline-flex; background: transparent; border: none; color: var(--dim); cursor: pointer; padding: 4px; border-radius: 6px; }
 .chat-pop-head .cx:hover { color: var(--text); background: color-mix(in srgb, var(--text) 8%, transparent); }
-.chat-pop .chat-log { flex: 1; max-height: none; }
+.chat-pop .chat { flex: 1; min-height: 0; display: flex; flex-direction: column; border: none; border-radius: 0; background: transparent; }
+.chat-pop .chat-log { flex: 1; min-height: 0; max-height: none; }
 @media (max-width: 560px) {
   .chat-fab { right: 14px; bottom: 14px; }
   .chat-pop { right: 12px; left: 12px; bottom: 12px; width: auto; max-height: 82vh; }
