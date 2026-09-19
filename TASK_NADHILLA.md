@@ -69,15 +69,20 @@ tests/web/ · tests/export/
 - [x] **Nol kosakata saran finansial** di seluruh teks UI — "beli", "jual", "target harga", "rekomendasi", "cuan", "pasti naik". CI Melco akan menangkapnya, tapi jangan sampai ketahuan CI duluan
 
 ### N5 · Lokalisasi & mobile · 18–22 Sep
-- [ ] Bahasa Indonesia penuh, format IDR, tanggal & jam WIB, kalender bursa `[T14]`
+- [x] Bahasa Indonesia penuh, format IDR, tanggal & jam WIB, kalender bursa `[T14]`
+      · _19 Sep: semua timestamp sweep/Papan kini WIB (helper `wibTime`), kalender bursa (nama hari ID + akhir pekan bursa-tutup), helper `fmtIDR` (data `display` sudah pra-format, tak ada rupiah mentah). ID penuh; chrome EN memang disengaja per keputusan tema._
 - [x] **Mobile-first** — persona kita pegang HP di angkot, bukan Bloomberg terminal `[T1]`
-- [ ] Tukar fixture → transkrip asli dari Hamzah (±18 Sep). Kalau ada yang pecah di sini, berarti kontraknya bocor — laporkan, jangan tambal diam-diam
+- [x] Tukar fixture → transkrip asli dari Hamzah (±18 Sep). Kalau ada yang pecah di sini, berarti kontraknya bocor — laporkan, jangan tambal diam-diam
+      · _19 Sep: `to_json` default real-only; web membaca `runs/investigations/` asli (JAWA/SCCO/TRUK 09-09) — fixtures tak lagi dipakai, tak ada yang pecah (kontrak utuh). ⏳ investigasi tanggal lebih baru/kaya (eskalasi/memori) belum diproduksi Hamzah._
 - [ ] **QA:** uji di HP asli, bukan cuma devtools · teks panjang Bahasa Indonesia tidak merusak layout · halaman tetap terbaca saat transkrip minimal
+      · _19 Sep: teks panjang ✅ (375px, nol overflow horizontal di 4 halaman) · transkrip minimal ✅ (2-langkah render rapi). ❌ tersisa: uji di **HP asli** — butuh deploy Vercel dulu._
 
 ### N6 · Siap rekam · 22–25 Sep
 - [ ] Pilih 3–4 ticker yang **menceritakan sesuatu**: satu normal (agen berhenti cepat), satu waspada penuh, satu dengan eskalasi, satu investigasi ulang yang menunjukkan memori
-- [ ] Pra-muat semua state. **Nol pemuatan lambat di depan kamera** `[T9]`
-- [ ] Buang setiap komponen yang pernah goyah saat dicoba — kelihatan rapi mengalahkan kelihatan lengkap `[T9]`
+- [x] Pra-muat semua state. **Nol pemuatan lambat di depan kamera** `[T9]`
+      · _19 Sep: export statis (AD-1) — nol fetch runtime, font self-hosted `display:swap`; tak ada state loading yang bisa lambat._
+- [x] Buang setiap komponen yang pernah goyah saat dicoba — kelihatan rapi mengalahkan kelihatan lengkap `[T9]`
+      · _19 Sep: QA sweep semua interaksi (replay, kalender, sitasi bukti, chat, tema, search) — semua stabil, nol error konsol; tak ada yang perlu dibuang._
 - [ ] Verifikasi URL Vercel dari **incognito dan HP**, bukan dari laptop yang sudah login
 - [ ] 🔒 **Feature freeze 25 Sep** — setelah ini hanya bugfix
 
