@@ -127,27 +127,3 @@
 .cite { color: var(--accent); font-family: var(--font-jbm), monospace; font-size: 0.88em; font-weight: 500; cursor: pointer; border: none; background: none; padding: 0 1px; border-bottom: 1px dotted var(--dash); }
 .cite:hover { background: var(--accent-soft); }
 .cite:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-/* chat walkthrough — "Tanya agen" (static, grounded ke transkrip) */
-.agentchat { margin-top: clamp(28px, 4vw, 44px); }
-.chat { border: 1px solid var(--border); border-radius: 12px; background: var(--surface); overflow: hidden; }
-.chat-log { display: flex; flex-direction: column; gap: 12px; padding: clamp(14px, 2.2vw, 20px); max-height: 460px; overflow-y: auto; }
-.cmsg { max-width: 80%; font-size: 14px; line-height: 1.55; border-radius: 12px; padding: 10px 13px; }
-.cmsg.user { align-self: flex-end; background: var(--accent); color: var(--on-accent); border-bottom-right-radius: 4px; }
-.cmsg.agent { align-self: flex-start; background: color-mix(in srgb, var(--text) 5%, transparent); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
-.cmsg.agent .ctrace { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-bottom: 7px; }
-.cmsg.agent .tc { font-family: var(--font-jbm), monospace; font-size: 10.5px; color: var(--accent); letter-spacing: .02em; }
-.cmsg.agent .ctext { color: var(--text); }
-.cmsg.agent .ctools { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
-.cmsg.agent .ctools button { font-family: var(--font-jbm), monospace; font-size: 11.5px; color: var(--accent); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent); border-radius: 7px; padding: 4px 9px; cursor: pointer; transition: background .18s; }
-.cmsg.agent .ctools button:hover { background: color-mix(in srgb, var(--accent) 22%, transparent); }
-.chat-chips { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 clamp(14px, 2.2vw, 20px) 12px; border-top: 1px dashed var(--dash); padding-top: 12px; }
-.chat-chips button { font-size: 12.5px; color: var(--muted); background: transparent; border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px; cursor: pointer; transition: border-color .18s, color .18s; }
-.chat-chips button:hover { color: var(--text); border-color: var(--border-strong); }
-.chat-input { display: flex; gap: 8px; padding: 0 clamp(14px, 2.2vw, 20px) clamp(14px, 2.2vw, 20px); }
-.chat-input input { flex: 1; font-size: 14px; color: var(--text); background: var(--inset); border: 1px solid var(--border); border-radius: 9px; padding: 9px 12px; }
-.chat-input input::placeholder { color: var(--dim); }
-.chat-input input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-.chat-input button { font-family: var(--font-jbm), monospace; font-size: 12.5px; color: var(--on-accent); background: var(--accent); border: none; border-radius: 9px; padding: 9px 15px; cursor: pointer; flex-shrink: 0; }
-.chat-input button:hover { filter: brightness(1.06); }
-@media (max-width: 560px) { .cmsg { max-width: 92%; } }
