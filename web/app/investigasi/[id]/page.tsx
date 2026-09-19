@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ReplayTimeline, { type RenderStep } from "@/components/ReplayTimeline";
 import EvidenceVerdict from "@/components/EvidenceVerdict";
+import AgentChat from "@/components/AgentChat";
 import { bandMeta } from "@/lib/bands";
 import { fmtDate } from "@/lib/format";
 import {
@@ -133,6 +134,21 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
 
       {/* ── Evidence + verdict ── */}
       <EvidenceVerdict evidence={t.evidence} narrative={t.narrative} narrativeSource={t.narrative_source} />
+
+      {/* ── Chat walkthrough (static, grounded ke transkrip) ── */}
+      <AgentChat
+        symbol={t.symbol}
+        band={t.band}
+        score={t.pantau_score}
+        confidence={t.confidence}
+        creditsTotal={t.credits_total}
+        baseline={t.baseline_credits}
+        savings={savingsPct(t)}
+        steps={t.steps}
+        evidence={t.evidence}
+        moments={moments}
+        memoryRef={t.memory_ref ?? null}
+      />
 
       <div className="footnote">zero API &amp; LLM calls at runtime · replays a stored transcript · {t.symbol} · {t.weights_version}</div>
     </main>
