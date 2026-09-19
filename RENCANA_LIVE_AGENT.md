@@ -150,10 +150,10 @@ Bentuk `EvidenceEntry`/`step`/`verdict` = **persis `contracts/schemas.py`** supa
 
 **Fase A · statis, tak menunggu siapa pun:**
 - [x] **#4 Log aktivitas agen** — `to_json` → `activity.json`; `ActivityFeed` di landing.
-- [ ] **Chat walkthrough statis** — panel chat di halaman Investigasi; jawaban dari langkah/bukti transkrip; tombol-tool buka bukti/lompat langkah. Nol backend.
-- [ ] **Live trail component** — reasoning trail yang bisa distream (mode replay sekarang; dipakai ulang untuk WS).
-- [ ] **Finalisasi kontrak middleware §6** → kirim ke Hamzah/Melco.
-- [ ] **Ajukan perubahan AD-1** di `contracts/CHANGES.md` (dua-bidang).
+- [x] **Chat walkthrough statis** — `AgentChat` (halaman Investigasi, grounded ke transkrip, tombol-tool buka bukti/lompat langkah) + `LandingChat` (widget mengambang level-sistem di landing). Nol backend, dibuat mengikuti bentuk `Answer` kontrak agar live jadi drop-in.
+- [~] **Live trail component** — `ReplayTimeline` (mode replay) sudah dipetakan ke event `investigate` di kontrak §5; tinggal sambungkan sumber WS bila live dikejar.
+- [x] **Finalisasi kontrak middleware** → [`docs/MIDDLEWARE_CONTRACT.md`](docs/MIDDLEWARE_CONTRACT.md) v1 (peta event→UI statis, gerbang keamanan, pagu, siklus sesi). §6 di bawah kini digantikan dokumen itu.
+- [x] **Ajukan perubahan AD-1** → entri **C6** di [`contracts/CHANGES.md`](contracts/CHANGES.md) (aditif, nol perubahan bentuk, menunggu sign-off bertiga).
 
 **Fase B · kalau live dikejar:**
 - [ ] **Middleware shell** (FastAPI): `/health`, `/activity`, WS echo/replay.
