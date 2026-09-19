@@ -13,6 +13,7 @@ export default function ThemeToggle() {
     const isDark = attr
       ? attr === "dark"
       : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- sinkronkan sekali dengan tema DOM/OS saat mount (tak bisa dibaca saat SSR)
     setDark(isDark);
   }, []);
 

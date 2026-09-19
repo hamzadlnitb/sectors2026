@@ -1,7 +1,10 @@
 import Link from "next/link";
 import SearchBox from "@/components/SearchBox";
 import InvestigationCard from "@/components/InvestigationCard";
+import ActivityFeed from "@/components/ActivityFeed";
+import LandingChat from "@/components/LandingChat";
 import { loadIndex, symbolToId } from "@/lib/transcript";
+import { loadActivity } from "@/lib/activity";
 import "./landing.css";
 
 const PROCESS = [
@@ -25,6 +28,7 @@ export default function Landing() {
   const rows = index.investigations.slice(0, 6);
   const flagged = index.investigations.filter((e) => e.band === "waspada" || e.band === "sangat_waspada").length;
   const escalated = index.investigations.filter((e) => e.moments.includes("escalation")).length;
+  const activity = loadActivity();
 
   return (
     <main>
@@ -47,7 +51,7 @@ export default function Landing() {
       </section>
 
       <section>
-        <div className="sec-label"><h2>Cara kerja</h2><span className="n">// detect · investigate · explain</span></div>
+        <div className="sec-label"><h2>Cara kerja</h2><span className="n">{"//"} detect · investigate · explain</span></div>
         <div className="process">
           {PROCESS.map((p) => (
             <div className="pstep" key={p.n}>
@@ -60,7 +64,7 @@ export default function Landing() {
       </section>
 
       <section>
-        <div className="sec-label"><h2>Enam sinyal yang dicek</h2><span className="n">// enam komponen skor</span></div>
+        <div className="sec-label"><h2>Enam sinyal yang dicek</h2><span className="n">{"//"} enam komponen skor</span></div>
         <div className="signals">
           {SIGNALS.map((s) => (
             <div className="sig" key={s.code}>
@@ -102,14 +106,10 @@ export default function Landing() {
         </div>
       </section>
 
-      <div className="disclaimer">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-          <circle cx="12" cy="12" r="9.5" />
-          <path d="M12 8v5" strokeLinecap="round" />
-          <circle cx="12" cy="16.4" r="0.4" fill="currentColor" stroke="none" />
-        </svg>
-        PANTAU adalah alat informasi dan analisis, bukan saran investasi.
-      </div>
+      <LandingChat items={index.investigations} />
+
+      <ActivityFeed events={activity.events.slice(0, 12)} />
+
       <div className="footnote">
         zero API &amp; LLM calls at runtime · web hanya memutar ulang transkrip investigasi tersimpan
       </div>

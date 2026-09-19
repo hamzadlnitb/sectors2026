@@ -33,7 +33,39 @@ fixture dan transkrip lama ketahuan basi.
 
 ## Diajukan
 
-_(kosong — tidak ada permintaan perubahan yang menggantung)_
+### C6 · 19 Sep 2026 · Perluasan kebijakan AD-1 — bidang live additive (chat + investigate) · **DIAJUKAN, menunggu sign-off bertiga**
+
+**Pengaju:** Nadhilla (lajur Web). **Bukan perubahan bentuk data** — `schema_version` tetap `1.0`,
+tak satu pun field `schemas.py` berubah. Yang berubah hanya **kebijakan AD-1**, karena AD-1
+menyentuh cara ketiga lajur menilai "boleh ada runtime atau tidak", jadi wajib lewat sini.
+
+**Apa yang diajukan.** AD-1 lama berbunyi *"web hanya membaca JSON statis; nol panggilan API/LLM
+saat runtime"*. Diusulkan **diperluas, bukan dibuang**, jadi:
+
+> **Jalur yang DINILAI (deploy statis) tak pernah butuh runtime.** Chat/investigate **live**
+> adalah **bidang tambahan opsional** lewat middleware; kalau middleware mati, frontend
+> **degrade anggun** ke walkthrough statis. Bidang beku 25 Sep tetap satu-satunya yang dinilai.
+
+Kontrak teknis bidang live ada di [`docs/MIDDLEWARE_CONTRACT.md`](../docs/MIDDLEWARE_CONTRACT.md) (v1) —
+di luar `contracts/`, jadi tak menyentuh berkas beku. Event live memakai bentuk `Step`/`EvidenceEntry`/
+verdict **persis v1.0** (dikutip, bukan diubah).
+
+**Dampak ke lajur lain.**
+- **Hamzah:** perlu entrypoint yang men-*stream* langkah agen + mode chat/QA grounded (reuse
+  `narrative/validate.py`) — **kode baru, tak mengubah kontrak**. Boleh dikerjakan hanya kalau live dikejar.
+- **Melco:** hosting middleware always-on (bukan Vercel) + `CreditAwareClient` termeter — infra baru,
+  tak mengubah kontrak.
+- **Nadhilla:** client WS + degrade `/health`; komponen chat statis sudah dibuat mengikuti bentuk
+  `Answer` di kontrak agar live jadi drop-in.
+
+**Kenapa aman menjelang beku.** Ongkos menolak = nol (bidang statis sudah lengkap & cukup untuk
+submit; live murni stretch). Ongkos salah = rendah: kalau live tak jadi, dokumen tetap berlaku
+sebagai spesifikasi, tak ada kode beku yang terlanjur berubah. **Kalau ragu waktu → tolak C6,
+kirim statis saja.**
+
+**Yang diminta:** persetujuan Hamzah + Melco atas perluasan kebijakan (bukan atas kode). Kalau
+setuju, pindahkan ke Riwayat dengan tanggal + commit. Kalau ada yang keberatan, live dibatalkan
+dan submit tetap jalan dengan bidang statis.
 
 ---
 

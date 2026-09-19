@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import InvestigationCard from "@/components/InvestigationCard";
 import { loadIndex } from "@/lib/transcript";
+
+export const metadata: Metadata = {
+  title: "Semua investigasi",
+  description: "Arsip investigasi otonom PANTAU atas saham IDX — skor, band, dan jejak penalaran tiap emiten.",
+};
 
 export default function InvestigasiIndex() {
   const { investigations } = loadIndex();
@@ -8,7 +14,7 @@ export default function InvestigasiIndex() {
     <main>
       <div className="sec-label">
         <h2>Investigasi</h2>
-        <span className="n">// {investigations.length} tersimpan · diputar ulang dari transkrip</span>
+        <span className="n">{"//"} {investigations.length} tersimpan · diputar ulang dari transkrip</span>
       </div>
 
       {investigations.length === 0 ? (

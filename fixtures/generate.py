@@ -256,9 +256,95 @@ def fix_c() -> InvestigationTranscript:
     )
 
 
+# ── FIXD — campuran: enam langkah, ketiga jenis finding, narasi template ──────
+# Menutup QA UI: `refuted` + `inconclusive` + `confirmed` dalam satu transkrip,
+# jumlah langkah maksimal realistis (6 probe, tiap probe sekali), dan
+# narrative_source="template" untuk menguji badge fallback deterministik.
+def fix_d() -> InvestigationTranscript:
+    evidence = [
+        ev("bci.top3_share", "Pangsa net buy 3 broker teratas", 0.71, "71%",
+           "broker_concentration", "fetch-broker-summary-top",
+           {"symbol": "FIXD", "start": "2026-08-22", "end": "2026-09-05"}, "rest", 4),
+        ev("bci.hhi", "Indeks Herfindahl konsentrasi broker", 0.28, "0,28",
+           "broker_concentration", "fetch-broker-summary",
+           {"symbol": "FIXD", "start": "2026-08-22", "end": "2026-09-05"}, "rest", 2),
+        ev("vas.zscore", "Z-score volume vs baseline 90 hari", 4.2, "4,2σ",
+           "volume_anomaly", "fetch-daily-transaction",
+           {"symbol": "FIXD", "start": "2026-06-08", "end": "2026-09-05"}, "rest", 2),
+        ev("pfd.return_90d", "Return 90 hari", 0.58, "+58%",
+           "price_fundamental", "fetch-close", {"date": "2026-09-05"}, "rest", 2),
+        ev("pfd.earnings_change", "Perubahan laba bersih year-on-year", -0.03, "-3%",
+           "price_fundamental", "fetch-quarterly-financials",
+           {"symbol": "FIXD", "n_quarters": 8}, "mcp", 2),
+        ev("ffs.pct", "Free float", 0.09, "9%",
+           "free_float", "fetch-free-float", {"sub_sector": "technology"}, "mcp", 2),
+        ev("sss.insider_sells", "Transaksi jual insider 90 hari", 2, "2 transaksi",
+           "structural", "fetch-filings",
+           {"symbol": "FIXD", "transaction_type": "sell", "start": "2026-06-08"}, "mcp", 5),
+    ]
+    # FRD (foreign_flow) dijalankan tapi menyerah: tak berskor, tak berbukti.
+    scores = {"BCI": 72.0, "VAS": 65.0, "PFD": 40.0, "FFS": 80.0, "SSS": 58.0}
+    score, conf = composite(scores)
+    return InvestigationTranscript(
+        symbol="FIXD", as_of=AS_OF, weights_version=WEIGHTS_VERSION,
+        plan=Plan(
+            hypotheses=[
+                Hypothesis(id="h1", claim="Perdagangan terkonsentrasi di sedikit broker",
+                           probes=["broker_concentration"], priority=1),
+                Hypothesis(id="h2", claim="Volume tidak wajar tanpa dukungan fundamental",
+                           probes=["volume_anomaly", "price_fundamental"], priority=2),
+                Hypothesis(id="h3", claim="Saham beredar langka dan asing mendistribusikan",
+                           probes=["free_float", "foreign_flow", "structural"], priority=3),
+            ],
+            credit_budget_requested=24,
+            rationale="Sinyal Tier-1 campur: konsentrasi broker tinggi tapi kenaikan harga moderat. "
+                      "Jalankan semua jalur untuk memastikan tidak ada yang terlewat.",
+        ),
+        steps=[
+            Step(step=1, hypothesis="h1", probe="broker_concentration", finding="confirmed",
+                 next_action="continue", reason="71% net buy dikuasai tiga broker. Konsentrasi tinggi.",
+                 credits_spent=6, credits_remaining=18),
+            Step(step=2, hypothesis="h2", probe="volume_anomaly", finding="confirmed",
+                 next_action="continue", reason="Volume 4,2σ di atas baseline.",
+                 credits_spent=2, credits_remaining=16),
+            Step(step=3, hypothesis="h2", probe="price_fundamental", finding="refuted",
+                 next_action="continue",
+                 reason="Return +58% masih sejalan dengan laba yang hanya turun 3%. Divergensi lemah; "
+                        "hipotesis 'tanpa dukungan fundamental' terbantah.",
+                 credits_spent=4, credits_remaining=12),
+            Step(step=4, hypothesis="h3", probe="free_float", finding="confirmed",
+                 next_action="continue", reason="Free float 9% — cukup langka untuk digerakkan.",
+                 credits_spent=2, credits_remaining=10),
+            Step(step=5, hypothesis="h3", probe="foreign_flow", finding="inconclusive",
+                 next_action="continue",
+                 reason="Data arus asing 30 hari tidak lengkap pada tanggal acuan; probe menyerah "
+                        "tanpa sub-skor. Jalur bukti ini tidak konklusif dan dikeluarkan dari skor.",
+                 credits_spent=3, credits_remaining=7),
+            Step(step=6, hypothesis="h3", probe="structural", finding="confirmed",
+                 next_action="conclude",
+                 reason="Dua transaksi jual insider dalam 90 hari. Bukti sudah cukup untuk menyimpulkan.",
+                 credits_spent=5, credits_remaining=2),
+        ],
+        evidence=evidence,
+        components=components(scores, {
+            "BCI": ["bci.top3_share", "bci.hhi"], "VAS": ["vas.zscore"],
+            "PFD": ["pfd.return_90d", "pfd.earnings_change"], "FFS": ["ffs.pct"],
+            "SSS": ["sss.insider_sells"],
+        }),
+        pantau_score=score, band=band_for_score(score), confidence=conf,
+        credits_total=22, baseline_credits=BASELINE,
+        narrative="Beberapa indikator menunjukkan pola tidak biasa. Bukti yang terkumpul: pangsa net "
+                  "buy tiga broker teratas 71%; volume 4,2σ di atas baseline; return 90 hari +58%; "
+                  "free float 9%; dan 2 transaksi jual insider dalam 90 hari. Satu jalur bukti (arus "
+                  "asing) tidak konklusif dan dikeluarkan dari skor. Seluruh angka di atas berasal "
+                  "dari buku bukti investigasi ini dan bisa ditelusuri ke sumber datanya.",
+        narrative_source="template", disclaimer=DISCLAIMER,
+    )
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    for name, builder in (("normal", fix_a), ("waspada", fix_b), ("eskalasi", fix_c)):
+    for name, builder in (("normal", fix_a), ("waspada", fix_b), ("eskalasi", fix_c), ("campuran", fix_d)):
         t = builder()
         (OUT / f"{name}.json").write_text(t.model_dump_json(indent=2) + "\n")
         print(f"{name}.json  {t.symbol}  skor {t.pantau_score} ({t.band})  "

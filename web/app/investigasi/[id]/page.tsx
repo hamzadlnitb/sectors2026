@@ -1,6 +1,8 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import ReplayTimeline, { type RenderStep } from "@/components/ReplayTimeline";
 import EvidenceVerdict from "@/components/EvidenceVerdict";
+import AgentChat from "@/components/AgentChat";
 import { bandMeta } from "@/lib/bands";
 import { fmtDate } from "@/lib/format";
 import {
@@ -17,6 +19,15 @@ const ARC = "M20 150 A120 120 0 0 1 260 150";
 
 export function generateStaticParams() {
   return listInvestigationIds().map((id) => ({ id }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const t = loadInvestigation(id);
+  const band = bandMeta(t.band);
+  const title = `Investigasi ${t.symbol} — ${band.label}`;
+  const description = `Skor PANTAU ${t.pantau_score}/100 (${band.label}) untuk ${t.symbol} · ${t.steps.length} langkah investigasi otonom, tiap angka tertelusuri ke buktinya. Bukan saran investasi.`;
+  return { title, description, openGraph: { title, description }, twitter: { title, description } };
 }
 
 export default async function InvestigationPage({ params }: { params: Promise<{ id: string }> }) {
@@ -84,7 +95,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
       {/* ── Agentic moments ── */}
       {moments.length > 0 && (
         <section>
-          <div className="sec-label"><h2>Agentic moments</h2><span className="n">// Track 1</span></div>
+          <div className="sec-label"><h2>Agentic moments</h2><span className="n">{"//"} Track 1</span></div>
           <div className="moments">
             {moments.map((m) => <MomentCard key={m.kind} m={m} />)}
           </div>
@@ -102,7 +113,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
 
       {/* ── Plan ── */}
       <section>
-        <div className="sec-label"><h2>Investigation plan</h2><span className="n">// planner</span></div>
+        <div className="sec-label"><h2>Investigation plan</h2><span className="n">{"//"} planner</span></div>
         <div className="panel">
           <div className="plan-top">
             <span className="lbl">{t.plan.hypotheses.length} hypotheses, by priority</span>
@@ -127,19 +138,28 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
 
       {/* ── Reasoning replay ── */}
       <section>
-        <div className="sec-label"><h2>Reasoning replay</h2><span className="n">// investigator</span></div>
+        <div className="sec-label"><h2>Reasoning replay</h2><span className="n">{"//"} investigator</span></div>
         <ReplayTimeline steps={steps} />
       </section>
 
       {/* ── Evidence + verdict ── */}
       <EvidenceVerdict evidence={t.evidence} narrative={t.narrative} narrativeSource={t.narrative_source} />
 
-      <div className="disclaimer">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-          <circle cx="12" cy="12" r="9.5" /><path d="M12 8v5" strokeLinecap="round" /><circle cx="12" cy="16.4" r="0.4" fill="currentColor" stroke="none" />
-        </svg>
-        {t.disclaimer}
-      </div>
+      {/* ── Chat walkthrough (static, grounded ke transkrip) ── */}
+      <AgentChat
+        symbol={t.symbol}
+        band={t.band}
+        score={t.pantau_score}
+        confidence={t.confidence}
+        creditsTotal={t.credits_total}
+        baseline={t.baseline_credits}
+        savings={savingsPct(t)}
+        steps={t.steps}
+        evidence={t.evidence}
+        moments={moments}
+        memoryRef={t.memory_ref ?? null}
+      />
+
       <div className="footnote">zero API &amp; LLM calls at runtime · replays a stored transcript · {t.symbol} · {t.weights_version}</div>
     </main>
   );

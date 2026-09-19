@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { loadIndex, loadInvestigation } from "@/lib/transcript";
 import "./metodologi.css";
+
+export const metadata: Metadata = {
+  title: "Metodologi",
+  description: "Enam komponen skor PANTAU, bobot hasil kalibrasi, angka validasi, dan batasan yang diakui terbuka.",
+};
 
 const COMPONENTS = [
   { code: "BCI", name: "Broker Concentration Index", q: "Berapa persen net buy dikuasai 3 broker teratas? (HHI)", src: "fetch-broker-summary-top" },
@@ -34,7 +40,7 @@ export default function MetodologiPage() {
 
   return (
     <main>
-      <div className="sec-label"><h2>Metodologi</h2><span className="n">// bagaimana skor dibangun</span></div>
+      <div className="sec-label"><h2>Metodologi</h2><span className="n">{"//"} bagaimana skor dibangun</span></div>
 
       <p className="method-lede">
         Agen memutuskan <b>apa</b> yang diselidiki; kode memutuskan <b>berapa</b> skornya. Enam sub-skor
@@ -49,7 +55,7 @@ export default function MetodologiPage() {
       <section>
         <div className="sec-label">
           <h2>Enam komponen</h2>
-          <span className="n">// bobot {version ? `kalibrasi ${version}` : "menunggu kalibrasi"}</span>
+          <span className="n">{"//"} bobot {version ? `kalibrasi ${version}` : "menunggu kalibrasi"}</span>
         </div>
         <div className="panel" style={{ padding: "6px 16px" }}>
           {COMPONENTS.map((c) => {
@@ -75,7 +81,7 @@ export default function MetodologiPage() {
       </section>
 
       <section>
-        <div className="sec-label"><h2>Band interpretasi</h2><span className="n">// ambang</span></div>
+        <div className="sec-label"><h2>Band interpretasi</h2><span className="n">{"//"} ambang</span></div>
         <div className="bands">
           {BANDS.map((b) => (
             <div className="brow" key={b.range}>
@@ -87,7 +93,7 @@ export default function MetodologiPage() {
       </section>
 
       <section>
-        <div className="sec-label"><h2>Dua angka validasi</h2><span className="n">// ini yang bikin menang</span></div>
+        <div className="sec-label"><h2>Dua angka validasi</h2><span className="n">{"//"} dua angka, apa adanya</span></div>
         <div className="vgrid">
           <div className="valcard">
             <div className="vh">
@@ -111,11 +117,15 @@ export default function MetodologiPage() {
               <div className="title">Apakah agennya berarti?</div>
             </div>
             <div className="vb">
-              <Metric label="Hemat kredit vs investigasi menyeluruh" tgt="target ≥ 50%" />
-              <Metric label="Kesepakatan band vs baseline" tgt="target ≥ 90%" />
-              <Metric label="Presisi eskalasi" tgt="probe di luar rencana yang mengubah band" />
-              <Metric label="Ablasi vs urutan tetap & acak" tgt="agen harus mengalahkan keduanya" />
-              <div className="vnote"><b>Menunggu eval agen</b> — <b>evals/</b> belum dijalankan.</div>
+              <Metric label="Hemat kredit vs investigasi menyeluruh" value="60,2%" tgt="urutan-tetap juga 60,2% — agen tidak unggul" />
+              <Metric label="Kesepakatan band vs baseline" value="68,8%" tgt="acak 75,0% · target ≥90% tak tercapai" />
+              <Metric label="Presisi eskalasi" value="—" tgt="0 kasus eskalasi pada 16 emiten uji" />
+              <Metric label="Ablasi vs urutan-tetap &amp; acak" value="tak beda" tgt="tak terdeteksi pada n=16" />
+              <div className="vnote">
+                <b>Klaim penghematan dicabut</b> — bukan karena agen kalah, tapi karena pada 16 emiten kebisingan
+                antar-jalan (LLM nondeterministik, ±6–12 pp) sebesar selisih yang diukur: menang vs kalah tak bisa
+                dibedakan. Sumber: <b>reports/agent-eval-ringkasan.md</b>.
+              </div>
             </div>
           </div>
         </div>
@@ -124,14 +134,16 @@ export default function MetodologiPage() {
             <circle cx="12" cy="12" r="9" /><path d="M12 8v4M12 16h.01" strokeLinecap="round" />
           </svg>
           <span>
-            Angka 1 sudah dari kalibrasi split-waktu tapi <b style={{ color: "var(--text)" }}>provisional</b> (sampel kecil).
-            Angka 2 menyusul dari <b style={{ color: "var(--text)" }}>evals/</b> (agen vs menyeluruh vs ablasi). Ditampilkan apa adanya, termasuk kalau mengecewakan.
+            Kedua angka dihitung dan ditampilkan apa adanya — termasuk yang mengecewakan. Angka 1{" "}
+            <b style={{ color: "var(--text)" }}>provisional</b> (sampel kecil); Angka 2 tidak bisa mengklaim keunggulan agen pada
+            ukuran sampel ini. Yang tetap berdiri tanpa Angka 2: pagar agen tertes, ledger kredit ter-commit, validator sitasi,
+            dan transkrip yang bisa diputar ulang identik.
           </span>
         </div>
       </section>
 
       <section>
-        <div className="sec-label"><h2>Batasan yang diakui terbuka</h2><span className="n">// kejujuran = kredibilitas</span></div>
+        <div className="sec-label"><h2>Batasan yang diakui terbuka</h2><span className="n">{"//"} kejujuran = kredibilitas</span></div>
         <div className="limits">
           <div className="limit"><span className="m">01</span><span><b>Suspensi bukan sinonim manipulasi.</b> Himpunan positif kecil; suspensi karena pergerakan tidak wajar hanya proksi terdekat, bukan label sempurna.</span></div>
           <div className="limit"><span className="m">02</span><span><b>FFS bukan point-in-time historis.</b> Sectors hanya menyediakan free float terkini, jadi FFS berperan sebagai sinyal keadaan-terkini — bukan komponen berkalibrasi lintas waktu.</span></div>
@@ -140,12 +152,6 @@ export default function MetodologiPage() {
         </div>
       </section>
 
-      <div className="disclaimer">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-          <circle cx="12" cy="12" r="9.5" /><path d="M12 8v5" strokeLinecap="round" /><circle cx="12" cy="16.4" r="0.4" fill="currentColor" stroke="none" />
-        </svg>
-        PANTAU adalah alat informasi dan analisis, bukan saran investasi.
-      </div>
     </main>
   );
 }
