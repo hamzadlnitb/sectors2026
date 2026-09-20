@@ -31,7 +31,12 @@ export default function Landing() {
   const activity = loadActivity();
 
   return (
-    <main>
+    <main className="lp">
+      <div className="lp-bg" aria-hidden="true">
+        <span className="lp-orb a" />
+        <span className="lp-orb b" />
+        <span className="lp-grid" />
+      </div>
       <section className="hero">
         <span className="eyebrow">
           <span className="live" /> Investigator Agent · IDX

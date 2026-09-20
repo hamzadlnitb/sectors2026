@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { DM_Sans, Inter, JetBrains_Mono } from "next/font/google";
 import TopBar from "@/components/TopBar";
 import SiteDisclaimer from "@/components/SiteDisclaimer";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
 const jbm = JetBrains_Mono({ variable: "--font-jbm", subsets: ["latin"], display: "swap" });
+// DM Sans — dipakai retheme landing bergaya Crypgo (di-scope via .lp di landing.css).
+const dm = DM_Sans({ variable: "--font-dm", subsets: ["latin"], display: "swap" });
 
 const DESC =
   "AI investigator untuk risiko manipulasi & likuiditas saham IDX — menunjukkan bagaimana ia sampai ke kesimpulan. Alat informasi & analisis, bukan saran investasi.";
@@ -37,7 +39,7 @@ const themeInit = `try{var t=localStorage.getItem('pantau-theme');if(t)document.
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="id" className={`${inter.variable} ${jbm.variable}`}>
+    <html lang="id" className={`${inter.variable} ${jbm.variable} ${dm.variable}`}>
       <body>
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         <div className="wrap">
