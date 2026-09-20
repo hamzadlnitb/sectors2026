@@ -66,8 +66,8 @@ export default function EvidenceVerdict({
     <>
       <section>
         <div className="sec-label">
-          <h2>Evidence ledger</h2>
-          <span className="n">{"//"} {evidence.length} entries · each traceable</span>
+          <h2>Buku bukti</h2>
+          <span className="n">{evidence.length} bukti · tiap angka bisa ditelusuri</span>
         </div>
         <div className="ev-list">
           {evidence.map((e) => (
@@ -99,8 +99,8 @@ export default function EvidenceVerdict({
 
       <section>
         <div className="sec-label">
-          <h2>Verdict</h2>
-          <span className="n">{"//"} adjudicator</span>
+          <h2>Kesimpulan</h2>
+          <span className="n">ditulis agen · tervalidasi sitasi</span>
         </div>
         <div className="panel narr">
           {narrativeSource === "llm" ? (
@@ -108,7 +108,7 @@ export default function EvidenceVerdict({
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                 <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>{" "}
-              LLM narrative · passed citation validator
+              Narasi LLM · lolos validasi sitasi
             </span>
           ) : (
             <span className="srcbadge tmpl">

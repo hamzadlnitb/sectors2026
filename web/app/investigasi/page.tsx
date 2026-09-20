@@ -14,7 +14,7 @@ export default function InvestigasiIndex() {
     <main>
       <div className="sec-label">
         <h2>Investigasi</h2>
-        <span className="n">{"//"} {investigations.length} tersimpan · diputar ulang dari transkrip</span>
+        <span className="n">{investigations.length} investigasi tersimpan · diputar dari transkrip</span>
       </div>
 
       {investigations.length === 0 ? (

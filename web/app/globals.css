@@ -4,15 +4,15 @@
 
 @import "tailwindcss";
 
-/* ── Tokens: DARK default (warm terminal) ──────────────────────────── */
+/* ── Tokens: DARK default (navy "Crypgo" — teal accent) ────────────── */
 :root {
-  --bg: #14110C; --surface: #1B1710; --surface-2: #221C14; --inset: #100D08;
-  --border: #332B1E; --border-strong: #463A28;
-  --dash: rgba(79, 158, 142, 0.45);
-  --text: #F0E7D5; --muted: #A99C86; --dim: #6E6350;
-  --accent: #4F9E8E; --accent-bright: #66B8A6; --accent-soft: rgba(79, 158, 142, 0.13); --on-accent: #12100A;
-  --sig-normal: #8FB25A; --sig-watch: #D6A63F; --sig-alert: #E07B3A; --sig-danger: #E0645B;
-  --grid: rgba(79, 158, 142, 0.05);
+  --bg: #080b14; --surface: #0f1626; --surface-2: #14203a; --inset: #0a0f1a;
+  --border: rgba(255, 255, 255, 0.09); --border-strong: rgba(255, 255, 255, 0.17);
+  --dash: rgba(53, 197, 201, 0.32);
+  --text: #eaf0f8; --muted: #9aa7bd; --dim: #64728a;
+  --accent: #35c5c9; --accent-bright: #63d7da; --accent-soft: rgba(53, 197, 201, 0.13); --on-accent: #04141a;
+  --sig-normal: #58cc78; --sig-watch: #e6b13e; --sig-alert: #ec8b45; --sig-danger: #ec6a60;
+  --grid: rgba(255, 255, 255, 0.03);
 }
 :root[data-theme="light"] {
   --bg: #F1EADB; --surface: #FBF6EA; --surface-2: #ECE3D0; --inset: #E7DDC8;
@@ -23,22 +23,19 @@
   --sig-normal: #5E7D3E; --sig-watch: #A8791A; --sig-alert: #C2611F; --sig-danger: #A6301F;
   --grid: rgba(35, 31, 24, 0.045);
 }
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    --bg: #F1EADB; --surface: #FBF6EA; --surface-2: #ECE3D0; --inset: #E7DDC8;
-    --border: #D8CBB0; --border-strong: #C5B693;
-    --dash: rgba(42, 110, 98, 0.5);
-    --text: #231F18; --muted: #6E6552; --dim: #9C9078;
-    --accent: #2A6E62; --accent-bright: #338173; --accent-soft: rgba(42, 110, 98, 0.1); --on-accent: #FBF6EA;
-    --sig-normal: #5E7D3E; --sig-watch: #A8791A; --sig-alert: #C2611F; --sig-danger: #A6301F;
-    --grid: rgba(35, 31, 24, 0.045);
-  }
-}
+/* Default kini navy (Crypgo) untuk semua; mode terang "paper" tetap tersedia
+   sebagai opt-in lewat tombol tema ([data-theme="light"]). Auto-flip OS-light
+   dihapus supaya tampilan navy konsisten di seluruh situs. */
 
 * { box-sizing: border-box; }
 html, body { padding: 0; margin: 0; }
 body {
-  background: var(--bg); color: var(--text);
+  background:
+    radial-gradient(90% 55% at 100% 0%, rgba(53, 197, 201, 0.06), transparent 60%),
+    radial-gradient(80% 50% at 0% 100%, rgba(94, 224, 120, 0.045), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
   font-family: var(--font-inter), Inter, system-ui, sans-serif;
   font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased;
 }
@@ -92,10 +89,10 @@ main { max-width: 1120px; margin: 0 auto; padding: clamp(22px, 4vw, 40px) clamp(
 
 /* ── Section labels ────────────────────────────────────────────────── */
 section { margin-top: 40px; }
-.sec-label { display: flex; align-items: center; gap: 11px; margin-bottom: 16px; font-family: var(--font-jbm), monospace; }
-.sec-label h2 { font-size: 12.5px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); margin: 0; white-space: nowrap; }
-.sec-label .n { font-size: 11px; color: var(--accent); }
-.sec-label::after { content: ""; flex: 1; height: 1px; border-top: 1px dashed var(--dash); }
+/* Section header — ramah: judul DM Sans Title Case + subjudul kalimat biasa. */
+.sec-label { display: flex; align-items: baseline; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+.sec-label h2 { font-family: var(--font-dm), var(--font-inter), sans-serif; font-size: clamp(1.15rem, 2.4vw, 1.5rem); font-weight: 600; letter-spacing: -0.01em; text-transform: none; color: var(--text); margin: 0; }
+.sec-label .n { font-family: var(--font-dm), var(--font-inter), sans-serif; font-size: 13px; color: var(--muted); text-transform: none; letter-spacing: 0; }
 
 /* ── Panels ────────────────────────────────────────────────────────── */
 .panel { background: var(--surface); border: 1px solid var(--border-strong); border-radius: 14px; overflow: hidden; }

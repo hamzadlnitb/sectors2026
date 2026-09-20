@@ -167,7 +167,7 @@ export default function AgentChat({
     <section className="agentchat">
       <div className="sec-label">
         <h2>Tanya agen</h2>
-        <span className="n">{"//"} grounded ke transkrip · nol saran</span>
+        <span className="n">jawaban dari transkrip · bukan saran</span>
       </div>
       <ChatPanel source={source} resolveTool={resolveTool} placeholder={`Tanya tentang ${symbol}…`} />
     </section>

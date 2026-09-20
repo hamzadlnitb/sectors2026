@@ -40,7 +40,7 @@ export default function PapanPage() {
     <main>
       <div className="sec-label">
         <h2>Papan Waspada</h2>
-        <span className="n">{"//"} arsip run otonom</span>
+        <span className="n">arsip run otonom bertanggal</span>
       </div>
 
       {runs.length === 0 ? (
