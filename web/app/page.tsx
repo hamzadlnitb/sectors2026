@@ -8,18 +8,18 @@ import { loadActivity } from "@/lib/activity";
 import "./landing.css";
 
 const PROCESS = [
-  { n: "01", w: "DETECT", d: "Menyapu sinyal Tier-1 pasar tiap hari bursa dan menandai saham yang bergerak tidak biasa." },
-  { n: "02", w: "INVESTIGATE", d: "Agen memilih bukti apa yang dikejar, menguji tiap hipotesis, dan berhenti begitu bukti cukup." },
-  { n: "03", w: "EXPLAIN", d: "Skor deterministik + narasi tersitasi — tiap angka bisa ditelusuri ke endpoint sumbernya." },
+  { n: "1", w: "Deteksi otomatis", d: "Tiap hari bursa, agen menyapu pasar dan menandai saham yang bergerak tidak wajar — tanpa kamu perlu memantau layar." },
+  { n: "2", w: "Selidiki sendiri", d: "Agen memilih bukti mana yang dikejar, menguji tiap dugaan, lalu berhenti begitu buktinya sudah cukup." },
+  { n: "3", w: "Jelaskan terbuka", d: "Hasilnya skor plus cerita yang bisa kamu telusuri sampai ke sumber datanya — bukan kotak hitam." },
 ];
 
 const SIGNALS = [
-  { code: "BCI", name: "Broker Concentration", d: "Net-buy terkonsentrasi di segelintir broker?" },
-  { code: "VAS", name: "Volume Anomaly", d: "Volume berapa sigma di atas baseline 90 hari?" },
-  { code: "PFD", name: "Price–Fundamental", d: "Harga melompat sementara laba flat atau rugi?" },
-  { code: "FFS", name: "Free Float", d: "Saham beredar langka sehingga mudah digerakkan?" },
-  { code: "FRD", name: "Foreign–Retail", d: "Asing keluar saat harga naik = distribusi ke ritel?" },
-  { code: "SSS", name: "Structural", d: "Suspensi, rights issue beruntun, insider jual?" },
+  { code: "BCI", name: "Konsentrasi broker", d: "Pembelian menumpuk di segelintir broker saja?" },
+  { code: "VAS", name: "Anomali volume", d: "Volume melonjak jauh di atas kebiasaannya?" },
+  { code: "PFD", name: "Harga vs fundamental", d: "Harga melompat padahal laba datar atau rugi?" },
+  { code: "FFS", name: "Saham beredar tipis", d: "Barang langka di pasar sehingga mudah digerakkan?" },
+  { code: "FRD", name: "Asing vs ritel", d: "Asing keluar saat harga naik — dilempar ke ritel?" },
+  { code: "SSS", name: "Peristiwa struktural", d: "Suspensi, rights issue beruntun, atau insider jual?" },
 ];
 
 export default function Landing() {
@@ -39,24 +39,34 @@ export default function Landing() {
       </div>
       <section className="hero">
         <span className="eyebrow">
-          <span className="live" /> Investigator Agent · IDX
+          <span className="live" /> Agen investigasi saham IDX
         </span>
         <h1>
-          Saham ini ramai. Tapi, siapa yang sebenarnya <span className="hl">menggerakkannya</span>?
-          <span className="cur" />
+          Saham ini ramai. Tapi siapa yang sebenarnya <span className="hl">menggerakkannya</span>?
         </h1>
         <p className="sub">
-          PANTAU menyelidiki pergerakan saham seperti analis sungguhan—mengejar bukti yang relevan,
-          menguji hipotesis, dan <b>menunjukkan jejak menuju kesimpulan</b>.
+          PANTAU menyelidiki pergerakan saham seperti analis sungguhan — mengejar bukti,
+          menguji dugaan, dan <b>menunjukkan jejaknya sampai kesimpulan</b>.
         </p>
         <SearchBox routes={routes} />
+        {rows.length > 0 && (
+          <div className="lp-eg">
+            <span>Coba lihat:</span>
+            {rows.slice(0, 3).map((e) => (
+              <Link key={e.id} href={`/investigasi/${e.id}/`} className="eg">{e.symbol}</Link>
+            ))}
+          </div>
+        )}
         <div className="microcopy">
-          <span className="tick">▸</span> Evidence-first. Setiap temuan dapat ditelusuri ke buktinya.
+          Setiap temuan bisa kamu telusuri sampai ke buktinya — bukan sekadar angka.
         </div>
       </section>
 
       <section>
-        <div className="sec-label"><h2>Cara kerja</h2><span className="n">{"//"} detect · investigate · explain</span></div>
+        <div className="lp-head">
+          <h2>Cara kerja</h2>
+          <p>Dari sinyal mentah sampai kesimpulan yang bisa ditelusuri — dalam tiga langkah.</p>
+        </div>
         <div className="process">
           {PROCESS.map((p) => (
             <div className="pstep" key={p.n}>
@@ -69,7 +79,10 @@ export default function Landing() {
       </section>
 
       <section>
-        <div className="sec-label"><h2>Enam sinyal yang dicek</h2><span className="n">{"//"} enam komponen skor</span></div>
+        <div className="lp-head">
+          <h2>Yang diperiksa agen</h2>
+          <p>Enam pola yang sering muncul saat sebuah saham digerakkan tidak wajar.</p>
+        </div>
         <div className="signals">
           {SIGNALS.map((s) => (
             <div className="sig" key={s.code}>
@@ -81,16 +94,19 @@ export default function Landing() {
             </div>
           ))}
         </div>
-        <Link href="/metodologi" className="sig-more">Lihat rumus &amp; bobot kalibrasi →</Link>
+        <Link href="/metodologi" className="sig-more">Lihat cara agen menghitung skornya →</Link>
       </section>
 
       <section className="board">
         <div className="board-head">
-          <h2>Investigasi hari ini</h2>
+          <div className="bh-title">
+            <h2>Investigasi hari ini</h2>
+            <p>Hasil terbaru dari agen — ketuk salah satu untuk lihat jejak lengkapnya.</p>
+          </div>
           <div className="board-stats">
             <span><b>{index.investigations.length}</b> diselidiki</span>
-            <span><span className="d" style={{ background: "var(--sig-alert)" }} /><b>{flagged}</b> ditandai</span>
-            <span><span className="d" style={{ background: "var(--accent)" }} /><b>{escalated}</b> eskalasi</span>
+            <span><span className="d" style={{ background: "var(--sig-alert)" }} /><b>{flagged}</b> perlu perhatian</span>
+            <span><span className="d" style={{ background: "var(--accent)" }} /><b>{escalated}</b> minta pagu tambah</span>
           </div>
         </div>
         <div className="cards">
@@ -116,7 +132,7 @@ export default function Landing() {
       <ActivityFeed events={activity.events.slice(0, 12)} />
 
       <div className="footnote">
-        zero API &amp; LLM calls at runtime · web hanya memutar ulang transkrip investigasi tersimpan
+        Semua ditampilkan dari data yang sudah tersimpan — tanpa panggilan API atau AI saat halaman dibuka.
       </div>
     </main>
   );

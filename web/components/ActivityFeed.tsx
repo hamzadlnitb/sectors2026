@@ -16,7 +16,7 @@ export default function ActivityFeed({ events }: { events: ActivityEvent[] }) {
     <section className="activity">
       <div className="sec-label">
         <h2>Aktivitas agen</h2>
-        <span className="n">{"//"} otomatis dari runs/ · {events.length} peristiwa</span>
+        <span className="n">Dicatat otomatis tiap hari bursa · {events.length} peristiwa</span>
       </div>
       <div className="feed">
         {events.map((e, i) =>
