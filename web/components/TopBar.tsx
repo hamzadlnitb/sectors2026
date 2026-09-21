@@ -19,7 +19,7 @@ export default function TopBar() {
   return (
     <>
       <div className="topbar">
-        <Link href="/" className="brand" aria-label="PANTAU — beranda" onClick={() => setOpen(false)}>
+        <Link href="/" className="brand" aria-label="PANTAU, beranda" onClick={() => setOpen(false)}>
           <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true">
             <circle cx="11" cy="11" r="9.2" stroke="var(--accent)" strokeWidth="1.5" />
             <circle cx="11" cy="11" r="4.6" stroke="var(--accent)" strokeWidth="1.5" />

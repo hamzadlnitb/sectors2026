@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params;
   const t = loadInvestigation(id);
   const band = bandMeta(t.band);
-  const title = `Investigasi ${t.symbol} — ${band.label}`;
+  const title = `Investigasi ${t.symbol}, ${band.label}`;
   const description = `Skor PANTAU ${t.pantau_score}/100 (${band.label}) untuk ${t.symbol} · ${t.steps.length} langkah investigasi otonom, tiap angka tertelusuri ke buktinya. Bukan saran investasi.`;
   return { title, description, openGraph: { title, description }, twitter: { title, description } };
 }
@@ -55,12 +55,12 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
       <div className="panel">
         <div className="panel-head">
           <span className="dots"><i /><i /><i /></span>
-          <span className="t mono">investigation · <b>{t.symbol}</b></span>
-          <span className="r mono">closed · {fmtDate(t.as_of)}</span>
+          <span className="t mono">investigasi · <b>{t.symbol}</b></span>
+          <span className="r mono">selesai · {fmtDate(t.as_of)}</span>
         </div>
         <div className="verdict">
           <div className="gauge-wrap">
-            <svg className="gauge" viewBox="0 0 280 172" role="img" aria-label={`PANTAU score ${t.pantau_score} of 100 — ${band.label}`}>
+            <svg className="gauge" viewBox="0 0 280 172" role="img" aria-label={`PANTAU score ${t.pantau_score} of 100, ${band.label}`}>
               <path className="track" d={ARC} pathLength={100} />
               <path className={`val ${band.cls}`} d={ARC} pathLength={100} strokeDasharray={`${t.pantau_score} 100`} />
               <circle className={`dot ${band.cls}`} cx={dot.x} cy={dot.y} r={7.5} />
@@ -103,8 +103,8 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
             <div className="memory">
               <span className="ic"><MemoryIcon /></span>
               <div className="txt">
-                Agen mengingat investigasi sebelumnya. Rencana kali ini <b>menahan pagu di awal</b> karena run{" "}
-                <a href="#">{t.memory_ref}</a> berakhir normal — bukan mengulang dari nol.
+                Agen mengingat investigasi sebelumnya. Rencana kali ini <b>menahan jatah di awal</b> karena run{" "}
+                <a href="#">{t.memory_ref}</a> berakhir normal, bukan mengulang dari nol.
               </div>
             </div>
           )}
@@ -116,8 +116,8 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
         <div className="sec-label"><h2>Rencana investigasi</h2><span className="n">disusun sebelum menyelidiki</span></div>
         <div className="panel">
           <div className="plan-top">
-            <span className="lbl">{t.plan.hypotheses.length} hypotheses, by priority</span>
-            <span className="bud">budget requested <b>{t.plan.credit_budget_requested} credits</b> · hard cap 25</span>
+            <span className="lbl">{t.plan.hypotheses.length} dugaan, urut prioritas</span>
+            <span className="bud">jatah diminta <b>{t.plan.credit_budget_requested} kredit</b> · batas keras 25</span>
           </div>
           <div className="hyps">
             {t.plan.hypotheses.map((h) => (
@@ -145,7 +145,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
       {/* ── Evidence + verdict ── */}
       <EvidenceVerdict evidence={t.evidence} narrative={t.narrative} narrativeSource={t.narrative_source} />
 
-      {/* ── Chat walkthrough (static, grounded ke transkrip) ── */}
+      {/* ── Chat walkthrough (static, grounded ke rekaman) ── */}
       <AgentChat
         symbol={t.symbol}
         band={t.band}
@@ -160,7 +160,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
         memoryRef={t.memory_ref ?? null}
       />
 
-      <div className="footnote">Diputar dari transkrip tersimpan · tanpa panggilan API atau AI saat dibuka · {t.symbol} · {t.weights_version}</div>
+      <div className="footnote">Diputar dari rekaman tersimpan · tanpa panggilan API atau AI saat dibuka · {t.symbol} · {t.weights_version}</div>
     </main>
   );
 }
@@ -171,25 +171,25 @@ function MomentCard({ m }: { m: Moment }) {
       title: "Perutean adaptif",
       at: `langkah ${"step" in m ? m.step : ""}`,
       icon: <AdaptiveIcon />,
-      desc: <>Membuka <code>{m.kind === "adaptive" ? m.probe : ""}</code> — probe di luar rencana awal.</>,
+      desc: <>Membuka <code>{m.kind === "adaptive" ? m.probe : ""}</code>, probe di luar rencana awal.</>,
     },
     escalation: {
       title: "Eskalasi",
       at: `langkah ${"step" in m ? m.step : ""}`,
       icon: <EscalationIcon />,
-      desc: <>Minta tambah pagu <code>+{m.kind === "escalation" ? m.granted : 0} kredit</code> dengan alasan tertulis — dikabulkan.</>,
+      desc: <>Minta tambah jatah <code>+{m.kind === "escalation" ? m.granted : 0} kredit</code> dengan alasan tertulis, dikabulkan.</>,
     },
     early_stop: {
       title: "Berhenti dini",
       at: `langkah ${"step" in m ? m.step : ""}`,
       icon: <StopIcon />,
-      desc: <>Berhenti lebih awal &amp; melewati probe sisa — band tak akan berubah.</>,
+      desc: <>Berhenti lebih awal &amp; melewati probe sisa, band tak akan berubah.</>,
     },
     memory: {
       title: "Memori",
       at: "memori",
       icon: <MemoryIcon />,
-      desc: <>Run sebelumnya (<code>{m.kind === "memory" ? m.ref : ""}</code>) memandu rencana — bukan mengulang dari nol.</>,
+      desc: <>Run sebelumnya (<code>{m.kind === "memory" ? m.ref : ""}</code>) memandu rencana, bukan mengulang dari nol.</>,
     },
   }[m.kind];
 

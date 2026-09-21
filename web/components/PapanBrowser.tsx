@@ -75,7 +75,7 @@ export default function PapanBrowser({
           </span>
           <div className="txt">
             Tiap hari bursa, cron <b>17:30 WIB</b> menyapu sinyal Tier-1, menyusun watchlist kandidat, lalu agen
-            menyelidiki yang paling mencurigakan — <b>tanpa ditunggui manusia</b>. Pilih tanggal untuk menelusuri
+            menyelidiki yang paling mencurigakan, <b>tanpa ditunggui manusia</b>. Pilih tanggal untuk menelusuri
             arsipnya; tiap run ber-timestamp dan bisa diverifikasi ke commit <b>pantau-bot</b> di GitHub. Skor
             kandidat = skor <b>seleksi</b>, bukan skor PANTAU.
           </div>
@@ -112,7 +112,7 @@ export default function PapanBrowser({
                         className={`cal-day run${selected === ds ? " on" : ""}`}
                         onClick={() => { setSelected(ds); setOpen(false); }}
                         aria-pressed={selected === ds}
-                        aria-label={`${day} ${FULL_MONTHS[view.m - 1]} — ${r.candidateCount} kandidat`}
+                        aria-label={`${day} ${FULL_MONTHS[view.m - 1]}, ${r.candidateCount} kandidat`}
                       >
                         {day}
                         <span className="pip" />

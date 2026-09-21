@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
-/** Hero search — routes a ticker to its investigation when one exists,
+/** Hero search, routes a ticker to its investigation when one exists,
  *  otherwise to the investigation index. `routes` maps SYMBOL → investigation id. */
 export default function SearchBox({ routes }: { routes: Record<string, string> }) {
   const router = useRouter();

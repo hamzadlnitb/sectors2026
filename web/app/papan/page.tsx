@@ -8,7 +8,7 @@ import "./papan.css";
 
 export const metadata: Metadata = {
   title: "Papan Waspada",
-  description: "Arsip run otonom bertanggal — watchlist kandidat hasil sapuan Tier-1 harian, bisa ditelusuri mundur.",
+  description: "Arsip run otonom bertanggal, watchlist kandidat hasil sapuan Tier-1 harian, bisa ditelusuri mundur.",
 };
 
 export default function PapanPage() {
@@ -38,9 +38,9 @@ export default function PapanPage() {
 
   return (
     <main>
-      <div className="sec-label">
-        <h2>Papan Waspada</h2>
-        <span className="n">arsip run otonom bertanggal</span>
+      <div className="page-head">
+        <h1>Papan Waspada</h1>
+        <p>Arsip pantauan harian yang berjalan sendiri, bisa ditelusuri per tanggal.</p>
       </div>
 
       {runs.length === 0 ? (

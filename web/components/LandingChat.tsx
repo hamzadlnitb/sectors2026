@@ -7,7 +7,7 @@ import { bandMeta } from "@/lib/bands";
 import { sourceForMode, type ChatAnswer, type Intent, type ToolRef } from "@/lib/chat";
 import type { IndexEntry } from "@/lib/transcript";
 
-// Landing chat — versi level-sistem dari "Tanya agen", widget mengambang. Menjawab
+// Landing chat, versi level-sistem dari "Tanya agen", widget mengambang. Menjawab
 // soal hasil investigasi HARI INI (index.json) supaya agen kelihatan "bekerja".
 // Nol LLM/backend, nol saran. Bentuk jawaban = §4 kontrak; live = ganti prop mode.
 
@@ -51,8 +51,8 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
           trace: ["baca hasil sapuan", `hitung ${total} investigasi`],
           text:
             `Hari ini agen menyapu pasar lalu menyelidiki ${total} saham secara mandiri. ` +
-            (flagged.length ? `${flagged.length} masuk pantauan: ${flagged.map((e) => e.symbol).join(", ")}` : "tidak ada yang naik ke level pantauan — semua NORMAL") +
-            (esc.length ? `. ${esc.length} sempat minta tambah pagu (eskalasi)` : "") + ".",
+            (flagged.length ? `${flagged.length} masuk pantauan: ${flagged.map((e) => e.symbol).join(", ")}` : "tidak ada yang naik ke level pantauan, semua NORMAL") +
+            (esc.length ? `. ${esc.length} sempat minta tambah jatah (eskalasi)` : "") + ".",
           tools: top ? [{ label: `Buka investigasi ${(flagged[0] ?? top).symbol}`, ref: routeTo(flagged[0] ?? top) }] : [],
         }),
       },
@@ -66,8 +66,8 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
           return {
             trace: ["urutkan menurut skor & band"],
             text: flagged.length
-              ? `${it.symbol} paling menonjol — skor ${it.pantau_score}/100 (${b.label}), ${it.steps} langkah. ${it.headline}`
-              : `Semua di level NORMAL — tidak ada yang perlu diwaspadai. Skor tertinggi ${it.symbol} (${it.pantau_score}/100).`,
+              ? `${it.symbol} paling menonjol, skor ${it.pantau_score}/100 (${b.label}), ${it.steps} langkah. ${it.headline}`
+              : `Semua di level NORMAL, tidak ada yang perlu diwaspadai. Skor tertinggi ${it.symbol} (${it.pantau_score}/100).`,
             tools: [{ label: `Buka investigasi ${it.symbol}`, ref: routeTo(it) }],
           };
         },
@@ -77,7 +77,7 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
         keys: ["hemat", "kredit", "efisien", "biaya", "murah"],
         answer: () => ({
           trace: ["bandingkan kredit vs baseline 6-probe"],
-          text: `Dengan hanya mengejar bukti yang perlu lalu berhenti, agen memakai rata-rata ~${avgSav}% lebih sedikit kredit dibanding investigasi menyeluruh (6 probe) — di ${total} kasus hari ini.`,
+          text: `Dengan hanya mengejar bukti yang perlu lalu berhenti, agen memakai rata-rata ~${avgSav}% lebih sedikit kredit dibanding investigasi menyeluruh (6 probe), di ${total} kasus hari ini.`,
           tools: [],
         }),
       },
@@ -99,16 +99,16 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
             if (esc.length) parts.push(`${esc.length} eskalasi (${esc.map((e) => e.symbol).join(", ")})`);
             if (adapt.length) parts.push(`${adapt.length} perutean adaptif (${adapt.map((e) => e.symbol).join(", ")})`);
             const it = esc[0] ?? adapt[0];
-            return { trace: ["cari momen di semua run"], text: `Ya — ${parts.join(", ")}. Inilah yang membedakan agen dari if-else.`, tools: it ? [{ label: `Buka investigasi ${it.symbol}`, ref: routeTo(it) }] : [] };
+            return { trace: ["cari momen di semua run"], text: `Ya, ${parts.join(", ")}. Inilah yang membedakan agen dari if-else.`, tools: it ? [{ label: `Buka investigasi ${it.symbol}`, ref: routeTo(it) }] : [] };
           }
-          return { trace: ["cari momen di semua run"], text: "Hari ini kebanyakan berakhir dengan penghentian dini — agen berhenti begitu bukti cukup dan tak menghabiskan pagu. Tak ada eskalasi/perutean di luar rencana.", tools: [] };
+          return { trace: ["cari momen di semua run"], text: "Hari ini kebanyakan berakhir dengan penghentian dini, agen berhenti begitu bukti cukup dan tak menghabiskan jatah. Tak ada eskalasi/perutean di luar rencana.", tools: [] };
         },
       },
     ];
 
     const greeting: ChatAnswer = {
       trace: [],
-      text: `Aku agen investigasi PANTAU. Tanya apa yang kutemukan hari ini — jawaban ditarik dari ${total} investigasi nyata. Ini bukan saran investasi.`,
+      text: `Aku agen investigasi PANTAU. Tanya apa yang kutemukan hari ini, jawaban ditarik dari ${total} investigasi nyata. Ini bukan saran investasi.`,
       tools: [],
     };
     return { greeting, intents };
@@ -120,7 +120,7 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
         ref={fabRef}
         className={`chat-fab ${open ? "hide" : ""}`}
         onClick={() => setOpen(true)}
-        aria-label="Buka chat — tanya agen"
+        aria-label="Buka chat, tanya agen"
         aria-expanded={open}
       >
         <span className="ping" />
@@ -130,7 +130,7 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
         Tanya agen
       </button>
 
-      <div ref={popRef} className={`chat-pop ${open ? "open" : ""}`} role="dialog" aria-modal="false" aria-label="Chat — tanya agen" aria-hidden={!open} inert={!open}>
+      <div ref={popRef} className={`chat-pop ${open ? "open" : ""}`} role="dialog" aria-modal="false" aria-label="Chat, tanya agen" aria-hidden={!open} inert={!open}>
         <div className="chat-pop-head">
           <span className="ttl">Coba tanya agen <span className="n">· hasil hari ini</span></span>
           <button className="cx" onClick={() => setOpen(false)} aria-label="Tutup chat">

@@ -1,4 +1,4 @@
-/** Permanent, on every page (rendered from the root layout) — the compliance
+/** Permanent, on every page (rendered from the root layout), the compliance
  *  line PANTAU must always show. [K5] */
 export default function SiteDisclaimer() {
   return (

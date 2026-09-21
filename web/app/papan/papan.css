@@ -1,15 +1,15 @@
-/* Papan Waspada — dated archive of autonomous cron runs. */
+/* Papan Waspada, dated archive of autonomous cron runs. */
 
 .papan-top { display: grid; grid-template-columns: 1fr; gap: 16px; align-items: stretch; margin-bottom: 20px; }
 @media (min-width: 860px) { .papan-top { grid-template-columns: 1fr auto; align-items: start; } }
 .papan-top .cal { margin: 0; }
-.papan-intro { display: flex; gap: 12px; align-items: flex-start; border: 1px dashed var(--dash); background: var(--accent-soft); border-radius: 12px; padding: 15px 17px; margin-bottom: 0; }
+.papan-intro { display: flex; gap: 12px; align-items: flex-start; border: 1px solid var(--border); background: var(--accent-soft); border-radius: 12px; padding: 15px 17px; margin-bottom: 0; }
 .papan-intro .ic { color: var(--accent); flex-shrink: 0; margin-top: 1px; }
 .papan-intro .txt { font-size: 13px; line-height: 1.55; color: var(--text); }
 .papan-intro .txt b { font-weight: 600; }
 
 .run { margin-top: 22px; }
-.run-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 1px dashed var(--dash); margin-bottom: 4px; font-family: var(--font-jbm), monospace; }
+.run-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 4px; font-family: var(--font-jbm), monospace; }
 .run-head .date { font-weight: 800; font-size: 15px; }
 .run-head .meta { color: var(--dim); font-size: 11.5px; display: flex; gap: 14px; flex-wrap: wrap; margin-left: auto; }
 .run-head .meta b { color: var(--muted); font-weight: 600; }
@@ -24,7 +24,7 @@
 .cand .right { display: flex; align-items: center; gap: 12px; }
 .cand .sel { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-jbm), monospace; font-size: 11px; padding: 3px 9px; border-radius: 6px; white-space: nowrap; }
 .cand .sel .bd { width: 7px; height: 7px; border-radius: 50%; }
-.cand .sel.pending { color: var(--dim); border: 1px dashed var(--dash); }
+.cand .sel.pending { color: var(--dim); border: 1px solid var(--border); }
 .cand .sscore { font-family: var(--font-jbm), monospace; font-size: 12px; color: var(--dim); text-align: right; min-width: 74px; }
 .cand .sscore .bar { height: 4px; border-radius: 2px; background: var(--inset); margin-top: 5px; overflow: hidden; }
 .cand .sscore .bar > i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
@@ -44,19 +44,19 @@
 
 /* autonomy proof block */
 .run-proof { border: 1px solid var(--border-strong); border-radius: 13px; overflow: hidden; background: var(--surface); margin-bottom: 18px; }
-.rp-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 11px 15px; border-bottom: 1px dashed var(--dash); background: var(--surface-2); }
+.rp-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 11px 15px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
 .rp-head .dots { display: flex; gap: 5px; }
 .rp-head .dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--border-strong); }
 .rp-title { font-size: 12px; color: var(--muted); }
 .rp-title b { color: var(--accent); font-weight: 700; }
 .rp-meta { margin-left: auto; font-size: 11px; color: var(--dim); }
 .rp-log { margin: 0; padding: 14px 16px; font-size: 11px; line-height: 1.6; color: var(--muted); background: var(--inset); max-height: 200px; overflow: auto; white-space: pre-wrap; word-break: break-word; }
-.rp-links { display: flex; flex-wrap: wrap; gap: 16px; padding: 12px 16px; border-top: 1px dashed var(--dash); }
+.rp-links { display: flex; flex-wrap: wrap; gap: 16px; padding: 12px 16px; border-top: 1px solid var(--border); }
 .rp-links a { font-family: var(--font-jbm), monospace; font-size: 12px; color: var(--accent); border-bottom: 1px solid var(--dash); }
 .rp-links a:hover { border-color: var(--accent); }
 
 /* calendar date picker */
-.cal { border: 1px dashed var(--dash); border-radius: 13px; padding: 12px 13px; margin: 0; width: 268px; max-width: 100%; }
+.cal { border: 1px solid var(--border); border-radius: 13px; padding: 12px 13px; margin: 0; width: 268px; max-width: 100%; }
 .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
 .cal-title { font-weight: 700; font-size: 12.5px; color: var(--text); }
 .cal-nav { width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 7px; cursor: pointer; font-size: 14px; line-height: 1; padding: 0; }

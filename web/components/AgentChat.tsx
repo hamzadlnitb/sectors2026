@@ -5,7 +5,7 @@ import { bandMeta, type Band } from "@/lib/bands";
 import { sourceForMode, type ChatAnswer, type Intent, type ToolRef } from "@/lib/chat";
 import type { EvidenceEntry, Moment, Step } from "@/lib/transcript";
 
-// Chat walkthrough — "ngobrol sama agen" atas transkrip STATIS. Jawaban ditarik
+// Chat walkthrough, "ngobrol sama agen" atas rekaman STATIS. Jawaban ditarik
 // dari steps/evidence/moments (nol LLM, nol backend, nol saran finansial).
 // Bentuk jawaban = §4 kontrak middleware; live-mode = ganti prop mode saja.
 
@@ -99,10 +99,10 @@ export default function AgentChat({
       },
       {
         q: "Kenapa agen berhenti & berapa hematnya?",
-        keys: ["berhenti", "stop", "hemat", "kredit", "budget", "pagu"],
+        keys: ["berhenti", "stop", "hemat", "kredit", "budget", "jatah"],
         answer: () => ({
           trace: ["baca langkah terakhir", "bandingkan kredit vs baseline"],
-          text: `Agen berhenti setelah ${steps.length} langkah — "${last?.reason ?? ""}" Total ${creditsTotal} kredit vs ${baseline} untuk investigasi menyeluruh → hemat ${savings}%.`,
+          text: `Agen berhenti setelah ${steps.length} langkah, "${last?.reason ?? ""}" Total ${creditsTotal} kredit vs ${baseline} untuk investigasi menyeluruh → hemat ${savings}%.`,
           tools: [{ label: "Lihat di replay", ref: sec(".trail") }],
         }),
       },
@@ -113,21 +113,21 @@ export default function AgentChat({
           trace: ["deteksi momen agentik"],
           text: moments.length
             ? `Terdeteksi: ${moments.map((m) => MOMENT_LABEL[m.kind]).join(", ")}. Ini yang membedakan agen dari if-else.`
-            : "Investigasi ringkas — tidak ada momen agentik khusus selain penghentian dini.",
+            : "Investigasi ringkas, tidak ada momen agentik khusus selain penghentian dini.",
           tools: [{ label: "Lihat momen", ref: sec(".moments") }],
         }),
       },
       {
         q: "Ada eskalasi?",
-        keys: ["eskalasi", "escalate", "tambah pagu"],
+        keys: ["eskalasi", "escalate", "tambah jatah"],
         answer: (): ChatAnswer =>
           esc && esc.kind === "escalation"
             ? {
                 trace: ["cari langkah eskalasi"],
-                text: `Ya — pada langkah ${esc.step} agen minta tambah pagu +${esc.granted} kredit dengan alasan tertulis, dan dikabulkan.`,
+                text: `Ya, pada langkah ${esc.step} agen minta tambah jatah +${esc.granted} kredit dengan alasan tertulis, dan dikabulkan.`,
                 tools: [{ label: "Lihat di replay", ref: sec(".trail") }],
               }
-            : { trace: ["cari langkah eskalasi"], text: "Tidak ada eskalasi — agen cukup dengan pagu awalnya.", tools: [] },
+            : { trace: ["cari langkah eskalasi"], text: "Tidak ada eskalasi, agen cukup dengan jatah awalnya.", tools: [] },
       },
       {
         q: adaptive ? "Kenapa buka probe di luar rencana?" : "Apa itu perutean adaptif?",
@@ -136,10 +136,10 @@ export default function AgentChat({
           adaptive && adaptive.kind === "adaptive"
             ? {
                 trace: ["bandingkan probe vs rencana awal"],
-                text: `Pada langkah ${adaptive.step} agen membuka \`${adaptive.probe}\` — tidak ada di rencana awal — karena temuan sebelumnya mengejutkan. Ini perutean adaptif.`,
+                text: `Pada langkah ${adaptive.step} agen membuka \`${adaptive.probe}\`, tidak ada di rencana awal, karena temuan sebelumnya mengejutkan. Ini perutean adaptif.`,
                 tools: [{ label: "Lihat di replay", ref: sec(".trail") }],
               }
-            : { trace: ["cek rencana"], text: "Semua probe di investigasi ini sudah ada di rencana awal — tidak ada perutean adaptif.", tools: [] },
+            : { trace: ["cek rencana"], text: "Semua probe di investigasi ini sudah ada di rencana awal, tidak ada perutean adaptif.", tools: [] },
       },
     ];
 
@@ -149,7 +149,7 @@ export default function AgentChat({
         keys: ["memori", "memory", "ulang", "sebelum"],
         answer: () => ({
           trace: ["cek memori per-ticker"],
-          text: `Ya — agen mengingat run sebelumnya (${memoryRef}) dan menyusun rencana berbeda diarahkan ke apa yang berubah.`,
+          text: `Ya, agen mengingat run sebelumnya (${memoryRef}) dan menyusun rencana berbeda diarahkan ke apa yang berubah.`,
           tools: [],
         }),
       });
@@ -157,7 +157,7 @@ export default function AgentChat({
 
     const greeting: ChatAnswer = {
       trace: [],
-      text: `Aku bisa menjelaskan investigasi ${symbol} ini dari transkripnya — pilih pertanyaan atau ketik. Aku hanya menjawab dari bukti yang ada, dan ini bukan saran investasi.`,
+      text: `Aku bisa menjelaskan investigasi ${symbol} ini dari rekamannya, pilih pertanyaan atau ketik. Aku hanya menjawab dari bukti yang ada, dan ini bukan saran investasi.`,
       tools: [],
     };
     return { greeting, intents };
@@ -167,7 +167,7 @@ export default function AgentChat({
     <section className="agentchat">
       <div className="sec-label">
         <h2>Tanya agen</h2>
-        <span className="n">jawaban dari transkrip · bukan saran</span>
+        <span className="n">jawaban dari rekaman · bukan saran</span>
       </div>
       <ChatPanel source={source} resolveTool={resolveTool} placeholder={`Tanya tentang ${symbol}…`} />
     </section>

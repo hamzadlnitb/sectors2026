@@ -7,15 +7,15 @@ import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
 const jbm = JetBrains_Mono({ variable: "--font-jbm", subsets: ["latin"], display: "swap" });
-// DM Sans — dipakai retheme landing bergaya Crypgo (di-scope via .lp di landing.css).
+// DM Sans, dipakai retheme landing bergaya Crypgo (di-scope via .lp di landing.css).
 const dm = DM_Sans({ variable: "--font-dm", subsets: ["latin"], display: "swap" });
 
 const DESC =
-  "AI investigator untuk risiko manipulasi & likuiditas saham IDX — menunjukkan bagaimana ia sampai ke kesimpulan. Alat informasi & analisis, bukan saran investasi.";
+  "AI investigator untuk risiko manipulasi & likuiditas saham IDX, menunjukkan bagaimana ia sampai ke kesimpulan. Alat informasi & analisis, bukan saran investasi.";
 
 export const metadata: Metadata = {
   title: {
-    default: "PANTAU — Investigator Saham AI",
+    default: "PANTAU, Investigator Saham AI",
     template: "%s · PANTAU",
   },
   description: DESC,
@@ -26,10 +26,10 @@ export const metadata: Metadata = {
     type: "website",
     locale: "id_ID",
     siteName: "PANTAU",
-    title: "PANTAU — Investigator Saham AI",
+    title: "PANTAU, Investigator Saham AI",
     description: DESC,
   },
-  twitter: { card: "summary", title: "PANTAU — Investigator Saham AI", description: DESC },
+  twitter: { card: "summary", title: "PANTAU, Investigator Saham AI", description: DESC },
   robots: { index: true, follow: true },
 };
 

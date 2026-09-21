@@ -1,4 +1,4 @@
-/* Investigation page — verdict gauge, agentic moments, reasoning replay,
+/* Investigation page, verdict gauge, agentic moments, reasoning replay,
    evidence ledger, cited narrative. */
 
 .verdict { display: grid; grid-template-columns: 1fr; gap: 24px; padding: clamp(18px, 3vw, 26px); }
@@ -26,7 +26,7 @@
 .bandchip.on-gauge { margin-top: 14px; }
 
 .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-content: start; }
-.stat { border: 1px dashed var(--dash); border-radius: 10px; padding: 13px 15px; }
+.stat { border: 1px solid var(--border); border-radius: 10px; padding: 13px 15px; }
 .stat.wide { grid-column: 1 / -1; }
 .stat .k { font-family: var(--font-jbm), monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--dim); margin-bottom: 7px; }
 .stat .v { font-family: var(--font-jbm), monospace; font-weight: 800; font-size: 21px; }
@@ -39,20 +39,20 @@
 .moments { display: grid; grid-template-columns: 1fr; gap: 11px; }
 @media (min-width: 560px) { .moments { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 920px) { .moments { grid-template-columns: repeat(4, 1fr); } }
-.moment { border: 1px dashed var(--dash); border-radius: 12px; padding: 15px; position: relative; background: var(--surface); }
+.moment { border: 1px solid var(--border); border-radius: 12px; padding: 15px; position: relative; background: var(--surface); }
 .moment .ic { color: var(--accent); margin-bottom: 10px; }
 .moment .t { font-family: var(--font-jbm), monospace; font-weight: 700; font-size: 13.5px; margin-bottom: 5px; }
 .moment .d { font-size: 12.5px; color: var(--muted); line-height: 1.45; }
 .moment .d code { font-family: var(--font-jbm), monospace; font-size: 11.5px; color: var(--text); background: var(--inset); padding: 1px 5px; border-radius: 4px; }
 .moment .at { position: absolute; top: 14px; right: 14px; font-family: var(--font-jbm), monospace; font-size: 10px; color: var(--accent); background: var(--accent-soft); padding: 2px 7px; border-radius: 5px; }
-.memory { display: flex; gap: 12px; align-items: flex-start; margin-top: 18px; border: 1px dashed var(--dash); background: var(--accent-soft); border-radius: 12px; padding: 14px 16px; }
+.memory { display: flex; gap: 12px; align-items: flex-start; margin-top: 18px; border: 1px solid var(--border); background: var(--accent-soft); border-radius: 12px; padding: 14px 16px; }
 .memory .ic { color: var(--accent); flex-shrink: 0; margin-top: 1px; }
 .memory .txt { font-size: 13px; line-height: 1.5; }
 .memory .txt b { font-weight: 600; }
 .memory a { color: var(--accent); font-family: var(--font-jbm), monospace; font-size: 12px; border-bottom: 1px solid var(--dash); }
 
 /* plan */
-.plan-top { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: baseline; padding: 15px 17px; border-bottom: 1px dashed var(--dash); font-family: var(--font-jbm), monospace; }
+.plan-top { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: baseline; padding: 15px 17px; border-bottom: 1px solid var(--border); font-family: var(--font-jbm), monospace; }
 .plan-top .lbl { font-weight: 700; font-size: 13px; }
 .plan-top .bud { font-size: 12px; color: var(--muted); }
 .plan-top .bud b { color: var(--accent); }
@@ -63,15 +63,15 @@
 .hyp .claim { font-size: 13.5px; }
 .hyp .probes { margin-top: 6px; display: flex; gap: 6px; flex-wrap: wrap; }
 .ptag { font-family: var(--font-jbm), monospace; font-size: 11px; color: var(--muted); background: var(--inset); border: 1px solid var(--border); border-radius: 5px; padding: 2px 7px; }
-.rationale { padding: 14px 17px; border-top: 1px dashed var(--dash); font-size: 12.5px; color: var(--muted); line-height: 1.55; font-style: italic; }
+.rationale { padding: 14px 17px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--muted); line-height: 1.55; font-style: italic; }
 
 /* reasoning replay */
 .replay-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
 .step-count { margin-left: auto; font-family: var(--font-jbm), monospace; font-size: 12px; color: var(--dim); }
 .trail { border: 1px solid var(--border); border-radius: 13px; overflow: hidden; }
-.step { display: grid; grid-template-columns: 44px 1fr; border-bottom: 1px dashed var(--dash); transition: opacity .25s, filter .25s; }
+.step { display: grid; grid-template-columns: 44px 1fr; border-bottom: 1px solid var(--border); transition: opacity .25s, filter .25s; }
 .step:last-child { border-bottom: none; }
-.step .gutter { appearance: none; border: 0; border-right: 1px dashed var(--dash); display: flex; align-items: flex-start; justify-content: center; padding: 16px 0; width: 100%; height: 100%; font-family: var(--font-jbm), monospace; font-size: 12px; font-weight: 700; color: var(--muted); background: var(--surface-2); cursor: pointer; transition: background .15s, color .15s; }
+.step .gutter { appearance: none; border: 0; border-right: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: center; padding: 16px 0; width: 100%; height: 100%; font-family: var(--font-jbm), monospace; font-size: 12px; font-weight: 700; color: var(--muted); background: var(--surface-2); cursor: pointer; transition: background .15s, color .15s; }
 .step .gutter:hover { color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--surface-2)); }
 .step .gutter:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .step.moment-step .gutter { color: var(--accent); }
@@ -112,7 +112,7 @@
 .ev .chev { color: var(--dim); transition: transform .25s; flex-shrink: 0; margin-top: 2px; }
 .ev[open] .chev { transform: rotate(180deg); }
 .ev .src { padding: 0 16px 15px; font-family: var(--font-jbm), monospace; font-size: 11.5px; }
-.ev .src .row { display: flex; gap: 8px; padding: 6px 0; border-top: 1px dashed var(--dash); }
+.ev .src .row { display: flex; gap: 8px; padding: 6px 0; border-top: 1px solid var(--border); }
 .ev .src .row:first-child { border-top: none; }
 .ev .src .sk { color: var(--dim); min-width: 78px; flex-shrink: 0; }
 .ev .src .sv { color: var(--text); word-break: break-word; }

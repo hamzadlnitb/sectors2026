@@ -17,10 +17,10 @@ const COMPONENTS = [
 ] as const;
 
 const BANDS = [
-  { range: "0–29", txt: "Normal — tidak ada pola tidak biasa terdeteksi", color: "var(--sig-normal)" },
-  { range: "30–59", txt: "Perlu diperhatikan — ada beberapa pola yang layak dicermati", color: "var(--sig-watch)" },
-  { range: "60–79", txt: "Waspada — beberapa indikator menunjukkan pola tidak biasa", color: "var(--sig-alert)" },
-  { range: "80–100", txt: "Sangat waspada — banyak indikator tidak biasa secara bersamaan", color: "var(--sig-danger)" },
+  { range: "0–29", txt: "Normal, tidak ada pola tidak biasa terdeteksi", color: "var(--sig-normal)" },
+  { range: "30–59", txt: "Perlu diperhatikan, ada beberapa pola yang layak dicermati", color: "var(--sig-watch)" },
+  { range: "60–79", txt: "Waspada, beberapa indikator menunjukkan pola tidak biasa", color: "var(--sig-alert)" },
+  { range: "80–100", txt: "Sangat waspada, banyak indikator tidak biasa secara bersamaan", color: "var(--sig-danger)" },
 ];
 
 function latestWeights(): { weights: Map<string, number>; version: string | null } {
@@ -40,15 +40,15 @@ export default function MetodologiPage() {
 
   return (
     <main>
-      <div className="sec-label"><h2>Metodologi</h2><span className="n">bagaimana skor dibangun</span></div>
+      <div className="page-head"><h1>Metodologi</h1><p>Bagaimana skor dihitung, apa artinya, dan apa batasannya.</p></div>
 
       <p className="method-lede">
         Agen memutuskan <b>apa</b> yang diselidiki; kode memutuskan <b>berapa</b> skornya. Enam sub-skor
-        deterministik (0–100), tanpa LLM di jalur perhitungan. Narasi divalidasi sitasi — angka tanpa padanan
+        pasti (0–100), tanpa LLM di jalur perhitungan. Narasi divalidasi sitasi, angka tanpa padanan
         di buku bukti otomatis ditolak.
       </p>
       <div className="formula">
-        PANTAU = Σ (wᵢ · sub_skorᵢ) / Σ wᵢ <span className="muted"> — hanya atas komponen yang benar-benar diselidiki</span><br />
+        PANTAU = Σ (wᵢ · sub_skorᵢ) / Σ wᵢ <span className="muted">, hanya atas komponen yang benar-benar diselidiki</span><br />
         confidence = Σ wᵢ <span className="muted">(bobot komponen yang tercakup) → investigasi 2 langkah = keyakinan rendah, dinyatakan terang-terangan</span>
       </div>
 
@@ -69,7 +69,7 @@ export default function MetodologiPage() {
                   <div className="cfoot">
                     <span className="csrc">{c.src}</span>
                     <span className="cw">
-                      bobot {w != null ? w.toFixed(2) : "—"}
+                      bobot {w != null ? w.toFixed(2) : "n/a"}
                       <span className="bar"><i style={{ width: `${(w ?? 0) * 100 * 2.5}%` }} /></span>
                     </span>
                   </div>
@@ -105,8 +105,8 @@ export default function MetodologiPage() {
               <Metric label="Recall pada ambang ≥60" value="0,33" tgt="bagian uji 0,33" />
               <Metric label="Median lead time" value="5,0 hari" tgt="bagian uji 7,5 · sebelum suspensi" />
               <div className="vnote">
-                <b>Provisional.</b> Sampel kecil (9 positif / 22 kontrol dari warehouse yang di-commit); Precision@20 di sini
-                mendekati proporsi positif — bukti pipa perhitungan jalan, bukan klaim performa. Sumber:{" "}
+                <b>Sementara.</b> Sampel kecil (9 positif / 22 kontrol dari warehouse yang di-commit); Precision@20 di sini
+                mendekati proporsi positif, bukti pipa perhitungan jalan, bukan klaim performa. Sumber:{" "}
                 <b>reports/validation.md</b> (2026-09-10, split-waktu).
               </div>
             </div>
@@ -117,12 +117,12 @@ export default function MetodologiPage() {
               <div className="title">Apakah agennya berarti?</div>
             </div>
             <div className="vb">
-              <Metric label="Hemat kredit vs investigasi menyeluruh" value="60,2%" tgt="urutan-tetap juga 60,2% — agen tidak unggul" />
+              <Metric label="Hemat kredit vs investigasi menyeluruh" value="60,2%" tgt="urutan-tetap juga 60,2%, agen tidak unggul" />
               <Metric label="Kesepakatan band vs baseline" value="68,8%" tgt="acak 75,0% · target ≥90% tak tercapai" />
-              <Metric label="Presisi eskalasi" value="—" tgt="0 kasus eskalasi pada 16 emiten uji" />
+              <Metric label="Presisi eskalasi" value="n/a" tgt="0 kasus eskalasi pada 16 emiten uji" />
               <Metric label="Ablasi vs urutan-tetap &amp; acak" value="tak beda" tgt="tak terdeteksi pada n=16" />
               <div className="vnote">
-                <b>Klaim penghematan dicabut</b> — bukan karena agen kalah, tapi karena pada 16 emiten kebisingan
+                <b>Klaim penghematan dicabut</b>, bukan karena agen kalah, tapi karena pada 16 emiten kebisingan
                 antar-jalan (LLM nondeterministik, ±6–12 pp) sebesar selisih yang diukur: menang vs kalah tak bisa
                 dibedakan. Sumber: <b>reports/agent-eval-ringkasan.md</b>.
               </div>
@@ -134,10 +134,10 @@ export default function MetodologiPage() {
             <circle cx="12" cy="12" r="9" /><path d="M12 8v4M12 16h.01" strokeLinecap="round" />
           </svg>
           <span>
-            Kedua angka dihitung dan ditampilkan apa adanya — termasuk yang mengecewakan. Angka 1{" "}
-            <b style={{ color: "var(--text)" }}>provisional</b> (sampel kecil); Angka 2 tidak bisa mengklaim keunggulan agen pada
+            Kedua angka dihitung dan ditampilkan apa adanya, termasuk yang mengecewakan. Angka 1{" "}
+            <b style={{ color: "var(--text)" }}>sementara</b> (sampel kecil); Angka 2 tidak bisa mengklaim keunggulan agen pada
             ukuran sampel ini. Yang tetap berdiri tanpa Angka 2: pagar agen tertes, ledger kredit ter-commit, validator sitasi,
-            dan transkrip yang bisa diputar ulang identik.
+            dan rekaman yang bisa diputar ulang identik.
           </span>
         </div>
       </section>
@@ -146,9 +146,9 @@ export default function MetodologiPage() {
         <div className="sec-label"><h2>Batasan yang diakui terbuka</h2><span className="n">kejujuran menambah kredibilitas</span></div>
         <div className="limits">
           <div className="limit"><span className="m">01</span><span><b>Suspensi bukan sinonim manipulasi.</b> Himpunan positif kecil; suspensi karena pergerakan tidak wajar hanya proksi terdekat, bukan label sempurna.</span></div>
-          <div className="limit"><span className="m">02</span><span><b>FFS bukan point-in-time historis.</b> Sectors hanya menyediakan free float terkini, jadi FFS berperan sebagai sinyal keadaan-terkini — bukan komponen berkalibrasi lintas waktu.</span></div>
-          <div className="limit"><span className="m">03</span><span><b>Data EOD, ada keterlambatan.</b> Semua angka bertanda <code className="mono">as_of</code> WIB dan ditampilkan apa adanya — kami tidak berpura-pura real-time.</span></div>
-          <div className="limit"><span className="m">04</span><span><b>Bobot berversi.</b> Tiap transkrip membawa <code className="mono">weights_version</code>; skor lama tidak tercampur dengan bobot baru.</span></div>
+          <div className="limit"><span className="m">02</span><span><b>FFS bukan point-in-time historis.</b> Sectors hanya menyediakan free float terkini, jadi FFS berperan sebagai sinyal keadaan-terkini, bukan komponen berkalibrasi lintas waktu.</span></div>
+          <div className="limit"><span className="m">03</span><span><b>Data EOD, ada keterlambatan.</b> Semua angka bertanda <code className="mono">as_of</code> WIB dan ditampilkan apa adanya, kami tidak berpura-pura real-time.</span></div>
+          <div className="limit"><span className="m">04</span><span><b>Bobot berversi.</b> Tiap rekaman membawa <code className="mono">weights_version</code>; skor lama tidak tercampur dengan bobot baru.</span></div>
         </div>
       </section>
 
@@ -161,7 +161,7 @@ function Metric({ label, tgt, value }: { label: string; tgt: string; value?: str
     <div className="metric">
       <div className="ml">{label}</div>
       <div className="mr">
-        <div className={value ? "val" : "val pending"}>{value ?? "—"}</div>
+        <div className={value ? "val" : "val pending"}>{value ?? ", "}</div>
         <div className="tgt">{tgt}</div>
       </div>
     </div>

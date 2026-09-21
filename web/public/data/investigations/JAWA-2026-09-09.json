@@ -7,7 +7,7 @@
     "hypotheses": [
       {
         "id": "H1_volume_drive_penurunan_27pct",
-        "claim": "Penurunan harga 27% kemungkinan didorong oleh anomaly volume / akumulasi segelintir broker, bukan fundamental — perlu cek dulu apakah ada distribusi tidak wajar.",
+        "claim": "Penurunan harga 27% kemungkinan didorong oleh anomaly volume / akumulasi segelintir broker, bukan fundamental, perlu cek dulu apakah ada distribusi tidak wajar.",
         "probes": [
           "volume_anomaly",
           "broker_concentration"
@@ -16,7 +16,7 @@
       },
       {
         "id": "H2_distribusi_ke_ritel_via_asing",
-        "claim": "Foreign flow 30 hari bisa menjelaskan apakah penurunan -27% merupakan distribusi bandar ke ritel/asing (topping pattern) — penting di subsektor F&B yang sensitif sentimen.",
+        "claim": "Foreign flow 30 hari bisa menjelaskan apakah penurunan -27% merupakan distribusi bandar ke ritel/asing (topping pattern), penting di subsektor F&B yang sensitif sentimen.",
         "probes": [
           "foreign_flow"
         ],
@@ -33,7 +33,7 @@
       }
     ],
     "credit_budget_requested": 10,
-    "rationale": "JAJA: harga sudah turun 27% dalam 119 hari bursa — ini adalah sinyal Tier-1 yang paling dominan dan jadi pertanyaan utama investigasi. Sebelum menyentuh probe mahal (price_fundamental 6 kredit, broker_concentration 3 kredit, structural 3 kredit), saya mulai dari probe termurah yang paling efisien:\n\nUrutan dan justifikasi:\n1. volume_anomaly (1 kredit) — selalu jadi langkah pertama. Jika z-score tidak abnormal, berarti tidak ada akumulasi/distribusi besar dan -27% mungkin sekadar drift. Probe termurah dengan info screening tertinggi.\n2. Saya TIDAK mengajukan price_fundamental (6 kredit) di hipotesis manapun. -27% adalah penurunan, bukan kenaikan tajam, dan earnings YoY butuh waktu parsing; tidak efisien di sini.\n3. foreign_flow (2 kredit, prioritas 2) — di subsektor F&B, distribusi asing sering jadi mekanisme penurunan. Disilangkan dengan arah harga turun, ini sangat informatif.\n4. free_float (1 kredit, prioritas 3) — murah, dan jika float kecil, sensitivitas harga terhadap modal kecil menjadi faktor struktural penting. Layak dibeli sebelum structural.\n5. broker_concentration (3 kredit) hanya layak jika volume_anomaly menunjukkan anomali (saya cantumkan di H1 sebagai probe lanjutan bersyarat). Karena saya tidak tahu hasil volume dulu, saya tetap memasukkannya dalam paket agar tersedia — total 3+1+2+1+3 = 10 kredit.\n6. structural (3 kredit) di akhir karena paling relevan setelah pola teknis terdeteksi.\n\nTotal 10 kredit dari pagu 25 — sisa 15 kredit disimpan agar tidak boros pada emiten dengan kapitalisasi 2.24T dan data publik yang sudah cukup menjelaskan (119 hari bursa). Over-budget tidak menambah keyakinan di tahap awal; ini rencana ramping yang menjawab pertanyaan terbesar (apa yang terjadi di balik -27%) dengan biaya minimum."
+    "rationale": "JAJA: harga sudah turun 27% dalam 119 hari bursa, ini adalah sinyal Tier-1 yang paling dominan dan jadi pertanyaan utama investigasi. Sebelum menyentuh probe mahal (price_fundamental 6 kredit, broker_concentration 3 kredit, structural 3 kredit), saya mulai dari probe termurah yang paling efisien:\n\nUrutan dan justifikasi:\n1. volume_anomaly (1 kredit), selalu jadi langkah pertama. Jika z-score tidak abnormal, berarti tidak ada akumulasi/distribusi besar dan -27% mungkin sekadar drift. Probe termurah dengan info screening tertinggi.\n2. Saya TIDAK mengajukan price_fundamental (6 kredit) di hipotesis manapun. -27% adalah penurunan, bukan kenaikan tajam, dan earnings YoY butuh waktu parsing; tidak efisien di sini.\n3. foreign_flow (2 kredit, prioritas 2), di subsektor F&B, distribusi asing sering jadi mekanisme penurunan. Disilangkan dengan arah harga turun, ini sangat informatif.\n4. free_float (1 kredit, prioritas 3), murah, dan jika float kecil, sensitivitas harga terhadap modal kecil menjadi faktor struktural penting. Layak dibeli sebelum structural.\n5. broker_concentration (3 kredit) hanya layak jika volume_anomaly menunjukkan anomali (saya cantumkan di H1 sebagai probe lanjutan bersyarat). Karena saya tidak tahu hasil volume dulu, saya tetap memasukkannya dalam paket agar tersedia, total 3+1+2+1+3 = 10 kredit.\n6. structural (3 kredit) di akhir karena paling relevan setelah pola teknis terdeteksi.\n\nTotal 10 kredit dari pagu 25, sisa 15 kredit disimpan agar tidak boros pada emiten dengan kapitalisasi 2.24T dan data publik yang sudah cukup menjelaskan (119 hari bursa). Over-budget tidak menambah keyakinan di tahap awal; ini rencana ramping yang menjawab pertanyaan terbesar (apa yang terjadi di balik -27%) dengan biaya minimum."
   },
   "steps": [
     {
