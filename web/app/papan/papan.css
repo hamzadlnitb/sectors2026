@@ -62,11 +62,12 @@
 .cal-nav { width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; background: var(--surface); border: 1px solid var(--border); color: var(--muted); border-radius: 7px; cursor: pointer; font-size: 14px; line-height: 1; padding: 0; }
 .cal-nav:hover { color: var(--text); border-color: var(--accent); }
 .cal-nav:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; grid-auto-rows: 34px; align-items: stretch; }
 .cal-dow { text-align: center; font-family: var(--font-jbm), monospace; font-size: 10px; color: var(--dim); padding-bottom: 4px; }
 /* SEMUA sel seukuran, ada run atau tidak: border 1px selalu ada (transparan
    untuk non-run) supaya footprint-nya identik dan grid rapi. */
-.cal-day { height: 34px; width: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--font-jbm), monospace; font-size: 12.5px; border: 1px solid transparent; border-radius: 8px; color: var(--muted); position: relative; padding: 0; box-sizing: border-box; }
+.cal-day { height: 34px; width: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--font-jbm), monospace; font-size: 12.5px; line-height: 1; border: 1px solid transparent; border-radius: 8px; color: var(--muted); position: relative; padding: 0; margin: 0; box-sizing: border-box; }
+button.cal-day { -webkit-appearance: none; appearance: none; }
 .cal-day.empty { visibility: hidden; }
 button.cal-day { background: none; font: inherit; }
 .cal-day.weekend { color: color-mix(in srgb, var(--muted) 55%, transparent); }
