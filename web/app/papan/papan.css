@@ -66,16 +66,17 @@
 .cal-dow { text-align: center; font-family: var(--font-jbm), monospace; font-size: 10px; color: var(--dim); padding-bottom: 4px; }
 /* SEMUA sel seukuran, ada run atau tidak: border 1px selalu ada (transparan
    untuk non-run) supaya footprint-nya identik dan grid rapi. */
-.cal-day { height: 34px; width: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--font-jbm), monospace; font-size: 12.5px; line-height: 1; border: 1px solid transparent; border-radius: 8px; color: var(--muted); position: relative; padding: 0; margin: 0; box-sizing: border-box; }
-button.cal-day { -webkit-appearance: none; appearance: none; }
+.cal-day { height: 34px; width: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--font-jbm), monospace; font-size: 12.5px; line-height: 1; border: none; border-radius: 9px; color: var(--muted); position: relative; padding: 0; margin: 0; box-sizing: border-box; }
+button.cal-day { -webkit-appearance: none; appearance: none; background: none; font: inherit; }
 .cal-day.empty { visibility: hidden; }
-button.cal-day { background: none; font: inherit; }
-.cal-day.weekend { color: color-mix(in srgb, var(--muted) 55%, transparent); }
-.cal-day.run { color: var(--text); background: color-mix(in srgb, var(--accent) 8%, transparent); border-color: color-mix(in srgb, var(--accent) 34%, var(--border)); cursor: pointer; }
-.cal-day.run:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 15%, transparent); }
-.cal-day.run.on { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.cal-day.weekend { color: color-mix(in srgb, var(--muted) 50%, transparent); }
+/* Ada run: cukup angka teal + titik biru, TANPA kotak berat, supaya grid tetap
+   rata seperti kalender biasa. Kotak isi hanya untuk tanggal terpilih. */
+.cal-day.run { color: var(--accent); cursor: pointer; }
+.cal-day.run:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.cal-day.run.on { background: var(--accent); color: var(--on-accent); }
 .cal-day.run:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.cal-day .pip { position: absolute; bottom: 3.5px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
+.cal-day .pip { position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: var(--accent); }
 .cal-day.run.on .pip { background: var(--on-accent); }
 .cal-day:not(.run) .pip { display: none; }
 .cal-legend { display: flex; align-items: center; gap: 7px; margin-top: 12px; font-size: 10.5px; color: var(--dim); }
