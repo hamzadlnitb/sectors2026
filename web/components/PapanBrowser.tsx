@@ -34,10 +34,10 @@ function fmtLong(d: string) {
 
 export default function PapanBrowser({
   runs,
-  invBySymbol,
+  invByKey,
 }: {
   runs: PapanRun[];
-  invBySymbol: Record<string, InvRef>;
+  invByKey: Record<string, InvRef>;
 }) {
   const [selected, setSelected] = useState(runs[0]?.date ?? "");
   const initParts = (runs[0]?.date ?? "2026-01-01").split("-").map(Number);
@@ -130,7 +130,7 @@ export default function PapanBrowser({
       {/* candidate list */}
       <div className="run-list" key={run.date}>
         {run.candidates.map((c, i) => {
-          const inv = invBySymbol[c.symbol];
+          const inv = invByKey[`${c.symbol}|${run.date}`];
           const band = inv ? bandMeta(inv.band) : null;
           const color = band ? SIG[band.cls] : undefined;
           return (

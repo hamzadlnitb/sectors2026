@@ -13,10 +13,11 @@ export const metadata: Metadata = {
 
 export default function PapanPage() {
   const index = loadIndex();
-  const invBySymbol: Record<string, InvRef> = {};
+  // Cocokkan kandidat ke investigasi berdasarkan ticker + TANGGAL, bukan ticker
+  // saja — supaya tiap tanggal hanya menandai yang benar-benar diselidiki hari itu.
+  const invByKey: Record<string, InvRef> = {};
   for (const e of index.investigations) {
-    const prev = invBySymbol[e.symbol];
-    if (!prev) invBySymbol[e.symbol] = { id: e.id, band: e.band as Band, score: e.pantau_score };
+    invByKey[`${e.symbol}|${e.as_of}`] = { id: e.id, band: e.band as Band, score: e.pantau_score };
   }
 
   const runs: PapanRun[] = loadWatchlistDates()
@@ -48,7 +49,7 @@ export default function PapanPage() {
           <p style={{ margin: 0, color: "var(--muted)" }}>Belum ada run watchlist yang diekspor.</p>
         </div>
       ) : (
-        <PapanBrowser runs={runs} invBySymbol={invBySymbol} />
+        <PapanBrowser runs={runs} invByKey={invByKey} />
       )}
 
       <div className="footnote">
