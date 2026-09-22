@@ -40,6 +40,7 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
     const flagged = ranked.filter((e) => e.band !== "normal");
     const esc = items.filter((e) => e.moments.includes("escalation"));
     const adapt = items.filter((e) => e.moments.includes("adaptive"));
+    const mem = items.filter((e) => e.moments.includes("memory"));
     const avgSav = total ? Math.round(items.reduce((s, e) => s + e.savings_pct, 0) / total) : 0;
     const routeTo = (e: IndexEntry): ToolRef => ({ kind: "route", id: `/investigasi/${e.id}/` });
 
@@ -94,17 +95,30 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
         q: "Ada momen agentik?",
         keys: ["momen", "agentik", "agentic", "eskalasi", "adaptif", "adaptive"],
         answer: (): ChatAnswer => {
-          if (esc.length || adapt.length) {
-            const parts: string[] = [];
-            if (esc.length) parts.push(`${esc.length} eskalasi (${esc.map((e) => e.symbol).join(", ")})`);
-            if (adapt.length) parts.push(`${adapt.length} perutean adaptif (${adapt.map((e) => e.symbol).join(", ")})`);
-            const it = esc[0] ?? adapt[0];
-            return { trace: ["cari momen di semua run"], text: `Ya, ${parts.join(", ")}. Inilah yang membedakan agen dari if-else.`, tools: it ? [{ label: `Buka investigasi ${it.symbol}`, ref: routeTo(it) }] : [] };
+          const parts: string[] = [];
+          if (esc.length) parts.push(`${esc.length} eskalasi (${esc.map((e) => e.symbol).join(", ")})`);
+          if (adapt.length) parts.push(`${adapt.length} perutean adaptif (${adapt.map((e) => e.symbol).join(", ")})`);
+          if (mem.length) parts.push(`${mem.length} investigasi ulang dengan memori (${mem.map((e) => e.symbol).join(", ")})`);
+          if (parts.length) {
+            const it = esc[0] ?? adapt[0] ?? mem[0];
+            return { trace: ["cari momen di semua run"], text: `Ya, ${parts.join("; ")}. Inilah yang membedakan agen dari if-else.`, tools: it ? [{ label: `Buka investigasi ${it.symbol}`, ref: routeTo(it) }] : [] };
           }
           return { trace: ["cari momen di semua run"], text: "Hari ini kebanyakan berakhir dengan penghentian dini, agen berhenti begitu bukti cukup dan tak menghabiskan jatah. Tak ada eskalasi/perutean di luar rencana.", tools: [] };
         },
       },
     ];
+
+    if (mem.length) {
+      intents.push({
+        q: "Ada investigasi ulang?",
+        keys: ["ulang", "memori", "memory", "sebelumnya", "ingat"],
+        answer: (): ChatAnswer => ({
+          trace: ["cari momen memori"],
+          text: `Ya, ${mem.map((e) => e.symbol).join(", ")} diselidiki ulang. Agen mengingat run sebelumnya dan menyusun rencana berbeda, diarahkan ke apa yang berubah, bukan mengulang dari nol.`,
+          tools: [{ label: `Buka investigasi ${mem[0].symbol}`, ref: routeTo(mem[0]) }],
+        }),
+      });
+    }
 
     const greeting: ChatAnswer = {
       trace: [],
