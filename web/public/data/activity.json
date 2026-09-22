@@ -1,6 +1,52 @@
 {
-  "generated_at": "2026-09-19T04:58:21+00:00",
+  "generated_at": "2026-09-22T07:16:24+00:00",
   "events": [
+    {
+      "ts": "2026-09-18T17:30:00+07:00",
+      "date": "2026-09-18",
+      "kind": "investigation",
+      "id": "NICK-2026-09-18",
+      "symbol": "NICK",
+      "band": "waspada",
+      "pantau_score": 64,
+      "steps": 5,
+      "credits": 0,
+      "savings_pct": 100,
+      "moments": [
+        "early_stop"
+      ]
+    },
+    {
+      "ts": "2026-09-18T17:30:00+07:00",
+      "date": "2026-09-18",
+      "kind": "investigation",
+      "id": "ASLI-2026-09-18",
+      "symbol": "ASLI",
+      "band": "waspada",
+      "pantau_score": 62,
+      "steps": 3,
+      "credits": 0,
+      "savings_pct": 100,
+      "moments": [
+        "early_stop"
+      ]
+    },
+    {
+      "ts": "2026-09-18T17:30:00+07:00",
+      "date": "2026-09-18",
+      "kind": "investigation",
+      "id": "JAWA-2026-09-18",
+      "symbol": "JAWA",
+      "band": "normal",
+      "pantau_score": 16,
+      "steps": 1,
+      "credits": 0,
+      "savings_pct": 100,
+      "moments": [
+        "early_stop",
+        "memory"
+      ]
+    },
     {
       "ts": "2026-09-18T14:35:35+00:00",
       "date": "2026-09-18",

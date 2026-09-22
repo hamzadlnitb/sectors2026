@@ -1,6 +1,42 @@
 {
-  "generated_at": "2026-09-19T04:58:21+00:00",
+  "generated_at": "2026-09-22T07:16:24+00:00",
   "investigations": [
+    {
+      "id": "NICK-2026-09-18",
+      "symbol": "NICK",
+      "as_of": "2026-09-18",
+      "pantau_score": 64,
+      "band": "waspada",
+      "confidence": 0.92,
+      "steps": 5,
+      "credits_total": 0,
+      "baseline_credits": 16,
+      "savings_pct": 100,
+      "memory_ref": null,
+      "narrative_source": "template",
+      "moments": [
+        "early_stop"
+      ],
+      "headline": "Beberapa indikator pada NICK menunjukkan pola tidak biasa"
+    },
+    {
+      "id": "ASLI-2026-09-18",
+      "symbol": "ASLI",
+      "as_of": "2026-09-18",
+      "pantau_score": 62,
+      "band": "waspada",
+      "confidence": 0.65,
+      "steps": 3,
+      "credits_total": 0,
+      "baseline_credits": 16,
+      "savings_pct": 100,
+      "memory_ref": null,
+      "narrative_source": "llm",
+      "moments": [
+        "early_stop"
+      ],
+      "headline": "Investigasi pada ASLI menemukan anomali volume yang sangat kuat, dengan rasio 23,8× median dan Z-score 21,7σ, namun s…"
+    },
     {
       "id": "SCCO-2026-09-09",
       "symbol": "SCCO",
@@ -36,6 +72,25 @@
         "early_stop"
       ],
       "headline": "Tidak ada pola tidak biasa yang menonjol pada TRUK"
+    },
+    {
+      "id": "JAWA-2026-09-18",
+      "symbol": "JAWA",
+      "as_of": "2026-09-18",
+      "pantau_score": 16,
+      "band": "normal",
+      "confidence": 0.22,
+      "steps": 1,
+      "credits_total": 0,
+      "baseline_credits": 16,
+      "savings_pct": 100,
+      "memory_ref": "JAWA-2026-09-09",
+      "narrative_source": "llm",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "headline": "Volume JAWA pada hari terakhir tercatat 1,8× median baseline dengan Z-score 0,9σ, menunjukkan aktivitas perdagangan y…"
     },
     {
       "id": "JAWA-2026-09-09",

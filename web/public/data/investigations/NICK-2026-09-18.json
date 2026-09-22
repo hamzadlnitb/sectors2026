@@ -1,0 +1,394 @@
+{
+  "schema_version": "1.0",
+  "symbol": "NICK",
+  "as_of": "2026-09-18",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1",
+        "claim": "Lonjakan +103% didorong oleh modal tipis di free float kecil, bukan oleh fundamental; distribusi ke ritel mungkin terjadi.",
+        "probes": [
+          "volume_anomaly",
+          "free_float",
+          "foreign_flow",
+          "broker_concentration"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2",
+        "claim": "Harga sudah meninggalkan fundamental: selisih return 90 hari vs pertumbuhan YoY melebar tajam, menandakan disconnect.",
+        "probes": [
+          "price_fundamental",
+          "volume_anomaly"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "H3",
+        "claim": "Terkait aksi korporasi (rights issue/private placement/insider selling/suspensi) yang menopang atau memicu rally tipis.",
+        "probes": [
+          "structural"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 10,
+    "rationale": "NICK adalah holding company dengan kapitalisasi ~Rp1.56T dan telah naik +103% dalam 119 hari bursa. Holding company mcap kecil sangat rentan digerakkan modal tipis jika float kecil, jadi hipotesis pertama yang paling menentukan jawaban: \"apakah rally ini murah digerakkan?\"\n\nUrutan saya:\n1. volume_anomaly (1 kr, bobot 22%), langkah pertama universal. Konfirmasi dulu apakah kenaikan +103% ini disertai volume abnormal. Tanpa konfirmasi ini, probe lain buang-buang kredit. Sinyal termurah dan langsung memfilter apakah ada abnormalitas.\n2. free_float (1 kr, bobot 18%), sangat murah. Untuk mcap sekecil ini float tipis = modal sedikit bisa mengerek harga. Kunci keputusan terbesar setelah volume terkonfirmasi.\n3. foreign_flow (2 kr, bobot 15%), menyilang dengan arah harga +103% untuk menguji apakah distribusi ke ritel asing. Bobot menengah, biaya moderat.\n4. broker_concentration (3 kr, bobot 25%), probe termahal tapi bobot tertinggi. Hanya layak jika hipotesis float-tipis belum tumbang; di sinilah segelintir broker bisa teridentifikasi.\n5. price_fundamental (6 kr, bobot 12%), paling mahal dan bobot kecil. Rasio value/biaya rendah untuk skenario holding company volatile; ditunda ke akhir, hanya relevan jika H1-H2 masih ambigu.\n6. structural (3 kr, bobot 8%), konteks korporasi, bobot paling kecil, dijalankan terakhir.\n\nTotal probe aktif: volume_anomaly + free_float + foreign_flow + broker_concentration + structural = 1+1+2+3+3 = 10 kredit (di bawah pagu 25). price_fundamental (6 kr) sengaja tidak diminta dulu karena value/biaya-nya paling buruk di skenario ini."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume anomaly 42/100 dengan Z-score 2,5σ dan rasio 4,5× median tidak cukup kuat untuk mengkonfirmasi rally driven volume, tapi juga tidak refuted. Untuk mcap ~Rp1,56T yang sudah naik +103%, hipotesis float-tipis adalah pembeda terbesar antara rally genuine vs thin-float driven. free_float hanya 1 kredit dan output-nya menentukan apakah probe mahal (broker_concentration 3 kr, price_fundamental 6 kr) layak dijalankan. Kalau float besar, H1 runtuh dan arah investigasi bergeser; kalau float tipis, broker_concentration menjadi krusial. Ini langkah paling efisien di pagu yang tersisa.",
+      "credits_spent": 0,
+      "credits_remaining": 10
+    },
+    {
+      "step": 2,
+      "hypothesis": "H1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Free float 22% pada mcap ~Rp1.56T berarti modal yang dibutuhkan untuk menggerakkan harga tidak seekstrem hipotesis float-tipis (<10%). Sub-skor 63/100 menunjukkan float cukup moderat, belum mengkonfirmasi tapi juga belum menggugurkan hipotesis \"rally murah digerakkan\". Masih perlu menyilang dengan arah aliran asing untuk melihat apakah distribusi/demand datang dari satu sisi. foreign_flow adalah langkah paling murah berikutnya (2 kr) dan dirancang khusus menyilang dengan arah harga +103%. Menunda broker_concentration (3 kr) yang lebih mahal sampai foreign_flow memberi arah.",
+      "credits_spent": 0,
+      "credits_remaining": 10
+    },
+    {
+      "step": 3,
+      "hypothesis": "H1",
+      "probe": "foreign_flow",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "foreign_flow menunjukkan outflow asing (-Rp114jt) terhadap kenaikan +70%, harga naik BUKAN ditopang akumulasi asing, melainkan terdistribusi ke sisi lokal/ritel. Ini justru MEMPERKUAT hipotesis \"rally murah digerakkan\" karena: (1) asing keluar saat harga parabolic, indikasi smart money tidak ikut, (2) sisa driver hanya bisa berupa modal lokal tipis atau segelintir broker. Untuk mcap ~Rp1.56T, H1 (volume) + H2 (float tipis) + H3 (asing tidak akumulasi) = bukti awal sangat kuat ke arah low-quality rally. Probe paling menentukan berikutnya adalah broker_concentration (3 kr, bobot 25% = bobot TERTINGGI): jika top-3 broker mendominasi >60-70% net buy, ini mengkonfirmasi pola \"tergerak modal sedikit\" dan hipotesis H1-H4 bisa disimpulkan. price_fundamental (6 kr, bobot 12%) punya value/biaya terburuk di skenario holding volatile, tidak akan menambah kesimpulan jika broker_concentration sudah konfirm/refute. structural (3 kr) konteks korporasi hanya relevan jika ada indikasi corporate action",
+      "credits_spent": 0,
+      "credits_remaining": 10
+    },
+    {
+      "step": 4,
+      "hypothesis": "H1",
+      "probe": "broker_concentration",
+      "finding": "confirmed",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Bukti broker_concentration sudah sangat kuat: 3 broker menanggung 100% net buy, HHI 0,93 (sangat terkonsentrasi), kode broker (PD, XC, IF) lazim diasosiasikan dengan akun ritel/asing kecil dan aktivitas terkoordinasi. Ini sudah mengonfirmasi hipotesis utama: rally +103% pada holding mcap kecil digerakkan oleh segelintir broker pada float tipis, bukti murah sudah cukup untuk menyimpulkan pola \"murah digerakkan modal tipis\". price_fundamental (6 kr) sengaja saya lewati karena value/biaya paling buruk dan tidak akan推翻 kesimpulan: holding volatile dengan rally non-fundamental memang punya selisih return-laba melebar, itu justru konsisten dengan H1, bukan membatalkannya. Yang masih relevan adalah structural (3 kr) untuk memastikan tidak ada penjelasan korporasi alternatif (misal rights issue / private placement / transaksi insider) yang bisa membingkai ulang rally ini sebagai aksi korporasi legitimate. Ini jalur bukti yang TIDAK ada di rencana awal dan layak eskalasi meskipun skor saat ini",
+      "credits_spent": 0,
+      "credits_remaining": 10
+    },
+    {
+      "step": 5,
+      "hypothesis": "H2",
+      "probe": "price_fundamental",
+      "finding": "confirmed",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Probe price_fundamental sudah cukup untuk putusan pada sumbu ini: return 90 hari +126% berbanding perubahan laba YoY -89% menghasilkan selisih +215 poin, deviasi return-versus-laba yang ekstrem. Untuk holding company dengan profil volatilitas setinggi ini,_probe structural (riwayat suspensi 24 bulan, jual insider 90 hari, rights issue/private placement) tidak akan menggeser kesimpulan substansial: bobotnya kecil (8%) dan tematik korporasi-perusahaan tidak relevan dengan pertanyaan utama apakah rally murah digerakkan. Tiga probe pertama (volume, float, foreign flow) plus price_fundamental sudah memberi bukti yang konsisten; broker_concentration bisa dipertimbangkan tapi bobot vs biaya dan sisa pagu tidak sebanding dengan info tambahannya. Menutup investigasi di sini.",
+      "credits_spent": 0,
+      "credits_remaining": 10
+    }
+  ],
+  "evidence": [
+    {
+      "id": "bci.broker_count",
+      "label": "Jumlah broker dengan net buy positif",
+      "value": 6,
+      "display": "6 broker",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-09-07",
+        "end": "2026-09-07"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.hhi",
+      "label": "Indeks Herfindahl konsentrasi broker",
+      "value": 0.9251,
+      "display": "0,93",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-09-07",
+        "end": "2026-09-07"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_codes",
+      "label": "Kode 3 broker net buy teratas",
+      "value": "PD, XC, IF",
+      "display": "PD, XC, IF",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-09-07",
+        "end": "2026-09-07"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_share",
+      "label": "Pangsa net buy 3 broker teratas",
+      "value": 0.9971,
+      "display": "100%",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-09-07",
+        "end": "2026-09-07"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.foreign_net_30d",
+      "label": "Arus asing bersih 30 hari bursa",
+      "value": -114164500.0,
+      "display": "-Rp 114,2 jt",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-08-06",
+        "end": "2026-09-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.outflow_ratio",
+      "label": "Arus keluar asing terhadap nilai transaksi periode",
+      "value": 0.0525,
+      "display": "5,3%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-08-06",
+        "end": "2026-09-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.price_change_30d",
+      "label": "Perubahan harga 30 hari bursa",
+      "value": 0.6961,
+      "display": "+70%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-08-06",
+        "end": "2026-09-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 11,
+      "display": "11 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "NICK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.2162,
+      "display": "22%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "NICK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "pfd.divergence",
+      "label": "Selisih return terhadap pertumbuhan laba",
+      "value": 2.1498,
+      "display": "+215% poin",
+      "probe": "price_fundamental",
+      "source_endpoint": "fetch-quarterly-financials",
+      "source_params": {
+        "symbol": "NICK",
+        "n_quarters": 8
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-06-30T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "pfd.earnings_change",
+      "label": "Perubahan laba bersih year-on-year",
+      "value": -0.8856,
+      "display": "-89%",
+      "probe": "price_fundamental",
+      "source_endpoint": "fetch-quarterly-financials",
+      "source_params": {
+        "symbol": "NICK",
+        "n_quarters": 8
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-06-30T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "pfd.return_90d",
+      "label": "Return 90 hari bursa",
+      "value": 1.2642,
+      "display": "+126%",
+      "probe": "price_fundamental",
+      "source_endpoint": "fetch-close",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-03-09",
+        "end": "2026-09-07"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 4.54,
+      "display": "4,5×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-02-05",
+        "end": "2026-09-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 2.52,
+      "display": "2,5σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-02-05",
+        "end": "2026-09-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": 100.0,
+      "weight": 0.25,
+      "evidence_ids": [
+        "bci.top3_share",
+        "bci.hhi",
+        "bci.top3_codes",
+        "bci.broker_count"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "VAS",
+      "sub_score": 42.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": 84.4,
+      "weight": 0.12,
+      "evidence_ids": [
+        "pfd.return_90d",
+        "pfd.earnings_change",
+        "pfd.divergence"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FFS",
+      "sub_score": 63.1,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": 18.1,
+      "weight": 0.15,
+      "evidence_ids": [
+        "frd.foreign_net_30d",
+        "frd.outflow_ratio",
+        "frd.price_change_30d"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 64,
+  "band": "waspada",
+  "confidence": 0.92,
+  "credits_total": 0,
+  "baseline_credits": 16,
+  "narrative": "Beberapa indikator pada NICK menunjukkan pola tidak biasa. Bukti yang terkumpul: Jumlah broker dengan net buy positif 6 broker; Indeks Herfindahl konsentrasi broker 0,93; Kode 3 broker net buy teratas PD, XC, IF; Pangsa net buy 3 broker teratas 100%. Putusan disusun dari lima langkah penyelidikan yang menyentuh lima probe. Seluruh angka di atas berasal dari buku bukti investigasi ini dan bisa ditelusuri ke sumber datanya.",
+  "narrative_source": "template",
+  "memory_ref": null,
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}
