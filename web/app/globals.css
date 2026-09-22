@@ -246,3 +246,56 @@ section { margin-top: 40px; }
   .chat-fab { right: 14px; bottom: 14px; }
   .chat-pop { right: 12px; left: 12px; bottom: 12px; width: auto; max-height: 82vh; }
 }
+
+/* ── Riwayat analisa agen ──────────────────────────────────────────────────
+   Satu kartu per emiten, satu baris per kunjungan. Lebar penuh di ponsel —
+   persona kita membaca ini sambil berdiri di angkot, bukan di dua monitor. */
+.hist { margin-top: clamp(40px, 6vw, 64px); }
+.hist-list { display: grid; gap: 14px; }
+.hcard { border: 1px solid var(--border); border-radius: 13px; background: var(--surface); padding: 14px 16px 6px; }
+.hc-head { display: flex; flex-direction: column; gap: 4px; }
+.hc-id { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.hc-sym { font-size: 15px; font-weight: 800; letter-spacing: 0.04em; }
+.hc-band { font-size: 11px; font-weight: 700; }
+.hc-meta { font-size: 12px; color: var(--muted); }
+.hc-meta .mono { color: var(--text); }
+.hc-spark { display: block; width: 100%; height: 30px; margin: 10px 0 2px; overflow: visible; }
+
+.hc-trail { list-style: none; margin: 0; padding: 0; }
+.hv { display: grid; grid-template-columns: minmax(0, 132px) 1fr; gap: 10px; align-items: start;
+      padding: 9px 0; border-top: 1px solid var(--border); }
+.hv-link { display: flex; align-items: baseline; gap: 7px; text-decoration: none; }
+.hv-link:hover .hv-skor { text-decoration: underline; }
+.hv-tgl { font-size: 11px; color: var(--dim); }
+.hv-skor { font-size: 14px; font-weight: 800; }
+.hv-delta { font-size: 10px; border-radius: 5px; padding: 1px 5px; border: 1px solid var(--border); }
+.hv-up { color: var(--sig-alert); }
+.hv-down { color: var(--sig-normal); }
+.hv-flat, .hv-first { color: var(--dim); }
+.hv-body { font-size: 12px; color: var(--muted); }
+.hv-body .mono { color: var(--text); }
+.hv-kerja { line-height: 1.5; }
+.hv-tmpl { margin-left: 6px; font-size: 10px; color: var(--dim); border: 1px dashed var(--border); border-radius: 5px; padding: 1px 5px; }
+.hv-momen { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+.hv-badge { font-size: 10px; color: var(--accent); border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; }
+
+@media (max-width: 560px) {
+  /* Di layar sempit, jadwal dan kerja agen ditumpuk, bukan diciutkan —
+     teks Bahasa Indonesia panjang dan kolom 132px akan memaksa pemenggalan. */
+  .hv { grid-template-columns: 1fr; gap: 4px; }
+}
+
+/* Jejak probe di feed aktivitas */
+.fr-trail { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.fr-probe { font-size: 10px; font-family: var(--font-jbm), monospace; border: 1px solid var(--border);
+            border-radius: 5px; padding: 1px 6px; color: var(--muted); }
+.fr-probe.confirmed { color: var(--sig-alert); }
+.fr-probe.refuted { color: var(--sig-normal); }
+.fr-probe.unplanned { border-style: dashed; border-color: var(--accent); }
+.fr-momen { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+.fr-badge { font-size: 10px; color: var(--accent); border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; }
+/* Skor yang cuma bersandar pada satu-dua komponen. Ditandai, bukan disembunyikan:
+   keyakinan tipis adalah temuan, dan menyembunyikannya persis kesalahan yang
+   membuat "100 · 1 langkah · hemat 94%" terbaca sebagai prestasi. */
+.hv-tipis { color: var(--sig-watch); border-bottom: 1px dotted currentColor; cursor: help; }
+.hv-tipis .mono { color: inherit; }

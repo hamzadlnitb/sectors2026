@@ -2,9 +2,11 @@ import Link from "next/link";
 import SearchBox from "@/components/SearchBox";
 import InvestigationCard from "@/components/InvestigationCard";
 import ActivityFeed from "@/components/ActivityFeed";
+import AgentHistory from "@/components/AgentHistory";
 import LandingChat from "@/components/LandingChat";
 import { loadIndex, symbolToId } from "@/lib/transcript";
 import { loadActivity } from "@/lib/activity";
+import { loadHistory } from "@/lib/history";
 import "./landing.css";
 
 const PROCESS = [
@@ -29,6 +31,7 @@ export default function Landing() {
   const flagged = index.investigations.filter((e) => e.band === "waspada" || e.band === "sangat_waspada").length;
   const escalated = index.investigations.filter((e) => e.moments.includes("escalation")).length;
   const activity = loadActivity();
+  const history = loadHistory();
 
   return (
     <main className="lp">
@@ -128,6 +131,8 @@ export default function Landing() {
       </section>
 
       <LandingChat items={index.investigations} />
+
+      <AgentHistory symbols={history.symbols} />
 
       <ActivityFeed events={activity.events.slice(0, 12)} />
 

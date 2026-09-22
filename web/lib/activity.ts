@@ -5,6 +5,14 @@ import type { Band } from "./bands";
 // Feed aktivitas agen (dashboard #4) — ditulis core/export/to_json.py dari runs/.
 // Statis: alur agen-harian → berkas → frontend (analog "middleware" mode statis).
 
+export interface TrailStep {
+  probe: string;
+  finding: "confirmed" | "refuted" | "inconclusive";
+  credits: number;
+  /** false = probe dibuka di luar rencana awal (perutean adaptif). */
+  planned: boolean;
+}
+
 export interface ActivityEvent {
   ts: string;
   date: string;
@@ -20,6 +28,13 @@ export interface ActivityEvent {
   steps?: number;
   savings_pct?: number;
   moments?: string[];
+  baseline_credits?: number;
+  confidence?: number;
+  narrative_source?: "llm" | "template";
+  components_used?: number;
+  components_total?: number;
+  headline?: string;
+  trail?: TrailStep[];
 }
 
 export interface ActivityFeed {

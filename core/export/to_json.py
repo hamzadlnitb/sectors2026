@@ -105,6 +105,14 @@ def summarize(t: InvestigationTranscript, ident: str) -> dict:
         "pantau_score": t.pantau_score,
         "band": t.band,
         "confidence": t.confidence,
+        # Berapa dari enam komponen yang benar-benar punya angka. Komposit
+        # menormalkan ulang atas komponen yang TERSEDIA, jadi satu komponen
+        # ekstrem sendirian menghasilkan skor 100 — tinggi justru karena agen
+        # berhenti cepat, bukan karena buktinya kuat. Angka ini harus ikut
+        # tampil di mana pun skor tampil, kalau tidak "100, 1 langkah, hemat"
+        # terbaca sebagai efisien padahal artinya tipis.
+        "components_used": sum(1 for c in t.components if c.sub_score is not None),
+        "components_total": len(t.components),
         "steps": len(t.steps),
         "credits_total": t.credits_total,
         "baseline_credits": t.baseline_credits,
@@ -113,6 +121,15 @@ def summarize(t: InvestigationTranscript, ident: str) -> dict:
         "narrative_source": t.narrative_source,
         "moments": moment_kinds(t),
         "headline": headline(t),
+        "trail": [
+            {
+                "probe": st.probe,
+                "finding": st.finding,
+                "credits": st.credits_spent,
+                "planned": st.probe in {p for h in t.plan.hypotheses for p in h.probes},
+            }
+            for st in t.steps
+        ],
     }
 
 
@@ -228,9 +245,83 @@ def build_activity(summaries: list[dict], watch_dates: list[dict]) -> dict:
             "credits": s["credits_total"],
             "savings_pct": s["savings_pct"],
             "moments": s["moments"],
+            "baseline_credits": s["baseline_credits"],
+            "confidence": s["confidence"],
+            "narrative_source": s["narrative_source"],
+            "components_used": s["components_used"],
+            "components_total": s["components_total"],
+            "headline": s["headline"],
+            "trail": s["trail"],
         })
     events.sort(key=lambda e: e["ts"], reverse=True)
     return {"generated_at": datetime.now(UTC).isoformat(timespec="seconds"), "events": events}
+
+
+def build_history(summaries: list[dict]) -> dict:
+    """Riwayat analisa agen per emiten, terurut waktu.
+
+    Feed aktivitas menjawab "agen ngapain hari ini". Ini menjawab pertanyaan yang
+    justru membuktikan agennya berpikir: **apa yang berubah sejak terakhir kali
+    ia melihat emiten yang sama.** Delta skor antar tanggal adalah satu-satunya
+    tempat perilaku memori [ARCHITECTURE §3] terlihat tanpa harus membuka dua
+    transkrip bersebelahan.
+
+    Dihitung di sini, bukan di komponen, supaya papan dan landing memakai angka
+    yang sama persis — delta yang dihitung dua kali adalah delta yang cepat atau
+    lambat berbeda.
+    """
+    per_symbol: dict[str, list[dict]] = {}
+    for s in summaries:
+        per_symbol.setdefault(s["symbol"], []).append(s)
+
+    keluar = []
+    for symbol, rows in per_symbol.items():
+        rows = sorted(rows, key=lambda r: r["as_of"])
+        jejak = []
+        for i, r in enumerate(rows):
+            sebelum = rows[i - 1] if i else None
+            jejak.append({
+                "id": r["id"],
+                "as_of": r["as_of"],
+                "pantau_score": r["pantau_score"],
+                "band": r["band"],
+                "confidence": r["confidence"],
+                "steps": r["steps"],
+                "credits_total": r["credits_total"],
+                "savings_pct": r["savings_pct"],
+                "moments": r["moments"],
+                "narrative_source": r["narrative_source"],
+                "components_used": r["components_used"],
+                "components_total": r["components_total"],
+                "headline": r["headline"],
+                "trail": r["trail"],
+                # None pada kunjungan pertama — "belum pernah dilihat" dan
+                # "tidak berubah" adalah dua hal berbeda, dan UI harus bisa
+                # membedakannya.
+                "delta_score": (r["pantau_score"] - sebelum["pantau_score"]) if sebelum else None,
+                "delta_band": (r["band"] != sebelum["band"]) if sebelum else None,
+            })
+        skor = [j["pantau_score"] for j in jejak]
+        keluar.append({
+            "symbol": symbol,
+            "kunjungan": len(jejak),
+            "pertama": jejak[0]["as_of"],
+            "terakhir": jejak[-1]["as_of"],
+            "skor_terakhir": jejak[-1]["pantau_score"],
+            "band_terakhir": jejak[-1]["band"],
+            "skor_min": min(skor),
+            "skor_maks": max(skor),
+            "kredit_total": sum(j["credits_total"] for j in jejak),
+            "jejak": jejak,
+        })
+
+    # Yang paling sering dikunjungi lebih dulu: emiten dengan riwayat terpanjang
+    # adalah yang paling menunjukkan agen bekerja berulang, bukan sekali jalan.
+    keluar.sort(key=lambda e: (-e["kunjungan"], -e["skor_terakhir"]))
+    return {
+        "generated_at": datetime.now(UTC).isoformat(timespec="seconds"),
+        "symbols": keluar,
+    }
 
 
 def main() -> int:
@@ -258,7 +349,13 @@ def main() -> int:
         (WEB_DATA / "activity.json").write_text(
             _no_emdash(json.dumps(activity, ensure_ascii=False, indent=2)), encoding="utf-8"
         )
-        print(f"\n→ {len(summaries)} investigasi, {len(watch_dates)} watchlist, {len(activity['events'])} aktivitas ditulis ke {WEB_DATA.relative_to(ROOT)}")
+        history = build_history(summaries)
+        (WEB_DATA / "history.json").write_text(
+            _no_emdash(json.dumps(history, ensure_ascii=False, indent=2)), encoding="utf-8"
+        )
+        print(f"\n→ {len(summaries)} investigasi, {len(watch_dates)} watchlist, "
+              f"{len(activity['events'])} aktivitas, {len(history['symbols'])} emiten berriwayat "
+              f"ditulis ke {WEB_DATA.relative_to(ROOT)}")
 
     if failed:
         print("\n✗ ada transkrip yang tidak lolos kontrak — tidak diekspor.")

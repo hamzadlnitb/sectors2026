@@ -1,0 +1,279 @@
+{
+  "schema_version": "1.0",
+  "symbol": "JAWA",
+  "as_of": "2026-09-11",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1",
+        "claim": "Volume hari terakhir masih anomali pasca-koreksi -12%, mengindikasikan distribusi/akumulasi berlanjut yang perlu dipetakan lewat konsentrasi broker dan arah aliran asing.",
+        "probes": [
+          "volume_anomaly",
+          "broker_concentration",
+          "foreign_flow"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2",
+        "claim": "Free float kecil (atau besar) pada emiten F&B berkapitalisasi Rp 2,24T menentukan apakah modal penggerak harga pasca-koreksi tetap tipis, mengkontekstualisasikan semua sinyal lain.",
+        "probes": [
+          "free_float"
+        ],
+        "priority": 2
+      }
+    ],
+    "credit_budget_requested": 7,
+    "rationale": "Investigasi kemarin (2026-09-10, skor 74, keyakinan 65%, 3 kredit terpakai) sudah menyentuh probe murah. Hari ini fokus pada APA YANG BERUBAH dalam 1 hari bursa pasca-skor waspada, bukan mengulang dari nol. Karena pagu 25 kredit dan keyakinan kemarin baru 65%, probe berbobot besar (broker_concentration 25%, foreign_flow 15%) wajib dijalankan untuk mengangkat keyakinan, bukan probe berbobot kecil (price_fundamental 12%, structural 8%).\n\nUrutan:\n- H1 mulai dengan volume_anomaly (1 kredit, bobot 22%), probe paling murah dan paling diagnostik untuk menjawab 'apakah anomali pasar 1 hari setelah skor waspada berlanjut atau sudah mereda'. Jika z-score normal, H1 gugur dan saya hemat 5 kredit.\n- Jika volume masih anomali, broker_concentration (3 kredit, bobot 25%) jadi langkah berikutnya, probe termahal dengan bobot terbesar, hanya layak saat ada motif deteksi akumulasi/distribusi segelintir pihak. Koreksi -12% mendukung hipotesis distribusi.\n- foreign_flow (2 kredit, bobot 15%) jadi cross-check: pelepasan oleh asing (bearish, distribusi ke ritel) atau domestik (netral/less bearish).\n- H2 (free_float, 1 kredit, bobot 18%) paralel sebagai konteks murah: pada F&B berkap Rp 2,24T, free float menentukan modal minimal penggerak harga pasca-koreksi, dan ini probe termurah dengan dampak interpretasi terbesar untuk semua sinyal lain.\n\nProbe DITUNDA:\n- price_fundamental (6 kredit, bobot 12%): harga TURUN -12%, bukan naik tajam, jadi tidak relevan. Rasio biaya/bobot tidak menguntungkan dibanding broker_concentration+foreign_flow.\n- structural (3 kredit, bobot 8%): bobot terlalu kecil untuk 3 kredit, dan sinyal pasar belum cukup kuat (keyakinan 65%) untuk butuh konteks korporasi.\n\nTotal 7 kredit (H1: 1+3+2=6 + H2: 1 = 7), menyisakan 18 kredit untuk iterasi lanjutan bila diperlukan."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1",
+      "probe": "volume_anomaly",
+      "finding": "confirmed",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume_anomaly (H1) sudah konfirmasi anomali ekstrem (Z=15,8σ, rasio 13,8× median). Hipotesis distribusi pasca-koreksi -12% bertumpu pada tiga bukti yang belum ada: (1) apakah konsentrasi broker terjadi di top-3 (broker_concentration, 3 kr), tanpa ini, anomali volume bisa berupa akumulasi terdistribusi luas dengan implikasi berbeda; (2) apakah foreign_flow mendukung narasi distribusi (foreign_flow, 2 kr), foreign net sell saat koreksi -12% mengkonfirmasi motif distribusi ke domestik, sementara domestic-led selling bersifat lebih netral; (3) free_float (1 kr) menjadi konteks wajib karena pada kap Rp 2,24T, ukuran float menentukan apakah anomali 13,8× median secara realistis bisa digerakkan modal kecil. Ketiga probe ini adalah rantai bukti langsung untuk hipotesis distribusi dan SATU-SATUNYA rencana yang tersisa. Tidak ada bukti di luar rencana awal yang wajib ditambah, price_fundamental tetap tidak relevan (harga TURUN, bukan naik tajam) dan structural tetap tidak layak dibayar sebel",
+      "credits_spent": 1,
+      "credits_remaining": 6
+    },
+    {
+      "step": 2,
+      "hypothesis": "H1",
+      "probe": "broker_concentration",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume_anomaly sebelumnya sudah mengonfirmasi anomali berlanjut, dan broker_concentration (sub-skor 32/100) menunjukkan Indeks Herfindahl 0,14 (rendah) dengan 13 broker net buy positif, motif konsentrasi terpusat TIDAK terkonfirmasi, sehingga hipotesis distribusi segelintir pihak melemah. Namun perlu cross-check: foreign_flow (2 kredit) membedah apakah pelepasan dilakukan asing (bearish/distribusi) atau domestik (netral). Foreign flow adalah satu-satunya probe yang tersisa yang punya bobot signifikan (15%) dan dapat mengubah kesimpulan arah. free_float (1 kredit) akan dijalankan di akhir sebagai konteks interpretasi termurah. Sisa pagu setelah foreign_flow: 2 kredit, cukup untuk free_float. price_fundamental dan structural tetap ditunda karena harga turun -12% dan bobotnya kecil.",
+      "credits_spent": 2,
+      "credits_remaining": 4
+    },
+    {
+      "step": 3,
+      "hypothesis": "H1",
+      "probe": "foreign_flow",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "foreign_flow hasil 0/100: arus asing 30 hari hanya -Rp 92,9 jt (0,2% dari nilai transaksi), secara praktis tidak ada footprint. Ini menyingkirkan hipotesis distribusi ke ritel via pelepasan asing; pelaku distribusi (jika ada) hampir pasti domestik. Sisa pagu 3 kredit hanya cukup untuk free_float (1 kredit), dan itu pun tidak akan mengubah kesimpulan: free_float adalah konteks kapabilitas, bukan bukti motif. Probe berbobot yang bisa mengangkat keyakinan (broker_concentration 3 kr, price_fundamental 6 kr) sudah tidak terjangkau. Eskalasi 18 kredit ke broker_concentration sebanding biayanya, namun foreign_flow sudah cukup untuk menyingkirkan satu cabang utama (pelaku asing), dan H1 (volume) sudah memberi cukup arah. Tidak ada bukti baru yang menuntut jalur di luar rencana awal. Hentikan di sini: murah dan bersih.",
+      "credits_spent": 1,
+      "credits_remaining": 3
+    }
+  ],
+  "evidence": [
+    {
+      "id": "bci.broker_count",
+      "label": "Jumlah broker dengan net buy positif",
+      "value": 13,
+      "display": "13 broker",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-09-07",
+        "end": "2026-09-11"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-11T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.hhi",
+      "label": "Indeks Herfindahl konsentrasi broker",
+      "value": 0.1445,
+      "display": "0,14",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-09-07",
+        "end": "2026-09-11"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-11T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_codes",
+      "label": "Kode 3 broker net buy teratas",
+      "value": "XL, LG, MG",
+      "display": "XL, LG, MG",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-09-07",
+        "end": "2026-09-11"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-11T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_share",
+      "label": "Pangsa net buy 3 broker teratas",
+      "value": 0.5665,
+      "display": "57%",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-09-07",
+        "end": "2026-09-11"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-11T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.foreign_net_30d",
+      "label": "Arus asing bersih 30 hari bursa",
+      "value": -92912800.0,
+      "display": "-Rp 92,9 jt",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-07-30",
+        "end": "2026-09-11"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-11T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.outflow_ratio",
+      "label": "Arus keluar asing terhadap nilai transaksi periode",
+      "value": 0.0017,
+      "display": "0,2%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-07-30",
+        "end": "2026-09-11"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-11T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.price_change_30d",
+      "label": "Perubahan harga 30 hari bursa",
+      "value": 0.2131,
+      "display": "+21%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-07-30",
+        "end": "2026-09-11"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-11T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 13.83,
+      "display": "13,8×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-01-29",
+        "end": "2026-09-11"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-11T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 15.78,
+      "display": "15,8σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-01-29",
+        "end": "2026-09-11"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-11T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": 31.9,
+      "weight": 0.25,
+      "evidence_ids": [
+        "bci.top3_share",
+        "bci.hhi",
+        "bci.top3_codes",
+        "bci.broker_count"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "VAS",
+      "sub_score": 100.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": null,
+      "weight": 0.18,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FRD",
+      "sub_score": 0.0,
+      "weight": 0.15,
+      "evidence_ids": [
+        "frd.foreign_net_30d",
+        "frd.outflow_ratio",
+        "frd.price_change_30d"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 48,
+  "band": "perhatian",
+  "confidence": 0.62,
+  "credits_total": 4,
+  "baseline_credits": 16,
+  "narrative": "Anomali volume pada JAWA tampak ekstrem secara statistik dengan rasio 13,8× median dan Z-score 15,8σ, namun tiga bukti pendukung hipotesis distribusi tidak terkonfirmasi: Indeks Herfindahl hanya 0,14 dengan 13 broker net buy positif sehingga motif konsentrasi terpusat melemah, pangsa top-3 57% tidak cukup menggambarkan pelaku dominan, dan arus asing 30 hari hanya -Rp 92,9 jt atau 0,2% dari nilai transaksi sehingga pelaku hampir pasti domestik. Perubahan harga 30 hari +21% terjadi di tengah anomali volume sebesar itu, sementara motif di balik anomali tetap belum teridentifikasi karena tidak ada bukti bahwa volume besar tersebut berasal dari distribusi terkoordinasi. Pola ini lebih menggambarkan aktivitas perdagangan tidak biasa tanpa arah motif yang bisa dikonfirmasi.",
+  "narrative_source": "llm",
+  "memory_ref": "JAWA-2026-09-10",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

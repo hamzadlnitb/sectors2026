@@ -1,0 +1,1229 @@
+{
+  "generated_at": "2026-09-22T19:47:57+00:00",
+  "symbols": [
+    {
+      "symbol": "ASLI",
+      "kunjungan": 9,
+      "pertama": "2026-09-10",
+      "terakhir": "2026-09-22",
+      "skor_terakhir": 62,
+      "band_terakhir": "waspada",
+      "skor_min": 47,
+      "skor_maks": 100,
+      "kredit_total": 13,
+      "jejak": [
+        {
+          "id": "ASLI-2026-09-10",
+          "as_of": "2026-09-10",
+          "pantau_score": 49,
+          "band": "perhatian",
+          "confidence": 0.55,
+          "steps": 3,
+          "credits_total": 0,
+          "savings_pct": 100,
+          "moments": [
+            "adaptive",
+            "escalation",
+            "early_stop"
+          ],
+          "narrative_source": "llm",
+          "components_used": 3,
+          "components_total": 6,
+          "headline": "Pada ASLI tercatat lonjakan harga 120% dalam 30 hari bursa yang tidak diikuti arus masuk asing (arus asing bersih han…",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "foreign_flow",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": false
+            }
+          ],
+          "delta_score": null,
+          "delta_band": null
+        },
+        {
+          "id": "ASLI-2026-09-11",
+          "as_of": "2026-09-11",
+          "pantau_score": 100,
+          "band": "sangat_waspada",
+          "confidence": 0.22,
+          "steps": 1,
+          "credits_total": 1,
+          "savings_pct": 94,
+          "moments": [
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "llm",
+          "components_used": 1,
+          "components_total": 6,
+          "headline": "Pada ASLI tercatat anomali volume yang luar biasa besar, yaitu 12,7× lipat dari median baseline dengan z-score 10,9σ …",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "confirmed",
+              "credits": 1,
+              "planned": true
+            }
+          ],
+          "delta_score": 51,
+          "delta_band": true
+        },
+        {
+          "id": "ASLI-2026-09-14",
+          "as_of": "2026-09-14",
+          "pantau_score": 47,
+          "band": "perhatian",
+          "confidence": 0.8,
+          "steps": 4,
+          "credits_total": 4,
+          "savings_pct": 75,
+          "moments": [
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "llm",
+          "components_used": 4,
+          "components_total": 6,
+          "headline": "Investigasi menemukan anomali volume yang sangat kuat pada ASLI dengan z-score 16,0σ dan rasio volume 18,1× median ba…",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "confirmed",
+              "credits": 1,
+              "planned": true
+            },
+            {
+              "probe": "broker_concentration",
+              "finding": "inconclusive",
+              "credits": 2,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "foreign_flow",
+              "finding": "refuted",
+              "credits": 1,
+              "planned": true
+            }
+          ],
+          "delta_score": -53,
+          "delta_band": true
+        },
+        {
+          "id": "ASLI-2026-09-15",
+          "as_of": "2026-09-15",
+          "pantau_score": 68,
+          "band": "waspada",
+          "confidence": 0.4,
+          "steps": 2,
+          "credits_total": 1,
+          "savings_pct": 94,
+          "moments": [
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "template",
+          "components_used": 2,
+          "components_total": 6,
+          "headline": "Beberapa indikator pada ASLI menunjukkan pola tidak biasa",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "inconclusive",
+              "credits": 1,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            }
+          ],
+          "delta_score": 21,
+          "delta_band": true
+        },
+        {
+          "id": "ASLI-2026-09-16",
+          "as_of": "2026-09-16",
+          "pantau_score": 50,
+          "band": "perhatian",
+          "confidence": 0.63,
+          "steps": 4,
+          "credits_total": 1,
+          "savings_pct": 94,
+          "moments": [
+            "adaptive",
+            "escalation",
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "template",
+          "components_used": 4,
+          "components_total": 6,
+          "headline": "Beberapa indikator pada ASLI berada di luar kebiasaan",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "structural",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": false
+            },
+            {
+              "probe": "foreign_flow",
+              "finding": "inconclusive",
+              "credits": 1,
+              "planned": false
+            }
+          ],
+          "delta_score": -18,
+          "delta_band": true
+        },
+        {
+          "id": "ASLI-2026-09-17",
+          "as_of": "2026-09-17",
+          "pantau_score": 54,
+          "band": "perhatian",
+          "confidence": 0.65,
+          "steps": 3,
+          "credits_total": 3,
+          "savings_pct": 81,
+          "moments": [
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "llm",
+          "components_used": 3,
+          "components_total": 6,
+          "headline": "Pada ASLI terdetek anomali volume yang sangat besar dengan rasio 53,5× median dan Z-score 48,3σ terhadap baseline 90 …",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "inconclusive",
+              "credits": 1,
+              "planned": true
+            },
+            {
+              "probe": "broker_concentration",
+              "finding": "inconclusive",
+              "credits": 2,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            }
+          ],
+          "delta_score": 4,
+          "delta_band": false
+        },
+        {
+          "id": "ASLI-2026-09-18",
+          "as_of": "2026-09-18",
+          "pantau_score": 62,
+          "band": "waspada",
+          "confidence": 0.65,
+          "steps": 3,
+          "credits_total": 0,
+          "savings_pct": 100,
+          "moments": [
+            "early_stop"
+          ],
+          "narrative_source": "llm",
+          "components_used": 3,
+          "components_total": 6,
+          "headline": "Investigasi pada ASLI menemukan anomali volume yang sangat kuat, dengan rasio 23,8× median dan Z-score 21,7σ, namun s…",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "confirmed",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "broker_concentration",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            }
+          ],
+          "delta_score": 8,
+          "delta_band": true
+        },
+        {
+          "id": "ASLI-2026-09-21",
+          "as_of": "2026-09-21",
+          "pantau_score": 54,
+          "band": "perhatian",
+          "confidence": 0.73,
+          "steps": 4,
+          "credits_total": 3,
+          "savings_pct": 81,
+          "moments": [
+            "adaptive",
+            "escalation",
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "llm",
+          "components_used": 4,
+          "components_total": 6,
+          "headline": "Investigasi pada ASLI menemukan anomali volume yang sangat kuat dengan Z-score 11,1σ atau 13,3× median baseline, dan …",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "confirmed",
+              "credits": 1,
+              "planned": true
+            },
+            {
+              "probe": "structural",
+              "finding": "confirmed",
+              "credits": 0,
+              "planned": false
+            },
+            {
+              "probe": "broker_concentration",
+              "finding": "inconclusive",
+              "credits": 2,
+              "planned": false
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            }
+          ],
+          "delta_score": -8,
+          "delta_band": true
+        },
+        {
+          "id": "ASLI-2026-09-22",
+          "as_of": "2026-09-22",
+          "pantau_score": 62,
+          "band": "waspada",
+          "confidence": 0.73,
+          "steps": 4,
+          "credits_total": 0,
+          "savings_pct": 100,
+          "moments": [
+            "adaptive",
+            "escalation",
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "llm",
+          "components_used": 4,
+          "components_total": 6,
+          "headline": "Pada ASLI, anomali volume tercatar sangat kuat dengan z-score 21,7σ dan rasio 23,8× median, sehingga pergerakan harga…",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "confirmed",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "broker_concentration",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "structural",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": false
+            }
+          ],
+          "delta_score": 8,
+          "delta_band": true
+        }
+      ]
+    },
+    {
+      "symbol": "NICK",
+      "kunjungan": 9,
+      "pertama": "2026-09-10",
+      "terakhir": "2026-09-22",
+      "skor_terakhir": 52,
+      "band_terakhir": "perhatian",
+      "skor_min": 0,
+      "skor_maks": 100,
+      "kredit_total": 11,
+      "jejak": [
+        {
+          "id": "NICK-2026-09-10",
+          "as_of": "2026-09-10",
+          "pantau_score": 30,
+          "band": "perhatian",
+          "confidence": 0.4,
+          "steps": 2,
+          "credits_total": 1,
+          "savings_pct": 94,
+          "moments": [
+            "early_stop"
+          ],
+          "narrative_source": "llm",
+          "components_used": 2,
+          "components_total": 6,
+          "headline": "Free float NICK tercatat 22% dengan rasio volume 1,3× median dan z-score 0,2σ, yang menunjukkan tidak ada anomali per…",
+          "trail": [
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "volume_anomaly",
+              "finding": "refuted",
+              "credits": 1,
+              "planned": true
+            }
+          ],
+          "delta_score": null,
+          "delta_band": null
+        },
+        {
+          "id": "NICK-2026-09-11",
+          "as_of": "2026-09-11",
+          "pantau_score": 85,
+          "band": "sangat_waspada",
+          "confidence": 0.43,
+          "steps": 2,
+          "credits_total": 2,
+          "savings_pct": 88,
+          "moments": [
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "llm",
+          "components_used": 2,
+          "components_total": 6,
+          "headline": "Ticker NICK menunjukkan rally yang sepenuhnya ditopang oleh konsentrasi tiga broker (PD, XC, KK) yang menyerap 100% p…",
+          "trail": [
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "broker_concentration",
+              "finding": "confirmed",
+              "credits": 2,
+              "planned": true
+            }
+          ],
+          "delta_score": 55,
+          "delta_band": true
+        },
+        {
+          "id": "NICK-2026-09-14",
+          "as_of": "2026-09-14",
+          "pantau_score": 56,
+          "band": "perhatian",
+          "confidence": 0.65,
+          "steps": 3,
+          "credits_total": 3,
+          "savings_pct": 81,
+          "moments": [
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "template",
+          "components_used": 3,
+          "components_total": 6,
+          "headline": "Beberapa indikator pada NICK berada di luar kebiasaan",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "inconclusive",
+              "credits": 1,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "broker_concentration",
+              "finding": "inconclusive",
+              "credits": 2,
+              "planned": true
+            }
+          ],
+          "delta_score": -29,
+          "delta_band": true
+        },
+        {
+          "id": "NICK-2026-09-15",
+          "as_of": "2026-09-15",
+          "pantau_score": 71,
+          "band": "waspada",
+          "confidence": 0.4,
+          "steps": 2,
+          "credits_total": 1,
+          "savings_pct": 94,
+          "moments": [
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "llm",
+          "components_used": 2,
+          "components_total": 6,
+          "headline": "Free float NICK tercatat 22% dengan umur data 8 hari, sehingga_probe free_float hasilnya belum dapat disimpulkan kare…",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "confirmed",
+              "credits": 1,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            }
+          ],
+          "delta_score": 15,
+          "delta_band": true
+        },
+        {
+          "id": "NICK-2026-09-16",
+          "as_of": "2026-09-16",
+          "pantau_score": 36,
+          "band": "perhatian",
+          "confidence": 0.4,
+          "steps": 2,
+          "credits_total": 1,
+          "savings_pct": 94,
+          "moments": [
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "llm",
+          "components_used": 2,
+          "components_total": 6,
+          "headline": "Pola volume NICK di hari terakhir hanya sedikit di atas rata-rata dengan rasio 2,1× median dan z-score 0,8σ, sehingga…",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "inconclusive",
+              "credits": 1,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            }
+          ],
+          "delta_score": -35,
+          "delta_band": true
+        },
+        {
+          "id": "NICK-2026-09-17",
+          "as_of": "2026-09-17",
+          "pantau_score": 100,
+          "band": "sangat_waspada",
+          "confidence": 0.25,
+          "steps": 1,
+          "credits_total": 2,
+          "savings_pct": 88,
+          "moments": [
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "llm",
+          "components_used": 1,
+          "components_total": 6,
+          "headline": "Aktivitas akumulasi bersih pada NICK sangat terkonsentrasi, ditunjukkan oleh indeks Herfindahl broker sebesar 0,87 da…",
+          "trail": [
+            {
+              "probe": "broker_concentration",
+              "finding": "confirmed",
+              "credits": 2,
+              "planned": true
+            }
+          ],
+          "delta_score": 64,
+          "delta_band": true
+        },
+        {
+          "id": "NICK-2026-09-18",
+          "as_of": "2026-09-18",
+          "pantau_score": 64,
+          "band": "waspada",
+          "confidence": 0.92,
+          "steps": 5,
+          "credits_total": 0,
+          "savings_pct": 100,
+          "moments": [
+            "early_stop"
+          ],
+          "narrative_source": "template",
+          "components_used": 5,
+          "components_total": 6,
+          "headline": "Beberapa indikator pada NICK menunjukkan pola tidak biasa",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "foreign_flow",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "broker_concentration",
+              "finding": "confirmed",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "price_fundamental",
+              "finding": "confirmed",
+              "credits": 0,
+              "planned": true
+            }
+          ],
+          "delta_score": -36,
+          "delta_band": true
+        },
+        {
+          "id": "NICK-2026-09-21",
+          "as_of": "2026-09-21",
+          "pantau_score": 0,
+          "band": "normal",
+          "confidence": 0.22,
+          "steps": 1,
+          "credits_total": 1,
+          "savings_pct": 94,
+          "moments": [
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "template",
+          "components_used": 1,
+          "components_total": 6,
+          "headline": "Tidak ada pola tidak biasa yang menonjol pada NICK",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "refuted",
+              "credits": 1,
+              "planned": true
+            }
+          ],
+          "delta_score": -64,
+          "delta_band": true
+        },
+        {
+          "id": "NICK-2026-09-22",
+          "as_of": "2026-09-22",
+          "pantau_score": 52,
+          "band": "perhatian",
+          "confidence": 0.48,
+          "steps": 3,
+          "credits_total": 0,
+          "savings_pct": 100,
+          "moments": [
+            "adaptive",
+            "escalation",
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "llm",
+          "components_used": 3,
+          "components_total": 6,
+          "headline": "NICK saat ini berstatus perhatian setelah tiga probe berturut-turut (volume_anomaly, free_float, structural) berakhir…",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "structural",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": false
+            }
+          ],
+          "delta_score": 52,
+          "delta_band": true
+        }
+      ]
+    },
+    {
+      "symbol": "JAWA",
+      "kunjungan": 9,
+      "pertama": "2026-09-09",
+      "terakhir": "2026-09-22",
+      "skor_terakhir": 38,
+      "band_terakhir": "perhatian",
+      "skor_min": 16,
+      "skor_maks": 97,
+      "kredit_total": 13,
+      "jejak": [
+        {
+          "id": "JAWA-2026-09-09",
+          "as_of": "2026-09-09",
+          "pantau_score": 16,
+          "band": "normal",
+          "confidence": 0.22,
+          "steps": 1,
+          "credits_total": 0,
+          "savings_pct": 100,
+          "moments": [
+            "early_stop"
+          ],
+          "narrative_source": "template",
+          "components_used": 1,
+          "components_total": 6,
+          "headline": "Tidak ada pola tidak biasa yang menonjol pada JAWA",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "refuted",
+              "credits": 0,
+              "planned": true
+            }
+          ],
+          "delta_score": null,
+          "delta_band": null
+        },
+        {
+          "id": "JAWA-2026-09-10",
+          "as_of": "2026-09-10",
+          "pantau_score": 74,
+          "band": "waspada",
+          "confidence": 0.65,
+          "steps": 3,
+          "credits_total": 3,
+          "savings_pct": 81,
+          "moments": [
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "llm",
+          "components_used": 3,
+          "components_total": 6,
+          "headline": "JAWA menunjukkan lonjakan volume sangat mencolok dengan z-score 104,3σ dan rasio 85,8× terhadap median baseline, namu…",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "inconclusive",
+              "credits": 1,
+              "planned": true
+            },
+            {
+              "probe": "broker_concentration",
+              "finding": "inconclusive",
+              "credits": 2,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            }
+          ],
+          "delta_score": 58,
+          "delta_band": true
+        },
+        {
+          "id": "JAWA-2026-09-11",
+          "as_of": "2026-09-11",
+          "pantau_score": 48,
+          "band": "perhatian",
+          "confidence": 0.62,
+          "steps": 3,
+          "credits_total": 4,
+          "savings_pct": 75,
+          "moments": [
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "llm",
+          "components_used": 3,
+          "components_total": 6,
+          "headline": "Anomali volume pada JAWA tampak ekstrem secara statistik dengan rasio 13,8× median dan Z-score 15,8σ, namun tiga bukt…",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "confirmed",
+              "credits": 1,
+              "planned": true
+            },
+            {
+              "probe": "broker_concentration",
+              "finding": "inconclusive",
+              "credits": 2,
+              "planned": true
+            },
+            {
+              "probe": "foreign_flow",
+              "finding": "inconclusive",
+              "credits": 1,
+              "planned": true
+            }
+          ],
+          "delta_score": -26,
+          "delta_band": true
+        },
+        {
+          "id": "JAWA-2026-09-14",
+          "as_of": "2026-09-14",
+          "pantau_score": 81,
+          "band": "sangat_waspada",
+          "confidence": 0.48,
+          "steps": 3,
+          "credits_total": 1,
+          "savings_pct": 94,
+          "moments": [
+            "adaptive",
+            "escalation",
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "template",
+          "components_used": 3,
+          "components_total": 6,
+          "headline": "Banyak indikator pada JAWA menunjukkan pola tidak biasa secara bersamaan",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "inconclusive",
+              "credits": 1,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "structural",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": false
+            }
+          ],
+          "delta_score": 33,
+          "delta_band": true
+        },
+        {
+          "id": "JAWA-2026-09-15",
+          "as_of": "2026-09-15",
+          "pantau_score": 68,
+          "band": "waspada",
+          "confidence": 0.48,
+          "steps": 3,
+          "credits_total": 1,
+          "savings_pct": 94,
+          "moments": [
+            "adaptive",
+            "escalation",
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "llm",
+          "components_used": 3,
+          "components_total": 6,
+          "headline": "JAWA menunjukkan lonjakan volume yang sangat mencolok, yaitu 4,5× median baseline dan z-score 4,3σ terhadap baseline …",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "inconclusive",
+              "credits": 1,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "structural",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": false
+            }
+          ],
+          "delta_score": -13,
+          "delta_band": true
+        },
+        {
+          "id": "JAWA-2026-09-16",
+          "as_of": "2026-09-16",
+          "pantau_score": 97,
+          "band": "sangat_waspada",
+          "confidence": 0.4,
+          "steps": 2,
+          "credits_total": 1,
+          "savings_pct": 94,
+          "moments": [
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "llm",
+          "components_used": 2,
+          "components_total": 6,
+          "headline": "Free float JAWA tercatat hanya 8% dengan data berusia 9 hari, menandakan struktur kepemilikan yang sangat terkonsentr…",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "inconclusive",
+              "credits": 1,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            }
+          ],
+          "delta_score": 29,
+          "delta_band": true
+        },
+        {
+          "id": "JAWA-2026-09-18",
+          "as_of": "2026-09-18",
+          "pantau_score": 16,
+          "band": "normal",
+          "confidence": 0.22,
+          "steps": 1,
+          "credits_total": 0,
+          "savings_pct": 100,
+          "moments": [
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "llm",
+          "components_used": 1,
+          "components_total": 6,
+          "headline": "Volume JAWA pada hari terakhir tercatat 1,8× median baseline dengan Z-score 0,9σ, menunjukkan aktivitas perdagangan y…",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            }
+          ],
+          "delta_score": -81,
+          "delta_band": true
+        },
+        {
+          "id": "JAWA-2026-09-21",
+          "as_of": "2026-09-21",
+          "pantau_score": 97,
+          "band": "sangat_waspada",
+          "confidence": 0.65,
+          "steps": 3,
+          "credits_total": 3,
+          "savings_pct": 81,
+          "moments": [
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "template",
+          "components_used": 3,
+          "components_total": 6,
+          "headline": "Banyak indikator pada JAWA menunjukkan pola tidak biasa secara bersamaan",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "confirmed",
+              "credits": 1,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "confirmed",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "broker_concentration",
+              "finding": "confirmed",
+              "credits": 2,
+              "planned": true
+            }
+          ],
+          "delta_score": 81,
+          "delta_band": true
+        },
+        {
+          "id": "JAWA-2026-09-22",
+          "as_of": "2026-09-22",
+          "pantau_score": 38,
+          "band": "perhatian",
+          "confidence": 0.8,
+          "steps": 4,
+          "credits_total": 0,
+          "savings_pct": 100,
+          "moments": [
+            "early_stop",
+            "memory"
+          ],
+          "narrative_source": "template",
+          "components_used": 4,
+          "components_total": 6,
+          "headline": "Beberapa indikator pada JAWA berada di luar kebiasaan",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "broker_concentration",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "foreign_flow",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            }
+          ],
+          "delta_score": -59,
+          "delta_band": true
+        }
+      ]
+    },
+    {
+      "symbol": "SCCO",
+      "kunjungan": 1,
+      "pertama": "2026-09-09",
+      "terakhir": "2026-09-09",
+      "skor_terakhir": 59,
+      "band_terakhir": "perhatian",
+      "skor_min": 59,
+      "skor_maks": 59,
+      "kredit_total": 0,
+      "jejak": [
+        {
+          "id": "SCCO-2026-09-09",
+          "as_of": "2026-09-09",
+          "pantau_score": 59,
+          "band": "perhatian",
+          "confidence": 0.4,
+          "steps": 2,
+          "credits_total": 0,
+          "savings_pct": 100,
+          "moments": [
+            "early_stop"
+          ],
+          "narrative_source": "llm",
+          "components_used": 2,
+          "components_total": 6,
+          "headline": "SCCO menunjukkan anomali volume yang material, dengan rasio volume hari terakhir 4,0× terhadap median baseline dan Z-…",
+          "trail": [
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "volume_anomaly",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            }
+          ],
+          "delta_score": null,
+          "delta_band": null
+        }
+      ]
+    },
+    {
+      "symbol": "PACK",
+      "kunjungan": 1,
+      "pertama": "2026-09-17",
+      "terakhir": "2026-09-17",
+      "skor_terakhir": 41,
+      "band_terakhir": "perhatian",
+      "skor_min": 41,
+      "skor_maks": 41,
+      "kredit_total": 0,
+      "jejak": [
+        {
+          "id": "PACK-2026-09-17",
+          "as_of": "2026-09-17",
+          "pantau_score": 41,
+          "band": "perhatian",
+          "confidence": 0.8,
+          "steps": 4,
+          "credits_total": 0,
+          "savings_pct": 100,
+          "moments": [
+            "early_stop"
+          ],
+          "narrative_source": "llm",
+          "components_used": 4,
+          "components_total": 6,
+          "headline": "Pola akumulasi pada PACK didukung oleh partisipasi 11 broker net buy positif dengan HHI konsentrasi 0,14 dan pangsa 5…",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "broker_concentration",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "foreign_flow",
+              "finding": "inconclusive",
+              "credits": 0,
+              "planned": true
+            }
+          ],
+          "delta_score": null,
+          "delta_band": null
+        }
+      ]
+    },
+    {
+      "symbol": "TRUK",
+      "kunjungan": 1,
+      "pertama": "2026-09-09",
+      "terakhir": "2026-09-09",
+      "skor_terakhir": 20,
+      "band_terakhir": "normal",
+      "skor_min": 20,
+      "skor_maks": 20,
+      "kredit_total": 0,
+      "jejak": [
+        {
+          "id": "TRUK-2026-09-09",
+          "as_of": "2026-09-09",
+          "pantau_score": 20,
+          "band": "normal",
+          "confidence": 0.4,
+          "steps": 2,
+          "credits_total": 0,
+          "savings_pct": 100,
+          "moments": [
+            "early_stop"
+          ],
+          "narrative_source": "template",
+          "components_used": 2,
+          "components_total": 6,
+          "headline": "Tidak ada pola tidak biasa yang menonjol pada TRUK",
+          "trail": [
+            {
+              "probe": "volume_anomaly",
+              "finding": "refuted",
+              "credits": 0,
+              "planned": true
+            },
+            {
+              "probe": "free_float",
+              "finding": "refuted",
+              "credits": 0,
+              "planned": true
+            }
+          ],
+          "delta_score": null,
+          "delta_band": null
+        }
+      ]
+    }
+  ]
+}
