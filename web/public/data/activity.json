@@ -1,6 +1,72 @@
 {
-  "generated_at": "2026-09-22T07:16:24+00:00",
+  "generated_at": "2026-09-22T15:52:39+00:00",
   "events": [
+    {
+      "ts": "2026-09-22T17:30:00+07:00",
+      "date": "2026-09-22",
+      "kind": "investigation",
+      "id": "ASLI-2026-09-22",
+      "symbol": "ASLI",
+      "band": "waspada",
+      "pantau_score": 62,
+      "steps": 4,
+      "credits": 0,
+      "savings_pct": 100,
+      "moments": [
+        "adaptive",
+        "escalation",
+        "early_stop",
+        "memory"
+      ]
+    },
+    {
+      "ts": "2026-09-22T17:30:00+07:00",
+      "date": "2026-09-22",
+      "kind": "investigation",
+      "id": "NICK-2026-09-22",
+      "symbol": "NICK",
+      "band": "perhatian",
+      "pantau_score": 52,
+      "steps": 3,
+      "credits": 0,
+      "savings_pct": 100,
+      "moments": [
+        "adaptive",
+        "escalation",
+        "early_stop",
+        "memory"
+      ]
+    },
+    {
+      "ts": "2026-09-22T17:30:00+07:00",
+      "date": "2026-09-22",
+      "kind": "investigation",
+      "id": "JAWA-2026-09-22",
+      "symbol": "JAWA",
+      "band": "perhatian",
+      "pantau_score": 38,
+      "steps": 4,
+      "credits": 0,
+      "savings_pct": 100,
+      "moments": [
+        "early_stop",
+        "memory"
+      ]
+    },
+    {
+      "ts": "2026-09-22T15:06:51+00:00",
+      "date": "2026-09-22",
+      "kind": "sweep",
+      "candidates": 15,
+      "credits": 5
+    },
+    {
+      "ts": "2026-09-22T02:12:03+00:00",
+      "date": "2026-09-18",
+      "kind": "sweep",
+      "candidates": 15,
+      "credits": 5
+    },
     {
       "ts": "2026-09-18T17:30:00+07:00",
       "date": "2026-09-18",
@@ -46,13 +112,6 @@
         "early_stop",
         "memory"
       ]
-    },
-    {
-      "ts": "2026-09-18T14:35:35+00:00",
-      "date": "2026-09-18",
-      "kind": "sweep",
-      "candidates": 15,
-      "credits": 5
     },
     {
       "ts": "2026-09-17T15:10:31+00:00",

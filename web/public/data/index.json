@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-22T07:16:24+00:00",
+  "generated_at": "2026-09-22T15:52:39+00:00",
   "investigations": [
     {
       "id": "NICK-2026-09-18",
@@ -18,6 +18,27 @@
         "early_stop"
       ],
       "headline": "Beberapa indikator pada NICK menunjukkan pola tidak biasa"
+    },
+    {
+      "id": "ASLI-2026-09-22",
+      "symbol": "ASLI",
+      "as_of": "2026-09-22",
+      "pantau_score": 62,
+      "band": "waspada",
+      "confidence": 0.73,
+      "steps": 4,
+      "credits_total": 0,
+      "baseline_credits": 16,
+      "savings_pct": 100,
+      "memory_ref": "ASLI-2026-09-18",
+      "narrative_source": "llm",
+      "moments": [
+        "adaptive",
+        "escalation",
+        "early_stop",
+        "memory"
+      ],
+      "headline": "Pada ASLI, anomali volume tercatar sangat kuat dengan z-score 21,7σ dan rasio 23,8× median, sehingga pergerakan harga…"
     },
     {
       "id": "ASLI-2026-09-18",
@@ -54,6 +75,46 @@
         "early_stop"
       ],
       "headline": "SCCO menunjukkan anomali volume yang material, dengan rasio volume hari terakhir 4,0× terhadap median baseline dan Z-…"
+    },
+    {
+      "id": "NICK-2026-09-22",
+      "symbol": "NICK",
+      "as_of": "2026-09-22",
+      "pantau_score": 52,
+      "band": "perhatian",
+      "confidence": 0.48,
+      "steps": 3,
+      "credits_total": 0,
+      "baseline_credits": 16,
+      "savings_pct": 100,
+      "memory_ref": "NICK-2026-09-18",
+      "narrative_source": "llm",
+      "moments": [
+        "adaptive",
+        "escalation",
+        "early_stop",
+        "memory"
+      ],
+      "headline": "NICK saat ini berstatus perhatian setelah tiga probe berturut-turut (volume_anomaly, free_float, structural) berakhir…"
+    },
+    {
+      "id": "JAWA-2026-09-22",
+      "symbol": "JAWA",
+      "as_of": "2026-09-22",
+      "pantau_score": 38,
+      "band": "perhatian",
+      "confidence": 0.8,
+      "steps": 4,
+      "credits_total": 0,
+      "baseline_credits": 16,
+      "savings_pct": 100,
+      "memory_ref": "JAWA-2026-09-18",
+      "narrative_source": "template",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "headline": "Beberapa indikator pada JAWA berada di luar kebiasaan"
     },
     {
       "id": "TRUK-2026-09-09",
@@ -113,8 +174,14 @@
   ],
   "watchlist_dates": [
     {
+      "as_of": "2026-09-22",
+      "generated_at": "2026-09-22T15:06:51+00:00",
+      "credits_spent": 5,
+      "candidates": 15
+    },
+    {
       "as_of": "2026-09-18",
-      "generated_at": "2026-09-18T14:35:35+00:00",
+      "generated_at": "2026-09-22T02:12:03+00:00",
       "credits_spent": 5,
       "candidates": 15
     },

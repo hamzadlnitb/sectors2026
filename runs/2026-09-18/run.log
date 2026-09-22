@@ -1,12 +1,12 @@
-[14:35:33Z] sapuan Tier-1 untuk 2026-09-18
-[14:35:33Z]   fetch-most-traded-stocks        10 baris -> daily_transaction (kini 2004 baris, 2 kredit)
-[14:35:34Z]   fetch-companies-top-changes     20 baris -> daily_close (kini 200 baris, 1 kredit)
-[14:35:34Z]   fetch-suspensions                0 baris (tidak ada yang baru, 1 kredit)
-[14:35:35Z]   fetch-filings                   12 baris -> filings (kini 909 baris, 1 kredit)
-[14:35:35Z] total 5 kredit; 4 panggilan, 0 dari cache (0%), 5 kredit terpakai
-[14:35:35Z] watchlist: 15 kandidat
-[14:35:35Z]   ASLI  skor 0.723  volume 12.8σ di atas baseline; harga +29% dalam 5 hari bursa; kapitalisasi kecil
-[14:35:35Z]   NICK  skor 0.669  harga +26% dalam 5 hari bursa; kapitalisasi kecil
-[14:35:35Z]   PACK  skor 0.534  volume 5.4σ di atas baseline
-[14:35:35Z]   JAWA  skor 0.523  kapitalisasi kecil
-[14:35:35Z]   PPGL  skor 0.331  harga +32% dalam 5 hari bursa; kapitalisasi kecil
+[02:12:01Z] sapuan Tier-1 untuk 2026-09-18
+[02:12:01Z]   fetch-most-traded-stocks        10 baris -> daily_transaction (kini 2004 baris, 2 kredit)
+[02:12:02Z]   fetch-companies-top-changes     20 baris -> daily_close (kini 214 baris, 1 kredit)
+[02:12:02Z]   fetch-suspensions                0 baris (tidak ada yang baru, 1 kredit)
+[02:12:03Z]   fetch-filings                   14 baris -> filings (kini 911 baris, 1 kredit)
+[02:12:03Z] total 5 kredit; 4 panggilan, 0 dari cache (0%), 5 kredit terpakai
+[02:12:03Z] watchlist: 15 kandidat
+[02:12:03Z]   ASLI  skor 0.723  volume 12.8σ di atas baseline; harga +29% dalam 5 hari bursa; kapitalisasi kecil
+[02:12:03Z]   NICK  skor 0.669  harga +26% dalam 5 hari bursa; kapitalisasi kecil
+[02:12:03Z]   JAWA  skor 0.523  kapitalisasi kecil
+[02:12:03Z]   PACK  skor 0.508  volume 5.4σ di atas baseline
+[02:12:03Z]   PPGL  skor 0.331  harga +32% dalam 5 hari bursa; kapitalisasi kecil

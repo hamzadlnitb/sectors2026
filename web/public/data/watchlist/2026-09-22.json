@@ -1,12 +1,12 @@
 {
-  "as_of": "2026-09-18",
-  "generated_at": "2026-09-22T02:12:03+00:00",
+  "as_of": "2026-09-22",
+  "generated_at": "2026-09-22T15:06:51+00:00",
   "credits_spent": 5,
   "rows_written": {
     "fetch-most-traded-stocks": 10,
     "fetch-companies-top-changes": 20,
-    "fetch-suspensions": 0,
-    "fetch-filings": 14
+    "fetch-suspensions": 2,
+    "fetch-filings": 10
   },
   "skipped": [],
   "failures": [],
@@ -49,15 +49,27 @@
     },
     {
       "symbol": "PACK",
-      "score": 0.5079,
+      "score": 0.5091,
       "signals": {
         "return_5d": -0.0893,
-        "return_20d": 0.9922,
+        "return_20d": 1.0238,
         "volume_z": 5.3859,
         "small_cap": 0.0,
         "peristiwa": 0.0
       },
       "alasan": "volume 5.4σ di atas baseline"
+    },
+    {
+      "symbol": "TRUK",
+      "score": 0.3568,
+      "signals": {
+        "return_5d": 0.2647,
+        "return_20d": 0.6045,
+        "volume_z": -0.8811,
+        "small_cap": 1.0,
+        "peristiwa": 1.0
+      },
+      "alasan": "harga +26% dalam 5 hari bursa; kapitalisasi kecil; ada suspensi/filing baru"
     },
     {
       "symbol": "PPGL",
@@ -120,18 +132,6 @@
       "alasan": "volume 2.3σ di atas baseline; kapitalisasi kecil"
     },
     {
-      "symbol": "TRUK",
-      "score": 0.2568,
-      "signals": {
-        "return_5d": 0.2647,
-        "return_20d": 0.6045,
-        "volume_z": -0.8811,
-        "small_cap": 1.0,
-        "peristiwa": 0.0
-      },
-      "alasan": "harga +26% dalam 5 hari bursa; kapitalisasi kecil"
-    },
-    {
       "symbol": "CSMI",
       "score": 0.25,
       "signals": {
@@ -145,15 +145,27 @@
     },
     {
       "symbol": "LIFE",
-      "score": 0.143,
+      "score": 0.15,
       "signals": {
         "return_5d": -0.0065,
-        "return_20d": 0.9532,
+        "return_20d": 1.0132,
         "volume_z": -0.9713,
         "small_cap": 0.0,
         "peristiwa": 0.0
       },
       "alasan": "tidak ada sinyal menonjol"
+    },
+    {
+      "symbol": "BYAN",
+      "score": 0.1157,
+      "signals": {
+        "return_5d": 0.0628,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": null,
+        "peristiwa": 1.0
+      },
+      "alasan": "ada suspensi/filing baru"
     },
     {
       "symbol": "CTTH",
@@ -178,18 +190,20 @@
         "peristiwa": 0.0
       },
       "alasan": "kapitalisasi kecil"
-    },
-    {
-      "symbol": "MSKY",
-      "score": 0.1078,
-      "signals": {
-        "return_5d": 0.0312,
-        "return_20d": -0.0435,
-        "volume_z": -0.5005,
-        "small_cap": 1.0,
-        "peristiwa": 0.0
-      },
-      "alasan": "kapitalisasi kecil"
     }
+  ],
+  "run_log": [
+    "[15:06:49Z] sapuan Tier-1 untuk 2026-09-22",
+    "[15:06:50Z]   fetch-most-traded-stocks        10 baris -> daily_transaction (kini 2014 baris, 2 kredit)",
+    "[15:06:51Z]   fetch-companies-top-changes     20 baris -> daily_close (kini 234 baris, 1 kredit)",
+    "[15:06:51Z]   fetch-suspensions                2 baris -> suspensions (kini 545 baris, 1 kredit)",
+    "[15:06:51Z]   fetch-filings                   10 baris -> filings (kini 921 baris, 1 kredit)",
+    "[15:06:51Z] total 5 kredit; 4 panggilan, 0 dari cache (0%), 5 kredit terpakai",
+    "[15:06:51Z] watchlist: 15 kandidat",
+    "[15:06:51Z]   ASLI  skor 0.723  volume 12.8σ di atas baseline; harga +29% dalam 5 hari bursa; kapitalisasi kecil",
+    "[15:06:51Z]   NICK  skor 0.669  harga +26% dalam 5 hari bursa; kapitalisasi kecil",
+    "[15:06:51Z]   JAWA  skor 0.523  kapitalisasi kecil",
+    "[15:06:51Z]   PACK  skor 0.509  volume 5.4σ di atas baseline",
+    "[15:06:51Z]   TRUK  skor 0.357  harga +26% dalam 5 hari bursa; kapitalisasi kecil; ada suspensi/filing baru"
   ]
 }

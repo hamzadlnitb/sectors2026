@@ -1,0 +1,232 @@
+{
+  "schema_version": "1.0",
+  "symbol": "NICK",
+  "as_of": "2026-09-22",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "h1",
+        "claim": "Ada pola perdagangan tidak biasa yang belum terjelaskan",
+        "probes": [
+          "volume_anomaly",
+          "free_float"
+        ],
+        "priority": 1
+      }
+    ],
+    "credit_budget_requested": 4,
+    "rationale": "Rencana cadangan berbasis aturan: perencana LLM tidak menghasilkan keluaran yang lolos skema, jadi investigasi dimulai dari dua probe termurah dan diputuskan ulang setelah temuan pertama."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "h1",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Probe volume_anomaly menunjukkan moderately elevated (Z=2,5σ, rasio 4,5× median), tapi belum cukup untuk menyimpulkan anomali yang bermakna pada emiten berkapitalisasi kecil seperti NICK. free_float masih mengantre dengan biaya hanya 1 kredit, probe termurah berikutnya dan relevan karena float kecil bisa menjelaskan lonjakan volume tanpa signifikansi khusus, atau justru memperkuat hipotesis anomali. Setelah hasil free_float, saya bisa menilai apakah diperlukan eskalasi ke broker_concentration/structural (lebih mahal, 3 kredit) atau cukup conclude.",
+      "credits_spent": 0,
+      "credits_remaining": 4
+    },
+    {
+      "step": 2,
+      "hypothesis": "h1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "escalate",
+      "new_probe": "structural",
+      "budget_granted": 3,
+      "reason": "Free float 22% dengan data usia 15 hari lazim untuk emiten midswap BEI; satu skor saja belum cukup untuk menyimpulkan. Probe antrean kosong, jadi perlu eskalasi ke probe baru yang paling relevan dengan sinyal likuitas/konsentrasi kepemilikan. Memilih 'structural' (3 kredit) daripada 'broker_concentration' karena riwayat suspensi, aktivitas insider, dan aksi korporasi (rights issue/private placement) memberikan konteks risiko yang lebih menentukan untuk emiten dengan free float rendah seperti NICK, potensi penjelasan atas rendahnya float (mis. aksi korporasi baru) langsung menjawab apakah skor 63 mencerminkan risiko nyata atau noise. Sisa pagu jadi 1 kredit; cukup untuk conclude pada langkah berikutnya. 'foreign_flow' (2 kredit) dan 'price_fundamental' (6 kredit) tidak dijalankan karena keduanya lebih cocok setelah ada dasar struktural, dan biaya 'price_fundamental' tidak sebanding dengan sisa pagu. [eskalasi 3 kredit dikabulkan 3: masih di bawah pagar dan beralasan]",
+      "credits_spent": 0,
+      "credits_remaining": 7
+    },
+    {
+      "step": 3,
+      "hypothesis": null,
+      "probe": "structural",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Bukti struktural menunjukkan sinyal moderat (skor 55/100): ada 2 suspensi dalam 24 bulan, termasuk satu pada 04-09-2026, dengan alasan terkait pergerakan tidak wajar. Ini indikasi awal potensi manipulasi harga/parket, namun skor 55 bukan confirmasi kuat. Probe tersisa (broker_concentration 3, price_fundamental 6, foreign_flow 2, total 11 kredit) tidak tersedia karena pagu 7 tidak cukup untuk menjalankan semuanya dan tidak ada yang secara langsung membuktikan/mematalkan suspensi akibat pergerakan tidak wajar sebagai bukti pelanggaran serius. Mengingat sisa pagu hanya 7 kredit dan tidak ada probe yang tersedia dapat menyelesaikan inti pertanyaan (apakah suspensi mencerminkan risiko fundamental/manipulasi) dengan pasti, menyimpulkan inconclusive hemat biaya adalah pilihan paling bersih. Eskalasi tidak diminta karena bukti struktural sudah cukup untuk membentuk kesimpulan 'inconclusive' tanpa jalur bukti baru di luar rencana awal.",
+      "credits_spent": 0,
+      "credits_remaining": 7
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 15,
+      "display": "15 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "NICK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.2162,
+      "display": "22%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "NICK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.prior_suspension",
+      "label": "Suspensi terakhir",
+      "value": "2026-09-04",
+      "display": "04-09-2026",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2024-09-22",
+        "end": "2026-09-22"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-04T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.suspension_count",
+      "label": "Jumlah suspensi 24 bulan terakhir",
+      "value": 2,
+      "display": "2 kali",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2024-09-22",
+        "end": "2026-09-22"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-04T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.suspension_unusual",
+      "label": "Alasan suspensi terkait pergerakan tidak wajar",
+      "value": 1.0,
+      "display": "ya",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2024-09-22",
+        "end": "2026-09-22"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-04T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 4.54,
+      "display": "4,5×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-02-06",
+        "end": "2026-09-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 2.52,
+      "display": "2,5σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-02-06",
+        "end": "2026-09-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 42.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 63.1,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": 55.0,
+      "weight": 0.08,
+      "evidence_ids": [
+        "sss.prior_suspension",
+        "sss.suspension_count",
+        "sss.suspension_unusual"
+      ],
+      "investigated": true
+    }
+  ],
+  "pantau_score": 52,
+  "band": "perhatian",
+  "confidence": 0.48,
+  "credits_total": 0,
+  "baseline_credits": 16,
+  "narrative": "NICK saat ini berstatus perhatian setelah tiga probe berturut-turut (volume_anomaly, free_float, structural) berakhir inconclusive, dengan volume perdagangan terakhir tercatat 4,5× median baseline dan z-score 2,5σ yang belum cukup untuk memastikan anomali bermakna pada emiten berkapitalisasi kecil. Free float sebesar 22% dengan umur data 15 hari lazim untuk emiten midswap BEI, dan tidak ada bukti struktural yang konfirmatif meskipun ditemukan 2 suspensi dalam 24 bulan terakhir, termasuk suspensi 04-09-2026 terkait pergerakan tidak wajar. Pola likuitas yang meningkat pada float terbatas menunjukkan kemungkinan penjelasan sederhana atas lonjakan volume, namun belum dapat dipisahkan dari risiko manipulasi karena sisa pagu_probe tidak cukup untuk menjalankan broker_concentration, price_fundamental, maupun foreign_flow secara bersamaan. Temuan ini perlu dipantau lebih lanjut tanpa memicu aktivitas transaksi apapun.",
+  "narrative_source": "llm",
+  "memory_ref": "NICK-2026-09-18",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}
