@@ -10,6 +10,7 @@ Empat baris QA di TASK_MELCO.md M2 diuji di sini:
 
 from __future__ import annotations
 
+import pandas as pd
 import pytest
 
 from contracts.schemas import PROBE_TO_COMPONENT, ProbeResult
@@ -202,3 +203,92 @@ def test_katalog_probe_lolos_kontrak():
         assert 0 <= e.credit_cost <= 3, "ToolCatalogEntry mematok 0..3"
         assert len(e.description) > 60, "deskripsi terlalu pendek untuk dipakai perencana"
         assert e.args_schema["required"] == ["symbol"]
+
+
+# ── kesegaran data ──────────────────────────────────────────────────────────
+class _KlienPalsu:
+    """Klien yang mencatat panggilan, nol jaringan."""
+
+    def __init__(self) -> None:
+        self.panggilan: list[str] = []
+
+    def rows(self, endpoint, params, phase=None, symbol=None):
+        from types import SimpleNamespace
+
+        self.panggilan.append(endpoint)
+        return [], SimpleNamespace(credits_spent=1, cached=False)
+
+
+@pytest.fixture
+def warehouse_tertinggal(tmp_path):
+    """Warehouse yang meniru keadaan produksi 8–22 Sep.
+
+    MANDEK punya riwayat panjang yang berhenti di 7 Sep. SAPUAN terus diisi
+    sapuan Tier-1 harian sampai 22 Sep — jadi kalender bursa maju, sementara
+    satu emiten diam-diam tertinggal. Justru beda inilah yang bisa dideteksi:
+    kalau seluruh warehouse berhenti bersamaan, tidak ada acuan untuk menyebutnya
+    basi, dan itu keadaan yang berbeda (pipeline mati, bukan emiten terlewat).
+    """
+    from datetime import date
+
+    from core.ingest.warehouse import Warehouse
+
+    wh = Warehouse(tmp_path)
+    baris = []
+    for hari in range(1, 8):  # 1–7 Sep, keduanya terisi
+        for sym in ("MANDEK", "SAPUAN"):
+            baris.append({"trade_date": date(2026, 9, hari), "symbol": sym,
+                          "close_price": 100.0, "volume": 1_000_000, "market_cap": None})
+    for hari in (8, 9, 10, 11, 14, 15, 16, 17, 18, 22):  # hanya SAPUAN yang lanjut
+        baris.append({"trade_date": date(2026, 9, hari), "symbol": "SAPUAN",
+                      "close_price": 100.0, "volume": 1_000_000, "market_cap": None})
+    wh.write("daily_transaction", pd.DataFrame(baris))
+    return wh
+
+
+def _ctx(wh, klien):
+    from datetime import date
+
+    return Context(as_of=date(2026, 9, 22), warehouse=wh, client=klien, budget_remaining=25)
+
+
+def test_ensure_menarik_lagi_saat_deret_harian_berhenti_diperbarui(warehouse_tertinggal):
+    """Riwayat panjang tapi mandek BUKAN data yang cukup.
+
+    Regresi untuk cacat 8–22 Sep: kandidat watchlist punya ratusan baris
+    daily_transaction yang berhenti di 7 Sep, dan karena `ensure` cuma
+    menghitung baris, probe volume tidak pernah menembak API lagi — nol kredit
+    terbakar, bukti menua diam-diam, dan skor watchlist tercetak identik
+    sembilan hari bursa berturut-turut.
+    """
+    klien = _KlienPalsu()
+    ctx = _ctx(warehouse_tertinggal, klien)
+
+    ctx.ensure("daily_transaction", "fetch-daily-transaction", {"symbol": "MANDEK"},
+               symbol="MANDEK", where="symbol = ?", where_params=["MANDEK"], fresh=True)
+    assert klien.panggilan == ["fetch-daily-transaction"], \
+        "fresh=True wajib menarik lagi ketika baris terbaru belum mencapai hari bursa terakhir"
+
+
+def test_ensure_diam_saat_data_sudah_mencapai_hari_bursa_terakhir(warehouse_tertinggal):
+    """Emiten yang memang terisi sampai hari bursa terakhir tidak ditarik lagi —
+    pembandingnya kalender bursa di warehouse, bukan selisih hari kalender, jadi
+    akhir pekan dan libur bursa tidak terbaca sebagai basi."""
+    klien = _KlienPalsu()
+    ctx = _ctx(warehouse_tertinggal, klien)
+
+    ctx.ensure("daily_transaction", "fetch-daily-transaction", {"symbol": "SAPUAN"},
+               symbol="SAPUAN", where="symbol = ?", where_params=["SAPUAN"], fresh=True)
+    assert klien.panggilan == []
+
+
+def test_ensure_tanpa_fresh_mempertahankan_perilaku_lama(warehouse_tertinggal):
+    """Tabel peristiwa (suspensi, filing) tidak berderet harian: kosong untuk
+    satu emiten itu temuan, bukan data hilang. Pemeriksaan kesegaran harus
+    ikut-serta, bukan diam-diam menyala untuk semua pemanggil."""
+    klien = _KlienPalsu()
+    ctx = _ctx(warehouse_tertinggal, klien)
+
+    ctx.ensure("daily_transaction", "fetch-daily-transaction", {"symbol": "MANDEK"},
+               symbol="MANDEK", where="symbol = ?", where_params=["MANDEK"])
+    assert klien.panggilan == []

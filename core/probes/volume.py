@@ -40,7 +40,7 @@ class VolumeAnomalyProbe(BaseProbe):
             "daily_transaction", "fetch-daily-transaction",
             {"symbol": symbol, "start": since.isoformat() if since else None,
              "end": ctx.as_of.isoformat()},
-            symbol=symbol, where="symbol = ?", where_params=[symbol],
+            symbol=symbol, where="symbol = ?", where_params=[symbol], fresh=True,
         )
 
         df = ctx.symbol_frame("daily_transaction", symbol, since=since)

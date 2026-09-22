@@ -86,7 +86,15 @@ def investigate_symbol(symbol: str, *, as_of: date | None = None,
     hari = as_of or date.today()
 
     wh = warehouse or Warehouse()
-    ctx = Context(as_of=hari, warehouse=wh, client=client, phase="agent")
+    # Fase kredit IKUT klien yang diserahkan pemanggil — cron Tahap 2 memberi
+    # fase 'daily', eval memberi 'eval'. Jangan mengarang fase sendiri: "agent"
+    # tidak ada di CAPS, dan ledger.check() memperlakukan fase tak dikenal
+    # sebagai pagu nol, jadi SETIAP tarikan probe ditolak dengan BudgetExceeded.
+    # Probe menelan penolakan itu dan melanjutkan dengan warehouse seadanya,
+    # sehingga gejalanya bukan error melainkan investigasi 0 kredit yang
+    # kelihatan hemat — sembilan transkrip pertama semuanya begitu. [AD-5]
+    ctx = Context(as_of=hari, warehouse=wh, client=client,
+                  phase=getattr(client, "phase", "daily"))
 
     if llm is None:
         if offline:
