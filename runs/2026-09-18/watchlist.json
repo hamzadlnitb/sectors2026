@@ -1,12 +1,12 @@
 {
   "as_of": "2026-09-18",
-  "generated_at": "2026-09-18T14:35:35+00:00",
+  "generated_at": "2026-09-22T02:12:03+00:00",
   "credits_spent": 5,
   "rows_written": {
     "fetch-most-traded-stocks": 10,
     "fetch-companies-top-changes": 20,
     "fetch-suspensions": 0,
-    "fetch-filings": 12
+    "fetch-filings": 14
   },
   "skipped": [],
   "failures": [],
@@ -36,18 +36,6 @@
       "alasan": "harga +26% dalam 5 hari bursa; kapitalisasi kecil"
     },
     {
-      "symbol": "PACK",
-      "score": 0.5336,
-      "signals": {
-        "return_5d": 0.0982,
-        "return_20d": 1.4023,
-        "volume_z": 5.3859,
-        "small_cap": 0.0,
-        "peristiwa": 0.0
-      },
-      "alasan": "volume 5.4σ di atas baseline"
-    },
-    {
       "symbol": "JAWA",
       "score": 0.5226,
       "signals": {
@@ -58,6 +46,18 @@
         "peristiwa": 0.0
       },
       "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "PACK",
+      "score": 0.5079,
+      "signals": {
+        "return_5d": -0.0893,
+        "return_20d": 0.9922,
+        "volume_z": 5.3859,
+        "small_cap": 0.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "volume 5.4σ di atas baseline"
     },
     {
       "symbol": "PPGL",
@@ -145,15 +145,15 @@
     },
     {
       "symbol": "LIFE",
-      "score": 0.2205,
+      "score": 0.143,
       "signals": {
-        "return_5d": 0.2821,
-        "return_20d": 1.166,
+        "return_5d": -0.0065,
+        "return_20d": 0.9532,
         "volume_z": -0.9713,
         "small_cap": 0.0,
         "peristiwa": 0.0
       },
-      "alasan": "harga +28% dalam 5 hari bursa"
+      "alasan": "tidak ada sinyal menonjol"
     },
     {
       "symbol": "CTTH",
