@@ -248,3 +248,43 @@ def test_teks_tanpa_json_tetap_dianggap_gagal():
         pass
     else:
         raise AssertionError("teks tanpa JSON harus tetap gagal")
+
+
+# ── larangan kosakata di alasan langkah [K5] ────────────────────────────────
+def test_alasan_langkah_yang_menyerempet_saran_transaksi_disaring(rencana):
+    """`Step.reason` ditulis LLM dan ikut ter-commit — jadi ia harus disaring
+    seperti `Plan.rationale`, bukan dipercaya.
+
+    Regresi: penyaringan sempat hanya dipasang di planner. Tiga transkrip hasil
+    backfill 10–17 Sep lolos dengan kata 'beli' berdiri sendiri, dan karena cron
+    menjalankan `make vocab` atas artefak baru SEBELUM commit, satu kalimat
+    seperti itu cukup untuk menjatuhkan seluruh pipeline harian — sapuan dan
+    investigasi hari itu ikut hangus.
+    """
+    from core.agent.investigator import NETRAL_ALASAN
+
+    llm = FakeLLM(responses={"investigator-v1": [
+        {"finding": "confirmed", "next_action": "conclude",
+         "reason": "Volume melonjak, harga sudah tinggi dan bukan sinyal beli."},
+    ]})
+    inv = investigate(symbol="FIXA", plan=rencana, ctx=CtxPalsu(),
+                      budget=Budget.for_plan(10, ceiling=25), llm=llm, guards=Guardrails())
+
+    assert inv.steps, "investigasi harus menghasilkan setidaknya satu langkah"
+    alasan = inv.steps[-1].reason
+    assert NETRAL_ALASAN in alasan, "alasan bermasalah wajib diganti teks netral"
+    # Keputusannya TIDAK boleh ikut berubah — yang disaring cuma prosanya.
+    assert inv.steps[-1].finding == "confirmed"
+    assert inv.steps[-1].next_action == "conclude"
+
+
+def test_alasan_langkah_yang_bersih_dibiarkan_apa_adanya(rencana):
+    """Penyaringan tidak boleh main hantam: alasan deskriptif yang sah adalah
+    justru bukti agen bernalar, dan menggantinya akan menghapus isi transkrip."""
+    bersih = "Z-score volume 23,1 sigma dan rasio 25,5 kali median baseline."
+    llm = FakeLLM(responses={"investigator-v1": [
+        {"finding": "confirmed", "next_action": "conclude", "reason": bersih},
+    ]})
+    inv = investigate(symbol="FIXA", plan=rencana, ctx=CtxPalsu(),
+                      budget=Budget.for_plan(10, ceiling=25), llm=llm, guards=Guardrails())
+    assert bersih in inv.steps[-1].reason

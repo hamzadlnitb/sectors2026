@@ -32,8 +32,39 @@ from core.agent.guardrails import Guardrails  # noqa: E402
 from core.llm import JSONInvalid, LLMError  # noqa: E402
 from core.probes.registry import DESCRIPTIONS, PROBES  # noqa: E402
 from core.sectors.redact import get_logger  # noqa: E402
+from tools.vocab_guard import periksa_teks  # noqa: E402
 
 log = get_logger(__name__)
+
+NETRAL_ALASAN = (
+    "Alasan langkah dari penyelidik disaring karena memuat bahasa yang menyerempet "
+    "saran transaksi. Temuan, probe berikutnya, dan pagu kreditnya tetap apa adanya; "
+    "hanya teks penjelasnya yang diganti."
+)
+
+
+def _saring_alasan(teks: str) -> str:
+    """Saring `Step.reason` terhadap larangan kosakata. [K5]
+
+    Cermin dari planner._sanitize, dan alasannya sama: `reason` ditulis LLM, ikut
+    tersimpan di transkrip, dipindai tools/vocab_guard.py, dan ditampilkan di UI.
+    Bedanya, yang ini sempat terlewat — sehingga `rationale` disaring sementara
+    `reason` lolos apa adanya.
+
+    Akibatnya bukan sekadar teks jelek. Cron menjalankan `make vocab` ATAS ARTEFAK
+    BARU sebelum commit, jadi satu kalimat model yang memakai kosakata terlarang
+    akan menjatuhkan seluruh pipeline harian hari itu — sapuan dan investigasi
+    ikut hangus, persis pola kegagalan 21 September.
+
+    Yang diganti hanya prosanya, tidak pernah keputusannya.
+    """
+    if not teks:
+        return teks
+    if periksa_teks(teks):
+        log.warning("alasan langkah disaring: memuat bahasa saran transaksi")
+        return NETRAL_ALASAN
+    return teks
+
 
 LARANGAN = (  # vocab-ok: instruksi larangan kepada model, wajib menyebut kata yang dilarang
     "- Kamu TIDAK memberi saran investasi dan tidak menyebut beli/jual/target harga."
@@ -212,7 +243,7 @@ def investigate(*, symbol: str, plan: Plan, ctx, budget: Budget, llm,
         # ── eskalasi ────────────────────────────────────────────────────────
         granted = 0
         new_probe: str | None = None
-        alasan = d.reason
+        alasan = _saring_alasan(d.reason)
         if d.next_action == "escalate":
             kandidat = d.new_probe if d.new_probe in PROBES else None
             # Eskalasi berarti "aku butuh pagu LEBIH dari yang direncanakan untuk
@@ -241,7 +272,7 @@ def investigate(*, symbol: str, plan: Plan, ctx, budget: Budget, llm,
                 minta = d.extra_credits or PROBES[kandidat].cost_estimate(symbol)
                 grant = budget.preview(minta)
                 granted = budget.commit(grant)
-                alasan = f"{d.reason} [{grant}]"
+                alasan = f"{alasan} [{grant}]"
                 if granted > 0:
                     new_probe = kandidat
                     if kandidat in antrean:
@@ -292,5 +323,5 @@ def _seal(inv: Investigation) -> None:
     inv.steps[-1] = akhir.model_copy(update={
         "next_action": "conclude",
         "new_probe": None,
-        "reason": f"{akhir.reason} [ditutup: {inv.stopped_by}]"[:1000],
+        "reason": f"{_saring_alasan(akhir.reason)} [ditutup: {inv.stopped_by}]"[:1000],
     })
