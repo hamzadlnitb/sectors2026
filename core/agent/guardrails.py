@@ -67,6 +67,12 @@ def step_timeout() -> float:
     return max(0.1, _env_number("PANTAU_STEP_TIMEOUT", DEFAULT_STEP_TIMEOUT))
 
 
+def _detik(nilai: float) -> str:
+    """Timeout untuk dibaca manusia, koma desimal. `f"{0.5:.0f}"` mencetak
+    "0 detik" — pesan yang membuat operator mengira pagarnya nol."""
+    return f"{nilai:g}".replace(".", ",")
+
+
 @dataclass(frozen=True)
 class Verdict:
     """Boleh atau tidak, berikut alasan yang layak masuk transkrip."""
@@ -144,18 +150,22 @@ class Guardrails:
         if name not in PROBE_NAMES:  # pragma: no cover — dijaga may_run()
             raise ValueError(f"run_probe dipanggil untuk probe tak dikenal '{name}' — "
                              "panggil may_run() dulu")
-        with ThreadPoolExecutor(max_workers=1, thread_name_prefix=f"probe-{name}") as pool:
+        # JANGAN `with ThreadPoolExecutor(...)`: __exit__ memanggil
+        # shutdown(wait=True), yang MENUNGGU thread yang menggantung selesai —
+        # membatalkan shutdown(wait=False, cancel_futures=True) di dalamnya dan
+        # membuat run_probe kembali setelah probe selesai, berapa pun timeout-nya.
+        # Pagar #2 jadi dekoratif, dan satu probe yang menggantung di jaringan
+        # bisa menyandera cron 17:30 semalaman.
+        pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix=f"probe-{name}")
+        try:
             future = pool.submit(probe.run, symbol, ctx)
             try:
                 hasil = future.result(timeout=self.timeout)
             except FutureTimeout:
-                self._breach(f"probe '{name}' melewati timeout {self.timeout:.0f} detik")
-                # Thread-nya dibiarkan selesai sendiri; yang penting investigasi
-                # tidak ikut menggantung. Prosesnya toh berumur satu investigasi.
-                pool.shutdown(wait=False, cancel_futures=True)
+                self._breach(f"probe '{name}' melewati timeout {_detik(self.timeout)} detik")
                 return ProbeResult(
                     probe=name, sub_score=None, credits_spent=0,
-                    unavailable_reason=f"probe melewati timeout {self.timeout:.0f} detik",
+                    unavailable_reason=f"probe melewati timeout {_detik(self.timeout)} detik",
                 )
             except Exception as exc:  # noqa: BLE001 — kegagalan probe tidak boleh
                 # menjatuhkan investigasi; agen wajib bisa menyimpulkan.
@@ -165,6 +175,11 @@ class Guardrails:
                     probe=name, sub_score=None, credits_spent=0,
                     unavailable_reason=f"probe gagal: {type(exc).__name__}: {exc}"[:200],
                 )
+        finally:
+            # wait=False: thread yang menggantung dibiarkan mati sendiri. Yang
+            # penting investigasi tidak ikut menggantung — prosesnya toh berumur
+            # satu investigasi.
+            pool.shutdown(wait=False, cancel_futures=True)
 
         return _sanitize(hasil, name)
 
