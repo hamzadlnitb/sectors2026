@@ -129,7 +129,12 @@ jobs:
           git config user.name "pantau-bot"
           git config user.email "pantau-bot@users.noreply.github.com"
 
-          git add runs/ data/warehouse/ data/credit_ledger.jsonl data/memory.duckdb
+          # data/llm_ledger.jsonl WAJIB ikut: Tahap 2 menulisnya tiap kali agen
+          # memanggil LLM. Kalau tidak di-add, ia tertinggal unstaged dan
+          # memblokir `pull --rebase` di bawah — persis yang menjatuhkan cron
+          # 21 Sep (seluruh commit hilang, investigasi ikut hangus).
+          git add runs/ data/warehouse/ \
+                  data/credit_ledger.jsonl data/llm_ledger.jsonl data/memory.duckdb
           if git diff --cached --quiet; then
             echo "tidak ada perubahan untuk di-commit"
             exit 0
@@ -148,9 +153,12 @@ jobs:
           git commit -m "$MSG"
 
           # Rebase dulu: lajur lain merge ke main tiap hari, dan commit otomatis
-          # tidak boleh menimpa kerja mereka.
+          # tidak boleh menimpa kerja mereka. --autostash: kalau toh ada berkas
+          # terlacak yang tersentuh tapi belum di-add, ia disimpan sementara dan
+          # dikembalikan setelah rebase — jaring pengaman kedua supaya satu
+          # berkas terlewat tidak pernah lagi menjatuhkan seluruh push.
           for attempt in 1 2 3; do
-            git pull --rebase origin "${GITHUB_REF_NAME}" && git push && exit 0
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push && exit 0
             echo "percobaan push $attempt gagal, coba lagi"
             sleep $((attempt * 5))
           done
