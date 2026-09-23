@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0",
+  "symbol": "ASLI",
+  "as_of": "2026-09-11",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1",
+        "claim": "Penurunan harga -24% kemungkinan dipicu anomali volume (aksi akumulasi/distribusi terselubung) yang harus dikonfirmasi sebelum bobot skor akhir jatuh ke probe mahal",
+        "probes": [
+          "volume_anomaly"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2",
+        "claim": "Free float kecil pada kapitalisasi Rp2,5T di subsektor Heavy Construction bisa menjelaskan mengapa harga bergerak -24% dengan modal terbatas; float juga menentukan apakah hasil volume_anomaly perlu dikonfirmasi broker_concentration",
+        "probes": [
+          "free_float"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "H3",
+        "claim": "Jika volume dan float keduanya abnormal, perlu diketahui apakah 3 broker teratas yang menggerakkan harga (broker_concentration) untuk membedakan akumulasi terstruktur vs sekadar thin float",
+        "probes": [
+          "broker_concentration"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 5,
+    "rationale": "Investigasi kemarin (2026-09-10) skor 59 dengan keyakinan 65% dan hanya 3 kredit. Yang berubah sejak kemarin adalah data EOD hari ini dengan harga -24% periode — itu pergeseran besar yang wajib dikonfirmasi ulang, bukan diulang dari nol.\n\nUrutan dipilih berdasarkan keyakinan per kredit:\n1. volume_anomaly (1 kredit, bobot 22%) — probe termurah dengan bobot terbesar kedua. Perubahan -24% setelah sehari adalah anomali klasik; z-score volume hari ini terhadap baseline 90 hari adalah tes paling efisien untuk menilai apakah pasar sedang \"berbicara\" (akumulasi/distribusi) atau hanya fluktuasi tipis. Jika z-score normal, banyak hipotesis lain otomatis runtuh dan saya hemat kredit.\n2. free_float (1 kredit, bobot 18%) — murah, bobot中等, dan menjelaskan kenapa harga di kapitalisasi Rp2,5T bisa bergerak 24% sekaligus. Float kecil = thin market = harga rentan digerakkan sedikit modal. Hasilnya juga menentukan apakah H3 perlu dijalankan: float besar + volume tinggi = patut curiga broker; float kecil + volume tinggi = bisa dijelaskan struktur pasar.\n3. broker_concentration (3 kredit, bobot 25%) — bobot skor akhir tertinggi, tapi paling mahal. Hanya layak setelah H1+H2 memberi sinyal arah. Probe ini yang kemarin (03 kredit dipakai) kemungkinan sudah disentuh sebagian, sehingga data 20 hari terakhir relatif baru — saya tetap jadwalkan untuk memvalidasi apakah anomali didorong segelintir pihak.\n\nProbe yang sengaja TIDAK diminta:\n- price_fundamental (6 kredit, bobot 12%): rasio biaya/bobot paling buruk (0,02 poin/kredit). Harga sudah turun, bukan naik tajam, jadi hipotesis \"fundamental ketinggalan harga\" kurang relevan.\n- foreign_flow (2 kredit, bobot 15%): rasio 7,5 poin/kredit sebenarnya menarik, tapi di subsektor Heavy Construction & Civil Engineering, basis investor cenderung domestik; hipotesis distribusi ke ritel lewat foreign flow lebih cocok untuk emiten consumer/finance. Bisa jadi langkah lanjutan HANYA jika H1+H2+H3 menyisakan kredit dan skor akhir masih rendah keyakinannya.\n- structural (3 kredit, bobot 8%): rasio 2,7 poin/kredit paling buruk. Suspensi/insider/rights hanya relevan setelah sinyal pasar sudah kuat; di tahap ini saya ingin sinyal pasar dulu, bukan konteks korporasi.\n\nTotal diminta: 5 kredit (dari pagu 25), menyisakan 20 kredit untuk iterasi besok atau eskalasi berdasarkan hasil. Eskalasi potensial: jika H3 menunjukkan konsentrasi tinggi, foreign_flow (2 kr) jadi prioritas 4."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1",
+      "probe": "volume_anomaly",
+      "finding": "confirmed",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Probe volume_anomaly menghasilkan skor 100/100 dengan bukti sangat kuat: z-score 10,9σ terhadap baseline 90 hari dan rasio volume 12,7× terhadap median. Ini anomali volume yang luar biasa besar dan sudah cukup berdiri sendiri sebagai sinyal \"pasar sedang berbicara\" (akumulasi atau distribusi signifikan). Dengan sisa pagu hanya 4 kredit, keputusan alokasi harus dipertajam:\n\n- free_float (1 kr) berguna, tapi hipotesis thin market sudah tereduksi: anomali sebesar ini (12,7× median, 10,9σ) bukan tipikal pergerakan thin market yang biasanya noisy dan sporadis. Volume sebesar ini konsisten dengan aktivitas institusional atau insider yang intens, bukan sekadar struktur free float kecil. Informasi free_float tidak akan mengubah pembacaan anomali ini.\n\n- broker_concentration (3 kr) memakan hampir seluruh sisa pagu. Bobotnya memang tertinggi (25%), tapi untuk konfirmasi apa? H1 sudah menunjukkan pasar sangat aktif; H3 hanya akan memberi \"siapa pelakunya\" tapi tidak mengubah signifikansi statisti",
+      "credits_spent": 1,
+      "credits_remaining": 4
+    }
+  ],
+  "evidence": [
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 12.68,
+      "display": "12,7×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-01-29",
+        "end": "2026-09-11"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-11T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 10.92,
+      "display": "10,9σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-01-29",
+        "end": "2026-09-11"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-11T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 100.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": null,
+      "weight": 0.18,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 100,
+  "band": "sangat_waspada",
+  "confidence": 0.22,
+  "credits_total": 1,
+  "baseline_credits": 16,
+  "narrative": "Pada ASLI tercatat anomali volume yang luar biasa besar, yaitu 12,7× lipat dari median baseline dengan z-score 10,9σ terhadap baseline 90 hari. Magnitudo anomali ini sudah cukup kuat untuk menandakan adanya aktivitas signifikan di pasar, di mana pola volume semacam ini biasanya muncul ketika ada partisipasi pelaku besar, bukan sekadar fluktuasi tipis pada saham dengan free float rendah. Konsentrasi broker tidak lagi diprioritaskan karena tidak akan mengubah signifikansi statistik anomali yang sudah sangat dominan. Temuan ini menempatkan ASLI pada status sangat_waspada berdasarkan pola anomali volume yang berdiri sendiri.",
+  "narrative_source": "llm",
+  "memory_ref": "ASLI-2026-09-10",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0",
+  "symbol": "NICK",
+  "as_of": "2026-09-16",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "h1",
+        "claim": "Ada pola perdagangan tidak biasa yang belum terjelaskan",
+        "probes": [
+          "volume_anomaly",
+          "free_float"
+        ],
+        "priority": 1
+      }
+    ],
+    "credit_budget_requested": 4,
+    "rationale": "Rencana cadangan berbasis aturan: perencana LLM tidak menghasilkan keluaran yang lolos skema, jadi investigasi dimulai dari dua probe termurah dan diputuskan ulang setelah temuan pertama."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "h1",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Probe volume_anomaly menunjukkan skor rendah (13/100). Z-score 0,8σ dan rasio volume 2,1× median bukan indikasi kuat anomali volume — hanya sedikit di atas rata-rata. Belum cukup untuk konfirmasi atau refutasi risiko. Lanjutkan ke probe termurah berikutnya (free_float, 1 kredit) yang relevan: float kecil bisa menjelaskan lonjakan volume tanpa motif abnormal. Setelah free_float, keputusan diambil ulang.",
+      "credits_spent": 1,
+      "credits_remaining": 3
+    },
+    {
+      "step": 2,
+      "hypothesis": "h1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Probe free_float selesai dengan skor 63/100. Free float 22% (di bawah ambang 25%) dan umur data 9 hari masih segar, menunjukkan indikasi kelangkaan float. Namun, satu probe saja tidak cukup untuk menyimpulkan profil risiko secara keseluruhan. Menjalankan probe lanjutan (misal structural seharga 3 kredit) bisa memperkaya bukti, tapi free float rendah saja belum cukup menjadi konfirmasi risiko tanpa konteks lain seperti konsentrasi broker atau arus asing. Dengan sisa pagu 3 kredit dan tidak ada probe yang secara langsung mengkonfirmasi atau menyangkal hipotesis risiko utama berdasarkan temuan tunggal ini, investasi probe tambahan belum tentu mengubah kesimpulan secara material. Lebih efisien menyimpulkan dengan bukti yang ada sambil mengakui keterbatasannya.",
+      "credits_spent": 0,
+      "credits_remaining": 3
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 9,
+      "display": "9 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "NICK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.2162,
+      "display": "22%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "NICK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 2.12,
+      "display": "2,1×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-02-03",
+        "end": "2026-09-16"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-16T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 0.78,
+      "display": "0,8σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-02-03",
+        "end": "2026-09-16"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-16T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 13.1,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 63.1,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 36,
+  "band": "perhatian",
+  "confidence": 0.4,
+  "credits_total": 1,
+  "baseline_credits": 16,
+  "narrative": "Pola volume NICK di hari terakhir hanya sedikit di atas rata-rata dengan rasio 2,1× median dan z-score 0,8σ, sehingga tidak terdeteksi sebagai anomali volume yang kuat. Free float tercatat 22% dengan umur data 9 hari, masuk kategori di bawah ambang umum dan cukup segar, yang bisa menjelaskan kenapa perubahan volume harian terasa lebih tajam namun belum cukup untuk disimpulkan sebagai kelangkaanFloat yang berisiko. Karena tidak ada bukti volume abnormal yang meyakinkan maupun profil float yang disertai konteks konsentrasi kepemilikan, hasil pemantauannya berada di posisi netral dan belum cukup untuk menarik kesimpulan risiko pada NICK. Pantauan lanjutan masih diperlukan untuk melengkapi gambaran, terutama terkait struktur kepemilikan dan pola aliran transaksi yang lebih khas.",
+  "narrative_source": "llm",
+  "memory_ref": "NICK-2026-09-15",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

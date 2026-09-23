@@ -137,15 +137,42 @@ class Context:
 
         return trading_days(self.warehouse, self.as_of, lookback)
 
+    def _tertinggal(self, table: str, existing: pd.DataFrame) -> bool:
+        """True kalau baris terbaru belum mencapai hari bursa terakhir ≤ as_of.
+
+        Pembandingnya kalender bursa yang benar-benar ada di warehouse, bukan
+        selisih hari kalender — kalau tidak, tiap Senin akan terbaca basi karena
+        data Jumat berumur tiga hari, dan tiap libur bursa memicu tarikan yang
+        tidak menghasilkan baris baru.
+        """
+        from core.ingest.warehouse import TABLES, trading_days
+
+        cut = TABLES[table].cut_column
+        if existing.empty or not cut or cut not in existing.columns:
+            return False
+        sesi = trading_days(self.warehouse, self.as_of, 1)
+        if not sesi:
+            return False
+        terbaru = pd.to_datetime(existing[cut], errors="coerce").max()
+        return bool(pd.notna(terbaru) and terbaru.date() < sesi[-1])
+
     # ── ambil kalau kurang ──────────────────────────────────────────────────
     def ensure(self, table: str, endpoint: str, params: dict, *,
                symbol: str | None = None, min_rows: int = 1,
-               where: str = "", where_params: list | None = None) -> int:
+               where: str = "", where_params: list | None = None,
+               fresh: bool = False) -> int:
         """Isi warehouse dari Sectors kalau data yang dibutuhkan belum cukup.
 
         Mengembalikan kredit yang terbakar (0 kalau warehouse sudah cukup, kalau
         tidak ada klien, atau kalau pagu tidak mengizinkan). Probe tidak pernah
         memanggil client langsung — supaya penganggaran punya satu tempat.
+
+        `fresh=True` untuk tabel deret harian: "cukup" berarti barisnya mencapai
+        hari bursa terakhir, bukan sekadar banyak. Tanpa ini, emiten yang punya
+        riwayat panjang tapi berhenti diperbarui dianggap lengkap selamanya —
+        probe tidak pernah menembak API lagi, nol kredit terbakar, dan bukti yang
+        dikutip diam-diam menua. Persis yang terjadi 8–22 Sep: seluruh kandidat
+        watchlist berhenti di 7 Sep sementara skornya tetap dicetak tiap hari.
 
         Kalau pagu investigasi tidak cukup, probe TIDAK dipaksa gagal: ia
         melanjutkan dengan data warehouse seadanya dan, kalau memang kurang,
@@ -153,7 +180,7 @@ class Context:
         yang diminta kontrak, bukan kesalahan. [AD-6]
         """
         existing = self.frame(table, where, where_params)
-        if len(existing) >= min_rows:
+        if len(existing) >= min_rows and not (fresh and self._tertinggal(table, existing)):
             return 0
         if self.client is None:
             return 0

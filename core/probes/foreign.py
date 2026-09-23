@@ -41,7 +41,7 @@ class ForeignFlowProbe(BaseProbe):
             "foreign_flow", "fetch-foreign-flow",
             {"symbol": symbol, "start": since.isoformat() if since else None,
              "end": ctx.as_of.isoformat()},
-            symbol=symbol, where="symbol = ?", where_params=[symbol],
+            symbol=symbol, where="symbol = ?", where_params=[symbol], fresh=True,
         )
 
         asing = ctx.symbol_frame("foreign_flow", symbol, since=since)
