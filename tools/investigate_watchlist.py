@@ -229,7 +229,9 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  ✓ {d['symbol']:<6} skor {d['skor']:>3} ({d['band']:<14}) "
               f"{d['kredit']:>2} kredit · {d['langkah']} langkah · {d['narasi_dari']}")
     for s in hasil["dilewati"]:
-        print(f"  · {s:<6} sudah ada, dilewati")
+        # Jeda seleksi membawa alasannya sendiri ("SYM: alasan"); sisanya memang
+        # transkrip yang sudah ada — jangan dicetak seolah sama.
+        print(f"  · {s}" if ":" in s else f"  · {s:<6} sudah ada, dilewati")
     for g in hasil["gagal"]:
         print(f"  ✗ {g}")
     print(f"\n{len(hasil['diselidiki'])} transkrip baru, {hasil['kredit']} kredit terpakai")

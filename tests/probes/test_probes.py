@@ -292,3 +292,61 @@ def test_ensure_tanpa_fresh_mempertahankan_perilaku_lama(warehouse_tertinggal):
     ctx.ensure("daily_transaction", "fetch-daily-transaction", {"symbol": "MANDEK"},
                symbol="MANDEK", where="symbol = ?", where_params=["MANDEK"])
     assert klien.panggilan == []
+
+
+def _harian(sym, hari):
+    from datetime import date
+
+    return pd.DataFrame([{"trade_date": date(2026, 9, h), "symbol": sym, "close_price": 100.0,
+                          "volume": 1_000_000, "market_cap": None} for h in hari])
+
+
+def test_ensure_menarik_lagi_saat_baris_sapuan_menutupi_lubang(warehouse_tertinggal):
+    """Baris terbaru yang segar belum tentu deret yang utuh.
+
+    Sapuan Tier-1 menulis most-traded ke daily_transaction, tapi cuma untuk ±30
+    emiten teramai hari itu. Emiten yang riwayatnya berhenti di 7 Sep lalu masuk
+    most-traded 22 Sep punya baris 22 Sep — terbaca segar, padahal 8–18 Sep
+    kosong. Persis PACK di warehouse produksi: baris terakhir 17 Sep dari sapuan,
+    lubang 8–16 Sep di belakangnya.
+    """
+    warehouse_tertinggal.write("daily_transaction", _harian("TAMBAL", [*range(1, 8), 22]))
+    klien = _KlienPalsu()
+    ctx = _ctx(warehouse_tertinggal, klien)
+
+    ctx.ensure("daily_transaction", "fetch-daily-transaction",
+               {"symbol": "TAMBAL", "start": "2026-09-01", "end": "2026-09-22"},
+               symbol="TAMBAL", where="symbol = ?", where_params=["TAMBAL"], fresh=True)
+    assert klien.panggilan == ["fetch-daily-transaction"]
+
+
+def test_ensure_lubang_dihitung_dari_baris_pertama_emiten(warehouse_tertinggal):
+    """Emiten yang baru tercatat di tengah jendela tidak punya lubang — sesi
+    sebelum baris pertamanya bukan data hilang. Tanpa ini, tiap emiten baru
+    ditarik ulang di setiap investigasi."""
+    warehouse_tertinggal.write("daily_transaction", _harian("BARU", [15, 16, 17, 18, 22]))
+    klien = _KlienPalsu()
+    ctx = _ctx(warehouse_tertinggal, klien)
+
+    ctx.ensure("daily_transaction", "fetch-daily-transaction",
+               {"symbol": "BARU", "start": "2026-09-01", "end": "2026-09-22"},
+               symbol="BARU", where="symbol = ?", where_params=["BARU"], fresh=True)
+    assert klien.panggilan == []
+
+
+def test_ensure_tidak_mencari_lubang_di_tabel_agregat_rentang(warehouse_tertinggal):
+    """broker_summary dari fetch-broker-summary-top adalah AGREGAT satu rentang,
+    bertanggal satu hari — jarang memang bentuknya. Mencari lubang di sini akan
+    menarik ulang 2 kredit di setiap investigasi. Cukup baris terbarunya."""
+    from datetime import date
+
+    warehouse_tertinggal.write("broker_summary", pd.DataFrame([
+        {"trade_date": date(2026, 9, h), "symbol": "JARANG", "broker_code": "YP",
+         "net_value": 1.0, "buy_value": 2.0, "sell_value": 1.0} for h in (7, 22)]))
+    klien = _KlienPalsu()
+    ctx = _ctx(warehouse_tertinggal, klien)
+
+    ctx.ensure("broker_summary", "fetch-broker-summary-top",
+               {"symbol": "JARANG", "start": "2026-09-01", "end": "2026-09-22"},
+               symbol="JARANG", where="symbol = ?", where_params=["JARANG"], fresh=True)
+    assert klien.panggilan == []
