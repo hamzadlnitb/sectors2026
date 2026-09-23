@@ -43,11 +43,18 @@ def keputusan(**kw):
     return {**dasar, **kw}
 
 
-def jalankan(plan, jawaban, *, pagu=None):
+def jalankan(plan, jawaban, *, pagu=None, guards=None):
     llm = FakeLLM(responses={"investigator-v1": jawaban})
     return investigate(symbol="FIXA", plan=plan, ctx=CtxPalsu(),
                        budget=pagu or Budget.for_plan(plan.credit_budget_requested, ceiling=25),
-                       llm=llm, guards=Guardrails())
+                       llm=llm, guards=guards or Guardrails(min_confidence=0.0))
+
+
+def tanpa_pagar_keyakinan():
+    """Pagar #5 punya tesnya sendiri di bawah. Tes perilaku lain mematikannya
+    supaya yang diukur tetap satu hal — kalau tidak, tiap tes yang menyimpulkan
+    cepat ikut menguji ambang keyakinan tanpa menyatakannya."""
+    return Guardrails(min_confidence=0.0)
 
 
 # ── perilaku 1: penghentian dini ────────────────────────────────────────────
@@ -56,6 +63,7 @@ def test_penghentian_dini_menyisakan_probe_yang_tidak_dibeli():
                    [keputusan(next_action="conclude")])
     assert len(out.steps) == 1
     assert out.steps[0].next_action == "conclude"
+    assert "structural" not in {s.probe for s in out.steps}
 
 
 # ── perilaku 2: eskalasi ────────────────────────────────────────────────────
@@ -268,7 +276,8 @@ def test_alasan_langkah_yang_menyerempet_saran_transaksi_disaring(rencana):
          "reason": "Volume melonjak, harga sudah tinggi dan bukan sinyal beli."},
     ]})
     inv = investigate(symbol="FIXA", plan=rencana, ctx=CtxPalsu(),
-                      budget=Budget.for_plan(10, ceiling=25), llm=llm, guards=Guardrails())
+                      budget=Budget.for_plan(10, ceiling=25), llm=llm,
+                      guards=tanpa_pagar_keyakinan())
 
     assert inv.steps, "investigasi harus menghasilkan setidaknya satu langkah"
     alasan = inv.steps[-1].reason
@@ -286,5 +295,107 @@ def test_alasan_langkah_yang_bersih_dibiarkan_apa_adanya(rencana):
         {"finding": "confirmed", "next_action": "conclude", "reason": bersih},
     ]})
     inv = investigate(symbol="FIXA", plan=rencana, ctx=CtxPalsu(),
-                      budget=Budget.for_plan(10, ceiling=25), llm=llm, guards=Guardrails())
+                      budget=Budget.for_plan(10, ceiling=25), llm=llm,
+                      guards=tanpa_pagar_keyakinan())
     assert bersih in inv.steps[-1].reason
+
+
+# ── pagar #5: keyakinan minimum sebelum menyimpulkan (D2) ───────────────────
+def test_conclude_ditolak_saat_keyakinan_rendah_dan_masih_ada_probe_terjangkau():
+    """Regresi D2: satu probe yang menjawab keras menghasilkan skor 100 dengan
+    keyakinan 0,22, dan papan menampilkannya seotoritatif skor enam komponen.
+    Riwayat NICK 30-85-56-71-36-100-64-0-52 dalam sembilan hari hampir seluruhnya
+    artefak ini, bukan pergerakan emitennya.
+
+    Bobot terbesar adalah BCI 0,25 — satu komponen tidak akan pernah mencapai
+    ambang 0,4, jadi agen wajib membeli setidaknya satu probe lagi.
+    """
+    out = jalankan(rencana("volume_anomaly", "free_float", "structural"),
+                   [keputusan(next_action="conclude"),
+                    keputusan(next_action="conclude")],
+                   guards=Guardrails(min_confidence=0.4))
+
+    assert len(out.steps) >= 2, "conclude di langkah pertama harus ditolak pagar"
+    assert out.steps[0].next_action == "continue", "keputusan berhenti diubah jadi lanjut"
+    assert "keyakinan" in out.steps[0].reason, "penolakan pagar wajib terbaca di transkrip"
+    # Temuan langkah itu sendiri TIDAK boleh ikut dibatalkan.
+    assert out.steps[0].finding == "confirmed"
+
+
+def test_conclude_diizinkan_saat_pagu_habis_walau_keyakinan_rendah():
+    """Memaksa agen membeli yang tidak mampu ia beli bukan kejujuran, itu pagar
+    lain yang bohong. Pagu pas untuk SATU probe (2 kredit): setelah itu tidak ada
+    yang terbeli, jadi conclude harus lewat walau keyakinan cuma 0,22 — dan
+    transkrip jujur soal keyakinannya yang rendah."""
+    pagu = Budget.for_plan(2, ceiling=2)
+    out = jalankan(rencana("volume_anomaly", "free_float", "structural"),
+                   [keputusan(next_action="conclude")],
+                   pagu=pagu, guards=Guardrails(min_confidence=0.4))
+
+    assert out.steps[-1].next_action == "conclude"
+    assert "keyakinan" not in out.steps[-1].reason
+
+
+def test_prompt_penyelidik_memuat_bukti_semua_langkah_sebelumnya():
+    """Regresi D1: prompt tiap langkah hanya memuat hasil probe BARUSAN, jadi
+    keputusan `conclude` di langkah 3 dibuat tanpa tahu langkah 1 memberi
+    100/100. Model lalu menebak dari rationale rencana — itu sebab transkrip
+    memuat kalimat seperti "volume_anomaly sebelumnya sudah mengonfirmasi..."
+    yang tidak pernah benar-benar ia baca.
+    """
+    terlihat: list[str] = []
+
+    class LLMPerekam:
+        def ask_json(self, model, *, system, prompt, prompt_version, max_tokens):
+            terlihat.append(prompt)
+            aksi = "conclude" if len(terlihat) >= 2 else "continue"
+            return model.model_validate(keputusan(next_action=aksi))
+
+    investigate(symbol="FIXA", plan=rencana("volume_anomaly", "free_float"),
+                ctx=CtxPalsu(), budget=Budget.for_plan(10, ceiling=25),
+                llm=LLMPerekam(), guards=tanpa_pagar_keyakinan())
+
+    assert len(terlihat) >= 2
+    kedua = terlihat[1]
+    assert "Bukti terkumpul sejauh ini" in kedua
+    assert "volume_anomaly" in kedua, "probe langkah 1 harus ikut di prompt langkah 2"
+    assert "Skor sementara" in kedua, "skor komposit sementara wajib ikut"
+    assert "BELUM diperiksa" in kedua, "komponen yang belum dilihat wajib disebut"
+
+
+def test_langkah_pertama_menyatakan_belum_ada_bukti():
+    """Blok konteks tidak boleh berbohong di langkah pertama."""
+    from core.agent.investigator import Investigation, _konteks_bukti
+
+    teks = _konteks_bukti(Investigation(symbol="FIXA"), "FIXA",
+                          Budget.for_plan(10, ceiling=25))
+    assert "Belum ada bukti" in teks
+
+
+# ── B7: langkah tidak dibuang untuk probe yang tidak terbeli ────────────────
+def test_probe_yang_tidak_terbeli_dilewati_bukan_dijalankan():
+    """Regresi B7: syarat lama `not can_afford(biaya) and remaining <= 0`
+    membuat probe 3 kredit TETAP dijalankan saat sisa 1 — satu langkah dan satu
+    panggilan LLM terbakar untuk `unavailable`, dan transkrip memuat "probe
+    menyerah" yang terbaca seperti kegagalan data, padahal itu aritmetika pagu.
+    """
+    palsu_mahal = ProbePalsu("structural", biaya=9)
+    palsu_murah = ProbePalsu("free_float", biaya=1)
+
+    llm = FakeLLM(responses={"investigator-v1": [keputusan(next_action="continue"),
+                                                 keputusan(next_action="conclude")]})
+    import core.agent.investigator as m
+    PROBES_ASLI = m.PROBES
+    m.PROBES = {"volume_anomaly": ProbePalsu("volume_anomaly", biaya=1),
+                "structural": palsu_mahal, "free_float": palsu_murah}
+    try:
+        out = investigate(symbol="FIXA",
+                          plan=rencana("volume_anomaly", "structural", "free_float", minta=3),
+                          ctx=CtxPalsu(), budget=Budget.for_plan(3, ceiling=3),
+                          llm=llm, guards=tanpa_pagar_keyakinan())
+    finally:
+        m.PROBES = PROBES_ASLI
+
+    assert palsu_mahal.dipanggil == 0, "probe yang tidak terbeli tidak boleh dijalankan"
+    assert "structural" not in {s.probe for s in out.steps}
+    assert palsu_murah.dipanggil == 1, "probe murah berikutnya harus tetap dikejar"

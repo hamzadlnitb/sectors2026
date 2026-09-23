@@ -26,7 +26,7 @@ from pydantic import BaseModel, Field
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from contracts.schemas import Plan, ProbeName, ProbeResult, Step  # noqa: E402
+from contracts.schemas import PROBE_TO_COMPONENT, Plan, ProbeName, ProbeResult, Step  # noqa: E402
 from core.agent.budget import Budget  # noqa: E402
 from core.agent.guardrails import Guardrails  # noqa: E402
 from core.llm import JSONInvalid, LLMError  # noqa: E402
@@ -144,11 +144,67 @@ def _hypothesis_for(plan: Plan, probe: str) -> str | None:
     return None
 
 
+def _umur(entri) -> str:
+    """" (per 22-09)" — umur bukti, supaya agen tahu apa yang sedang ia baca.
+
+    Tanpa ini penyelidik tidak bisa membedakan broker summary hari ini dari yang
+    berumur 15 hari, dan akan menyimpulkan dengan nada yang sama untuk keduanya.
+    Persis kelas kesalahan yang membuat seluruh watchlist beku 8-22 Sep.
+    """
+    at = getattr(entri, "as_of", None)
+    return f" (per {at:%d-%m})" if at is not None else ""
+
+
 def _describe(hasil: ProbeResult) -> str:
     if hasil.sub_score is None:
         return f"probe {hasil.probe} menyerah: {hasil.unavailable_reason}"
-    bukti = "; ".join(f"{e.label}: {e.display}" for e in hasil.evidence) or "(tanpa rincian)"
+    bukti = "; ".join(f"{e.label}: {e.display}{_umur(e)}" for e in hasil.evidence) \
+        or "(tanpa rincian)"
     return f"probe {hasil.probe} → sub-skor {hasil.sub_score:.0f}/100. Bukti: {bukti}"
+
+
+def _konteks_bukti(inv: Investigation, symbol: str, budget: Budget) -> str:
+    """Semua bukti yang sudah terkumpul + skor sementara + apa yang belum dilihat.
+
+    Tanpa blok ini, prompt tiap langkah hanya memuat hasil probe BARUSAN. Agen
+    memutuskan `conclude` di langkah 3 tanpa tahu langkah 1 memberi 100/100 —
+    dan karena ia tetap harus menulis alasan, ia menebak dari rationale rencana.
+    Itu sebab transkrip berisi kalimat seperti "volume_anomaly sebelumnya sudah
+    mengonfirmasi..." yang tidak pernah benar-benar ia baca.
+
+    Semua angka di sini DETERMINISTIK dari score(inv.results). LLM tetap hanya
+    memilih rute; ia tidak pernah mengarang skornya sendiri.
+    """
+    from core.scoring.composite import score
+
+    if not inv.results:
+        return "Belum ada bukti terkumpul — ini langkah pertama."
+
+    komp = score(inv.results)
+    baris = []
+    for hasil in inv.results.values():
+        if hasil.sub_score is None:
+            baris.append(f"- {hasil.probe} → menyerah: {hasil.unavailable_reason}")
+            continue
+        rincian = "; ".join(f"{e.label}: {e.display}{_umur(e)}" for e in hasil.evidence)
+        baris.append(f"- {hasil.probe} → {hasil.sub_score:.0f}/100. {rincian}")
+
+    belum = [(c.code, c.weight) for c in komp.components if not c.investigated]
+    belum.sort(key=lambda x: -x[1])
+    belum_txt = ", ".join(
+        f"{kode} bobot {bobot:.2f}"
+        + next((f" ({PROBES[p].cost_estimate(symbol)} kredit)"
+                for p, k in PROBE_TO_COMPONENT.items() if k == kode and p in PROBES), "")
+        for kode, bobot in belum
+    ) or "(tidak ada)"
+
+    return "\n".join([
+        "Bukti terkumpul sejauh ini:",
+        *baris,
+        f"Skor sementara: {komp.pantau_score} ({komp.band}), keyakinan "
+        f"{komp.confidence:.0%} — {len(komp.investigated)}/6 komponen tercakup.",
+        f"Komponen yang BELUM diperiksa: {belum_txt}.",
+    ])
 
 
 def _fallback_decision(hasil: ProbeResult, sisa_antrean: int, sisa_pagu: int) -> Decision:
@@ -175,6 +231,8 @@ def _decide(*, symbol: str, hasil: ProbeResult, plan: Plan, antrean: list[str],
         f"Rencana awal: {plan.rationale}",
         "",
         f"Hasil langkah ini — {_describe(hasil)}",
+        "",
+        _konteks_bukti(inv, symbol, budget),
         "",
         f"Probe yang masih mengantre: {', '.join(antrean) or '(kosong)'}",
         f"Probe yang belum pernah dijalankan: "
@@ -226,8 +284,21 @@ def investigate(*, symbol: str, plan: Plan, ctx, budget: Budget, llm,
             continue
 
         biaya = probe.cost_estimate(symbol)
-        if not budget.can_afford(biaya) and budget.remaining <= 0:
-            inv.stopped_by = f"pagu habis sebelum {probe_name}"
+        if not budget.can_afford(biaya):
+            # Syarat lama `and budget.remaining <= 0` membuat probe 3 kredit
+            # TETAP dijalankan saat sisa 1: Context.ensure menolak tarikannya,
+            # probe pulang `unavailable`, dan satu langkah + satu panggilan LLM
+            # terbakar untuk hasil kosong. Transkrip lalu memuat "probe
+            # menyerah" yang terbaca seperti kegagalan data, padahal itu
+            # aritmetika pagu.
+            terjangkau = [p for p in antrean
+                          if budget.can_afford(PROBES[p].cost_estimate(symbol))]
+            if terjangkau:
+                log.info("probe %s dilewati: butuh %d kredit, sisa %d — lanjut ke %s",
+                         probe_name, biaya, budget.remaining, terjangkau[0])
+                continue
+            inv.stopped_by = (f"pagu tidak cukup untuk probe tersisa "
+                              f"(sisa {budget.remaining} kredit, {probe_name} butuh {biaya})")
             break
 
         ctx.budget_remaining = budget.remaining
@@ -240,10 +311,28 @@ def investigate(*, symbol: str, plan: Plan, ctx, budget: Budget, llm,
         d = _decide(symbol=symbol, hasil=hasil, plan=plan, antrean=antrean,
                     budget=budget, llm=llm, inv=inv)
 
+        alasan = _saring_alasan(d.reason)
+
+        # ── pagar #5: keyakinan minimum sebelum menyimpulkan ────────────────
+        if d.next_action == "conclude":
+            from core.scoring.composite import score as _score
+
+            komp = _score(inv.results)
+            terjangkau = [p for p in antrean
+                          if budget.can_afford(PROBES[p].cost_estimate(symbol))]
+            boleh_tutup = guards.may_conclude(komp.confidence, bool(terjangkau))
+            if not boleh_tutup:
+                # Diubah jadi `continue`, BUKAN dibatalkan: temuan langkah ini
+                # tetap sah dan tetap tercatat. Yang ditolak cuma keputusan
+                # berhentinya, dan penolakan itu ditulis terang di alasan supaya
+                # pembaca transkrip melihat pagar bekerja, bukan agen berubah
+                # pikiran tanpa sebab.
+                d = d.model_copy(update={"next_action": "continue", "new_probe": None})
+                alasan = f"[{boleh_tutup.reason}] {alasan}"
+
         # ── eskalasi ────────────────────────────────────────────────────────
         granted = 0
         new_probe: str | None = None
-        alasan = _saring_alasan(d.reason)
         if d.next_action == "escalate":
             kandidat = d.new_probe if d.new_probe in PROBES else None
             # Eskalasi berarti "aku butuh pagu LEBIH dari yang direncanakan untuk
