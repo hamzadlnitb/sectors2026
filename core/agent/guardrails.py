@@ -64,8 +64,8 @@ hampir seluruhnya artefak ini, bukan pergerakan emitennya.
 
 Di bawah ambang ini `conclude` ditolak SELAMA masih ada probe yang terbeli.
 Kalau pagu memang habis, `conclude` tetap diizinkan dan transkrip jujur soal
-keyakinannya — memaksa agen membeli yang tidak mampu ia beli bukan kejujuran,
-itu cuma pagar lain yang bohong."""
+keyakinannya — memaksa agen menarik data di luar pagu bukan kejujuran, itu cuma
+pagar lain yang bohong."""
 
 
 def _env_number(name: str, default: float) -> float:

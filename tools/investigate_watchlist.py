@@ -36,10 +36,10 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from core.agent.memory import Memory  # noqa: E402
-from core.agent.runner import investigate_symbol  # noqa: E402
+from core.agent.runner import investigate_symbol, sinyal_watchlist  # noqa: E402
 from core.agent.transcript import path_for, save  # noqa: E402
 from core.console import setup_console  # noqa: E402
-from core.ingest.warehouse import Warehouse  # noqa: E402
+from core.ingest.warehouse import Warehouse, trading_days  # noqa: E402
 from core.sectors.client import CreditAwareClient  # noqa: E402
 from core.sectors.errors import BudgetExceeded  # noqa: E402
 from core.sectors.ledger import CreditLedger  # noqa: E402
@@ -53,6 +53,17 @@ bisa menembak sampai 25 kredit, dan operasi harian dipagari 250. Top-3 menjaga
 ±10 kredit/hari khas, sesuai anggaran ARCHITECTURE §7."""
 
 
+JEDA_HARI_BURSA = 2
+"""Berapa hari bursa sebuah kesimpulan berkeyakinan tinggi masih dianggap berlaku."""
+
+JEDA_KEYAKINAN = 0.6
+"""Di bawah ini kesimpulan kemarin terlalu tipis untuk dijadikan alasan melewati."""
+
+JEDA_DELTA_SELEKSI = 0.05
+"""Perubahan skor seleksi Tahap 1 yang dianggap berarti. Di bawah ini, tidak ada
+yang baru untuk dilihat — yang membuat emiten ini menarik kemarin masih sama."""
+
+
 def read_candidates(as_of: date, runs_root: Path) -> list[dict]:
     path = runs_root / as_of.isoformat() / "watchlist.json"
     if not path.exists():
@@ -62,6 +73,51 @@ def read_candidates(as_of: date, runs_root: Path) -> list[dict]:
     data = json.loads(path.read_text(encoding="utf-8"))
     cand = data.get("candidates") or []
     return sorted(cand, key=lambda c: c.get("score", 0), reverse=True)
+
+
+def _alasan_jeda(mem: Memory, symbol: str, as_of: date, entri: dict,
+                 wh: Warehouse, runs_root: Path) -> str | None:
+    """Alasan melewati kandidat ini, atau None kalau layak diselidiki.
+
+    Tiga syarat harus terpenuhi sekaligus — baru, yakin, dan tidak bergerak.
+    Satu saja meleset berarti ada sesuatu yang berubah, dan investigasi jalan.
+    """
+    ingat = mem.recall(symbol, before=as_of)
+    if ingat is None:
+        return None
+    if ingat.confidence < JEDA_KEYAKINAN:
+        return None
+    try:
+        sesi = trading_days(wh, as_of, JEDA_HARI_BURSA + 1)
+    except Exception:  # noqa: BLE001 — kalender tidak terbaca → jangan melewati
+        return None
+    if not sesi or ingat.as_of < sesi[0]:
+        return None
+
+    lama = _skor_seleksi_tersimpan(symbol, ingat.as_of, runs_root)
+    baru = entri.get("score")
+    if lama is None or baru is None:
+        return None
+    if abs(float(baru) - float(lama)) >= JEDA_DELTA_SELEKSI:
+        return None
+
+    return (f"diselidiki {ingat.as_of.isoformat()} (keyakinan "
+            f"{ingat.confidence:.0%}), skor seleksi bergerak "
+            f"{abs(float(baru) - float(lama)):.3f} < {JEDA_DELTA_SELEKSI}")
+
+
+def _skor_seleksi_tersimpan(symbol: str, hari: date, runs_root: Path) -> float | None:
+    """Skor seleksi Tahap 1 untuk emiten ini pada hari investigasi sebelumnya."""
+    path = runs_root / hari.isoformat() / "watchlist.json"
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        return None
+    for c in data.get("candidates") or []:
+        if c.get("symbol") == symbol:
+            skor = c.get("score")
+            return float(skor) if skor is not None else None
+    return None
 
 
 def run(as_of: date, *, top: int = DEFAULT_TOP, offline: bool = False,
@@ -91,11 +147,29 @@ def run(as_of: date, *, top: int = DEFAULT_TOP, offline: bool = False,
     dilewati: list[str] = []
     gagal: list[str] = []
 
-    for symbol in dipilih:
+    per_simbol = {c["symbol"]: c for c in candidates}
+    cadangan = [c["symbol"] for c in candidates[top:]]
+
+    antrean = list(dipilih)
+    while antrean:
+        symbol = antrean.pop(0)
+        entri = per_simbol.get(symbol, {})
         tujuan = path_for(symbol, as_of, inv_root)
         if tujuan.exists():
             log.info("%s sudah diselidiki untuk %s — dilewati", symbol, as_of)
             dilewati.append(symbol)
+            continue
+
+        # Jeda seleksi: memori dipakai untuk MEMILIH, bukan cuma merencanakan.
+        # Tanpa ini top-3 yang sama diselidiki sembilan hari berturut-turut dan
+        # kredit `daily` terbakar untuk delta nol. [B9]
+        if (alasan := _alasan_jeda(mem, symbol, as_of, entri, wh, runs_root)):
+            log.info("%s dilewati: %s", symbol, alasan)
+            dilewati.append(f"{symbol}: {alasan}")
+            if cadangan:
+                pengganti = cadangan.pop(0)
+                log.info("%s naik menggantikan %s", pengganti, symbol)
+                antrean.append(pengganti)
             continue
 
         try:
@@ -104,7 +178,8 @@ def run(as_of: date, *, top: int = DEFAULT_TOP, offline: bool = False,
             # diperbarui di bawah, jadi perilaku delta tidak hilang.
             t = investigate_symbol(symbol, as_of=as_of, offline=offline,
                                    warehouse=wh, memory=mem,
-                                   client=None if offline else client, persist=False)
+                                   client=None if offline else client, persist=False,
+                                   signals=sinyal_watchlist(entri))
             path = save(t, root=inv_root)
             mem.remember(t, path)
         except BudgetExceeded as exc:
