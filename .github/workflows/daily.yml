@@ -167,11 +167,22 @@ jobs:
 
       # Bukti untuk juri: artefak bisa diunduh dari halaman run, ber-timestamp,
       # walau commit-nya gagal karena alasan lain.
+      #
+      # Transkrip investigasi hari itu WAJIB ikut. Commit 21 dan 23 Sep gagal,
+      # dan karena dulu cuma runs/<tanggal>/ yang diunggah, sapuannya bisa
+      # dipulihkan tapi investigasinya hilang tanpa jejak — harus dibayar ulang
+      # dengan kredit, dan hasilnya bukan lagi yang dibuat cron. [PR #16]
+      #
+      # Dua path → akar artefak jadi runs/, jadi pulihkan dengan unzip ke runs/.
+      # Isinya mentah, belum tentu lolos gerbang kosakata (23 Sep justru gagal di
+      # sana) — memulihkan dari sini tetap lewat `make vocab` sebelum commit. [K5]
       - name: Unggah artefak run
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: run-${{ steps.tanggal.outputs.as_of }}
-          path: runs/${{ steps.tanggal.outputs.as_of }}/
+          path: |
+            runs/${{ steps.tanggal.outputs.as_of }}/
+            runs/investigations/*-${{ steps.tanggal.outputs.as_of }}.json
           if-no-files-found: warn
           retention-days: 30
