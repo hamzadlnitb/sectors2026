@@ -69,6 +69,59 @@ dan submit tetap jalan dengan bidang statis.
 
 ---
 
+### C7 · 24 Sep 2026 · Hamzah · `credits_total <= baseline_credits` memaksa transkrip berbohong
+
+**Status: diajukan, belum disetujui.** Melewati batas beku 12 Sep, jadi standarnya adalah
+"membuat lajur mustahil jalan". Gua **tidak** mengklaim ini memenuhi standar itu — kodenya
+jalan. Yang gua klaim: invarian ini memaksa transkrip mencatat angka yang bukan hasil
+pengukuran, dan itu lebih buruk daripada kerapian. Keputusannya ada di ketiga orang.
+
+| | |
+| --- | --- |
+| **Berkas** | `contracts/check.py:85` (invarian), `core/agent/adjudicator.py` (yang menyiasatinya) |
+| **Dampak ke lajur lain** | Melco: nol — `check.py` hanya melonggar, transkrip lama tetap lolos. Nadhilla: `savings_pct` di `index.json` bisa **negatif**; kartu papan dan halaman detail perlu menangani tanda minus (satu baris CSS + format). |
+| **Ongkos** | satu baris di `check.py`, satu baris di `adjudicator.py`, satu tes. `schema_version` **tidak** naik — bentuknya tidak berubah, hanya rentang nilai yang sah melebar. |
+| **Kalau ditolak** | tidak ada yang rusak. Yang tersisa adalah angka "hemat 0%" yang tidak berarti apa-apa, dan catatan ini sebagai penjelasannya. |
+
+#### Masalahnya
+
+`contracts/check.py:85` menegakkan:
+
+```python
+if t.credits_total > t.baseline_credits:
+    errors.append("credits_total melebihi baseline — tidak ada penghematan untuk diklaim")
+```
+
+`adjudicator.py` memenuhinya dengan `baseline_credits = max(credits_total, 16)`. Jadi ketika
+agen membelanjakan 18 kredit, "baseline menyeluruh" ikut berubah jadi 18 — dan transkrip
+melaporkan **hemat 0%**, bukan **−13%**.
+
+Ini bukan siasat penulis `adjudicator.py`; dengan invarian itu, tidak ada pilihan lain.
+Tapi akibatnya `baseline_credits` berhenti berarti "biaya menjalankan keenam probe" dan
+berubah jadi "angka apa pun yang membuat penghematan tidak negatif". Kolom yang seharusnya
+pembanding tetap jadi cermin.
+
+Yang hilang justru kasus yang paling layak dilihat juri: **investigasi di mana agen kalah
+dari pendekatan menyeluruh.** Eval Angka 2 punya lengan pembanding justru supaya kekalahan
+bisa terlihat; transkrip produksi tidak boleh menyembunyikannya.
+
+#### Usulan
+
+Hapus invarian itu dari `check.py`, dan di `adjudicator.py` pakai `baseline_credits(symbol)`
+apa adanya. Penghematan negatif adalah hasil pengukuran yang sah, bukan pelanggaran kontrak.
+
+Pagar yang sesungguhnya sudah ada dan tidak disentuh usulan ini: `credits_total > 25`
+ditolak, dan `Budget` menegakkannya saat investigasi berjalan. Invarian baseline tidak
+pernah memagari belanja — ia cuma memagari *pelaporannya*.
+
+#### Kalau ditolak, yang harus ikut berubah
+
+Jangan biarkan angkanya berdiri sendiri. `savings_pct` di `to_json.py` harus berhenti
+ditampilkan ketika `credits_total == baseline_credits`, dan `ARCHITECTURE.md` perlu
+menyatakan bahwa `baseline_credits` adalah batas bawah, bukan biaya menyeluruh.
+
+---
+
 ## Riwayat
 
 ### C5 · 12 Sep 2026 · Tanggapan Hamzah atas C4, dan batas kalibrasi yang sebenarnya

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-22T19:47:57+00:00",
+  "generated_at": "2026-09-24T12:05:26+00:00",
   "investigations": [
     {
       "id": "NICK-2026-09-17",
@@ -20,6 +20,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 1,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "Aktivitas akumulasi bersih pada NICK sangat terkonsentrasi, ditunjukkan oleh indeks Herfindahl broker sebesar 0,87 da…",
       "trail": [
         {
@@ -49,6 +55,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 1,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "Pada ASLI tercatat anomali volume yang luar biasa besar, yaitu 12,7× lipat dari median baseline dengan z-score 10,9σ …",
       "trail": [
         {
@@ -78,6 +90,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 3,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
       "headline": "Banyak indikator pada JAWA menunjukkan pola tidak biasa secara bersamaan",
       "trail": [
         {
@@ -119,6 +137,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": false,
+        "llm_decisions": 2,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "Free float JAWA tercatat hanya 8% dengan data berusia 9 hari, menandakan struktur kepemilikan yang sangat terkonsentr…",
       "trail": [
         {
@@ -154,6 +178,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 2,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "Ticker NICK menunjukkan rally yang sepenuhnya ditopang oleh konsentrasi tiga broker (PD, XC, KK) yang menyerap 100% p…",
       "trail": [
         {
@@ -191,6 +221,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": false,
+        "llm_decisions": 3,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
       "headline": "Banyak indikator pada JAWA menunjukkan pola tidak biasa secara bersamaan",
       "trail": [
         {
@@ -232,6 +268,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 3,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "JAWA menunjukkan lonjakan volume sangat mencolok dengan z-score 104,3σ dan rasio 85,8× terhadap median baseline, namu…",
       "trail": [
         {
@@ -273,6 +315,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 2,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "Free float NICK tercatat 22% dengan umur data 8 hari, sehingga_probe free_float hasilnya belum dapat disimpulkan kare…",
       "trail": [
         {
@@ -308,6 +356,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": false,
+        "llm_decisions": 2,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
       "headline": "Beberapa indikator pada ASLI menunjukkan pola tidak biasa",
       "trail": [
         {
@@ -345,6 +399,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": false,
+        "llm_decisions": 3,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "JAWA menunjukkan lonjakan volume yang sangat mencolok, yaitu 4,5× median baseline dan z-score 4,3σ terhadap baseline …",
       "trail": [
         {
@@ -385,6 +445,12 @@
       "moments": [
         "early_stop"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 5,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
       "headline": "Beberapa indikator pada NICK menunjukkan pola tidak biasa",
       "trail": [
         {
@@ -440,6 +506,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 4,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "Pada ASLI, anomali volume tercatar sangat kuat dengan z-score 21,7σ dan rasio 23,8× median, sehingga pergerakan harga…",
       "trail": [
         {
@@ -486,6 +558,12 @@
       "moments": [
         "early_stop"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 3,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "Investigasi pada ASLI menemukan anomali volume yang sangat kuat, dengan rasio 23,8× median dan Z-score 21,7σ, namun s…",
       "trail": [
         {
@@ -526,6 +604,12 @@
       "moments": [
         "early_stop"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 2,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "SCCO menunjukkan anomali volume yang material, dengan rasio volume hari terakhir 4,0× terhadap median baseline dan Z-…",
       "trail": [
         {
@@ -561,6 +645,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 3,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
       "headline": "Beberapa indikator pada NICK berada di luar kebiasaan",
       "trail": [
         {
@@ -604,6 +694,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": false,
+        "llm_decisions": 4,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "Investigasi pada ASLI menemukan anomali volume yang sangat kuat dengan Z-score 11,1σ atau 13,3× median baseline, dan …",
       "trail": [
         {
@@ -651,6 +747,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 3,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "Pada ASLI terdetek anomali volume yang sangat besar dengan rasio 53,5× median dan Z-score 48,3σ terhadap baseline 90 …",
       "trail": [
         {
@@ -694,6 +796,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": false,
+        "llm_decisions": 3,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "NICK saat ini berstatus perhatian setelah tiga probe berturut-turut (volume_anomaly, free_float, structural) berakhir…",
       "trail": [
         {
@@ -737,6 +845,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": false,
+        "llm_decisions": 4,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
       "headline": "Beberapa indikator pada ASLI berada di luar kebiasaan",
       "trail": [
         {
@@ -785,6 +899,12 @@
         "escalation",
         "early_stop"
       ],
+      "llm": {
+        "planner_llm": false,
+        "llm_decisions": 3,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "Pada ASLI tercatat lonjakan harga 120% dalam 30 hari bursa yang tidak diikuti arus masuk asing (arus asing bersih han…",
       "trail": [
         {
@@ -826,6 +946,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 3,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "Anomali volume pada JAWA tampak ekstrem secara statistik dengan rasio 13,8× median dan Z-score 15,8σ, namun tiga bukt…",
       "trail": [
         {
@@ -867,6 +993,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 4,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "Investigasi menemukan anomali volume yang sangat kuat pada ASLI dengan z-score 16,0σ dan rasio volume 18,1× median ba…",
       "trail": [
         {
@@ -913,6 +1045,12 @@
       "moments": [
         "early_stop"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 4,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "Pola akumulasi pada PACK didukung oleh partisipasi 11 broker net buy positif dengan HHI konsentrasi 0,14 dan pangsa 5…",
       "trail": [
         {
@@ -960,6 +1098,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 4,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
       "headline": "Beberapa indikator pada JAWA berada di luar kebiasaan",
       "trail": [
         {
@@ -1007,6 +1151,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": false,
+        "llm_decisions": 2,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "Pola volume NICK di hari terakhir hanya sedikit di atas rata-rata dengan rasio 2,1× median dan z-score 0,8σ, sehingga…",
       "trail": [
         {
@@ -1041,6 +1191,12 @@
       "moments": [
         "early_stop"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 2,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "Free float NICK tercatat 22% dengan rasio volume 1,3× median dan z-score 0,2σ, yang menunjukkan tidak ada anomali per…",
       "trail": [
         {
@@ -1075,6 +1231,12 @@
       "moments": [
         "early_stop"
       ],
+      "llm": {
+        "planner_llm": false,
+        "llm_decisions": 0,
+        "fallback_decisions": 2,
+        "narrative_llm": false
+      },
       "headline": "Tidak ada pola tidak biasa yang menonjol pada TRUK",
       "trail": [
         {
@@ -1110,6 +1272,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 1,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
       "headline": "Volume JAWA pada hari terakhir tercatat 1,8× median baseline dengan Z-score 0,9σ, menunjukkan aktivitas perdagangan y…",
       "trail": [
         {
@@ -1138,6 +1306,12 @@
       "moments": [
         "early_stop"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 1,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
       "headline": "Tidak ada pola tidak biasa yang menonjol pada JAWA",
       "trail": [
         {
@@ -1167,6 +1341,12 @@
         "early_stop",
         "memory"
       ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 1,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
       "headline": "Tidak ada pola tidak biasa yang menonjol pada NICK",
       "trail": [
         {
@@ -1251,5 +1431,13 @@
       "credits_spent": 0,
       "candidates": 0
     }
-  ]
+  ],
+  "llm": {
+    "investigations": 30,
+    "planner_llm": 20,
+    "narrative_llm": 20,
+    "llm_decisions": 78,
+    "fallback_decisions": 2,
+    "steps": 80
+  }
 }

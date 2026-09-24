@@ -68,6 +68,40 @@ def _llm(offline: bool):
     return LLM.from_env(eval_mode=True)
 
 
+class LLMBerlabel:
+    """Pembungkus tipis yang menambahkan akhiran ke tiap `prompt_version`.
+
+    `core/llm.py` memakai cache berkunci `(system, messages, tools,
+    prompt_version, max_tokens, temperature)`. Menjalankan eval dua kali
+    karena itu menghasilkan angka yang identik — bukan karena agennya stabil,
+    melainkan karena jalan kedua tidak pernah benar-benar terjadi. Laporan
+    `reports/agent-eval-ringkasan.md` menyimpulkan kebisingan ±6–12 pp dari
+    DUA jalan; untuk rentang yang layak dikutip perlu lebih banyak, dan tiap
+    jalan harus menembus cache.
+
+    Akhiran ini hanya menyentuh kunci cache, bukan isi prompt yang dikirim ke
+    model — jadi yang diukur tetap kebisingan model, bukan kebisingan prompt
+    yang berbeda-beda. [D8]
+
+    Yang dibungkus adalah objek LLM yang dipakai lengan agen; lengan pembanding
+    (menyeluruh, urutan tetap, acak) deterministik dan tidak memanggil LLM sama
+    sekali, jadi mereka otomatis tidak terpengaruh.
+    """
+
+    def __init__(self, dalam, akhiran: str) -> None:
+        self._dalam = dalam
+        self._akhiran = akhiran
+
+    def ask_json(self, *a, prompt_version: str, **kw):
+        return self._dalam.ask_json(*a, prompt_version=prompt_version + self._akhiran, **kw)
+
+    def ask_text(self, *a, prompt_version: str, **kw):
+        return self._dalam.ask_text(*a, prompt_version=prompt_version + self._akhiran, **kw)
+
+    def __getattr__(self, nama: str):
+        return getattr(self._dalam, nama)
+
+
 PEKERJA = int(os.getenv("PANTAU_EVAL_WORKERS", "4"))
 """Investigasi antar-emiten saling bebas dan didominasi tunggu jaringan, jadi
 menjalankannya berurutan berarti menunggu ~16 detik per panggilan LLM secara
@@ -100,8 +134,8 @@ def _satu(k: dict, *, as_of: date, llm) -> Baris:
 
 
 def jalankan(kasus: list[dict], *, as_of: date, offline: bool,
-             pekerja: int | None = None) -> list[Baris]:
-    llm = _llm(offline)
+             pekerja: int | None = None, llm=None) -> list[Baris]:
+    llm = llm if llm is not None else _llm(offline)
     n = max(1, pekerja or PEKERJA)
     if n == 1:
         return [_satu(k, as_of=as_of, llm=llm) for k in kasus]
@@ -161,6 +195,56 @@ def ringkas(baris: list[Baris], as_of: date) -> dict:
     }
     ringkasan["perencana_llm"] = sum(1 for b in baris if b.per_lengan["agen"].planner_llm)
     return ringkasan
+
+
+METRIK_KEBISINGAN = {
+    "hemat_persen": ("hemat kredit", "pp"),
+    "sepakat_persen": ("sepakat band", "pp"),
+    "kredit_rata2": ("kredit rata-rata", "kredit"),
+}
+
+
+def kebisingan(ringkasan: list[dict]) -> dict:
+    """Rentang tiap metrik lengan agen lintas jalan yang identik konfigurasinya.
+
+    Satu-satunya yang berbeda antar-jalan adalah akhiran kunci cache, jadi
+    seluruh sebaran di sini adalah kebisingan model — angka yang harus menyertai
+    setiap klaim perbandingan, kalau tidak "agen 8 pp lebih baik" tak bisa
+    dibedakan dari selisih antar-dua jalan agen yang sama.
+    """
+    if len(ringkasan) < 2:
+        return {}
+    keluar: dict = {"jalan": len(ringkasan), "metrik": {}}
+    for kunci, (label, satuan) in METRIK_KEBISINGAN.items():
+        nilai = [r["lengan"]["agen"][kunci] for r in ringkasan]
+        keluar["metrik"][kunci] = {
+            "label": label, "satuan": satuan,
+            "nilai": nilai,
+            "min": min(nilai), "max": max(nilai),
+            "rentang": round(max(nilai) - min(nilai), 2),
+            "rata2": round(stat.mean(nilai), 2),
+            "simpangan": round(stat.stdev(nilai), 2) if len(nilai) > 2 else None,
+        }
+    band = [r["lengan"]["agen"]["sepakat_band"] for r in ringkasan]
+    keluar["sepakat_band"] = {"min": min(band), "max": max(band)}
+    return keluar
+
+
+def render_kebisingan(k: dict) -> str:
+    baris = [
+        "", "## Kebisingan antar-jalan", "",
+        f"_{k['jalan']} jalan dengan konfigurasi identik; yang berbeda hanya akhiran "
+        "kunci cache LLM, sehingga tiap jalan benar-benar memanggil model._", "",
+        "| Metrik lengan agen | Rentang | Lebar | Rata-rata |",
+        "| --- | --- | --- | --- |",
+    ]
+    for m in k["metrik"].values():
+        baris.append(f"| {m['label']} | {m['min']}–{m['max']} {m['satuan']} | "
+                     f"{m['rentang']} {m['satuan']} | {m['rata2']} {m['satuan']} |")
+    lebar = k["metrik"]["hemat_persen"]["rentang"]
+    baris += ["", f"Selisih antar-lengan yang lebih kecil dari **{lebar} pp** tidak "
+              "boleh dibaca sebagai perbedaan nyata."]
+    return "\n".join(baris)
 
 
 def render(r: dict, baris: list[Baris]) -> str:
@@ -251,7 +335,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--pekerja", type=int, default=None,
                     help=f"utas paralel (bawaan {PEKERJA})")
     ap.add_argument("--as-of", type=date.fromisoformat, default=date(2026, 9, 11))
+    ap.add_argument("--repeat", type=int, default=1, metavar="N",
+                    help="jalankan N kali untuk mengukur kebisingan model "
+                         "(nol kredit Sectors; tiap jalan menembus cache LLM)")
     args = ap.parse_args(argv)
+    putaran = max(1, args.repeat)
 
     kasus = muat()
     if args.limit:
@@ -259,9 +347,25 @@ def main(argv: list[str] | None = None) -> int:
     print(f"{len(kasus)} kasus, acuan {args.as_of}"
           f"{' (offline)' if args.offline else ''}")
 
-    baris = jalankan(kasus, as_of=args.as_of, offline=args.offline,
-                     pekerja=args.pekerja)
-    r = ringkas(baris, args.as_of)
+    dasar = _llm(args.offline)
+    semua: list[list[Baris]] = []
+    semua_ringkas: list[dict] = []
+    for i in range(1, putaran + 1):
+        if putaran > 1:
+            print(f"\njalan {i}/{putaran}")
+        # Akhiran kunci cache dipakai bahkan untuk jalan tunggal ketika
+        # --repeat diminta, supaya jalan pertama sebuah pengukuran kebisingan
+        # tidak diam-diam dilayani cache dari eval sebelumnya.
+        llm = LLMBerlabel(dasar, f"-r{i}") if putaran > 1 else dasar
+        b = jalankan(kasus, as_of=args.as_of, offline=args.offline,
+                     pekerja=args.pekerja, llm=llm)
+        semua.append(b)
+        semua_ringkas.append(ringkas(b, args.as_of))
+
+    baris, r = semua[0], semua_ringkas[0]
+    bising = kebisingan(semua_ringkas)
+    if bising:
+        r["kebisingan"] = bising
 
     HASIL.mkdir(parents=True, exist_ok=True)
     (HASIL / f"{args.as_of.isoformat()}.json").write_text(
@@ -277,9 +381,18 @@ def main(argv: list[str] | None = None) -> int:
     print(f"  kepekaan harga: {r['kepekaan_harga']['kasus_pilihan_berbeda']}/"
           f"{r['n_kasus']} kasus berbeda pilihan")
 
+    if bising:
+        print(f"\n  kebisingan {bising['jalan']} jalan:")
+        for m in bising["metrik"].values():
+            print(f"    {m['label']:<18} {m['min']}–{m['max']} {m['satuan']} "
+                  f"(lebar {m['rentang']})")
+
     if args.tulis:
         LAPORAN.parent.mkdir(parents=True, exist_ok=True)
-        LAPORAN.write_text(render(r, baris), encoding="utf-8")
+        isi = render(r, baris)
+        if bising:
+            isi += "\n" + render_kebisingan(bising) + "\n"
+        LAPORAN.write_text(isi, encoding="utf-8")
         print(f"\ntulis {LAPORAN.relative_to(ROOT)}")
     return 0
 

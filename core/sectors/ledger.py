@@ -224,10 +224,59 @@ def report(ledger: CreditLedger | None = None) -> str:
     return "\n".join(lines)
 
 
+def laporan_llm(path: Path | None = None) -> str:
+    """Ringkasan pemakaian LLM dari `data/llm_ledger.jsonl`.
+
+    Datanya sudah dicatat sejak 10 Sep, tapi tidak pernah ada pembacanya — jadi
+    "berapa yang dikerjakan model, dan oleh model yang mana" tidak bisa dijawab
+    tanpa membuka 910 baris JSONL. Kredit LLM terpisah dari kredit Sectors [K9],
+    jadi ini laporan kedua, bukan tambahan ke tabel pagu di atas. [AUDIT T4]
+    """
+    from core.llm import LEDGER
+
+    berkas = path or LEDGER
+    try:
+        mentah = berkas.read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return ""
+    # Baris rusak dilewati, bukan menjatuhkan laporan: ledger ditulis sambil
+    # cron berjalan, jadi baris terakhir bisa saja separuh saat dibaca.
+    baris = []
+    for b in mentah:
+        if not b.strip():
+            continue
+        try:
+            baris.append(json.loads(b))
+        except ValueError:
+            continue
+    if not baris:
+        return ""
+
+    per_model: dict[tuple[str, str], dict] = {}
+    for b in baris:
+        kunci = (str(b.get("provider") or "?"), str(b.get("model") or "?"))
+        agg = per_model.setdefault(kunci, {"panggilan": 0, "masuk": 0, "keluar": 0, "detik": 0.0})
+        agg["panggilan"] += 1
+        agg["masuk"] += int(b.get("input_tokens") or 0)
+        agg["keluar"] += int(b.get("output_tokens") or 0)
+        agg["detik"] += float(b.get("seconds") or 0.0)
+
+    keluar = ["", "pemakaian LLM (terpisah dari kredit Sectors):",
+              f"  {'penyedia/model':<34} {'panggil':>7} {'token masuk':>12} {'keluar':>8} {'detik':>7}"]
+    for (penyedia, model), a in sorted(per_model.items(), key=lambda kv: -kv[1]["panggilan"]):
+        keluar.append(f"  {penyedia + '/' + model:<34} {a['panggilan']:>7} "
+                      f"{a['masuk']:>12,} {a['keluar']:>8,} {a['detik']:>7.0f}")
+    total = sum(a["panggilan"] for a in per_model.values())
+    keluar.append(f"  {'TOTAL':<34} {total:>7}")
+    return "\n".join(keluar).replace(",", ".")
+
+
 def main() -> int:
     setup_console()
     path = os.environ.get("PANTAU_LEDGER")
     print(report(CreditLedger(Path(path)) if path else None))
+    if (llm := laporan_llm()):
+        print(llm)
     return 0
 
 

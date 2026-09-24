@@ -6,7 +6,7 @@
 #
 # TAHAP 1 : sapuan Tier-1 + watchlist -> commit runs/YYYY-MM-DD/
 # TAHAP 2 : agen menyelidiki top-N kandidat -> commit runs/investigations/
-#           Aktif kalau secret MINIMAX_API_KEY ada; kalau tidak, dilewati (bukan
+#           Aktif kalau ada kunci LLM (Claude atau MiniMax); kalau tidak, dilewati (bukan
 #           gagal) supaya Tahap 1 tetap menyumbang bukti otonom tiap hari.
 # EKSPOR  : runs/ -> web/public/data/, supaya web ikut hidup tanpa sentuhan.
 # PERMINTAAN: issue `selidiki` diselidiki lebih dulu di Tahap 2, lalu ditutup
@@ -29,7 +29,7 @@ on:
         required: false
         type: string
       investigate:
-        description: "Jalankan Tahap 2 (agen menyelidiki top-N). Butuh MINIMAX_API_KEY."
+        description: "Jalankan Tahap 2 (agen menyelidiki top-N). Butuh ANTHROPIC_API_KEY atau MINIMAX_API_KEY."
         required: false
         type: boolean
         default: true
@@ -104,10 +104,15 @@ jobs:
             --run-dir "runs/${{ steps.tanggal.outputs.as_of }}"
 
       # ── TAHAP 2 — agen menyelidiki top-N kandidat ──────────────────────────
-      # Dilewati (bukan gagal) kalau MINIMAX_API_KEY tidak ada: Tahap 1 sudah
+      # Dilewati (bukan gagal) kalau tidak ada satu pun kunci LLM: Tahap 1 sudah
       # menyumbang artefak, dan cron tidak boleh merah cuma karena LLM belum
       # disetel. Anggaran ganda: pagu fase `daily` di CreditAwareClient + top-N
-      # kecil. LLM MiniMax terpisah dari kredit Sectors [K9].
+      # kecil. Kredit LLM terpisah dari kredit Sectors [K9].
+      #
+      # Penyedia dipilih di sini, bukan di kode: ANTHROPIC_API_KEY kalau ada,
+      # MiniMax kalau tidak. Jadi menaikkan produksi ke Claude cukup dengan
+      # menambah satu secret — tanpa PR, tanpa deploy. Kalau keduanya ada,
+      # Claude yang dipakai. [AUDIT T4]
       #
       # Permintaan dari issue `selidiki` (dan input `symbols`) diselidiki LEBIH
       # DULU, maks 3 per malam. Isi issue tak tepercaya — divalidasi di Python,
@@ -116,17 +121,22 @@ jobs:
         env:
           SECTORS_API_KEY: ${{ secrets.SECTORS_API_KEY }}
           MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
-          PANTAU_LLM_PROVIDER: minimax
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GH_TOKEN: ${{ github.token }}
           SYMBOLS: ${{ inputs.symbols }}
         run: |
           if [ "${{ inputs.investigate }}" = "false" ]; then
             echo "Tahap 2 dilewati (input investigate=false)"; exit 0
           fi
-          if [ -z "$MINIMAX_API_KEY" ]; then
-            echo "::warning::MINIMAX_API_KEY tidak ada — Tahap 2 dilewati. Setel secret untuk mengaktifkan investigasi otonom."
+          if [ -n "$ANTHROPIC_API_KEY" ]; then
+            export PANTAU_LLM_PROVIDER=claude
+          elif [ -n "$MINIMAX_API_KEY" ]; then
+            export PANTAU_LLM_PROVIDER=minimax
+          else
+            echo "::warning::tidak ada kunci LLM (ANTHROPIC_API_KEY / MINIMAX_API_KEY) — Tahap 2 dilewati. Setel salah satu untuk mengaktifkan investigasi otonom."
             exit 0
           fi
+          echo "penyedia LLM: $PANTAU_LLM_PROVIDER"
           # Label harus ada supaya template issue memasangnya. Idempoten.
           gh label create selidiki --color 0E8A16 \
             --description "Permintaan investigasi PANTAU" 2>/dev/null || true
