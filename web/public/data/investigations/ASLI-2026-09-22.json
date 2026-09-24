@@ -1,0 +1,322 @@
+{
+  "schema_version": "1.0",
+  "symbol": "ASLI",
+  "as_of": "2026-09-22",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1",
+        "claim": "Penurunan -27% didorong anomali volume (distribusi besar-besaran atau akumulasi tersembunyi oleh sedikit pihak) — bukan pergerakan normal sektor Heavy Constructions.",
+        "probes": [
+          "volume_anomaly",
+          "broker_concentration"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2",
+        "claim": "Free float kecil atau terkonsentrasi memungkinkan pergerakan -27% dengan modal terbatas, sehingga struktur kepemilikan (bukan fundamental) yang menjelaskan gejolak.",
+        "probes": [
+          "free_float",
+          "volume_anomaly"
+        ],
+        "priority": 2
+      }
+    ],
+    "credit_budget_requested": 5,
+    "rationale": "Prioritas disusun dari termah & paling informatif ke probe yang lebih kontekstual: (1) volume_anomaly 1 kredit karena -27% adalah pergerakan besar dan z-score 90 hari langsung menjawab 'apakah ini wajar atau anomali' — hipotesis termurah yang menyaring apakah H1 valid. (2) free_float 1 kredit karena modal pasar 2.5T bisa menipu jika float kecil; murah dan menentukan apakah harga rentan digoyang modal kecil. (3) broker_concentration 3 kredit karena berbobot 25% dan langsung menjawab pertanyaan kunci: 'apakah -27% ini akumulasi terdistribusi atau distribusi murni' — tapi probe ini mahal, layak hanya setelah volume_anomaly memberi sinyal anomali. Total 5 kredit. price_fundamental (6, bobot 12%) di-skip karena harga TUR, hipotesis fundamental tertinggal kurang relevan dan biaya tidak sepadan bobot. foreign_flow (2) dan structural (3) di-defer ke iterasi berikutnya agar keyakinan terkumpul dulu dari tiga probe inti."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1",
+      "probe": "volume_anomaly",
+      "finding": "confirmed",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Probe volume_anomaly mengembalikan anomali sangat kuat (21,7σ, 23,8× median) — hipotesis H1 (pergerakan wajar vs anomali) terkonfirmasi refuted: ini BUKAN pergerakan wajar. Bukti ini justru MENUNTUT probe lanjutan untuk mengkarakterisasi sifat anomali (apakah rentan manipulasi, apakah distribusi murni, dll.). free_float adalah langkah murah (1 kredit) dan sangat informatif — modal pasar 2,5T bisa menyesatkan jika float tipis; probe ini langsung menjawab apakah harga -27% rentan digoyang modal kecil. Wajib dijalankan sebelum broker_concentration yang lebih mahal agar kita tahu apakah struktur kepemilikan mendukung interpretasi konsentrasi broker nanti.",
+      "credits_spent": 0,
+      "credits_remaining": 5
+    },
+    {
+      "step": 2,
+      "hypothesis": "H1",
+      "probe": "broker_concentration",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Probe broker_concentration menghasilkan sub-skor 54/100 — belum cukup untuk konfirmasi atau refutasi. Herfindahl 0,23 menunjukkan konsentrasi broker moderat (bukan tinggi), pangsa 3 broker net buy 65% dari total 10 broker net buy positif memberi sinyal: ada akumulasi terfokus di XL/MG/AK, tapi tidak dominan mutlak. Sinyal ini ambigu dan butuh konteks free_float untuk menilai apakah akumulasi ini bisa menggerakkan harga -27% dengan modal kecil. free_float hanya 1 kredit dan merupakan filter kritis: float kecil berarti harga rentan digoyang modal kecil (memperkuat skenario anomali/anomalous move), float besar berarti pergerakan besar lebih sulit didorong sehingga hipotesis anomali melemah. Probe ini akan menyaring apakah bukti broker_concentration cukup serius untuk dianggap material. Sisa pagu 5 kredit cukup untuk free_float (1) dan masih menyisakan ruang untuk probe lanjutan bila diperlukan. price_fundamental (6) tetap di-skip karena harga TURUN -27%, hipotesis fundamental tidak releva",
+      "credits_spent": 0,
+      "credits_remaining": 5
+    },
+    {
+      "step": 3,
+      "hypothesis": "H2",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "escalate",
+      "new_probe": "structural",
+      "budget_granted": 3,
+      "reason": "Free float 37% (sub-skor 28/100) menunjukkan likuiditas rendah-menengah — harga bisa rentan digoyang modal kecil, sehingga -27% tidak otomatis anomali murni. Rencana awal (volume_anomaly, free_float, broker_concentration) sudah selesai dan tidak menyisakan antrean. Untuk membedakan 'distribusi murni' vs 'aksi korporat/insider' pada emiten dengan float terbatas, saya butuh probe structural (3 kredit): riwayat suspensi 24 bulan, jual insider 90 hari, dan rights issue/private placement — semuanya jalur bukti yang TIDAK ada di rencana awal. foreign_flow (2) dan price_fundamental (6) belum diperlukan; foreign_flow bisa ditunda karena pivot harga TUR, dan price_fundamental bobotnya kecil relatif biayanya. Eskalasi 3 kredit, masih dalam pagar keras 20. [eskalasi 3 kredit dikabulkan 3: masih di bawah pagar dan beralasan]",
+      "credits_spent": 0,
+      "credits_remaining": 8
+    },
+    {
+      "step": 4,
+      "hypothesis": null,
+      "probe": "structural",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Probe structural menghasilkan sub-skor 55/100 — netral, bukan sinyal kuat. Bukti: 4 suspensi dalam 24 bulan (rata-rata ~2x/tahun) dengan alasan pergerakan tidak wajar, plus suspensi terakhir 04-09-2026. Ini konsisten dengan emiten saham kecil yang volatilitasnya tinggi (sesuai free_float kecil dan modal 2.5T), dan volume_anomaly -27% mungkin sudah terjelaskan oleh dinamika struktural tersebut tanpa perlu bukti lebih lanjut. Hipotesis H1 (anomali) sudah ter筛选 dari 3 probe inti (volume, float, konsentrasi broker) — karena tidak ada probe inti yang tersisa untuk dijalankan dan pagu sudah cukup untuk 3 probe tersebut, serta probe structural gagal memperkuat sinyal anomali secara meyakinkan, hipotesis H1 tidak terkonfirmasi maupun terrefutasi. Probe price_fundamental (6 kredit) di-skip di rencana awal karena harga TUR — hipotesis fundamental tertinggal relevan, dan biaya 6 kredit untuk bobot 12% tidak sepadan. foreign_flow (2 kredit) berpotensi informatif untuk membaca arah modal institusi,",
+      "credits_spent": 0,
+      "credits_remaining": 8
+    }
+  ],
+  "evidence": [
+    {
+      "id": "bci.broker_count",
+      "label": "Jumlah broker dengan net buy positif",
+      "value": 10,
+      "display": "10 broker",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-09-07",
+        "end": "2026-09-07"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.hhi",
+      "label": "Indeks Herfindahl konsentrasi broker",
+      "value": 0.2334,
+      "display": "0,23",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-09-07",
+        "end": "2026-09-07"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_codes",
+      "label": "Kode 3 broker net buy teratas",
+      "value": "XL, MG, AK",
+      "display": "XL, MG, AK",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-09-07",
+        "end": "2026-09-07"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_share",
+      "label": "Pangsa net buy 3 broker teratas",
+      "value": 0.6519,
+      "display": "65%",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-09-07",
+        "end": "2026-09-07"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 15,
+      "display": "15 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ASLI"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.3728,
+      "display": "37%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ASLI"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.prior_suspension",
+      "label": "Suspensi terakhir",
+      "value": "2026-09-04",
+      "display": "04-09-2026",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2024-09-22",
+        "end": "2026-09-22"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-04T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.suspension_count",
+      "label": "Jumlah suspensi 24 bulan terakhir",
+      "value": 4,
+      "display": "4 kali",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2024-09-22",
+        "end": "2026-09-22"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-04T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.suspension_unusual",
+      "label": "Alasan suspensi terkait pergerakan tidak wajar",
+      "value": 1.0,
+      "display": "ya",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2024-09-22",
+        "end": "2026-09-22"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-04T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 23.78,
+      "display": "23,8×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-02-06",
+        "end": "2026-09-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 21.68,
+      "display": "21,7σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-02-06",
+        "end": "2026-09-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": 54.0,
+      "weight": 0.25,
+      "evidence_ids": [
+        "bci.top3_share",
+        "bci.hhi",
+        "bci.top3_codes",
+        "bci.broker_count"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "VAS",
+      "sub_score": 100.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 28.3,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": 55.0,
+      "weight": 0.08,
+      "evidence_ids": [
+        "sss.prior_suspension",
+        "sss.suspension_count",
+        "sss.suspension_unusual"
+      ],
+      "investigated": true
+    }
+  ],
+  "pantau_score": 62,
+  "band": "waspada",
+  "confidence": 0.73,
+  "credits_total": 0,
+  "baseline_credits": 16,
+  "narrative": "Pada ASLI, anomali volume tercatar sangat kuat dengan z-score 21,7σ dan rasio 23,8× median, sehingga pergerakan harga ini bukan pergerakan wajar. Free float tercatat 37% dan likuiditas rendah-menengah, sehingga harga rentan digoyang modal kecil dan anomali belum bisa disimpulkan murni. Konsentrasi broker tercatat moderat dengan Herfindahl 0,23 dan pangsa 3 broker teratas (XL, MG, AK) sebesar 65% dari 10 broker net buy positif, memberi sinyal akumulasi terfokus yang belum dominan. Catatan struktural menunjukkan 4 kali suspensi dalam 24 bulan terakhir termasuk suspensi 04-09-2026 dengan alasan pergerakan tidak wajar, konsisten dengan profil emiten kecil volatil sehingga bukti anomali tidak menguat secara meyakinkan.",
+  "narrative_source": "llm",
+  "memory_ref": "ASLI-2026-09-18",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

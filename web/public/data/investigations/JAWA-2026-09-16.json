@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0",
+  "symbol": "JAWA",
+  "as_of": "2026-09-16",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "h1",
+        "claim": "Ada pola perdagangan tidak biasa yang belum terjelaskan",
+        "probes": [
+          "volume_anomaly",
+          "free_float"
+        ],
+        "priority": 1
+      }
+    ],
+    "credit_budget_requested": 4,
+    "rationale": "Rencana cadangan berbasis aturan: perencana LLM tidak menghasilkan keluaran yang lolos skema, jadi investigasi dimulai dari dua probe termurah dan diputuskan ulang setelah temuan pertama."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "h1",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Probe volume_anomaly menunjukkan anomali volume yang sangat kuat (Z-score 41,8σ, 36,1× median) — ini sinyal kuat bahwa ada ketidakwajaran. Namun, anomali volume saja belum cukup untuk menyimpulkan risiko; kita perlu tahu apakah free_float kecil (yang bisa menjelaskan pergerakan harga mudah dimanipulasi) atau besar (yang berarti anomali lebih mencurigakan). free_float adalah probe termurah (1 kredit) dan secara langsung relevan dengan interpretasi anomali volume. Jalankan dulu ini sebelum mengambil keputusan apakah perlu eskalasi ke broker_concentration atau structural.",
+      "credits_spent": 1,
+      "credits_remaining": 3
+    },
+    {
+      "step": 2,
+      "hypothesis": "h1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Free float JAWA hanya 8% (sangat rendah) dengan data segar 9 hari — tanda likuiditas dan struktur kepemilikan yang terkonsentrasi. Skor 94 bukan gambaran risiko; ia hanya menandakan data terkonfirmasi, bukan risiko rendah. Dengan emitten sekonsentrasi ini, aturan main mengharuskan probe struktural dan konsentrasi broker dijalankan. Probe structural (3 kr) wajib: riwayat suspensi, jual insider, rights/PP bisa menjelaskan mengapa free float sekecil ini dan ada tidaknya sinyal manipulatif. Probe broker_concentration (3 kr) wajib: pada free float 8%, sedikit order dari 3 broker bisa menggerakkan harga — penting untuk melihat seberapa terpusat kontrol. foreign_flow (2 kr) dan price_fundamental (6 kr) belum relevan di tahap ini karena struktur pasar dan governance perlu dipetakan dulu. Total 6 kredit dari sisa 3 + eskalasi 6 = pas di pagar. [ditutup: antrean habis]",
+      "credits_spent": 0,
+      "credits_remaining": 3
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 9,
+      "display": "9 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "JAWA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.075,
+      "display": "8%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "JAWA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 36.08,
+      "display": "36,1×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-02-03",
+        "end": "2026-09-16"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-16T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 41.8,
+      "display": "41,8σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-02-03",
+        "end": "2026-09-16"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-16T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 100.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 94.4,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 97,
+  "band": "sangat_waspada",
+  "confidence": 0.4,
+  "credits_total": 1,
+  "baseline_credits": 16,
+  "narrative": "Free float JAWA tercatat hanya 8% dengan data berusia 9 hari, menandakan struktur kepemilikan yang sangat terkonsentrasi. Volume perdagangan pada hari terakhir mencapai 36,1× median baseline dengan Z-score 41,8σ terhadap baseline 90 hari, sebuah anomali volume yang sangat kuat. Kombinasi free float yang rendah dan lonjakan volume ekstrem ini menjadi perhatian utama karena memudahkan pergerakan harga dipengaruhi oleh sedikit pihak. Investigasi lanjutan terhenti karena antrean probe struktural dan konsentrasi broker habis, sehingga pemetaan profil likuiditas dan governance belum dapat diselesaikan.",
+  "narrative_source": "llm",
+  "memory_ref": "JAWA-2026-09-15",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

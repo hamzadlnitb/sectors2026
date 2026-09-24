@@ -77,6 +77,49 @@ def moment_kinds(t: InvestigationTranscript) -> list[str]:
     return kinds
 
 
+# Penanda jalur cadangan. Bukan bendera di kontrak — `Investigation.llm_decisions`
+# dihitung di investigator.py tapi tidak pernah masuk transkrip, dan `contracts/`
+# beku sejak 12 Sep. Jadi yang dibaca adalah kalimat yang ditulis jalur cadangan
+# itu sendiri: satu-satunya jejak yang benar-benar tersimpan. [D5]
+AWALAN_RENCANA_CADANGAN = "Rencana cadangan berbasis aturan"
+AWALAN_KEPUTUSAN_CADANGAN = "Keputusan cadangan berbasis aturan"
+
+
+def dari_llm(t: InvestigationTranscript) -> dict:
+    """Berapa banyak investigasi ini benar-benar dipikirkan LLM, bukan aturan.
+
+    Tanpa angka ini kita tidak tahu apakah agen sedang beragen atau sedang
+    menjalankan if-else berbaju LLM — dan itu persis pertanyaan Track 1.
+    """
+    keputusan_llm = sum(
+        1 for s in t.steps if not s.reason.startswith(AWALAN_KEPUTUSAN_CADANGAN)
+    )
+    return {
+        "planner_llm": not t.plan.rationale.startswith(AWALAN_RENCANA_CADANGAN),
+        "llm_decisions": keputusan_llm,
+        "fallback_decisions": len(t.steps) - keputusan_llm,
+        "narrative_llm": t.narrative_source == "llm",
+    }
+
+
+def rekap_llm(summaries: list[dict]) -> dict:
+    """Agregat lintas investigasi untuk `index.json` — satu angka yang bisa
+    dikutip, bukan 30 transkrip yang harus dibaca satu-satu."""
+    n = len(summaries)
+    if not n:
+        return {"investigations": 0}
+    langkah = sum(s["llm"]["llm_decisions"] + s["llm"]["fallback_decisions"] for s in summaries)
+    keputusan_llm = sum(s["llm"]["llm_decisions"] for s in summaries)
+    return {
+        "investigations": n,
+        "planner_llm": sum(1 for s in summaries if s["llm"]["planner_llm"]),
+        "narrative_llm": sum(1 for s in summaries if s["llm"]["narrative_llm"]),
+        "llm_decisions": keputusan_llm,
+        "fallback_decisions": langkah - keputusan_llm,
+        "steps": langkah,
+    }
+
+
 def savings_pct(t: InvestigationTranscript) -> int:
     if not t.baseline_credits:
         return 0
@@ -104,6 +147,7 @@ def summarize(t: InvestigationTranscript, ident: str) -> dict:
         "memory_ref": t.memory_ref,
         "narrative_source": t.narrative_source,
         "moments": moment_kinds(t),
+        "llm": dari_llm(t),
         "headline": headline(t),
     }
 
@@ -205,6 +249,7 @@ def main() -> int:
             "generated_at": datetime.now(UTC).isoformat(timespec="seconds"),
             "investigations": summaries,
             "watchlist_dates": watch_dates,
+            "llm": rekap_llm(summaries),
         }
         (WEB_DATA / "index.json").write_text(
             json.dumps(index, ensure_ascii=False, indent=2), encoding="utf-8"

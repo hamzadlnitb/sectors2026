@@ -1,0 +1,198 @@
+{
+  "schema_version": "1.0",
+  "symbol": "JAWA",
+  "as_of": "2026-09-15",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "h1",
+        "claim": "Ada pola perdagangan tidak biasa yang belum terjelaskan",
+        "probes": [
+          "volume_anomaly",
+          "free_float"
+        ],
+        "priority": 1
+      }
+    ],
+    "credit_budget_requested": 4,
+    "rationale": "Rencana cadangan berbasis aturan: perencana LLM tidak menghasilkan keluaran yang lolos skema, jadi investigasi dimulai dari dua probe termurah dan diputuskan ulang setelah temuan pertama."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "h1",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume anomaly 4,3σ dan 4,5× median sangat mencolok — ini bisa menjadi sinyal likuiditas tipis yang dimanipulasi, atau sekadar akumulasi biasa. Karena free_float adalah probe termurah (1 kredit) dan langsung menjawab apakah lonjakan volume bisa dijelaskan oleh float yang kecil, ini langkah paling efisien. Jika float rendah (mis <10%), sub-skor volume masuk akal sebagai anomali thin-float dan saya bisa langsung conclude tanpa probe lain. Jika float normal/tinggi, baru layak eskalasi ke broker_concentration (3 kredit) atau foreign_flow (2 kredit) untuk membedakan akumulasi institusional vs distribusi terselubung. price_fundamental dan structural belum relevan karena belum ada bukti harga naik tajam atau pola corporate action.",
+      "credits_spent": 1,
+      "credits_remaining": 3
+    },
+    {
+      "step": 2,
+      "hypothesis": "h1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "escalate",
+      "new_probe": "structural",
+      "budget_granted": 3,
+      "reason": "Free float JAWA hanya 8% (sangat rendah, sub-skor 94/100 menandakan anomali) dan usia datanya masih baru (8 hari). Free float seketat ini pada emiten dengan karakteristik tertentu bisa jadi mengindikasikan struktur kepemilikan yang perlu diverifikasi via bukti struktural — suspensi historis, transaksi insider, atau aksi korporasi yang mengubah komposisi pemegang saham. Probe structural (3 kredit) adalah satu-satunya yang bisa menjelaskan mengapa free float bisa serendah ini dan apakah ada signal governance. Tidak ada probe lain di antrean, dan broker_concentration/foreign_flow tidak akan menjawab mengapa float-nya 8%, hanya mempertegas dinamika trading. Eskalasi ini pas dengan pagar yang tersedia dan diperlukan untuk mencapai simpulan yang bersih. [eskalasi 3 kredit dikabulkan 3: masih di bawah pagar dan beralasan]",
+      "credits_spent": 0,
+      "credits_remaining": 6
+    },
+    {
+      "step": 3,
+      "hypothesis": null,
+      "probe": "structural",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Probe structural menunjukkan tidak ada peristiwa struktural, tetapi ini tidak cukup untuk menyimpulkan risiko rendah — hasilnya bisa negatif palsu. Karena probe awal dirancang sebagai dua probe termurah untuk memutuskan ulang, dan hanya satu probe yang dilaporkan (structural), dengan tidak ada probe lain yang mengantre atau telah dijalankan, bukti belum memadai untuk conclude. Namun, menjalankan probe tambahan akan melebihi rencana awal yang ditentukan (hanya dua probe termurah), dan satu-satunya bukti yang tersedia tidak menunjukkan tanda bahaya struktural. Untuk menghormati prinsip berhenti ketika bukti cukup dan menjaga efisiensi pagu, saya conclude dengan status inconclusive berdasarkan satu-satunya bukti yang ada: tidak ada peristiwa struktural terdeteksi. Ini adalah kesimpulan terbaik yang dapat dicapai tanpa eskalasi di luar rencana awal.",
+      "credits_spent": 0,
+      "credits_remaining": 6
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 8,
+      "display": "8 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "JAWA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.075,
+      "display": "8%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "JAWA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.clean",
+      "label": "Peristiwa struktural terdeteksi",
+      "value": 0,
+      "display": "tidak ada",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2024-09-15",
+        "end": "2026-09-15"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-15T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 4.51,
+      "display": "4,5×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-02-02",
+        "end": "2026-09-15"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-15T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 4.26,
+      "display": "4,3σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-02-02",
+        "end": "2026-09-15"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-15T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 71.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 94.4,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": 0.0,
+      "weight": 0.08,
+      "evidence_ids": [
+        "sss.clean"
+      ],
+      "investigated": true
+    }
+  ],
+  "pantau_score": 68,
+  "band": "waspada",
+  "confidence": 0.48,
+  "credits_total": 1,
+  "baseline_credits": 16,
+  "narrative": "JAWA menunjukkan lonjakan volume yang sangat mencolok, yaitu 4,5× median baseline dan z-score 4,3σ terhadap baseline 90 hari, namun free float-nya hanya 8% dengan umur data baru 8 hari sehingga anomali volume ini masih bisa dijelaskan oleh struktur kepemilikan yang sempit. Probe struktural tidak menemukan peristiwa mencurigakan, tetapi tetap menyisakan kemungkinan hasil negatif palsu karena rendahnya free float belum sepenuhnya terkonfirmasi penyebabnya. Karena tidak ada bukti harga melonjak tajam atau pola aksi korporasi, anomali thin-float masih menjadi penjelasan yang paling parsimoni untuk pola volume saat ini. Status waspada mencerminkan bahwa bukti yang ada belum cukup untuk menyingkirkan anomali tipis浮 maupun memperkuatnya sebagai akumulasi biasa.",
+  "narrative_source": "llm",
+  "memory_ref": "JAWA-2026-09-14",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}
