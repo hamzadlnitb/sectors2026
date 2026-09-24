@@ -1,0 +1,176 @@
+{
+  "schema_version": "1.0",
+  "symbol": "NICK",
+  "as_of": "2026-09-17",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1",
+        "claim": "Mengingat harga sudah naik +124% dalam periode 126 hari bursa dan kapitalisasi 1.56T, pergerakan harga lebih banyak ditopang oleh tumpukan permintaan tersembunyi dari segelintir broker, bukan oleh fundamental — maka yang paling penting kita ketahui dalam 24 jam ke depan adalah apakah ada perubahan struktur akumulasi broker sejak probe terakhir, dan seberapa sentralisasi distribusinya.",
+        "probes": [
+          "broker_concentration",
+          "volume_anomaly",
+          "free_float"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2",
+        "claim": "Jika motif utamanya memang distribusi ke ritel asing, kita perlu menguji apakah arus asing 30 hari terakhir mendukung kenaikan harga, atau justru berlawanan arah — karena kombinasi harga naik +124% tanpa dukungan asing adalah tanda klasik distribusi ke retail domestik.",
+        "probes": [
+          "foreign_flow"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "H3",
+        "claim": "Sebelum mengklaim ada anomali, kita perlu tahu apakah ada katalis korporasi (rights issue, private placement, atau transaksi insider) yang menjelaskan 124% kenaikan ini, agar hipotesis anomali pasar tidak keliru mengabaikan konteks struktur.",
+        "probes": [
+          "structural"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 14,
+    "rationale": "Investigasi kemarin hanya 1 kredit (volume_anomaly saja) dengan keyakinan 40% — artinya kita hampir buta terhadap distribusi, foreign flow, dan struktur. Yang BERUBAH dalam 24 jam perlu kita uji adalah apakah pola akumulasi broker makin terkonsentrasi, apakah ada anomali volume hari ini, dan berapa float yang sebenarnya tersedia (murah, 1 kredit, bobot 18%). Urutan dimulai dari probe paling murah dan paling informatif (volume_anomaly 1k untuk refresh baseline + free_float 1k) sebelum probe mahal (broker_concentration 3k, bobot 25%). Foreign_flow (2k) untuk menguji H2 distribusi ritel. Structural (3k) ditahan ke akhir sebagai konteks korporasi karena bobotnya kecil (8%). price_fundamental (6k, bobot 12%) dilewati dulu — biayanya terlalu besar dibanding bobotnya, dan hipotesis H1-H3 belum memerlukan konfirmasi laba untuk menentukan motif anomali. Total 14 dari 25 kredit, menyisakan buffer 11 kredit untuk investigasi lanjutan."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1",
+      "probe": "broker_concentration",
+      "finding": "confirmed",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Probe broker_concentration memberikan sinyal yang sangat kuat dan sudah cukup untuk menyimpulkan motif anomali pada NICK tanpa_probe lanjutan. Bukti: indeks Herfindahl 0,87 (sangat terkonsentrasi menurut standar risiko), pangsa net buy 3 broker teratas 97% dari total akumulasi, kode broker PD/FZ/XC sebagai pembeli dominan, dan hanya 14 broker mencatatkan net buy positif. Ini mengkonfirmasikan motif anomali sebagai akumulasi terpusat oleh segelintir broker, konsisten dengan pola distribusi terbatas (bukan ritel luas). Probe yang tersisa (volume_anomaly 1k, free_float 1k, foreign_flow 2k) tidak akan mengubah kesimpulan motif karena: (a) konsentrasi broker sudah selaras dengan hipotesis float kecil/distribusi terbatas sehingga free_float hanya menjadi kontekstual; (b) volume_anomaly tanpa konteks ini bisa mengaburkan, bukan memperjelas; (c) foreign_flow dengan bobot rendah dapat dijelaskan oleh dinamika broker lokal. Probe structural (3k) berbobot kecil dan price_fundamental (6k) terlalu ",
+      "credits_spent": 2,
+      "credits_remaining": 12
+    }
+  ],
+  "evidence": [
+    {
+      "id": "bci.broker_count",
+      "label": "Jumlah broker dengan net buy positif",
+      "value": 14,
+      "display": "14 broker",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-09-07",
+        "end": "2026-09-17"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-17T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.hhi",
+      "label": "Indeks Herfindahl konsentrasi broker",
+      "value": 0.8726,
+      "display": "0,87",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-09-07",
+        "end": "2026-09-17"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-17T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_codes",
+      "label": "Kode 3 broker net buy teratas",
+      "value": "PD, FZ, XC",
+      "display": "PD, FZ, XC",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-09-07",
+        "end": "2026-09-17"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-17T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_share",
+      "label": "Pangsa net buy 3 broker teratas",
+      "value": 0.9718,
+      "display": "97%",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-09-07",
+        "end": "2026-09-17"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-17T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": 100.0,
+      "weight": 0.25,
+      "evidence_ids": [
+        "bci.top3_share",
+        "bci.hhi",
+        "bci.top3_codes",
+        "bci.broker_count"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "VAS",
+      "sub_score": null,
+      "weight": 0.22,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": null,
+      "weight": 0.18,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 100,
+  "band": "sangat_waspada",
+  "confidence": 0.25,
+  "credits_total": 2,
+  "baseline_credits": 16,
+  "narrative": "Aktivitas akumulasi bersih pada NICK sangat terkonsentrasi, ditunjukkan oleh indeks Herfindahl broker sebesar 0,87 dan pangsa 97% dari total net buy yang hanya dikumpulkan oleh tiga broker, yaitu PD, FZ, dan XC. Meskipun tercatat 14 broker dengan posisi net buy positif, distribusi yang sangat timpang ini mengindikasikan motif akumulasi terpusat oleh segelintir pelaku, bukan oleh sebaran ritel yang luas. Konsentrasi tinggi pada sedikit broker seperti ini menjadi ciri pola distribusi terbatas yang perlu diwaspadai dalam pemantauan anomali.",
+  "narrative_source": "llm",
+  "memory_ref": "NICK-2026-09-16",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

@@ -89,3 +89,52 @@ def test_laporan_merinci_per_endpoint(tmp_path):
     teks = report(ledger)
     assert "fetch-filings" in teks and "3" in teks
     assert "2 panggilan berbayar" in teks
+
+
+# ── laporan pemakaian LLM (AUDIT T4) ────────────────────────────────────────
+
+def _llm_ledger(tmp_path, *baris):
+    import json as _json
+    p = tmp_path / "llm_ledger.jsonl"
+    p.write_text("\n".join(_json.dumps(b) for b in baris) + "\n", encoding="utf-8")
+    return p
+
+
+def test_laporan_llm_mengelompokkan_per_penyedia_dan_model(tmp_path):
+    """Datanya sudah dicatat sejak 10 Sep tapi tidak pernah ada pembacanya."""
+    from core.sectors.ledger import laporan_llm
+
+    berkas = _llm_ledger(
+        tmp_path,
+        {"provider": "claude", "model": "claude-sonnet-5",
+         "input_tokens": 1000, "output_tokens": 200, "seconds": 3.0},
+        {"provider": "claude", "model": "claude-sonnet-5",
+         "input_tokens": 500, "output_tokens": 100, "seconds": 2.0},
+        {"provider": "minimax", "model": "MiniMax-M3",
+         "input_tokens": 300, "output_tokens": 50, "seconds": 1.0},
+    )
+    teks = laporan_llm(berkas)
+
+    assert "claude/claude-sonnet-5" in teks and "minimax/MiniMax-M3" in teks
+    assert "1.500" in teks, "token masuk claude dijumlahkan, dengan pemisah ribuan"
+    assert "TOTAL" in teks and "3" in teks
+
+
+def test_laporan_llm_kosong_bukan_kegagalan(tmp_path):
+    """`make credits` tidak boleh merah cuma karena LLM belum pernah dipakai."""
+    from core.sectors.ledger import laporan_llm
+
+    assert laporan_llm(tmp_path / "tidak-ada.jsonl") == ""
+    assert laporan_llm(_llm_ledger(tmp_path)) == ""
+
+
+def test_laporan_llm_menelan_baris_rusak(tmp_path):
+    """Ledger ditulis sambil jalan; baris separuh tidak boleh menjatuhkan laporan."""
+    from core.sectors.ledger import laporan_llm
+
+    p = tmp_path / "llm_ledger.jsonl"
+    p.write_text('{"provider": "claude", "model": "x", "input_tokens": 7}\n{"pro',
+                 encoding="utf-8")
+
+    teks = laporan_llm(p)
+    assert "claude/x" in teks, "baris yang sah tetap dilaporkan"
