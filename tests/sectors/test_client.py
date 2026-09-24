@@ -292,3 +292,50 @@ def test_tanpa_kunci_pesannya_menuntun(tmp_path, ledger):
     client = CreditAwareClient(api_key="", ledger=ledger, cache_dir=tmp_path / "c")
     with pytest.raises(TransportError, match="SECTORS_API_KEY"):
         client.call("fetch-close", {"date": "2026-09-05"})
+
+
+# ── tagihan per unit — ledger mencatat yang ditagih, bukan satu per panggilan ──
+KUARTAL = ["2024-03-31", "2024-06-30", "2024-09-30", "2024-12-31",
+           "2025-03-31", "2025-06-30", "2025-09-30", "2025-12-31"]
+
+
+def _klien_mcp(tmp_path, payload):
+    ledger = CreditLedger(tmp_path / "l.jsonl", caps={"dev": 100, "reserve": 100})
+    return CreditAwareClient(api_key="k" * 20, ledger=ledger, cache_dir=tmp_path / "c",
+                             mcp=FakeTransport("mcp", payload=payload), sleep=lambda _: None)
+
+
+def test_ledger_menagih_per_kuartal_yang_dikembalikan(tmp_path):
+    """Regresi: 16 tarikan backfill n_quarters=8 tercatat 16 kredit, padahal
+    tarifnya 1 per kuartal — 128. Ledger yang kurang mencatat membuat pagu fase
+    ditegakkan atas angka yang lebih kecil dari belanja sungguhan."""
+    client = _klien_mcp(tmp_path, {"data": [
+        {"symbol": "FIXA", "report_date": d, "net_income": 1_000} for d in KUARTAL]})
+    resp = client.call("fetch-quarterly-financials", {"symbol": "FIXA", "n_quarters": 8})
+
+    assert resp.credits_spent == 8
+    assert client.ledger.spent("dev") == 8
+    assert client.stats.credits == 8
+
+
+def test_ledger_menagih_free_float_per_100_emiten(tmp_path):
+    from itertools import islice, product
+    from string import ascii_uppercase
+
+    kode = ("".join(k) for k in product(ascii_uppercase, repeat=4))
+    client = _klien_mcp(tmp_path, {"data": [
+        {"symbol": s, "free_float": 30.0} for s in islice(kode, 961)]})
+    assert client.call("fetch-free-float", {}).credits_spent == 10, "961 emiten → 10 kredit"
+
+
+def test_free_float_satu_emiten_tetap_satu_kredit(tmp_path):
+    client = _klien_mcp(tmp_path, {"data": [{"symbol": "FIXA", "free_float": 4.0}]})
+    assert client.call("fetch-free-float", {"symbol": "FIXA"}).credits_spent == 1
+
+
+def test_respons_tak_terbaca_tetap_ditagih_perkiraan(tmp_path):
+    """Server sudah menagih walau kita gagal membacanya — jatuh ke units, bukan nol."""
+    client = _klien_mcp(tmp_path, {"bentuk": "asing"})
+    with pytest.raises(SchemaError):
+        client.call("fetch-quarterly-financials", {"symbol": "FIXA", "n_quarters": 5})
+    assert client.ledger.spent("dev") == 5

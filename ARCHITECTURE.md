@@ -161,7 +161,7 @@ Skor komposit dihitung dari enam sub-skor independen, masing-masing dinormalisas
 | --- | --- | --- | --- |
 | **BCI** | Broker Concentration Index | Berapa persen net buy dikuasai 3 broker teratas? (HHI) | `fetch-broker-summary-top`, `fetch-broker-summary` |
 | **VAS** | Volume Anomaly Score | Volume hari ini berapa sigma di atas baseline 90 hari? | `fetch-daily-transaction`, `fetch-most-traded-stocks` |
-| **PFD** | Price–Fundamental Divergence | Harga naik 200% sementara laba flat/rugi? | `fetch-company-report`, `fetch-quarterly-financials`, `fetch-close` |
+| **PFD** | Price–Fundamental Divergence | Harga naik 200% sementara laba flat/rugi? | `fetch-company-report`, `fetch-quarterly-financials`, `fetch-daily-transaction` |
 | **FFS** | Free Float Scarcity | Berapa kecil saham yang benar-benar beredar? | `fetch-free-float`, `fetch-company-report` |
 | **FRD** | Foreign–Retail Divergence | Asing keluar sementara harga naik = distribusi ke ritel? | `fetch-foreign-flow`, `fetch-shareholders-composition` |
 | **SSS** | Structural Signal Score | Pernah disuspend? Insider jual saat harga naik? Rights issue beruntun? | `fetch-suspensions`, `fetch-filings`, `fetch-corporate-actions` |

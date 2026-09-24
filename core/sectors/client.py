@@ -280,12 +280,13 @@ class CreditAwareClient:
                 "Jalankan make pipeline / make backfill dengan API key lebih dulu."
             )
 
-        # 2. pagu — raise, bukan warning.
-        self.ledger.check(phase, ep.credit_cost, allow_reserve=self.allow_reserve)
+        # 2. pagu — raise, bukan warning. Perkiraan satu panggilan khas, termasuk
+        #    unit (5 kuartal = 5 kredit), bukan cuma harga satu unit.
+        self.ledger.check(phase, ep.call_cost, allow_reserve=self.allow_reserve)
 
         # 3. kirim.
         transport_name = routing.transport_for(endpoint, prefer)
-        payload, used_transport = self._send(ep, params, transport_name, phase, symbol)
+        payload, used_transport, kredit = self._send(ep, params, transport_name, phase, symbol)
 
         # 4. validasi. Ledger sudah dicatat di _send — kredit terpotong walau
         #    kita gagal membacanya.
@@ -299,14 +300,15 @@ class CreditAwareClient:
         self._cache_write(path, endpoint, params, payload, used_transport)
         return ApiResponse(
             endpoint=endpoint, params=params, payload=payload, transport=used_transport,
-            credits_spent=ep.credit_cost, cached=False, fetched_at=datetime.now(UTC),
+            credits_spent=kredit, cached=False, fetched_at=datetime.now(UTC),
         )
 
     def _send(
         self, ep: Endpoint, params: dict, transport_name: Transport,
         phase: str, symbol: str | None,
-    ) -> tuple[Any, Transport]:
-        """Kirim dengan retry, lalu catat belanja. Fallback transport kalau ada."""
+    ) -> tuple[Any, Transport, int]:
+        """Kirim dengan retry, lalu catat belanja. Fallback transport kalau ada.
+        Mengembalikan (payload, transport, kredit yang ditagih)."""
         tried: list[Transport] = []
         last_error = "?"
 
@@ -317,7 +319,7 @@ class CreditAwareClient:
             except TransportAttemptError as exc:
                 last_error = exc.detail
                 if exc.charged:
-                    self._record(ep, params, name, phase, symbol)
+                    self._record(ep, params, name, phase, symbol, ep.call_cost)
                 log.warning("transport %s gagal untuk %s: %s", name, ep.name, scrub(exc.detail))
                 if exc.status in AUTH_STATUS:
                     # Kunci yang ditolak REST akan ditolak MCP juga. Mencoba
@@ -328,10 +330,26 @@ class CreditAwareClient:
             except TransportUnavailable as exc:
                 last_error = str(exc)
                 continue
-            self._record(ep, params, name, phase, symbol)
-            return payload, name
+            kredit = self._tagihan(ep, payload)
+            self._record(ep, params, name, phase, symbol, kredit)
+            return payload, name, kredit
 
         raise TransportError(ep.name, len(tried), last_error)
+
+    @staticmethod
+    def _tagihan(ep: Endpoint, payload: Any) -> int:
+        """Kredit yang benar-benar ditagih untuk satu respons.
+
+        Endpoint bertarif per baris (kuartal, per 100 emiten) dihitung dari baris
+        yang dikembalikan, bukan dari perkiraan. Respons yang tak terbaca skema
+        jatuh ke perkiraan — tetap tercatat, karena server sudah menagih.
+        """
+        if not ep.per_baris:
+            return ep.call_cost
+        try:
+            return ep.billed(len(parse_rows(ep.name, payload)))
+        except SchemaError:
+            return ep.billed(None)
 
     def _transport_order(self, ep: Endpoint, first: Transport) -> list[Transport]:
         """Transport utama, lalu cadangan kalau endpoint memang punya dua jalur.
@@ -364,12 +382,12 @@ class CreditAwareClient:
         raise last if last else TransportAttemptError("gagal tanpa sebab", retryable=False)
 
     def _record(self, ep: Endpoint, params: dict, transport: Transport,
-                phase: str, symbol: str | None) -> None:
+                phase: str, symbol: str | None, credits: int) -> None:
         self.ledger.record(
-            phase=phase, endpoint=ep.name, transport=transport, credits=ep.credit_cost,
+            phase=phase, endpoint=ep.name, transport=transport, credits=credits,
             params_hash=cache_key(ep.name, params)[:16], run_id=self.run_id, symbol=symbol,
         )
-        self.stats.credits += ep.credit_cost
+        self.stats.credits += credits
         self.stats.by_transport[transport] = self.stats.by_transport.get(transport, 0) + 1
 
     def _quarantine(self, endpoint: str, params: dict, payload: Any) -> None:

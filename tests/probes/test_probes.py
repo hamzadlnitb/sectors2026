@@ -181,7 +181,7 @@ def test_biaya_probe_sesuai_biaya_terdokumentasi():
     assert cost_table() == {
         "broker_concentration": 3,   # broker-summary-top 2 + broker-summary 1
         "volume_anomaly": 1,
-        "price_fundamental": 6,      # fetch-close 1 + quarterly 5 (1/kuartal)
+        "price_fundamental": 6,      # daily-transaction 1 + quarterly 5 (1/kuartal)
         "free_float": 1,
         "foreign_flow": 2,           # foreign-flow 1 + daily-transaction 1
         "structural": 3,             # suspensions 1 + filings 1 + corp-actions 1
@@ -193,6 +193,16 @@ def test_investigasi_menyeluruh_muat_di_pagar_agen():
     melebihi, agen tidak akan pernah bisa dibandingkan dengan baseline
     menyeluruh — dan Angka 2 kehilangan penyebutnya."""
     assert baseline_credits() <= 25
+
+
+def test_pfd_meminta_kuartal_sebanyak_yang_dianggarkan():
+    """Tarif per kuartal: n_quarters yang diminta probe adalah biayanya. Minta
+    lebih dari units di routing = belanja melebihi perkiraan perencana."""
+    from core.probes import fundamental
+    from core.sectors.routing import route
+
+    assert route("fetch-quarterly-financials").units == fundamental.N_KUARTAL
+    assert fundamental.N_KUARTAL > fundamental.YOY_LAG_QUARTERS, "minimum year-on-year"
 
 
 def test_katalog_probe_lolos_kontrak():
@@ -292,6 +302,25 @@ def test_ensure_tanpa_fresh_mempertahankan_perilaku_lama(warehouse_tertinggal):
     ctx.ensure("daily_transaction", "fetch-daily-transaction", {"symbol": "MANDEK"},
                symbol="MANDEK", where="symbol = ?", where_params=["MANDEK"])
     assert klien.panggilan == []
+
+
+@pytest.mark.parametrize("probe", SEMUA, ids=NAMA)
+def test_probe_hanya_membeli_yang_dianggarkan(probe, warehouse_tertinggal):
+    """AUDIT B4: yang dianggarkan harus sama dengan yang dibeli. PFD dulu
+    menganggarkan fetch-close yang tidak pernah dipanggil; pagu perencana
+    dihitung atas panggilan yang tidak pernah terjadi."""
+    klien = _KlienPalsu()
+    probe.run("MANDEK", _ctx(warehouse_tertinggal, klien))
+    assert set(klien.panggilan) <= set(probe.endpoints)
+    assert "fetch-close" not in klien.panggilan
+
+
+def test_pfd_menyegarkan_harga_yang_basi(warehouse_tertinggal):
+    """Return 90 hari dari harga yang berhenti di tanggal backfill bukan return
+    hari ini. PFD kini menyegarkan harga seperti VAS."""
+    klien = _KlienPalsu()
+    PROBES["price_fundamental"].run("MANDEK", _ctx(warehouse_tertinggal, klien))
+    assert klien.panggilan[0] == "fetch-daily-transaction"
 
 
 def _harian(sym, hari):
