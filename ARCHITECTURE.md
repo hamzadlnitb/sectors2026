@@ -200,10 +200,10 @@ Tidak ada band yang berbunyi "jual" atau "hindari". `[K5]`
                             │
         ┌───────────────────▼────────────────────┐
         │  INGESTION 2 TINGKAT                   │
-        │  Tier 1 — market-wide, ±6 kredit/hari  │
-        │    fetch-close (1 call = semua ticker) │
+        │  Tier 1 — harian, ±5 kredit/hari       │
         │    most-traded · top-changes           │
         │    suspensions · filings               │
+        │    universe: backfill + teramai harian │
         │  Tier 2 — hanya lewat probe agen       │
         └───────────────────┬────────────────────┘
                             ▼
@@ -395,7 +395,7 @@ sectors2026/
 │   │   ├── catalog.py         ← katalog tool MCP + harga kredit, disajikan ke perencana
 │   │   └── schemas.py         ← model pydantic tiap respons
 │   ├── ingest/
-│   │   ├── tier1_market.py    ← sapuan market-wide harian
+│   │   ├── tier1_market.py    ← sapuan Tier-1 harian + watchlist
 │   │   └── backfill.py        ← tarikan historis untuk kalibrasi
 │   ├── probes/                ← ALAT AGEN, deterministik, tertes
 │   │   ├── base.py            ← kontrak Probe: biaya, jalankan, entri bukti
