@@ -24,15 +24,16 @@ Prioritas mutlak hari ini, sebelum cron 17:30 WIB: **merge `fix/hamzah/probe-dat
 
 ## 0.1 Status pelaksanaan — diperbarui 24 September 2026
 
-Ditulis oleh Hamzah setelah mengeksekusi audit ini. Tanda di tiap judul §1/§2:
+Ditulis oleh Hamzah setelah mengeksekusi audit ini; baris lajur Melco diperbarui
+Melco setelah PR #19 dan #20 masuk `main` (24 Sep sore). Tanda di tiap judul §1/§2:
 **✅ selesai** (kode + tes + di `main`), **⏸ tertunda** (terhalang di luar kode),
 **🟨 separuh**, **⬜ belum**.
 
 | Kelas | Selesai | Sisa |
 | --- | --- | --- |
-| Bug §1 | B1, B7, B8, B9 + N1 | B2, B3, B4, B6 · B5 separuh |
+| Bug §1 | B1, B2, B3, B4, B6, B7, B8, B9 + N1, N3 | B5 separuh (sisi `to_json` di PR #13) |
 | Lubang desain §2 | D1, D2, D3, D4, D6, D7 | D5, D8 · D9 tertunda (kontrak beku) |
-| Terobosan §3 | T1, T2, T6 | T3, T5, T7, T8, T9, T10 · T4 tertunda (secret) |
+| Terobosan §3 | T1, T2, T5, T6, T8 | T3, T7 separuh (web · PR #13) · T9, T10 · T4 tertunda (secret) · T8b dilewat |
 
 **Sudah di `main`:**
 
@@ -45,9 +46,14 @@ Ditulis oleh Hamzah setelah mengeksekusi audit ini. Tanda di tiap judul §1/§2:
 | `eb4b04a` | **T1** — D1, D2, D6, D7, B7 |
 | `4e63f49` | **T2** — D3, D4, B9 |
 | `965db91`, `51eae05` | Melco, tindak lanjut review PR #16 — N1 + lubang `daily_transaction` |
+| `83a56e5` | **T5** — B2 normalisasi monoton per sinyal, B3 sinyal atas sesi + batas kesegaran `volume_z` (PR #19) |
+| `4a22ca5` | **T8** — B4 dengan premis dikoreksi; N3 ledger mencatat tagihan per unit (PR #19) |
+| `2b8f7fa` | B6 — penanda aksi korporasi dari ledger, bukan cache (PR #19) |
+| `ee3a629` | **T7** sisi cron — ekspor web tiap malam (PR #19) |
+| `d47e029` | **T3** sisi cron — jalur permintaan via GitHub Issue (PR #20) |
 
-Gerbang: `make ci` hijau seluruhnya — ruff bersih, `check-contracts` lolos, larangan
-kosakata bersih atas 125 berkas, **365 tes lulus**. Nol perubahan di `contracts/`.
+Gerbang per PR #20: `make ci` hijau seluruhnya — ruff bersih, `check-contracts` lolos,
+larangan kosakata bersih, `docs/` sinkron, **414 tes lulus**. Nol perubahan di `contracts/`.
 
 ### Temuan baru di luar audit ini
 
@@ -66,6 +72,16 @@ kini menampilkan `n/6 komponen`, tapi akar strukturalnya — band ditulis tanpa
 memperhitungkan cakupan — masih ada. Kandidat perbaikan pasca-freeze: band di-*clamp*
 oleh keyakinan, atau bobot komponen yang absen dihitung sebagai netral, bukan dibuang.
 Keduanya menyentuh `contracts/` (`band`), jadi lewat CHANGES.
+
+**N3 · Ledger mencatat 1 kredit per panggilan, bukan tagihan per unit** ✅ *(ditutup `4a22ca5`, ke depan)*
+Ditemukan saat mengerjakan B4. `CreditAwareClient` mencatat `credit_cost` tanpa unit, jadi
+angkanya selalu 1 berapa pun yang ditagih. Katalog MCP resmi: `fetch-quarterly-financials`
+*"1 API credit per quarter returned"*, `fetch-free-float` 1 per 100 emiten. 16 tarikan kuartalan
+backfill (8 kuartal) tertagih **128**, tercatat 16; satu tarikan free float market-wide (961
+emiten) tertagih **10**, tercatat 1 — **±121 kredit tidak tercatat**, dan pagu fase ditegakkan
+atas angka yang lebih kecil dari belanja. Ke depan ledger mencatat dari baris yang benar-benar
+dikembalikan (`Endpoint.per_baris`). Ledger historis **belum** dikoreksi — angka ±121 perlu
+dicocokkan dulu dengan dashboard Sectors. Eval Angka 2 dijalankan sebelum koreksi ini.
 
 ---
 
@@ -98,7 +114,7 @@ Thread yang tertinggal dibiarkan mati sendiri (proses berumur satu investigasi, 
 yang sudah ada). **Tes:** `test_timeout_mengembalikan_sebelum_probe_selesai` — probe `sleep(2)`,
 timeout 0,2, assert durasi < 1 detik dan `sub_score is None`.
 
-### B2 · Normalisasi sinyal watchlist tidak monoton — `core/ingest/tier1_market.py::_clip` (Melco) 🔴 ⬜
+### B2 · Normalisasi sinyal watchlist tidak monoton — `core/ingest/tier1_market.py::_clip` (Melco) 🔴 ✅
 ```
 _clip(1.4) = 1.00   _clip(1.5) = 1.00   _clip(1.6) = 0.267   _clip(3.0) = 0.50
 ```
@@ -119,7 +135,7 @@ skor = sum(BOBOT[k] * (NORMALISASI[k](v) if v is not None else 0.0) for k, v in 
 ```
 **Tes:** monotonik — untuk tiap sinyal, `f(a) <= f(b)` bila `a < b`.
 
-### B3 · `return_5d` dihitung atas baris yang tidak berurutan — `tier1_market.py::screen` (Melco) 🟠 ⬜
+### B3 · `return_5d` dihitung atas baris yang tidak berurutan — `tier1_market.py::screen` (Melco) 🟠 ✅
 Universe watchlist = 130 emiten, **median 2 baris harga per emiten** (hanya 39 yang punya riwayat
 backfill; sisanya muncul sesekali di most-traded/top-changes). `_pct(closes, 5)` mengambil baris
 ke-5 dari belakang, bukan **sesi** ke-5 — untuk emiten sparse, "return 5 hari" bisa berarti
@@ -131,7 +147,13 @@ return 3 bulan. Contoh nyata: PACK punya baris 09-07 lalu 09-17.
 Tier-1 secara efektif adalah **39 emiten backfill + most-traded harian**. Itu sah kalau dinyatakan;
 saat ini `ARCHITECTURE.md` §5 masih mengklaim "market-wide".
 
-### B4 · Biaya PFD di katalog perencana salah 6× — `core/probes/fundamental.py` + `core/sectors/routing.py` (Melco) 🟠 ⬜
+> **✅ `83a56e5`, sesuai patch, plus satu tambahan.** `volume_z` juga memakai baris terakhir berapa
+> pun umurnya, jadi lonjakan 7 Sep mendorong SCCO/CGAS ke atas watchlist tanpa batas waktu. Kini
+> lonjakan hanya dihitung bila terjadi dalam 5 sesi + hari acuan. Varian yang lebih ketat (wajib ada
+> di sesi hari ini) disimulasikan dan ditolak: watchlist runtuh jadi seri 0,1. Top-3 watchlist 22 Sep
+> di data nyata tidak berubah (JAWA/ASLI/PACK). ARCHITECTURE §5 tidak lagi mengklaim market-wide.
+
+### B4 · Biaya PFD di katalog perencana salah 6× — `core/probes/fundamental.py` + `core/sectors/routing.py` (Melco) 🟠 ✅
 `cost_estimate("price_fundamental") = 6` = `fetch-close` (1) + `fetch-quarterly-financials`
 (`units=5`). Tapi: (a) probe **tidak pernah memanggil** `fetch-close` — ia membaca `price_history`
 dari warehouse, endpoint itu hanya dipakai sebagai label bukti; (b) ledger mencatat
@@ -140,6 +162,16 @@ PFD = **1**, perencana melihat **6** dan menghindarinya. Ini kebalikan dari "pem
 **Patch:** `endpoints = ("fetch-quarterly-financials",)`, `units=1` di routing dengan `cost_note`
 menunjuk ledger; `make docs`. Label bukti `pfd.return_90d` tetap boleh menyebut
 `fetch-daily-transaction` (yang benar-benar sumbernya), bukan `fetch-close`.
+
+> **✅ `4a22ca5`, dengan premis (b) dikoreksi — patch `units=1` TIDAK diterapkan.** Ledger tidak
+> mengukur tagihan (lihat **N3**): tarifnya 1 kredit per kuartal, dan warehouse memegang 8 kuartal
+> untuk tiap emiten itu. Biaya nyata PFD ±6, bukan 1; `units=1` akan membuat perencana mengira PFD
+> termurah padahal termahal. Katalog perencana juga dipotong `min(3, …)` oleh kontrak, jadi yang
+> dilihat perencana 3, bukan 6. Premis (a) benar dan diperbaiki: yang dianggarkan kini sama dengan
+> yang dibeli — PFD menyegarkan harga lewat `fetch-daily-transaction` (`fresh=True`) alih-alih
+> menganggarkan `fetch-close` yang tak pernah dipanggil, dan meminta 5 kuartal (bukan 8) sesuai
+> `units=5`. FRD berpola sama dan ikut diperbaiki. `cost_table` tetap (PFD 6, baseline 16) —
+> nol efek domino ke adjudicator, transkrip, dan eval.
 
 ### B5 · Cron tidak mengekspor data web; ekspor menyertakan fixture — `.github/workflows/daily.yml` + `core/export/to_json.py` (Melco, Nadhilla) 🔴 🟨
 Tahap 2 menulis `runs/investigations/` tapi **tidak** menjalankan `python -m core.export.to_json`,
@@ -151,17 +183,27 @@ tidak memuat simbol yang berawalan `FIX`.
 
 > **🟨 Separuh.** Sisi `to_json.py` sudah dikerjakan Nadhilla di PR #13 — `--with-fixtures`
 > sekarang opt-in, default hanya `runs/investigations/`. Tapi PR #13 **masih terbuka**, jadi
-> belum di `main`. Sisi `daily.yml` **belum sama sekali**: tidak ada langkah `python -m
-> core.export.to_json` di cron, dan `web/public/data/` belum masuk `git add`. Tesnya juga belum
-> ada. Sampai keduanya masuk, `index.json` tetap beku walau cron sukses.
+> belum di `main`. ~~Sisi `daily.yml` belum sama sekali~~ — **sisi cron selesai di `ee3a629`
+> (PR #19):** langkah "Ekspor data web" setelah Tahap 2 dan sebelum gerbang kosakata, gagal ekspor
+> hanya warning (tidak menjatuhkan commit hari itu), `web/public/data/` masuk `git add`. Sisa:
+> PR #13 + tes "ekspor default tanpa `FIX*`". Sampai #13 masuk, ekspor malam hari tetap memuat
+> FIXA/B/C — sama dengan isi web sebelumnya. Karena cron kini menulis `web/public/data/` tiap
+> malam, PR #13 akan konflik di berkas hasil ekspor; selesaikan dengan menjalankan ulang ekspor.
 
-### B6 · `corporate_actions` bocor 1 kredit per hari untuk emiten bersih — `core/probes/structural.py` (Melco) 🟡 ⬜
+### B6 · `corporate_actions` bocor 1 kredit per hari untuk emiten bersih — `core/probes/structural.py` (Melco) 🟡 ✅
 `ctx.ensure("corporate_actions", ..., where="symbol = ?", min_rows=1)` dengan params
 `{"start", "end": as_of}`: emiten tanpa aksi korporasi selalu punya 0 baris → tarik lagi tiap
 hari, dan karena `end` berubah, cache disk tidak pernah kena. Berbeda dari `suspensions`/`filings`
 yang diperiksa market-wide. **Patch:** simpan penanda "sudah disapu untuk symbol ini sampai
 tanggal X" — paling sederhana: `params` tanpa `end` (rentang tetap `start` → hari ini tidak perlu
 dikunci ke as_of untuk aksi korporasi 24 bulan), sehingga kunci cache stabil selama sebulan.
+
+> **✅ `2b8f7fa`, dengan penanda lain.** Kunci cache yang stabil tidak menolong di produksi:
+> `data/cache/` ada di `.gitignore`, jadi cron mulai dengan cache kosong tiap malam. Yang di-commit
+> tiap malam adalah ledger — penandanya diambil dari sana. `Context.ensure(..., segar_hari=7)`:
+> cukup = ledger mencatat pembelian untuk emiten itu dalam 7 hari terakhir, selaras memori agen
+> yang menganggap bukti SSS segar 7 hari. Sekaligus menutup kebalikannya: emiten yang punya satu
+> baris aksi korporasi dulu tidak pernah diperbarui lagi.
 
 ### B7 · Langkah terbuang saat pagu tidak cukup — `core/agent/investigator.py` (Hamzah) 🟡 ✅
 ```python
@@ -372,13 +414,13 @@ Jum 26–Sen 28  cron jalan 3 hari bursa dengan kode final = bukti otonom yang s
 
 | Sisa | Pemilik | Terhalang oleh |
 | --- | --- | --- |
-| **T5** (B2, B3) — watchlist monoton, `return_5d` atas sesi | Melco | — **kerjakan lebih dulu**: ini yang memilih emiten mana yang diselidiki cron nanti malam |
-| **T8** (B4) — biaya PFD benar | Melco | — |
-| **B6** — kebocoran kredit `corporate_actions` | Melco | — |
+| ~~**T5** (B2, B3) — watchlist monoton, `return_5d` atas sesi~~ | Melco | ✅ `83a56e5` (PR #19) |
+| ~~**T8** (B4) — biaya PFD benar~~ | Melco | ✅ `4a22ca5` (PR #19), premis dikoreksi — lihat B4, N3 |
+| ~~**B6** — kebocoran kredit `corporate_actions`~~ | Melco | ✅ `2b8f7fa` (PR #19) |
 | **D5** — metrik fallback ke `index.json` | Hamzah | — |
 | **T9** (D8) — `evals --repeat N` | Hamzah | — nol kredit Sectors |
-| **T7** (B5) — langkah ekspor di `daily.yml` + merge PR #13 | Melco + Nadhilla | — sisi `to_json` sudah beres di PR #13, sisi cron belum ada |
-| **T3** — jalur permintaan via GitHub Issue | Melco + Nadhilla | — |
+| **T7** (B5) — langkah ekspor di `daily.yml` + merge PR #13 | Melco + Nadhilla | 🟨 sisi cron ✅ `ee3a629` (PR #19); sisa: merge PR #13 + tes tanpa `FIX*` |
+| **T3** — jalur permintaan via GitHub Issue | Melco + Nadhilla | 🟨 sisi cron ✅ `d47e029` (PR #20), diuji malam 24 Sep lewat issue #21; sisa: tautan `SearchBox` di web |
 | **T10** — UI membaca transkrip | Nadhilla | — |
 | **T4** — penyedia LLM → Claude | — | **secret `ANTHROPIC_API_KEY` belum dipasang di repo**; tidak bisa dikerjakan dari sisi kode |
 | **D9** — `baseline_credits` | — | **kontrak beku**; perlu usulan `contracts/CHANGES.md` |
@@ -401,16 +443,18 @@ eksplisit di pesan commit — presedennya sudah ada di `3e667be`.
 | Tes | Berkas | Menjaga |
 | --- | --- | --- |
 | ✅ timeout kembali < 1 detik untuk probe `sleep(2)` | `tests/agent/test_guardrails.py` | B1 |
-| ⬜ `_clip`/normalisasi monoton per sinyal | `tests/ingest/test_tier1.py` | B2 |
-| ⬜ `return_5d` None bila 6 sesi terakhir berlubang | `tests/ingest/test_tier1.py` | B3 |
-| ⬜ `cost_estimate("price_fundamental") == cost_of("fetch-quarterly-financials")` | `tests/probes/test_probes.py` | B4 |
+| ✅ `_clip`/normalisasi monoton per sinyal | `tests/ingest/test_tier1.py` | B2 |
+| ✅ `return_5d` None bila 6 sesi terakhir berlubang | `tests/ingest/test_tier1.py` | B3 |
+| ✅ ~~`cost_estimate("price_fundamental") == cost_of("fetch-quarterly-financials")`~~ → tiap probe hanya membeli yang dianggarkan; PFD tidak pernah memanggil `fetch-close` *(bentuk diubah, lihat B4)* | `tests/probes/test_probes.py` | B4 |
+| ✅ ledger menagih per kuartal / per 100 emiten | `tests/sectors/test_client.py` | N3 |
+| ✅ aksi korporasi emiten bersih tidak dibeli ulang dalam 7 hari | `tests/probes/test_probes.py` | B6 |
 | ⬜ ekspor default tidak memuat simbol `FIX*` | `tests/export/` | B5 |
 | ✅ `conclude` ditolak saat keyakinan < 0,4 dan ada probe terjangkau | `tests/agent/test_investigator.py` | D2 |
 | ✅ `conclude` diizinkan saat pagu habis walau keyakinan rendah | idem | D2 |
 | ✅ prompt penyelidik memuat bukti semua langkah sebelumnya | idem | D1 |
 | ✅ `briefing()` menyebut sub-skor dan umur bukti dari transkrip sebelumnya | `tests/agent/test_memory.py` | D4 |
 | ✅ kandidat dilewati bila diselidiki ≤2 hari lalu dengan keyakinan ≥0,6 | `tests/test_investigate_watchlist.py` | B9 |
-| ⬜ permintaan Issue masuk depan antrean; simbol tak sah ditolak | idem | T3 |
+| ✅ permintaan Issue masuk depan antrean; simbol tak sah ditolak | `tests/test_permintaan.py` | T3 |
 | ⬜ `--repeat 3` menghasilkan tiga jalan yang tidak identik pada FakeLLM berbibit | `tests/evals/` | D8 |
 
 ---
