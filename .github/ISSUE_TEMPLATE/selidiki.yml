@@ -1,0 +1,20 @@
+name: Minta PANTAU menyelidiki satu emiten
+description: Agen PANTAU menyelidiki emiten ini pada jalan cron berikutnya (hari bursa, ±17:30 WIB), lalu menutup issue ini dengan tautan transkripnya.
+title: "selidiki: "
+labels: ["selidiki"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Tulis **satu** kode emiten IDX, 4 huruf (misalnya `BBCA`). Permintaan diproses paling banyak 3 per malam, urut nomor issue; sisanya antre ke malam berikutnya.
+
+        Hasilnya transkrip investigasi lengkap: rencana agen, tiap probe yang dijalankan, bukti yang dikutip, dan biaya kreditnya.
+
+        _PANTAU adalah alat informasi dan analisis, bukan saran investasi._
+  - type: input
+    id: symbol
+    attributes:
+      label: Kode emiten
+      placeholder: BBCA
+    validations:
+      required: true
