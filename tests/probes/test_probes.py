@@ -304,6 +304,70 @@ def test_ensure_tanpa_fresh_mempertahankan_perilaku_lama(warehouse_tertinggal):
     assert klien.panggilan == []
 
 
+class _KlienBerledger(_KlienPalsu):
+    def __init__(self, ledger) -> None:
+        super().__init__()
+        self.ledger = ledger
+
+
+def _aksi(ctx):
+    return ctx.ensure("corporate_actions", "fetch-corporate-actions",
+                      {"symbol": "BERSIH", "start": "2024-09-01", "end": ctx.as_of.isoformat()},
+                      symbol="BERSIH", segar_hari=7)
+
+
+@pytest.fixture
+def ledger_bersih(tmp_path):
+    """Ledger yang mencatat aksi korporasi BERSIH sudah dibeli hari ini — dan
+    warehouse tidak punya satu baris pun untuknya, karena memang bersih."""
+    from core.sectors.ledger import CreditLedger
+
+    ledger = CreditLedger(tmp_path / "l.jsonl", caps={"daily": 250})
+    ledger.record(phase="daily", endpoint="fetch-corporate-actions", transport="mcp",
+                  credits=1, params_hash="x", symbol="BERSIH")
+    return ledger
+
+
+def test_aksi_korporasi_emiten_bersih_tidak_dibeli_ulang(ledger_bersih, tmp_path):
+    """AUDIT B6: nol baris = emiten bersih, temuan sah. Dulu ensure menganggapnya
+    'belum cukup' dan menarik ulang di setiap investigasi — 1 kredit bocor per
+    emiten bersih per hari, dan cache tidak menolong karena tidak di-commit."""
+    from datetime import date
+
+    from core.ingest.warehouse import Warehouse
+
+    klien = _KlienBerledger(ledger_bersih)
+    ctx = Context(as_of=date.today(), warehouse=Warehouse(tmp_path / "wh"), client=klien,
+                  budget_remaining=25)
+    assert _aksi(ctx) == 0
+    assert klien.panggilan == []
+
+
+def test_aksi_korporasi_dibeli_lagi_setelah_basi(ledger_bersih, tmp_path):
+    from datetime import date, timedelta
+
+    from core.ingest.warehouse import Warehouse
+
+    klien = _KlienBerledger(ledger_bersih)
+    ctx = Context(as_of=date.today() + timedelta(days=8), warehouse=Warehouse(tmp_path / "wh"),
+                  client=klien, budget_remaining=25)
+    _aksi(ctx)
+    assert klien.panggilan == ["fetch-corporate-actions"]
+
+
+def test_aksi_korporasi_emiten_baru_tetap_dibeli(tmp_path):
+    from datetime import date
+
+    from core.ingest.warehouse import Warehouse
+    from core.sectors.ledger import CreditLedger
+
+    klien = _KlienBerledger(CreditLedger(tmp_path / "kosong.jsonl"))
+    ctx = Context(as_of=date.today(), warehouse=Warehouse(tmp_path / "wh"), client=klien,
+                  budget_remaining=25)
+    _aksi(ctx)
+    assert klien.panggilan == ["fetch-corporate-actions"]
+
+
 @pytest.mark.parametrize("probe", SEMUA, ids=NAMA)
 def test_probe_hanya_membeli_yang_dianggarkan(probe, warehouse_tertinggal):
     """AUDIT B4: yang dianggarkan harus sama dengan yang dibeli. PFD dulu
