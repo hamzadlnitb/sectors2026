@@ -28,10 +28,18 @@ import sys
 from datetime import UTC, datetime
 from pathlib import Path
 
+
 # contracts/check.py (dan konsol Windows) memakai encoding bawaan OS — cp1252 di
 # Windows — yang gagal pada byte non-ASCII di transkrip UTF-8. Mode UTF-8 Python
 # membuat semua read_text & stdout default ke utf-8; jalankan ulang diri sekali.
-if not sys.flags.utf8_mode and os.environ.get("PYTHONUTF8") != "1":
+#
+# HANYA saat dijalankan sebagai skrip. Dulu ini di tingkat modul, jadi `import
+# core.export.to_json` di lingkungan non-UTF-8 ikut menjalankan ulang proses
+# pemanggilnya — pytest di CI (LANG=C) mati dengan `SystemExit: 0` dan "no tests
+# ran", bukan kegagalan tes. Lokal tidak pernah kelihatan karena locale-nya UTF-8.
+def _pastikan_utf8() -> None:
+    if sys.flags.utf8_mode or os.environ.get("PYTHONUTF8") == "1":
+        return
     import subprocess
 
     os.environ["PYTHONUTF8"] = "1"
@@ -263,4 +271,5 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    _pastikan_utf8()
     raise SystemExit(main())
