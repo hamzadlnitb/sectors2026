@@ -8,6 +8,7 @@
 # TAHAP 2 : agen menyelidiki top-N kandidat -> commit runs/investigations/
 #           Aktif kalau secret MINIMAX_API_KEY ada; kalau tidak, dilewati (bukan
 #           gagal) supaya Tahap 1 tetap menyumbang bukti otonom tiap hari.
+# EKSPOR  : runs/ -> web/public/data/, supaya web ikut hidup tanpa sentuhan.
 
 name: Pipeline harian
 
@@ -116,11 +117,22 @@ jobs:
             --as-of "${{ steps.tanggal.outputs.as_of }}" \
             --top "${{ inputs.top_n || '3' }}"
 
+      # Web membaca web/public/data/, bukan runs/. Tanpa langkah ini index.json
+      # beku sejak 11 Sep walau cron sukses tiap hari. [AUDIT B5]
+      # Gagal ekspor TIDAK boleh menjatuhkan commit hari itu: sapuan dan
+      # investigasi tetap bukti yang sah walau web tertinggal satu malam.
+      # to_json sendiri menolak transkrip yang tidak lolos kontrak.
+      - name: Ekspor data web
+        run: |
+          python -m core.export.to_json \
+            || echo "::warning::ekspor web gagal sebagian — web/public/data mungkin tertinggal"
+
       - name: Posisi kredit sesudah
         run: make credits
 
-      # Menyaring artefak SESUDAH Tahap 2, supaya narasi LLM tersimpan ikut
-      # diperiksa — kalimat terlarang tidak boleh sempat ter-commit. [K5]
+      # Menyaring artefak SESUDAH Tahap 2 dan ekspor web, supaya narasi LLM
+      # tersimpan ikut diperiksa di kedua tempat — kalimat terlarang tidak boleh
+      # sempat ter-commit. [K5]
       - name: Larangan kosakata atas artefak baru
         run: make vocab
 
@@ -133,7 +145,7 @@ jobs:
           # memanggil LLM. Kalau tidak di-add, ia tertinggal unstaged dan
           # memblokir `pull --rebase` di bawah — persis yang menjatuhkan cron
           # 21 Sep (seluruh commit hilang, investigasi ikut hangus).
-          git add runs/ data/warehouse/ \
+          git add runs/ data/warehouse/ web/public/data/ \
                   data/credit_ledger.jsonl data/llm_ledger.jsonl data/memory.duckdb
           if git diff --cached --quiet; then
             echo "tidak ada perubahan untuk di-commit"
