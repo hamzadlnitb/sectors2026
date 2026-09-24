@@ -109,7 +109,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
                 Agen membaca investigasi{" "}
                 <Link href={`/investigasi/${ingat.prev.id}`}>{ingat.prev.id}</Link>{" "}
                 ({ingat.days} hari sebelumnya) saat menyusun rencana: skor{" "}
-                <b>{ingat.prev.pantau_score}</b> ({bandMeta(ingat.prev.band).label}), keyakinan{" "}
+                <b>{ingat.prev.pantau_score}</b> ({bandMeta(ingat.prev.band).id}), keyakinan{" "}
                 {Math.round(ingat.prev.confidence * 100)}%, {ingat.prev.credits_total} kredit.{" "}
                 {ingat.deltaScore === 0
                   ? <>Skor hari ini <b>tidak bergerak</b>.</>
@@ -178,7 +178,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
         memoryRef={t.memory_ref ?? null}
         recall={ingat && {
           id: ingat.prev.id, score: ingat.prev.pantau_score,
-          band: bandMeta(ingat.prev.band).label, confidence: ingat.prev.confidence,
+          band: bandMeta(ingat.prev.band).id, confidence: ingat.prev.confidence,
           credits: ingat.prev.credits_total, days: ingat.days,
           deltaScore: ingat.deltaScore,
         }}
