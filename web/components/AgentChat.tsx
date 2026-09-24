@@ -44,6 +44,7 @@ export default function AgentChat({
   evidence,
   moments,
   memoryRef,
+  recall,
   mode = "static",
 }: {
   symbol: string;
@@ -57,6 +58,8 @@ export default function AgentChat({
   evidence: EvidenceEntry[];
   moments: Moment[];
   memoryRef: string | null;
+  /** Fakta investigasi yang diingat. null = transkripnya tidak ada di ekspor. */
+  recall: { id: string; score: number; band: string; confidence: number; credits: number; days: number; deltaScore: number } | null;
   mode?: "static" | "live";
 }) {
   const source = sourceForMode(mode, () => {
@@ -149,7 +152,11 @@ export default function AgentChat({
         keys: ["memori", "memory", "ulang", "sebelum"],
         answer: () => ({
           trace: ["cek memori per-ticker"],
-          text: `Ya, agen mengingat run sebelumnya (${memoryRef}) dan menyusun rencana berbeda diarahkan ke apa yang berubah.`,
+          // Dulu jawabannya mengklaim agen "menyusun rencana berbeda" — tidak
+          // ada di rekaman. Yang ada di rekaman adalah angka run sebelumnya.
+          text: recall
+            ? `Ya. Agen membaca ${recall.id} (${recall.days} hari sebelumnya): skor ${recall.score} (${recall.band}), keyakinan ${Math.round(recall.confidence * 100)}%, ${recall.credits} kredit. Skor hari ini ${recall.deltaScore === 0 ? "tidak bergerak" : `bergerak ${recall.deltaScore > 0 ? "+" : ""}${recall.deltaScore}`}.`
+            : `Ya, agen mengingat ${memoryRef} — tapi transkrip itu tidak ada di ekspor ini, jadi isinya tidak bisa aku tunjukkan.`,
           tools: [],
         }),
       });

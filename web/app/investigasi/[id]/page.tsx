@@ -9,7 +9,9 @@ import {
   detectMoments,
   gaugeDot,
   listInvestigationIds,
+  loadIndex,
   loadInvestigation,
+  recall,
   savingsPct,
   type Moment,
 } from "@/lib/transcript";
@@ -36,6 +38,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
   const band = bandMeta(t.band);
   const dot = gaugeDot(t.pantau_score);
   const moments = detectMoments(t);
+  const ingat = recall(loadIndex(), t);
   const confidencePct = Math.round(t.confidence * 100);
   const creditsPct = t.baseline_credits ? Math.round((t.credits_total / t.baseline_credits) * 100) : 0;
 
@@ -99,12 +102,27 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
           <div className="moments">
             {moments.map((m) => <MomentCard key={m.kind} m={m} />)}
           </div>
-          {t.memory_ref && (
+          {ingat && (
             <div className="memory">
               <span className="ic"><MemoryIcon /></span>
               <div className="txt">
-                Agen mengingat investigasi sebelumnya. Rencana kali ini <b>menahan jatah di awal</b> karena run{" "}
-                <a href="#">{t.memory_ref}</a> berakhir normal, bukan mengulang dari nol.
+                Agen membaca investigasi{" "}
+                <Link href={`/investigasi/${ingat.prev.id}`}>{ingat.prev.id}</Link>{" "}
+                ({ingat.days} hari sebelumnya) saat menyusun rencana: skor{" "}
+                <b>{ingat.prev.pantau_score}</b> ({bandMeta(ingat.prev.band).label}), keyakinan{" "}
+                {Math.round(ingat.prev.confidence * 100)}%, {ingat.prev.credits_total} kredit.{" "}
+                {ingat.deltaScore === 0
+                  ? <>Skor hari ini <b>tidak bergerak</b>.</>
+                  : <>Skor hari ini bergerak <b>{ingat.deltaScore > 0 ? "+" : ""}{ingat.deltaScore}</b>.</>}
+              </div>
+            </div>
+          )}
+          {t.memory_ref && !ingat && (
+            <div className="memory">
+              <span className="ic"><MemoryIcon /></span>
+              <div className="txt">
+                Agen mengingat investigasi <code>{t.memory_ref}</code>, tapi transkripnya tidak
+                ada di ekspor ini — jadi isinya tidak ditampilkan.
               </div>
             </div>
           )}
@@ -158,6 +176,12 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
         evidence={t.evidence}
         moments={moments}
         memoryRef={t.memory_ref ?? null}
+        recall={ingat && {
+          id: ingat.prev.id, score: ingat.prev.pantau_score,
+          band: bandMeta(ingat.prev.band).label, confidence: ingat.prev.confidence,
+          credits: ingat.prev.credits_total, days: ingat.days,
+          deltaScore: ingat.deltaScore,
+        }}
       />
 
       <div className="footnote">Diputar dari rekaman tersimpan · tanpa panggilan API atau AI saat dibuka · {t.symbol} · {t.weights_version}</div>
@@ -183,7 +207,7 @@ function MomentCard({ m }: { m: Moment }) {
       title: "Berhenti dini",
       at: `langkah ${"step" in m ? m.step : ""}`,
       icon: <StopIcon />,
-      desc: <>Berhenti lebih awal &amp; melewati probe sisa, band tak akan berubah.</>,
+      desc: <>Menyimpulkan di langkah {"step" in m ? m.step : ""} dari 6 probe, di bawah jatah menyeluruh.</>,
     },
     memory: {
       title: "Memori",

@@ -177,3 +177,35 @@ export function detectMoments(t: Transcript): Moment[] {
 
   return out;
 }
+
+// ── Memori: fakta, bukan klaim ───────────────────────────────────────
+//
+// Halaman detail dulu menulis kalimat tetap: "Rencana kali ini menahan jatah di
+// awal karena run X berakhir normal." Tidak satu pun bagian kalimat itu dibaca
+// dari transkrip — band run sebelumnya tidak diperiksa, dan "menahan jatah"
+// tidak pernah dihitung. Yang di bawah ini semuanya diturunkan dari
+// `index.json`, jadi kalau tidak ada datanya, tidak ada kalimatnya. [AUDIT T10]
+
+export interface Recall {
+  /** Investigasi yang diingat, kalau masih ada di index. */
+  prev: IndexEntry;
+  /** Selisih skor hari ini terhadap yang diingat. */
+  deltaScore: number;
+  /** Jarak hari kalender antara dua investigasi. */
+  days: number;
+}
+
+export function recall(
+  index: DataIndex,
+  t: Transcript,
+): Recall | null {
+  if (!t.memory_ref) return null;
+  const prev = index.investigations.find((e) => e.id === t.memory_ref);
+  if (!prev) return null;
+  const ms = Date.parse(t.as_of) - Date.parse(prev.as_of);
+  return {
+    prev,
+    deltaScore: t.pantau_score - prev.pantau_score,
+    days: Number.isFinite(ms) ? Math.round(ms / 86_400_000) : 0,
+  };
+}
