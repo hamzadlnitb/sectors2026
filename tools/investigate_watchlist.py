@@ -22,6 +22,7 @@ Tiga hal yang dijaga berkas ini, karena ini berjalan tanpa pengawasan di cron:
 
     python tools/investigate_watchlist.py --as-of 2026-09-11 --top 3
     python tools/investigate_watchlist.py --as-of 2026-09-11 --offline   # FakeLLM
+    python tools/investigate_watchlist.py --requests --symbols BBCA      # + permintaan [T3]
 """
 
 from __future__ import annotations
@@ -44,6 +45,7 @@ from core.sectors.client import CreditAwareClient  # noqa: E402
 from core.sectors.errors import BudgetExceeded  # noqa: E402
 from core.sectors.ledger import CreditLedger  # noqa: E402
 from core.sectors.redact import get_logger  # noqa: E402
+from tools import permintaan as jalur  # noqa: E402
 
 log = get_logger(__name__)
 
@@ -123,7 +125,10 @@ def _skor_seleksi_tersimpan(symbol: str, hari: date, runs_root: Path) -> float |
 def run(as_of: date, *, top: int = DEFAULT_TOP, offline: bool = False,
         runs_root: Path | None = None, warehouse: Warehouse | None = None,
         ledger: CreditLedger | None = None, client: object | None = None,
-        memory: Memory | None = None) -> dict:
+        memory: Memory | None = None, permintaan: list[str] | None = None) -> dict:
+    """`permintaan`: kode emiten yang diminta orang (sudah divalidasi
+    tools/permintaan.py). Diselidiki LEBIH DULU dan tidak kena jeda seleksi —
+    seseorang memintanya secara eksplisit. [AUDIT T3]"""
     runs_root = runs_root or (ROOT / "runs")
     inv_root = runs_root / "investigations"
     wh = warehouse or Warehouse()
@@ -132,11 +137,12 @@ def run(as_of: date, *, top: int = DEFAULT_TOP, offline: bool = False,
     mem = memory if memory is not None else Memory()
 
     candidates = read_candidates(as_of, runs_root)
+    diminta = list(dict.fromkeys(permintaan or []))
     dipilih = [c["symbol"] for c in candidates[:top]]
-    if not dipilih:
+    if not dipilih and not diminta:
         log.info("watchlist %s kosong — tidak ada yang diselidiki", as_of)
         return {"as_of": as_of.isoformat(), "diselidiki": [], "dilewati": [],
-                "gagal": [], "kredit": 0}
+                "gagal": [], "kredit": 0, "status": {}}
 
     # Satu klien berbagi untuk seluruh batch: pagu fase memotong lintas investigasi.
     if client is None and not offline:
@@ -146,26 +152,35 @@ def run(as_of: date, *, top: int = DEFAULT_TOP, offline: bool = False,
     diselidiki: list[dict] = []
     dilewati: list[str] = []
     gagal: list[str] = []
+    # Nasib tiap emiten yang disentuh batch ini — dibaca balik oleh jalur
+    # permintaan untuk menutup issue yang terpenuhi.
+    status: dict[str, str] = {}
 
     per_simbol = {c["symbol"]: c for c in candidates}
-    cadangan = [c["symbol"] for c in candidates[top:]]
+    cadangan = [c["symbol"] for c in candidates[top:] if c["symbol"] not in diminta]
 
-    antrean = list(dipilih)
+    antrean = diminta + [s for s in dipilih if s not in diminta]
     while antrean:
         symbol = antrean.pop(0)
+        if symbol in status:
+            continue
         entri = per_simbol.get(symbol, {})
         tujuan = path_for(symbol, as_of, inv_root)
         if tujuan.exists():
             log.info("%s sudah diselidiki untuk %s — dilewati", symbol, as_of)
             dilewati.append(symbol)
+            status[symbol] = "sudah_ada"
             continue
 
         # Jeda seleksi: memori dipakai untuk MEMILIH, bukan cuma merencanakan.
         # Tanpa ini top-3 yang sama diselidiki sembilan hari berturut-turut dan
-        # kredit `daily` terbakar untuk delta nol. [B9]
-        if (alasan := _alasan_jeda(mem, symbol, as_of, entri, wh, runs_root)):
+        # kredit `daily` terbakar untuk delta nol. [B9] Permintaan eksplisit
+        # tidak kena jeda.
+        if symbol not in diminta and (
+                alasan := _alasan_jeda(mem, symbol, as_of, entri, wh, runs_root)):
             log.info("%s dilewati: %s", symbol, alasan)
             dilewati.append(f"{symbol}: {alasan}")
+            status[symbol] = "jeda"
             if cadangan:
                 pengganti = cadangan.pop(0)
                 log.info("%s naik menggantikan %s", pengganti, symbol)
@@ -188,12 +203,16 @@ def run(as_of: date, *, top: int = DEFAULT_TOP, offline: bool = False,
             log.warning("pagu kredit habis di %s (%s) — sisa kandidat dilewati",
                         symbol, exc)
             gagal.append(f"{symbol}: pagu habis")
+            for s in [symbol, *antrean]:
+                status.setdefault(s, "pagu")
             break
         except Exception as exc:  # noqa: BLE001 — satu gagal tak menjatuhkan batch
             log.exception("investigasi %s gagal", symbol)
             gagal.append(f"{symbol}: {type(exc).__name__}: {exc}"[:120])
+            status[symbol] = "gagal"
             continue
 
+        status[symbol] = "diselidiki"
         diselidiki.append({
             "symbol": symbol, "skor": t.pantau_score, "band": t.band,
             "kredit": t.credits_total, "langkah": len(t.steps),
@@ -204,7 +223,7 @@ def run(as_of: date, *, top: int = DEFAULT_TOP, offline: bool = False,
 
     kredit = sum(d["kredit"] for d in diselidiki)
     return {"as_of": as_of.isoformat(), "diselidiki": diselidiki,
-            "dilewati": dilewati, "gagal": gagal, "kredit": kredit}
+            "dilewati": dilewati, "gagal": gagal, "kredit": kredit, "status": status}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -215,13 +234,41 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--offline", action="store_true",
                     help="FakeLLM, nol kunci — untuk uji mekanisme tanpa belanja")
     ap.add_argument("--runs", type=Path, default=None)
+    ap.add_argument("--requests", action="store_true",
+                    help=f"baca issue terbuka berlabel '{jalur.LABEL}' lewat gh [AUDIT T3]")
+    ap.add_argument("--symbols", default="",
+                    help="kode emiten dipisah koma, diselidiki lebih dulu (workflow_dispatch)")
     args = ap.parse_args(argv)
+    runs_root = args.runs or (ROOT / "runs")
+    wh = Warehouse()
+
+    # Jalur permintaan tidak boleh menjatuhkan Tahap 2: issue yang tak terbaca
+    # berarti malam ini tanpa permintaan, bukan malam ini tanpa investigasi.
+    daftar: list[dict] = []
+    if args.requests or args.symbols:
+        issues: list[dict] = []
+        if args.requests:
+            try:
+                issues = jalur.baca_issue()
+            except Exception as exc:  # noqa: BLE001
+                print(f"⚠ issue permintaan tidak terbaca ({type(exc).__name__}) — "
+                      "dilanjutkan tanpa permintaan")
+        daftar = jalur.siapkan(issues, args.symbols.split(","), jalur.kode_sah(wh))
 
     try:
-        hasil = run(args.as_of, top=args.top, offline=args.offline, runs_root=args.runs)
+        hasil = run(args.as_of, top=args.top, offline=args.offline, runs_root=runs_root,
+                    warehouse=wh, permintaan=jalur.diterima(daftar))
     except FileNotFoundError as exc:
         print(f"⚠ {exc}")
         return 1
+
+    if daftar:
+        daftar = jalur.terapkan_hasil(daftar, hasil["status"])
+        jalur.simpan(daftar, args.as_of, runs_root)
+        print(f"\nPERMINTAAN — {len(daftar)} masuk")
+        for p in daftar:
+            asal = f"#{p['issue']}" if p.get("issue") else "dispatch"
+            print(f"  {asal:<9} {p['symbol'] or '—':<6} {p['status']}")
 
     print(f"\nTAHAP 2 — investigasi {args.as_of}"
           f"{' (offline)' if args.offline else ''}")

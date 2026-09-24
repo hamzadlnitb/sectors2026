@@ -9,6 +9,8 @@
 #           Aktif kalau secret MINIMAX_API_KEY ada; kalau tidak, dilewati (bukan
 #           gagal) supaya Tahap 1 tetap menyumbang bukti otonom tiap hari.
 # EKSPOR  : runs/ -> web/public/data/, supaya web ikut hidup tanpa sentuhan.
+# PERMINTAAN: issue `selidiki` diselidiki lebih dulu di Tahap 2, lalu ditutup
+#           dengan tautan transkrip SETELAH commit terdorong.
 
 name: Pipeline harian
 
@@ -36,9 +38,15 @@ on:
         required: false
         type: string
         default: "3"
+      symbols:
+        description: "Kode emiten dipisah koma, diselidiki lebih dulu (mis. BBCA,TLKM). Untuk demo."
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: write
+  issues: write   # jalur permintaan: baca issue `selidiki`, tutup dengan tautan [AUDIT T3]
 
 # Dua jalannya sekaligus akan saling menimpa commit warehouse.
 concurrency:
@@ -100,11 +108,17 @@ jobs:
       # menyumbang artefak, dan cron tidak boleh merah cuma karena LLM belum
       # disetel. Anggaran ganda: pagu fase `daily` di CreditAwareClient + top-N
       # kecil. LLM MiniMax terpisah dari kredit Sectors [K9].
+      #
+      # Permintaan dari issue `selidiki` (dan input `symbols`) diselidiki LEBIH
+      # DULU, maks 3 per malam. Isi issue tak tepercaya — divalidasi di Python,
+      # tidak pernah menyentuh shell ini; input dispatch pun lewat env. [AUDIT T3]
       - name: Tahap 2 — investigasi agen
         env:
           SECTORS_API_KEY: ${{ secrets.SECTORS_API_KEY }}
           MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
           PANTAU_LLM_PROVIDER: minimax
+          GH_TOKEN: ${{ github.token }}
+          SYMBOLS: ${{ inputs.symbols }}
         run: |
           if [ "${{ inputs.investigate }}" = "false" ]; then
             echo "Tahap 2 dilewati (input investigate=false)"; exit 0
@@ -113,9 +127,13 @@ jobs:
             echo "::warning::MINIMAX_API_KEY tidak ada — Tahap 2 dilewati. Setel secret untuk mengaktifkan investigasi otonom."
             exit 0
           fi
+          # Label harus ada supaya template issue memasangnya. Idempoten.
+          gh label create selidiki --color 0E8A16 \
+            --description "Permintaan investigasi PANTAU" 2>/dev/null || true
           python tools/investigate_watchlist.py \
             --as-of "${{ steps.tanggal.outputs.as_of }}" \
-            --top "${{ inputs.top_n || '3' }}"
+            --top "${{ inputs.top_n || '3' }}" \
+            --requests --symbols="$SYMBOLS"
 
       # Web membaca web/public/data/, bukan runs/. Tanpa langkah ini index.json
       # beku sejak 11 Sep walau cron sukses tiap hari. [AUDIT B5]
@@ -176,6 +194,17 @@ jobs:
           done
           echo "::error::gagal push artefak setelah 3 percobaan"
           exit 1
+
+      # SETELAH push, bukan sebelumnya: tautan transkrip baru hidup setelah
+      # commit ada di main. Kalau commit gagal, langkah ini tidak jalan dan
+      # issue tetap terbuka — lebih baik daripada ditutup dengan tautan mati.
+      # Gagal menutup cuma warning; issue terbuka ikut antrean malam berikutnya.
+      - name: Tutup permintaan yang terpenuhi
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python tools/permintaan.py tutup --as-of "${{ steps.tanggal.outputs.as_of }}" \
+            || echo "::warning::sebagian issue permintaan belum tertutup"
 
       # Bukti untuk juri: artefak bisa diunduh dari halaman run, ber-timestamp,
       # walau commit-nya gagal karena alasan lain.
