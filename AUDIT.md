@@ -31,9 +31,9 @@ Melco setelah PR #19 dan #20 masuk `main` (24 Sep sore). Tanda di tiap judul §1
 
 | Kelas | Selesai | Sisa |
 | --- | --- | --- |
-| Bug §1 | B1, B2, B3, B4, B6, B7, B8, B9 + N1, N3 | B5 separuh (sisi `to_json` di PR #13) |
-| Lubang desain §2 | D1, D2, D3, D4, D6, D7 | D5, D8 · D9 tertunda (kontrak beku) |
-| Terobosan §3 | T1, T2, T5, T6, T8 | T3, T7 separuh (web · PR #13) · T9, T10 · T4 tertunda (secret) · T8b dilewat |
+| Bug §1 | B1, B2, B3, B4, B6, B7, B8, B9 + N1, N3, N4 | B5 → tes + `to_json` di PR #24 |
+| Lubang desain §2 | D1, D2, D3, D4, D5, D6, D7, D8 | D9 → usulan **C7** diajukan, menunggu sign-off bertiga |
+| Terobosan §3 | T1, T2, T3, T5, T6, T8, T9 | T4 sisi kode selesai, **tinggal secret** · T7 + T10 di PR #24 · T8b dilewat |
 
 **Sudah di `main`:**
 
@@ -51,6 +51,8 @@ Melco setelah PR #19 dan #20 masuk `main` (24 Sep sore). Tanda di tiap judul §1
 | `2b8f7fa` | B6 — penanda aksi korporasi dari ledger, bukan cache (PR #19) |
 | `ee3a629` | **T7** sisi cron — ekspor web tiap malam (PR #19) |
 | `d47e029` | **T3** sisi cron — jalur permintaan via GitHub Issue (PR #20) |
+| `483ba45` | **D5** metrik jalur cadangan di `index.json` · **T9/D8** `evals --repeat N` (PR #23) |
+| `1415432` | **T4** sisi kode — penyedia LLM dipilih dari secret, laporan pemakaian LLM di `make credits`; usulan **C7** untuk D9 (PR #23) |
 
 Gerbang per PR #20: `make ci` hijau seluruhnya — ruff bersih, `check-contracts` lolos,
 larangan kosakata bersih, `docs/` sinkron, **414 tes lulus**. Nol perubahan di `contracts/`.
@@ -82,6 +84,15 @@ emiten) tertagih **10**, tercatat 1 — **±121 kredit tidak tercatat**, dan pag
 atas angka yang lebih kecil dari belanja. Ke depan ledger mencatat dari baris yang benar-benar
 dikembalikan (`Endpoint.per_baris`). Ledger historis **belum** dikoreksi — angka ±121 perlu
 dicocokkan dulu dengan dashboard Sectors. Eval Angka 2 dijalankan sebelum koreksi ini.
+
+**N4 · Gerbang UTF-8 `to_json` mematikan proses yang mengimpornya** ✅ *(ditutup di PR #23)*
+Ditemukan oleh CI PR #23; tidak pernah terlihat lokal. `core/export/to_json.py` memasang
+gerbang UTF-8 di tingkat **modul**: kalau proses tidak berjalan dalam mode UTF-8, ia
+menjalankan ulang dirinya lewat subprocess lalu `sys.exit`. Benar untuk skrip, salah untuk
+impor — `import core.export.to_json` di lingkungan non-UTF-8 ikut mematikan proses
+**pemanggilnya**. Gejalanya bukan tes yang gagal melainkan pytest yang mati dengan
+`INTERNALERROR: SystemExit: 0` dan "no tests ran". Lokal tidak pernah kelihatan karena
+locale-nya sudah UTF-8, jadi gerbangnya tidak pernah menyala. Dipindah ke blok `__main__`.
 
 ---
 
@@ -173,7 +184,7 @@ menunjuk ledger; `make docs`. Label bukti `pfd.return_90d` tetap boleh menyebut
 > `units=5`. FRD berpola sama dan ikut diperbaiki. `cost_table` tetap (PFD 6, baseline 16) —
 > nol efek domino ke adjudicator, transkrip, dan eval.
 
-### B5 · Cron tidak mengekspor data web; ekspor menyertakan fixture — `.github/workflows/daily.yml` + `core/export/to_json.py` (Melco, Nadhilla) 🔴 🟨
+### B5 · Cron tidak mengekspor data web; ekspor menyertakan fixture — `.github/workflows/daily.yml` + `core/export/to_json.py` (Melco, Nadhilla) 🔴 🟨 → PR #24
 Tahap 2 menulis `runs/investigations/` tapi **tidak** menjalankan `python -m core.export.to_json`,
 sehingga `web/public/data/index.json` beku sejak 11 Sep. `TRANSCRIPT_SOURCES` menggabungkan
 `fixtures/transcripts/` → FIXA/FIXB/FIXC tampil di landing sebagai investigasi nyata.
@@ -270,7 +281,7 @@ hari. Perbaikan: `briefing()` memuat tabel `komponen: sub_skor (umur bukti)` dar
 sebelumnya + kalimat aturan "bukti berumur < N hari untuk FFS/SSS tidak perlu dibeli ulang".
 Nol perubahan kontrak — hanya isi prompt.
 
-### D5 · Tingkat fallback tidak diukur di mana pun ⬜
+### D5 · Tingkat fallback tidak diukur di mana pun ✅
 Fakta dari 30 transkrip: 10 rencana cadangan (`rationale` berawalan "Rencana cadangan"),
 10 narasi `template`, TRUK 9 Sep 100% cadangan. Tidak ada metrik ini di `to_json`, README,
 maupun eval. Tanpa angka ini kita tidak tahu apakah T-D (§3) berhasil. Perbaikan: hitung di
@@ -288,13 +299,13 @@ Turunkan default ke 6 atau, lebih jujur, hitung dari `len(PROBES)`.
 yang ia baca berumur 15 hari (persis bug HEAD, yang akan terulang untuk tabel tanpa `fresh=True`).
 Tambahkan `(per DD-MM)` di tiap bukti dalam prompt.
 
-### D8 · Eval tidak bisa diulang untuk mengukur kebisingan ⬜
+### D8 · Eval tidak bisa diulang untuk mengukur kebisingan ✅
 `llm.py` cache berkunci `(system, messages, tools, prompt_version, max_tokens, temperature)` →
 menjalankan eval dua kali = hasil identik dari cache. `reports/agent-eval-ringkasan.md` sudah
 menyimpulkan kebisingan ±6–12 pp dari **dua** jalan; untuk rentang yang bisa dikutip perlu
 `--repeat N` yang menambahkan `-rN` ke `prompt_version` untuk lengan agen saja. Nol kredit Sectors.
 
-### D9 · `baseline_credits = max(total, 16)` — `adjudicator.py` ⏸
+### D9 · `baseline_credits = max(total, 16)` — `adjudicator.py` ⏸ → usulan C7
 Kalau agen membelanjakan 18, "baseline" ikut 18 dan penghematan tampak 0% bukan negatif. Ganti ke
 `baseline_credits(symbol)` apa adanya; kontrak tidak mensyaratkan `credits_total <= baseline`
 (cek `contracts/check.py` — kalau ya, itu invarian yang harus dilonggarkan lewat CHANGES, bukan
@@ -410,26 +421,26 @@ Kam 25         T9 eval --repeat 3 (Hamzah, nol kredit Sectors) · T10 UI (Nadhil
 Jum 26–Sen 28  cron jalan 3 hari bursa dengan kode final = bukti otonom yang sebenarnya
 ```
 
-### Sisa pekerjaan per 24 Sep pagi — 2 hari sebelum freeze
+### Sisa pekerjaan per 24 Sep sore — 1 hari sebelum freeze
 
 | Sisa | Pemilik | Terhalang oleh |
 | --- | --- | --- |
 | ~~**T5** (B2, B3) — watchlist monoton, `return_5d` atas sesi~~ | Melco | ✅ `83a56e5` (PR #19) |
 | ~~**T8** (B4) — biaya PFD benar~~ | Melco | ✅ `4a22ca5` (PR #19), premis dikoreksi — lihat B4, N3 |
 | ~~**B6** — kebocoran kredit `corporate_actions`~~ | Melco | ✅ `2b8f7fa` (PR #19) |
-| **D5** — metrik fallback ke `index.json` | Hamzah | — |
-| **T9** (D8) — `evals --repeat N` | Hamzah | — nol kredit Sectors |
-| **T7** (B5) — langkah ekspor di `daily.yml` + merge PR #13 | Melco + Nadhilla | 🟨 sisi cron ✅ `ee3a629` (PR #19); sisa: merge PR #13 + tes tanpa `FIX*` |
+| **T7** (B5) — langkah ekspor + ekspor tanpa fixture | Melco + Nadhilla | 🟨 sisi cron ✅ `ee3a629` (PR #19); `to_json` + 3 tes ✅ di **PR #24**; sisa: **merge PR #13** |
 | **T3** — jalur permintaan via GitHub Issue | Melco + Nadhilla | 🟨 sisi cron ✅ `d47e029` (PR #20), diuji malam 24 Sep lewat issue #21; sisa: tautan `SearchBox` di web |
-| **T10** — UI membaca transkrip | Nadhilla | — |
-| **T4** — penyedia LLM → Claude | — | **secret `ANTHROPIC_API_KEY` belum dipasang di repo**; tidak bisa dikerjakan dari sisi kode |
-| **D9** — `baseline_credits` | — | **kontrak beku**; perlu usulan `contracts/CHANGES.md` |
-| **T8b** — `fetch-news` sebagai sinyal Tier-1 | — | **sengaja dilewat**: audit ini sendiri mensyaratkan "hanya kalau T1–T7 hijau pada 24 Sep", dan T5 belum |
+| **T10** — UI membaca transkrip | Nadhilla | ✅ di **PR #24** (di atas PR #13); sisa: merge PR #13 |
+| **T4** — penyedia LLM → Claude | — | 🟨 sisi kode ✅ `1415432`: `daily.yml` memilih Claude kalau secret ada, MiniMax kalau tidak, dan `make credits` merangkum `llm_ledger.jsonl`. **Sisa bukan kode:** seseorang dengan akses Settings menambahkan secret `ANTHROPIC_API_KEY` |
+| **D9** — `baseline_credits` | ketiganya | Usulan **C7** sudah diajukan di `contracts/CHANGES.md`. Butuh sign-off Hamzah + Melco + Nadhilla. Kalau ditolak, ada instruksi apa yang harus ikut berubah |
+| **T8b** — `fetch-news` sebagai sinyal Tier-1 | — | **sengaja dilewat**: syaratnya "hanya kalau T1–T7 hijau pada 24 Sep", dan T7 masih menunggu PR #13 |
 | **N2** — skor berbanding terbalik dengan kedalaman | — | struktural, menyentuh `band` di kontrak → pasca-freeze |
 
-Di luar audit: dashboard **riwayat analisa agen** (`feat/hamzah/riwayat-agen`, di atas PR #13)
-menampilkan jejak skor per emiten, delta antar hari, momen agentik, dan cakupan `n/6 komponen`.
-Belum di-PR — menunggu PR #13 Nadhilla masuk `main` dulu. Ini yang membuat N2 terlihat.
+Di luar audit: dashboard **riwayat analisa agen** menampilkan jejak skor per emiten, delta
+antar hari, momen agentik, dan cakupan `n/6 komponen`. Ini yang membuat N2 terlihat. Sudah
+di **PR #24**, dibuka ke branch PR #13 supaya jalur masuk lajur web tetap satu pintu.
+
+**Satu-satunya penghalang yang tersisa untuk T7, T10, dan B5 adalah merge PR #13.**
 
 Aturan kepemilikan `TASK.md` tetap: Hamzah tidak mengedit `core/probes/`, `core/ingest/`,
 `.github/`; perbaikan B2–B6 diserahkan ke Melco lewat PR ini sebagai spesifikasi. Kalau Melco
@@ -448,14 +459,14 @@ eksplisit di pesan commit — presedennya sudah ada di `3e667be`.
 | ✅ ~~`cost_estimate("price_fundamental") == cost_of("fetch-quarterly-financials")`~~ → tiap probe hanya membeli yang dianggarkan; PFD tidak pernah memanggil `fetch-close` *(bentuk diubah, lihat B4)* | `tests/probes/test_probes.py` | B4 |
 | ✅ ledger menagih per kuartal / per 100 emiten | `tests/sectors/test_client.py` | N3 |
 | ✅ aksi korporasi emiten bersih tidak dibeli ulang dalam 7 hari | `tests/probes/test_probes.py` | B6 |
-| ⬜ ekspor default tidak memuat simbol `FIX*` | `tests/export/` | B5 |
+| ✅ ekspor default tidak memuat simbol `FIX*` *(PR #24)* | `tests/export/test_to_json.py` | B5 |
 | ✅ `conclude` ditolak saat keyakinan < 0,4 dan ada probe terjangkau | `tests/agent/test_investigator.py` | D2 |
 | ✅ `conclude` diizinkan saat pagu habis walau keyakinan rendah | idem | D2 |
 | ✅ prompt penyelidik memuat bukti semua langkah sebelumnya | idem | D1 |
 | ✅ `briefing()` menyebut sub-skor dan umur bukti dari transkrip sebelumnya | `tests/agent/test_memory.py` | D4 |
 | ✅ kandidat dilewati bila diselidiki ≤2 hari lalu dengan keyakinan ≥0,6 | `tests/test_investigate_watchlist.py` | B9 |
 | ✅ permintaan Issue masuk depan antrean; simbol tak sah ditolak | `tests/test_permintaan.py` | T3 |
-| ⬜ `--repeat 3` menghasilkan tiga jalan yang tidak identik pada FakeLLM berbibit | `tests/evals/` | D8 |
+| ✅ tiga jalan `--repeat 3` menghasilkan tiga kunci cache berbeda | `tests/evals/test_kebisingan.py` | D8 |
 
 ---
 
