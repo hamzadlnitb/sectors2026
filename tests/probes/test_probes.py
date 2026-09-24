@@ -181,7 +181,7 @@ def test_biaya_probe_sesuai_biaya_terdokumentasi():
     assert cost_table() == {
         "broker_concentration": 3,   # broker-summary-top 2 + broker-summary 1
         "volume_anomaly": 1,
-        "price_fundamental": 6,      # fetch-close 1 + quarterly 5 (1/kuartal)
+        "price_fundamental": 6,      # daily-transaction 1 + quarterly 5 (1/kuartal)
         "free_float": 1,
         "foreign_flow": 2,           # foreign-flow 1 + daily-transaction 1
         "structural": 3,             # suspensions 1 + filings 1 + corp-actions 1
@@ -193,6 +193,16 @@ def test_investigasi_menyeluruh_muat_di_pagar_agen():
     melebihi, agen tidak akan pernah bisa dibandingkan dengan baseline
     menyeluruh — dan Angka 2 kehilangan penyebutnya."""
     assert baseline_credits() <= 25
+
+
+def test_pfd_meminta_kuartal_sebanyak_yang_dianggarkan():
+    """Tarif per kuartal: n_quarters yang diminta probe adalah biayanya. Minta
+    lebih dari units di routing = belanja melebihi perkiraan perencana."""
+    from core.probes import fundamental
+    from core.sectors.routing import route
+
+    assert route("fetch-quarterly-financials").units == fundamental.N_KUARTAL
+    assert fundamental.N_KUARTAL > fundamental.YOY_LAG_QUARTERS, "minimum year-on-year"
 
 
 def test_katalog_probe_lolos_kontrak():
@@ -292,6 +302,89 @@ def test_ensure_tanpa_fresh_mempertahankan_perilaku_lama(warehouse_tertinggal):
     ctx.ensure("daily_transaction", "fetch-daily-transaction", {"symbol": "MANDEK"},
                symbol="MANDEK", where="symbol = ?", where_params=["MANDEK"])
     assert klien.panggilan == []
+
+
+class _KlienBerledger(_KlienPalsu):
+    def __init__(self, ledger) -> None:
+        super().__init__()
+        self.ledger = ledger
+
+
+def _aksi(ctx):
+    return ctx.ensure("corporate_actions", "fetch-corporate-actions",
+                      {"symbol": "BERSIH", "start": "2024-09-01", "end": ctx.as_of.isoformat()},
+                      symbol="BERSIH", segar_hari=7)
+
+
+@pytest.fixture
+def ledger_bersih(tmp_path):
+    """Ledger yang mencatat aksi korporasi BERSIH sudah dibeli hari ini — dan
+    warehouse tidak punya satu baris pun untuknya, karena memang bersih."""
+    from core.sectors.ledger import CreditLedger
+
+    ledger = CreditLedger(tmp_path / "l.jsonl", caps={"daily": 250})
+    ledger.record(phase="daily", endpoint="fetch-corporate-actions", transport="mcp",
+                  credits=1, params_hash="x", symbol="BERSIH")
+    return ledger
+
+
+def test_aksi_korporasi_emiten_bersih_tidak_dibeli_ulang(ledger_bersih, tmp_path):
+    """AUDIT B6: nol baris = emiten bersih, temuan sah. Dulu ensure menganggapnya
+    'belum cukup' dan menarik ulang di setiap investigasi — 1 kredit bocor per
+    emiten bersih per hari, dan cache tidak menolong karena tidak di-commit."""
+    from datetime import date
+
+    from core.ingest.warehouse import Warehouse
+
+    klien = _KlienBerledger(ledger_bersih)
+    ctx = Context(as_of=date.today(), warehouse=Warehouse(tmp_path / "wh"), client=klien,
+                  budget_remaining=25)
+    assert _aksi(ctx) == 0
+    assert klien.panggilan == []
+
+
+def test_aksi_korporasi_dibeli_lagi_setelah_basi(ledger_bersih, tmp_path):
+    from datetime import date, timedelta
+
+    from core.ingest.warehouse import Warehouse
+
+    klien = _KlienBerledger(ledger_bersih)
+    ctx = Context(as_of=date.today() + timedelta(days=8), warehouse=Warehouse(tmp_path / "wh"),
+                  client=klien, budget_remaining=25)
+    _aksi(ctx)
+    assert klien.panggilan == ["fetch-corporate-actions"]
+
+
+def test_aksi_korporasi_emiten_baru_tetap_dibeli(tmp_path):
+    from datetime import date
+
+    from core.ingest.warehouse import Warehouse
+    from core.sectors.ledger import CreditLedger
+
+    klien = _KlienBerledger(CreditLedger(tmp_path / "kosong.jsonl"))
+    ctx = Context(as_of=date.today(), warehouse=Warehouse(tmp_path / "wh"), client=klien,
+                  budget_remaining=25)
+    _aksi(ctx)
+    assert klien.panggilan == ["fetch-corporate-actions"]
+
+
+@pytest.mark.parametrize("probe", SEMUA, ids=NAMA)
+def test_probe_hanya_membeli_yang_dianggarkan(probe, warehouse_tertinggal):
+    """AUDIT B4: yang dianggarkan harus sama dengan yang dibeli. PFD dulu
+    menganggarkan fetch-close yang tidak pernah dipanggil; pagu perencana
+    dihitung atas panggilan yang tidak pernah terjadi."""
+    klien = _KlienPalsu()
+    probe.run("MANDEK", _ctx(warehouse_tertinggal, klien))
+    assert set(klien.panggilan) <= set(probe.endpoints)
+    assert "fetch-close" not in klien.panggilan
+
+
+def test_pfd_menyegarkan_harga_yang_basi(warehouse_tertinggal):
+    """Return 90 hari dari harga yang berhenti di tanggal backfill bukan return
+    hari ini. PFD kini menyegarkan harga seperti VAS."""
+    klien = _KlienPalsu()
+    PROBES["price_fundamental"].run("MANDEK", _ctx(warehouse_tertinggal, klien))
+    assert klien.panggilan[0] == "fetch-daily-transaction"
 
 
 def _harian(sym, hari):

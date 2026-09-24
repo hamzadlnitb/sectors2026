@@ -46,7 +46,7 @@ Yang dilihat perencana. Biaya probe = jumlah biaya endpoint yang dibungkusnya, d
 | `probe_foreign_flow` | FRD | 2 | rest | `fetch-foreign-flow`, `fetch-daily-transaction` |
 | `probe_broker_concentration` | BCI | 3 | mcp | `fetch-broker-summary-top`, `fetch-broker-summary` |
 | `probe_structural` | SSS | 3 | mcp+rest | `fetch-suspensions`, `fetch-filings`, `fetch-corporate-actions` |
-| `probe_price_fundamental` | PFD | 6 | mcp | `fetch-close`, `fetch-quarterly-financials` |
+| `probe_price_fundamental` | PFD | 6 | mcp+rest | `fetch-daily-transaction`, `fetch-quarterly-financials` |
 
 **Investigasi menyeluruh = 16 kredit** — ini penyebut klaim penghematan agen (Angka 2, `ARCHITECTURE.md` §6), dan harus tetap di bawah pagar 25 kredit per investigasi `[AD-6]`.
 
@@ -86,4 +86,4 @@ Ditegakkan `CreditAwareClient`: panggilan yang menembus pagu **ditolak** dengan 
 | **Total** | **1000** |
 
 ---
-_Dibangkitkan `make docs` dari tabel perutean · sidik isi `9710c8a16930`._
+_Dibangkitkan `make docs` dari tabel perutean · sidik isi `3ca1d14004e9`._

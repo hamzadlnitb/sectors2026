@@ -192,11 +192,25 @@ class Context:
         jendela = trading_days(self.warehouse, self.as_of, (self.as_of - awal).days + 1)
         return any(d >= awal and d not in ada for d in jendela)
 
+    def _baru_dibeli(self, endpoint: str, symbol: str | None, hari: int) -> bool:
+        """Ledger mencatat endpoint ini dibeli untuk emiten ini dalam `hari` terakhir?
+
+        Ledger di-commit cron tiap malam; cache respons tidak (data/cache/ ada di
+        .gitignore). Jadi di cron, ledger satu-satunya ingatan belanja yang
+        bertahan dari satu malam ke malam berikutnya.
+        """
+        ledger = getattr(self.client, "ledger", None)
+        if ledger is None or symbol is None:
+            return False
+        batas = (self.as_of - timedelta(days=hari)).isoformat()
+        return any(e.endpoint == endpoint and e.symbol == symbol and e.ts[:10] >= batas
+                   for e in ledger.entries())
+
     # ── ambil kalau kurang ──────────────────────────────────────────────────
     def ensure(self, table: str, endpoint: str, params: dict, *,
                symbol: str | None = None, min_rows: int = 1,
                where: str = "", where_params: list | None = None,
-               fresh: bool = False) -> int:
+               fresh: bool = False, segar_hari: int | None = None) -> int:
         """Isi warehouse dari Sectors kalau data yang dibutuhkan belum cukup.
 
         Mengembalikan kredit yang terbakar (0 kalau warehouse sudah cukup, kalau
@@ -210,15 +224,25 @@ class Context:
         dikutip diam-diam menua. Persis yang terjadi 8–22 Sep: seluruh kandidat
         watchlist berhenti di 7 Sep sementara skornya tetap dicetak tiap hari.
 
+        `segar_hari=N` untuk tabel peristiwa per emiten (aksi korporasi): di sana
+        kosong adalah temuan sah — emiten bersih — jadi jumlah baris tidak bisa
+        menjawab "sudah dibeli?". Tanpa ini emiten bersih ditarik ulang di setiap
+        investigasi, dan emiten yang punya satu baris tidak pernah diperbarui
+        lagi. Cukup = ledger mencatat pembelian dalam N hari terakhir. [AUDIT B6]
+
         Kalau pagu investigasi tidak cukup, probe TIDAK dipaksa gagal: ia
         melanjutkan dengan data warehouse seadanya dan, kalau memang kurang,
         menutup dengan unavailable_reason. Menyerah karena pagu adalah perilaku
         yang diminta kontrak, bukan kesalahan. [AD-6]
         """
-        existing = self.frame(table, where, where_params)
-        if len(existing) >= min_rows and not (
-                fresh and self._tertinggal(table, existing, _tanggal(params.get("start")))):
-            return 0
+        if segar_hari is not None:
+            if self._baru_dibeli(endpoint, symbol, segar_hari):
+                return 0
+        else:
+            existing = self.frame(table, where, where_params)
+            if len(existing) >= min_rows and not (
+                    fresh and self._tertinggal(table, existing, _tanggal(params.get("start")))):
+                return 0
         if self.client is None:
             return 0
 

@@ -25,6 +25,11 @@ RETURN_SESSIONS = 90
 MIN_SESSIONS = 30
 YOY_LAG_QUARTERS = 4
 
+N_KUARTAL = YOY_LAG_QUARTERS + 1
+"""Kuartal yang diminta: minimum untuk year-on-year. fetch-quarterly-financials
+menagih 1 kredit PER KUARTAL yang dikembalikan — minta 8 berarti bayar 8 untuk
+tiga kuartal yang tidak pernah dibaca. Selaras `units=5` di routing."""
+
 # Jangkar: divergensi 0,25 mulai berarti; 2,50 (mis. +240% dengan laba flat)
 # sudah ekstrem.
 DIV_LOW, DIV_HIGH = 0.25, 2.50
@@ -33,12 +38,23 @@ DIV_LOW, DIV_HIGH = 0.25, 2.50
 class PriceFundamentalProbe(BaseProbe):
     name = "price_fundamental"
     component = "PFD"
-    endpoints = ("fetch-close", "fetch-quarterly-financials")
+    # Yang dianggarkan = yang benar-benar dibeli. Dulu fetch-close ikut
+    # dianggarkan padahal tidak pernah dipanggil, sementara harga dibaca dari
+    # warehouse tanpa disegarkan — return 90 hari bisa berhenti di tanggal
+    # backfill. Sekarang harga disegarkan lewat fetch-daily-transaction,
+    # sama seperti VAS. [AUDIT B4]
+    endpoints = ("fetch-daily-transaction", "fetch-quarterly-financials")
 
     def _compute(self, symbol: str, ctx: Context) -> Finding:
         window = ctx.sessions(RETURN_SESSIONS + 10)
         since = window[0] if window else None
 
+        ctx.ensure(
+            "daily_transaction", "fetch-daily-transaction",
+            {"symbol": symbol, "start": since.isoformat() if since else None,
+             "end": ctx.as_of.isoformat()},
+            symbol=symbol, where="symbol = ?", where_params=[symbol], fresh=True,
+        )
         harga = ctx.price_history(symbol, since=since)
         if len(harga) < MIN_SESSIONS:
             return Finding.unavailable(
@@ -54,7 +70,7 @@ class PriceFundamentalProbe(BaseProbe):
 
         ctx.ensure(
             "quarterly_financials", "fetch-quarterly-financials",
-            {"symbol": symbol, "n_quarters": 8},
+            {"symbol": symbol, "n_quarters": N_KUARTAL},
             symbol=symbol, where="symbol = ?", where_params=[symbol],
         )
         fin = ctx.symbol_frame("quarterly_financials", symbol, date_column="report_date")
@@ -80,7 +96,7 @@ class PriceFundamentalProbe(BaseProbe):
         day = last_session(harga) or ctx.as_of
         params_harga = {"symbol": symbol, "start": str(harga["trade_date"].min())[:10],
                         "end": str(day)}
-        params_fin = {"symbol": symbol, "n_quarters": 8}
+        params_fin = {"symbol": symbol, "n_quarters": N_KUARTAL}
         periode = pd.to_datetime(fin["report_date"].iloc[-1]).date()
 
         return Finding(
@@ -88,7 +104,8 @@ class PriceFundamentalProbe(BaseProbe):
             evidence=[
                 self.evidence("pfd.return_90d", "Return 90 hari bursa", round(return_90d, 4),
                               f"{'+' if return_90d >= 0 else ''}{persen(return_90d)}",
-                              endpoint="fetch-close", params=params_harga, as_of=day),
+                              endpoint="fetch-daily-transaction", params=params_harga,
+                              as_of=day),
                 self.evidence("pfd.earnings_change", "Perubahan laba bersih year-on-year",
                               round(laba_yoy, 4),
                               f"{'+' if laba_yoy >= 0 else ''}{persen(laba_yoy)}",

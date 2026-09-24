@@ -28,6 +28,7 @@ awal kami dengan selisih besar — lihat cost_note tiap baris.
 from __future__ import annotations
 
 import json
+import math
 from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Literal
@@ -67,6 +68,15 @@ class Endpoint:
     """
     paginated: bool = False
     """Berbayar per halaman: biaya sebenarnya = jumlah halaman yang ditelusuri."""
+    per_baris: int = 0
+    """Kalau > 0, tagihan dihitung dari baris yang BENAR-BENAR dikembalikan:
+    ceil(baris / per_baris) unit — 1 untuk per kuartal, 100 untuk per 100 emiten.
+    0 = tagihan tetap `units` per panggilan.
+
+    `units` cuma perkiraan sebelum memanggil; yang tercatat di ledger harus
+    tagihan sungguhan. Tanpa ini ledger mencatat 1 kredit untuk tarikan yang
+    menagih 8 (fetch-quarterly-financials, n_quarters=8) dan 10 (free float
+    961 emiten) — 16 tarikan kuartalan backfill saja kurang tercatat 112 kredit."""
     cost_note: str = ""
 
     @property
@@ -74,6 +84,13 @@ class Endpoint:
         """Biaya satu panggilan khas. Untuk endpoint berpaginasi ini biaya SATU
         halaman — totalnya ditentukan berapa halaman yang benar-benar ditarik."""
         return self.credit_cost * self.units
+
+    def billed(self, rows: int | None) -> int:
+        """Tagihan satu panggilan yang sudah terjadi, dari jumlah baris balikannya.
+        `rows=None` (respons tak terbaca) jatuh ke perkiraan `call_cost`."""
+        if not self.per_baris or rows is None:
+            return self.call_cost
+        return self.credit_cost * max(1, math.ceil(rows / self.per_baris))
 
     @property
     def transports(self) -> tuple[Transport, ...]:
@@ -180,9 +197,10 @@ _TIER2 = [
         args_schema=_sym(_RANGE),
     ),
     Endpoint(
-        name="fetch-free-float", tier=2, verified=True, credit_cost=1, preferred="mcp",
-        mcp_tool="fetch-free-float",
-        cost_note="1 kredit per 100 emiten. Tarikan market-wide praktis gratis.",
+        name="fetch-free-float", tier=2, verified=True, credit_cost=1, per_baris=100,
+        preferred="mcp", mcp_tool="fetch-free-float",
+        cost_note="1 kredit per 100 emiten, dibulatkan ke atas. Per emiten 1 kredit; "
+                  "market-wide (±961 emiten) 10 kredit.",
         description="Persentase saham beredar bebas (free float) per emiten.",
         args_schema=_sym(),
     ),
@@ -193,10 +211,12 @@ _TIER2 = [
         args_schema=_sym({"sections": {"type": "string"}}),
     ),
     Endpoint(
-        name="fetch-quarterly-financials", tier=2, verified=True, credit_cost=1, units=5, preferred="mcp",
-        mcp_tool="fetch-quarterly-financials",
+        name="fetch-quarterly-financials", tier=2, verified=True, credit_cost=1, units=5,
+        per_baris=1, preferred="mcp", mcp_tool="fetch-quarterly-financials",
         cost_note="1 kredit PER KUARTAL yang dikembalikan. Kita minta 5 (cukup untuk "
-                  "perbandingan year-on-year), jadi 5 kredit per emiten.",
+                  "perbandingan year-on-year), jadi 5 kredit per emiten. Sebelum 24 Sep "
+                  "ledger mencatat 1 per panggilan — 16 tarikan backfill (8 kuartal) "
+                  "sebenarnya 128 kredit, tercatat 16.",
         description="Laporan keuangan kuartalan: pendapatan, laba bersih, total aset.",
         args_schema=_sym({"n_quarters": {"type": "integer"}}),
     ),

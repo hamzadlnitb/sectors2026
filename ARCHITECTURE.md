@@ -161,7 +161,7 @@ Skor komposit dihitung dari enam sub-skor independen, masing-masing dinormalisas
 | --- | --- | --- | --- |
 | **BCI** | Broker Concentration Index | Berapa persen net buy dikuasai 3 broker teratas? (HHI) | `fetch-broker-summary-top`, `fetch-broker-summary` |
 | **VAS** | Volume Anomaly Score | Volume hari ini berapa sigma di atas baseline 90 hari? | `fetch-daily-transaction`, `fetch-most-traded-stocks` |
-| **PFD** | Price–Fundamental Divergence | Harga naik 200% sementara laba flat/rugi? | `fetch-company-report`, `fetch-quarterly-financials`, `fetch-close` |
+| **PFD** | Price–Fundamental Divergence | Harga naik 200% sementara laba flat/rugi? | `fetch-company-report`, `fetch-quarterly-financials`, `fetch-daily-transaction` |
 | **FFS** | Free Float Scarcity | Berapa kecil saham yang benar-benar beredar? | `fetch-free-float`, `fetch-company-report` |
 | **FRD** | Foreign–Retail Divergence | Asing keluar sementara harga naik = distribusi ke ritel? | `fetch-foreign-flow`, `fetch-shareholders-composition` |
 | **SSS** | Structural Signal Score | Pernah disuspend? Insider jual saat harga naik? Rights issue beruntun? | `fetch-suspensions`, `fetch-filings`, `fetch-corporate-actions` |
@@ -200,10 +200,10 @@ Tidak ada band yang berbunyi "jual" atau "hindari". `[K5]`
                             │
         ┌───────────────────▼────────────────────┐
         │  INGESTION 2 TINGKAT                   │
-        │  Tier 1 — market-wide, ±6 kredit/hari  │
-        │    fetch-close (1 call = semua ticker) │
+        │  Tier 1 — harian, ±5 kredit/hari       │
         │    most-traded · top-changes           │
         │    suspensions · filings               │
+        │    universe: backfill + teramai harian │
         │  Tier 2 — hanya lewat probe agen       │
         └───────────────────┬────────────────────┘
                             ▼
@@ -395,7 +395,7 @@ sectors2026/
 │   │   ├── catalog.py         ← katalog tool MCP + harga kredit, disajikan ke perencana
 │   │   └── schemas.py         ← model pydantic tiap respons
 │   ├── ingest/
-│   │   ├── tier1_market.py    ← sapuan market-wide harian
+│   │   ├── tier1_market.py    ← sapuan Tier-1 harian + watchlist
 │   │   └── backfill.py        ← tarikan historis untuk kalibrasi
 │   ├── probes/                ← ALAT AGEN, deterministik, tertes
 │   │   ├── base.py            ← kontrak Probe: biaya, jalankan, entri bukti
