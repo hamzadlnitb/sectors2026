@@ -64,6 +64,36 @@ def tier1_signals(symbol: str, ctx: Context) -> dict:
     return sinyal
 
 
+def sinyal_watchlist(entri: dict) -> dict:
+    """Terjemahkan satu kandidat `watchlist.json` jadi sinyal untuk perencana.
+
+    Tahap 1 sudah menghitung `volume_z`, `return_5d/20d`, `small_cap`,
+    `peristiwa`, dan `alasan` atas seluruh universe — lalu `tier1_signals`
+    menghitung ulang versi yang lebih kasar dari warehouse (rasio volume
+    terhadap median SELURUH riwayat, perubahan harga sejak baris pertama yang
+    bisa berjarak delapan bulan). Memakai angka Tahap 1 berarti perencana
+    membaca dasar seleksi yang sama dengan yang memilih emiten ini — bukan
+    perkiraan kedua yang kebetulan mirip. [D3]
+    """
+    sinyal: dict[str, str] = {}
+    mentah = entri.get("signals") or {}
+    if (z := mentah.get("volume_z")) is not None:
+        sinyal["volume_z"] = f"{float(z):.1f}σ di atas baseline"
+    if (r := mentah.get("return_5d")) is not None:
+        sinyal["return_5_hari_bursa"] = f"{float(r) * 100:+.0f}%"
+    if (r := mentah.get("return_20d")) is not None:
+        sinyal["return_20_hari_bursa"] = f"{float(r) * 100:+.0f}%"
+    if mentah.get("small_cap"):
+        sinyal["kapitalisasi"] = "kecil"
+    if mentah.get("peristiwa"):
+        sinyal["peristiwa_korporasi"] = "ada dalam periode"
+    if (skor := entri.get("score")) is not None:
+        sinyal["skor_seleksi_watchlist"] = f"{float(skor):.2f}"
+    if entri.get("alasan"):
+        sinyal["alasan_masuk_watchlist"] = str(entri["alasan"])
+    return sinyal
+
+
 def _offline_llm():
     """FakeLLM yang cukup untuk satu investigasi penuh tanpa jaringan.
 
@@ -81,12 +111,21 @@ def investigate_symbol(symbol: str, *, as_of: date | None = None,
                        offline: bool = False, llm=None,
                        warehouse: Warehouse | None = None,
                        memory: Memory | None = None,
-                       client=None, persist: bool = True) -> InvestigationTranscript:
+                       client=None, persist: bool = True,
+                       signals: dict | None = None) -> InvestigationTranscript:
     symbol = symbol.strip().upper().removesuffix(".JK")
     hari = as_of or date.today()
 
     wh = warehouse or Warehouse()
-    ctx = Context(as_of=hari, warehouse=wh, client=client, phase="agent")
+    # Fase kredit IKUT klien yang diserahkan pemanggil — cron Tahap 2 memberi
+    # fase 'daily', eval memberi 'eval'. Jangan mengarang fase sendiri: "agent"
+    # tidak ada di CAPS, dan ledger.check() memperlakukan fase tak dikenal
+    # sebagai pagu nol, jadi SETIAP tarikan probe ditolak dengan BudgetExceeded.
+    # Probe menelan penolakan itu dan melanjutkan dengan warehouse seadanya,
+    # sehingga gejalanya bukan error melainkan investigasi 0 kredit yang
+    # kelihatan hemat — sembilan transkrip pertama semuanya begitu. [AD-5]
+    ctx = Context(as_of=hari, warehouse=wh, client=client,
+                  phase=getattr(client, "phase", "daily"))
 
     if llm is None:
         if offline:
@@ -98,7 +137,10 @@ def investigate_symbol(symbol: str, *, as_of: date | None = None,
     mem = memory if memory is not None else Memory()
     riwayat = mem.recall(symbol, before=hari)
 
-    sinyal = tier1_signals(symbol, ctx)
+    # Sinyal Tahap 1 kalau pemanggil punya (cron watchlist), hitungan warehouse
+    # sebagai cadangan — dan sebagai pelengkap, karena subsektor dan kapitalisasi
+    # rupiah tidak ada di watchlist.json. [D3]
+    sinyal = {**tier1_signals(symbol, ctx), **(signals or {})}
     rencana, dari_llm = planner_mod.plan(
         symbol=symbol, as_of=hari, signals=sinyal, ceiling=max_credits(),
         llm=llm, memory=riwayat,

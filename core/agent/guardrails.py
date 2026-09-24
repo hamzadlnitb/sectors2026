@@ -2,14 +2,17 @@
 
 Empat pagar, dan satu aturan tentang apa yang terjadi kalau tertembus:
 
-1. **Maks 8 langkah** (`PANTAU_MAX_STEPS`) — loop yang tidak bisa berhenti
-   sendiri bukan agen, itu bug yang mahal.
+1. **Maks langkah** (`PANTAU_MAX_STEPS`, default = jumlah probe) — loop yang
+   tidak bisa berhenti sendiri bukan agen, itu bug yang mahal.
 2. **Timeout per langkah** (`PANTAU_STEP_TIMEOUT`) — satu probe yang menggantung
    tidak boleh menyandera cron malam hari.
 3. **Nama probe wajib sah** — LLM boleh mengarang `probe_pump_and_dump`; kita
    tidak wajib mempercayainya.
 4. **Satu probe hanya sekali per investigasi** — mengulang probe yang sama
    membakar kredit tanpa menambah bukti, dan `contracts/check.py` menolaknya.
+5. **Keyakinan minimum sebelum menyimpulkan** (`PANTAU_MIN_CONFIDENCE`) —
+   berhenti setelah satu probe menjawab keras menghasilkan skor 100 berkeyakinan
+   0,22, dan papan menampilkannya seotoritatif skor yang dibangun dari enam.
 
 Aturannya: **melewati pagar = investigasi ditutup dengan bukti yang sudah
 terkumpul, bukan exception yang naik ke atas.** Karena itu berkas ini tidak
@@ -39,12 +42,30 @@ from core.sectors.redact import get_logger  # noqa: E402
 
 log = get_logger(__name__)
 
-DEFAULT_MAX_STEPS = 8
-DEFAULT_STEP_TIMEOUT = 45.0
-
 PROBE_NAMES: frozenset[str] = frozenset(get_args(ProbeName))
 """Diturunkan dari kontrak, tidak ditulis tangan — daftar yang disalin akan
 menyimpang dari `contracts/schemas.py` diam-diam."""
+
+DEFAULT_MAX_STEPS = len(PROBE_NAMES)
+"""Pagar #4 mengunci satu probe satu kali per investigasi, jadi langkah tidak
+mungkin melebihi jumlah probe. Nilai 8 yang dulu tertulis adalah klaim dokumen
+yang tidak pernah bisa tercapai — pagar yang tidak mungkin tertembus tidak
+memagari apa pun. Diturunkan dari kontrak supaya ikut bergerak kalau ProbeName
+bertambah."""
+
+DEFAULT_STEP_TIMEOUT = 45.0
+
+DEFAULT_MIN_CONFIDENCE = 0.4
+"""Pagar #5. Komposit menormalkan ulang atas komponen yang TERSEDIA, jadi satu
+komponen ekstrem sendirian menghasilkan skor 100 dengan keyakinan 0,22 — dan
+band "sangat waspada" yang ditulis dari satu probe terbaca sama otoritatifnya
+dengan yang ditulis dari enam. Riwayat 9 hari NICK (30-85-56-71-36-100-64-0-52)
+hampir seluruhnya artefak ini, bukan pergerakan emitennya.
+
+Di bawah ambang ini `conclude` ditolak SELAMA masih ada probe yang terbeli.
+Kalau pagu memang habis, `conclude` tetap diizinkan dan transkrip jujur soal
+keyakinannya — memaksa agen menarik data di luar pagu bukan kejujuran, itu cuma
+pagar lain yang bohong."""
 
 
 def _env_number(name: str, default: float) -> float:
@@ -67,6 +88,17 @@ def step_timeout() -> float:
     return max(0.1, _env_number("PANTAU_STEP_TIMEOUT", DEFAULT_STEP_TIMEOUT))
 
 
+def min_confidence() -> float:
+    """Ambang keyakinan sebelum agen boleh menyimpulkan. 0 mematikan pagar."""
+    return max(0.0, min(1.0, _env_number("PANTAU_MIN_CONFIDENCE", DEFAULT_MIN_CONFIDENCE)))
+
+
+def _detik(nilai: float) -> str:
+    """Timeout untuk dibaca manusia, koma desimal. `f"{0.5:.0f}"` mencetak
+    "0 detik" — pesan yang membuat operator mengira pagarnya nol."""
+    return f"{nilai:g}".replace(".", ",")
+
+
 @dataclass(frozen=True)
 class Verdict:
     """Boleh atau tidak, berikut alasan yang layak masuk transkrip."""
@@ -87,6 +119,7 @@ class Guardrails:
 
     limit_steps: int = field(default_factory=max_steps)
     timeout: float = field(default_factory=step_timeout)
+    min_confidence: float = field(default_factory=min_confidence)
     used: set[str] = field(default_factory=set)
     """Probe yang sudah dijalankan. Kunci pagar 'satu probe sekali'."""
     steps_taken: int = 0
@@ -107,6 +140,22 @@ class Guardrails:
         if name in self.used:
             return self._breach(f"probe '{name}' sudah dijalankan di investigasi ini")
         return BOLEH
+
+    def may_conclude(self, confidence: float, ada_probe_terjangkau: bool) -> Verdict:
+        """Pagar #5 — boleh menyimpulkan dengan keyakinan sesegini?
+
+        Ditolak hanya kalau masih ADA yang bisa dibeli. Agen yang kehabisan pagu
+        harus tetap boleh menutup; yang tidak boleh adalah berhenti karena
+        satu probe kebetulan menjawab keras, lalu angka tipis itu tampil sebagai
+        "sangat waspada" di papan.
+        """
+        if self.min_confidence <= 0 or confidence >= self.min_confidence:
+            return BOLEH
+        if not ada_probe_terjangkau:
+            return BOLEH
+        return self._breach(
+            f"keyakinan {confidence:.0%} < {self.min_confidence:.0%}, masih ada probe terjangkau"
+        )
 
     def note_run(self, name: str) -> None:
         self.used.add(name)
@@ -144,18 +193,22 @@ class Guardrails:
         if name not in PROBE_NAMES:  # pragma: no cover — dijaga may_run()
             raise ValueError(f"run_probe dipanggil untuk probe tak dikenal '{name}' — "
                              "panggil may_run() dulu")
-        with ThreadPoolExecutor(max_workers=1, thread_name_prefix=f"probe-{name}") as pool:
+        # JANGAN `with ThreadPoolExecutor(...)`: __exit__ memanggil
+        # shutdown(wait=True), yang MENUNGGU thread yang menggantung selesai —
+        # membatalkan shutdown(wait=False, cancel_futures=True) di dalamnya dan
+        # membuat run_probe kembali setelah probe selesai, berapa pun timeout-nya.
+        # Pagar #2 jadi dekoratif, dan satu probe yang menggantung di jaringan
+        # bisa menyandera cron 17:30 semalaman.
+        pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix=f"probe-{name}")
+        try:
             future = pool.submit(probe.run, symbol, ctx)
             try:
                 hasil = future.result(timeout=self.timeout)
             except FutureTimeout:
-                self._breach(f"probe '{name}' melewati timeout {self.timeout:.0f} detik")
-                # Thread-nya dibiarkan selesai sendiri; yang penting investigasi
-                # tidak ikut menggantung. Prosesnya toh berumur satu investigasi.
-                pool.shutdown(wait=False, cancel_futures=True)
+                self._breach(f"probe '{name}' melewati timeout {_detik(self.timeout)} detik")
                 return ProbeResult(
                     probe=name, sub_score=None, credits_spent=0,
-                    unavailable_reason=f"probe melewati timeout {self.timeout:.0f} detik",
+                    unavailable_reason=f"probe melewati timeout {_detik(self.timeout)} detik",
                 )
             except Exception as exc:  # noqa: BLE001 — kegagalan probe tidak boleh
                 # menjatuhkan investigasi; agen wajib bisa menyimpulkan.
@@ -165,6 +218,11 @@ class Guardrails:
                     probe=name, sub_score=None, credits_spent=0,
                     unavailable_reason=f"probe gagal: {type(exc).__name__}: {exc}"[:200],
                 )
+        finally:
+            # wait=False: thread yang menggantung dibiarkan mati sendiri. Yang
+            # penting investigasi tidak ikut menggantung — prosesnya toh berumur
+            # satu investigasi.
+            pool.shutdown(wait=False, cancel_futures=True)
 
         return _sanitize(hasil, name)
 

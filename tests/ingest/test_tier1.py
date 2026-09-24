@@ -170,6 +170,94 @@ def test_warehouse_kosong_memberi_daftar_kosong(tmp_path):
     assert t1.screen(Warehouse(tmp_path), AS_OF) == []
 
 
+# ── normalisasi & sesi — AUDIT B2, B3 ───────────────────────────────────────
+@pytest.mark.parametrize("nama", sorted(t1.PENUH))
+def test_normalisasi_monoton_per_sinyal(nama):
+    """Regresi B2: `_clip` lama memberi 1,5σ = 1,0 tapi 3σ = 0,5 — fungsi yang
+    memilih emiten mana yang diselidiki agen tiap hari tidak monoton."""
+    nilai = [-1.0, 0.0, 0.1, 0.3, 0.6, 1.0, 1.4, 1.5, 1.6, 3.0, 6.0, 10.0, 100.0]
+    hasil = [t1._norm(nama, v) for v in nilai]
+    assert hasil == sorted(hasil)
+    assert all(0.0 <= h <= 1.0 for h in hasil)
+    assert t1._norm(nama, None) == 0.0
+
+
+def test_volume_3_sigma_di_atas_1_5_sigma():
+    assert t1._norm("volume_z", 3.0) > t1._norm("volume_z", 1.5)
+
+
+HARI_KERJA = [d.date() for d in pd.bdate_range("2026-08-03", "2026-09-11")]  # 30 sesi
+AS_OF_SESI = HARI_KERJA[-1]
+
+
+def _deret(sym, hari, harga=None, lonjakan=False):
+    """Deret harian dengan volume yang bervariasi (MAD > 0); `lonjakan` membuat
+    baris terakhirnya melonjak."""
+    baris = [{"trade_date": d, "symbol": sym, "close_price": (harga or {}).get(d, 100.0),
+              "volume": 1_000_000 + (i % 5) * 100_000, "market_cap": None}
+             for i, d in enumerate(hari)]
+    if lonjakan:
+        baris[-1]["volume"] = 50_000_000
+    return baris
+
+
+@pytest.fixture
+def wh_sesi(tmp_path):
+    """REF terisi tiap sesi, jadi kalender bursa warehouse lengkap 30 sesi."""
+    wh = Warehouse(tmp_path / "sesi")
+    wh.write("daily_transaction", pd.DataFrame(_deret("REF", HARI_KERJA)))
+    return wh
+
+
+def _kandidat(wh, sym):
+    return next((c for c in t1.screen(wh, AS_OF_SESI, size=100) if c["symbol"] == sym), None)
+
+
+def test_return_dihitung_atas_sesi_bukan_baris(wh_sesi):
+    """Regresi B3, bentuk PACK: riwayat lalu lompat ke hari acuan. Dulu baris
+    ke-6 dari belakang dianggap "5 hari lalu", padahal berminggu-minggu."""
+    hari = HARI_KERJA[:22] + [AS_OF_SESI]
+    wh_sesi.write("daily_transaction",
+                  pd.DataFrame(_deret("LOMPAT", hari, {AS_OF_SESI: 200.0})))
+    c = _kandidat(wh_sesi, "LOMPAT")
+
+    assert c["signals"]["return_5d"] is None, "5 sesi terakhir kosong — tidak tersedia"
+    assert c["signals"]["return_20d"] == pytest.approx(1.0), \
+        "kedua ujung 20 sesi ada di sesi yang tepat, jadi return-nya sah"
+
+
+def test_return_5d_none_bila_enam_sesi_terakhir_berlubang(wh_sesi):
+    hari = [d for d in HARI_KERJA if d != HARI_KERJA[-3]]
+    wh_sesi.write("daily_transaction", pd.DataFrame(_deret("BOLONG", hari)))
+    assert _kandidat(wh_sesi, "BOLONG")["signals"]["return_5d"] is None
+
+
+def test_return_5d_utuh_dihitung_benar(wh_sesi):
+    harga = {HARI_KERJA[-6]: 100.0, AS_OF_SESI: 130.0}
+    wh_sesi.write("daily_transaction", pd.DataFrame(_deret("UTUH", HARI_KERJA, harga)))
+    assert _kandidat(wh_sesi, "UTUH")["signals"]["return_5d"] == pytest.approx(0.30)
+
+
+def test_emiten_dengan_riwayat_pendek_tidak_diranking(wh_sesi):
+    """Dua-tiga baris dari most-traded bukan riwayat untuk dinilai."""
+    wh_sesi.write("daily_transaction", pd.DataFrame(_deret("PENDEK", HARI_KERJA[-5:])))
+    assert _kandidat(wh_sesi, "PENDEK") is None
+
+
+def test_lonjakan_volume_lama_bukan_sinyal_hari_ini(wh_sesi):
+    """Baris terakhir FOSIL 10 sesi lalu. Tanpa batas kesegaran, lonjakan itu
+    mendorongnya ke atas watchlist setiap hari sampai ada yang menarik datanya
+    lagi — persis emiten 7 Sep yang bertahan di watchlist berminggu-minggu."""
+    wh_sesi.write("daily_transaction", pd.DataFrame(
+        _deret("FOSIL", HARI_KERJA[:-10], lonjakan=True)
+        + _deret("SEGAR", HARI_KERJA, lonjakan=True)))
+    fosil, segar = _kandidat(wh_sesi, "FOSIL"), _kandidat(wh_sesi, "SEGAR")
+
+    assert fosil["signals"]["volume_z"] is None
+    assert segar["signals"]["volume_z"] > 6
+    assert segar["score"] > fosil["score"]
+
+
 # ── artefak run ─────────────────────────────────────────────────────────────
 def test_artefak_run_lengkap_dan_bisa_diurai(tmp_path, wh):
     ledger = CreditLedger(tmp_path / "l.jsonl")

@@ -1,9 +1,9 @@
-"""Sapuan Tier-1: sinyal pasar market-wide, target ≤6 kredit per hari bursa.
+"""Sapuan Tier-1: sinyal pasar harian, target ≤6 kredit per hari bursa.
 
-Ini yang dijalankan cron tiap sore. Lima panggilan menutup seluruh IDX:
+Ini yang dijalankan cron tiap sore. Empat panggilan (fetch-close dikeluarkan —
+±32 kredit/hari; lihat routing.TIER1_SWEEP):
 
-    fetch-close                  harga penutupan semua ticker      1 kredit
-    fetch-most-traded-stocks     paling ramai diperdagangkan       1 kredit
+    fetch-most-traded-stocks     paling ramai diperdagangkan       2 kredit
     fetch-companies-top-changes  penggerak harga terbesar          1 kredit
     fetch-suspensions            suspensi baru                     1 kredit
     fetch-filings                filing insider baru               1 kredit
@@ -33,7 +33,7 @@ from pathlib import Path
 import pandas as pd
 
 from core.console import setup_console
-from core.ingest.warehouse import Warehouse, price_frame
+from core.ingest.warehouse import Warehouse, price_frame, trading_days
 from core.sectors.client import CreditAwareClient
 from core.sectors.errors import SectorsError, TransportUnavailable
 from core.sectors.ledger import CreditLedger
@@ -69,6 +69,28 @@ BOBOT = {
 }
 
 SMALL_CAP_RP = 5_000_000_000_000  # Rp 5 T — batas kasar small/mid cap IDX
+
+# Nilai tiap sinyal yang dianggap penuh (1,0); di antaranya linear, dipotong di
+# [0, 1] — jadi monoton per sinyal. Pengganti `_clip` tunggal yang membagi 6
+# hanya bila nilai > 1,5: z-score 1,5σ bernilai 1,0 sementara 3σ cuma 0,5, dan
+# itulah yang memilih emiten mana yang diselidiki agen tiap hari. [AUDIT B2]
+PENUH = {
+    "volume_z": 6.0,      # selaras ambang atas probe VAS (Z_HIGH)
+    "return_5d": 0.30,    # +30% dalam 5 sesi
+    "return_20d": 0.60,   # +60% dalam 20 sesi
+    "small_cap": 1.0,     # sudah 0/1
+    "peristiwa": 1.0,     # sudah 0/1
+}
+
+MIN_BARIS = 20
+"""Emiten dengan riwayat lebih pendek tidak diranking. Universe harga sebagian
+besar cuma muncul sesekali di most-traded/top-changes (median 2 baris); sinyal
+dari dua baris adalah kebisingan, bukan antrean. [AUDIT B3]"""
+
+SESI_SEGAR = 5
+"""Sinyal harus terjadi dalam jendela ini (5 sesi + hari acuan) supaya ikut
+diranking. Tanpa batas, lonjakan volume yang terakhir terlihat 7 Sep tetap
+mendorong emiten itu ke atas berminggu-minggu — watchlist beku."""
 
 
 @dataclass
@@ -175,6 +197,14 @@ def screen(wh: Warehouse, as_of: date, size: int = WATCHLIST_SIZE) -> list[dict]
     Bukan skor PANTAU. Ini cuma urutan "siapa yang layak dilihat lebih dulu",
     dan sengaja memakai sinyal yang gratis — kalau penyaringannya sendiri
     berbayar, seluruh alasan keberadaan agen (menghemat kredit) runtuh.
+
+    Sinyal dihitung atas SESI bursa, bukan baris: harga diselaraskan ke
+    kalender warehouse, jadi "return 5 hari" emiten yang barisnya 7 Sep lalu
+    17 Sep tidak diam-diam menjadi return tiga bulan. [AUDIT B3]
+
+    Universe efektifnya bukan seluruh pasar: emiten backfill ditambah
+    most-traded/top-changes harian, karena fetch-close (±32 kredit/hari) sudah
+    dikeluarkan dari sapuan. Emiten di luar itu tidak punya riwayat untuk dinilai.
     """
     harga = price_frame(wh, as_of=as_of)
     if harga.empty:
@@ -183,20 +213,24 @@ def screen(wh: Warehouse, as_of: date, size: int = WATCHLIST_SIZE) -> list[dict]
     profil = wh.frame("company_profile", as_of=as_of).set_index("symbol") \
         if wh.exists("company_profile") else pd.DataFrame()
     peristiwa = _peristiwa_terbaru(wh, as_of)
+    sesi = trading_days(wh, as_of, 21)
+    segar_sejak = sesi[-1 - SESI_SEGAR] if len(sesi) > SESI_SEGAR else None
 
     baris = []
     for symbol, g in harga.groupby("symbol"):
-        closes = g["close_price"].dropna().astype(float)
-        if len(closes) < 6:
+        seri = pd.Series(g["close_price"].astype(float).to_numpy(),
+                         index=pd.to_datetime(g["trade_date"]).dt.date).dropna()
+        if len(seri) < MIN_BARIS:
             continue
+        selaras = seri.reindex(sesi)
         sinyal = {
-            "return_5d": _pct(closes, 5),
-            "return_20d": _pct(closes, 20),
-            "volume_z": _volume_z(trans, symbol),
+            "return_5d": _return_sesi(selaras, 5, utuh=True),
+            "return_20d": _return_sesi(selaras, 20),
+            "volume_z": _volume_z(trans, symbol, sejak=segar_sejak),
             "small_cap": _small_cap(profil, symbol),
             "peristiwa": 1.0 if symbol in peristiwa else 0.0,
         }
-        skor = sum(BOBOT[k] * _clip(v) for k, v in sinyal.items())
+        skor = sum(BOBOT[k] * _norm(k, v) for k, v in sinyal.items())
         baris.append({
             "symbol": symbol,
             "score": round(skor, 4),
@@ -208,19 +242,34 @@ def screen(wh: Warehouse, as_of: date, size: int = WATCHLIST_SIZE) -> list[dict]
     return baris[:size]
 
 
-def _pct(closes: pd.Series, sessions: int) -> float | None:
-    if len(closes) <= sessions:
+def _return_sesi(selaras: pd.Series, sessions: int, utuh: bool = False) -> float | None:
+    """Return atas `sessions` sesi bursa; `selaras` sudah di-reindex ke kalender.
+
+    Kedua ujung wajib ada di sesi yang tepat. `utuh=True` juga menolak lubang di
+    antaranya — untuk jendela pendek, satu sesi hilang berarti yang terlihat
+    bukan pergerakan 5 hari itu. None = tidak tersedia, bukan nol.
+    """
+    if len(selaras) <= sessions:
         return None
-    awal = float(closes.iloc[-1 - sessions])
-    return None if awal <= 0 else float(closes.iloc[-1]) / awal - 1
+    jendela = selaras.iloc[-1 - sessions:]
+    if utuh and jendela.isna().any():
+        return None
+    awal, akhir = jendela.iloc[0], jendela.iloc[-1]
+    if pd.isna(awal) or pd.isna(akhir) or awal <= 0:
+        return None
+    return float(akhir) / float(awal) - 1
 
 
-def _volume_z(trans: pd.DataFrame, symbol: str) -> float | None:
+def _volume_z(trans: pd.DataFrame, symbol: str, sejak: date | None = None) -> float | None:
+    """Z-score robust volume baris terakhir. None kalau baris terakhir itu lebih
+    tua dari `sejak` — lonjakan lama bukan sinyal hari ini."""
     if trans.empty:
         return None
     g = trans[trans["symbol"] == symbol].sort_values("trade_date")
     volumes = g["volume"].dropna().astype(float)
     if len(volumes) < 20:
+        return None
+    if sejak is not None and pd.to_datetime(g.loc[volumes.index[-1], "trade_date"]).date() < sejak:
         return None
     baseline = volumes.iloc[:-1]
     median = baseline.median()
@@ -247,11 +296,12 @@ def _peristiwa_terbaru(wh: Warehouse, as_of: date, hari: int = 5) -> set[str]:
     return keluar
 
 
-def _clip(value: float | None) -> float:
-    """Normalisasi kasar ke 0–1. None = sinyal tidak tersedia, bukan nol."""
+def _norm(nama: str, value: float | None) -> float:
+    """Normalisasi satu sinyal ke 0–1, monoton. None = sinyal tidak tersedia —
+    tidak menyumbang skor, tapi juga tidak dihukum seperti nilai negatif."""
     if value is None:
         return 0.0
-    return max(0.0, min(1.0, value / 6.0 if value > 1.5 else value))
+    return max(0.0, min(1.0, value / PENUH[nama]))
 
 
 def _alasan(sinyal: dict, ada_peristiwa: bool) -> str:
@@ -260,6 +310,8 @@ def _alasan(sinyal: dict, ada_peristiwa: bool) -> str:
         bagian.append(f"volume {z:.1f}σ di atas baseline")
     if (r := sinyal["return_5d"]) is not None and abs(r) >= 0.1:
         bagian.append(f"harga {r * 100:+.0f}% dalam 5 hari bursa")
+    if (r := sinyal["return_20d"]) is not None and abs(r) >= 0.2:
+        bagian.append(f"harga {r * 100:+.0f}% dalam 20 hari bursa")
     if sinyal["small_cap"] == 1.0:
         bagian.append("kapitalisasi kecil")
     if ada_peristiwa:

@@ -5,6 +5,8 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from core.agent.budget import ESCALATION_LIMIT, Budget  # noqa: E402
@@ -54,3 +56,41 @@ def test_refund_mengembalikan_pagu_yang_tidak_jadi_dipakai():
     pool = b.pool
     assert b.refund(6) == 6
     assert b.pool == pool - 6
+
+
+# ── fase kredit ─────────────────────────────────────────────────────────────
+def test_investigasi_memakai_fase_kredit_milik_klien(monkeypatch, tmp_path):
+    """Agen tidak boleh mengarang fase kredit sendiri.
+
+    Regresi: runner sempat menyetel phase="agent", yang tidak ada di
+    `ledger.CAPS`. `check()` memperlakukan fase tak dikenal sebagai pagu nol,
+    jadi tiap tarikan probe ditolak BudgetExceeded — dan karena probe memang
+    dikontrak untuk melanjutkan dengan warehouse seadanya [AD-6], gejalanya
+    bukan kegagalan yang terlihat melainkan investigasi 0 kredit yang terbaca
+    seperti penghematan. Sembilan transkrip pertama proyek ini semuanya begitu.
+    """
+    from datetime import date
+
+    from core.agent import runner as runner_mod
+    from core.sectors.ledger import CAPS
+
+    ditangkap = {}
+
+    class ContextPalsu:
+        def __init__(self, **kw):
+            ditangkap.update(kw)
+
+    class KlienPalsu:
+        phase = "daily"
+
+    monkeypatch.setattr(runner_mod, "Context", ContextPalsu)
+    monkeypatch.setattr(runner_mod, "Warehouse", lambda *a, **k: object())
+
+    # Cukup sampai Context terbentuk; tahap berikutnya sengaja dijegal.
+    monkeypatch.setattr(runner_mod, "Memory", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("stop")))
+    with pytest.raises(RuntimeError, match="stop"):
+        runner_mod.investigate_symbol("FIXA", as_of=date(2026, 9, 22),
+                                      offline=True, client=KlienPalsu())
+
+    assert ditangkap["phase"] == "daily", "fase harus ikut klien, bukan dikarang runner"
+    assert ditangkap["phase"] in CAPS, "fase yang dipakai agen wajib punya pagu di CAPS"

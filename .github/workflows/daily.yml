@@ -8,6 +8,9 @@
 # TAHAP 2 : agen menyelidiki top-N kandidat -> commit runs/investigations/
 #           Aktif kalau secret MINIMAX_API_KEY ada; kalau tidak, dilewati (bukan
 #           gagal) supaya Tahap 1 tetap menyumbang bukti otonom tiap hari.
+# EKSPOR  : runs/ -> web/public/data/, supaya web ikut hidup tanpa sentuhan.
+# PERMINTAAN: issue `selidiki` diselidiki lebih dulu di Tahap 2, lalu ditutup
+#           dengan tautan transkrip SETELAH commit terdorong.
 
 name: Pipeline harian
 
@@ -35,9 +38,15 @@ on:
         required: false
         type: string
         default: "3"
+      symbols:
+        description: "Kode emiten dipisah koma, diselidiki lebih dulu (mis. BBCA,TLKM). Untuk demo."
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: write
+  issues: write   # jalur permintaan: baca issue `selidiki`, tutup dengan tautan [AUDIT T3]
 
 # Dua jalannya sekaligus akan saling menimpa commit warehouse.
 concurrency:
@@ -99,11 +108,17 @@ jobs:
       # menyumbang artefak, dan cron tidak boleh merah cuma karena LLM belum
       # disetel. Anggaran ganda: pagu fase `daily` di CreditAwareClient + top-N
       # kecil. LLM MiniMax terpisah dari kredit Sectors [K9].
+      #
+      # Permintaan dari issue `selidiki` (dan input `symbols`) diselidiki LEBIH
+      # DULU, maks 3 per malam. Isi issue tak tepercaya — divalidasi di Python,
+      # tidak pernah menyentuh shell ini; input dispatch pun lewat env. [AUDIT T3]
       - name: Tahap 2 — investigasi agen
         env:
           SECTORS_API_KEY: ${{ secrets.SECTORS_API_KEY }}
           MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
           PANTAU_LLM_PROVIDER: minimax
+          GH_TOKEN: ${{ github.token }}
+          SYMBOLS: ${{ inputs.symbols }}
         run: |
           if [ "${{ inputs.investigate }}" = "false" ]; then
             echo "Tahap 2 dilewati (input investigate=false)"; exit 0
@@ -112,15 +127,30 @@ jobs:
             echo "::warning::MINIMAX_API_KEY tidak ada — Tahap 2 dilewati. Setel secret untuk mengaktifkan investigasi otonom."
             exit 0
           fi
+          # Label harus ada supaya template issue memasangnya. Idempoten.
+          gh label create selidiki --color 0E8A16 \
+            --description "Permintaan investigasi PANTAU" 2>/dev/null || true
           python tools/investigate_watchlist.py \
             --as-of "${{ steps.tanggal.outputs.as_of }}" \
-            --top "${{ inputs.top_n || '3' }}"
+            --top "${{ inputs.top_n || '3' }}" \
+            --requests --symbols="$SYMBOLS"
+
+      # Web membaca web/public/data/, bukan runs/. Tanpa langkah ini index.json
+      # beku sejak 11 Sep walau cron sukses tiap hari. [AUDIT B5]
+      # Gagal ekspor TIDAK boleh menjatuhkan commit hari itu: sapuan dan
+      # investigasi tetap bukti yang sah walau web tertinggal satu malam.
+      # to_json sendiri menolak transkrip yang tidak lolos kontrak.
+      - name: Ekspor data web
+        run: |
+          python -m core.export.to_json \
+            || echo "::warning::ekspor web gagal sebagian — web/public/data mungkin tertinggal"
 
       - name: Posisi kredit sesudah
         run: make credits
 
-      # Menyaring artefak SESUDAH Tahap 2, supaya narasi LLM tersimpan ikut
-      # diperiksa — kalimat terlarang tidak boleh sempat ter-commit. [K5]
+      # Menyaring artefak SESUDAH Tahap 2 dan ekspor web, supaya narasi LLM
+      # tersimpan ikut diperiksa di kedua tempat — kalimat terlarang tidak boleh
+      # sempat ter-commit. [K5]
       - name: Larangan kosakata atas artefak baru
         run: make vocab
 
@@ -129,7 +159,12 @@ jobs:
           git config user.name "pantau-bot"
           git config user.email "pantau-bot@users.noreply.github.com"
 
-          git add runs/ data/warehouse/ data/credit_ledger.jsonl data/memory.duckdb
+          # data/llm_ledger.jsonl WAJIB ikut: Tahap 2 menulisnya tiap kali agen
+          # memanggil LLM. Kalau tidak di-add, ia tertinggal unstaged dan
+          # memblokir `pull --rebase` di bawah — persis yang menjatuhkan cron
+          # 21 Sep (seluruh commit hilang, investigasi ikut hangus).
+          git add runs/ data/warehouse/ web/public/data/ \
+                  data/credit_ledger.jsonl data/llm_ledger.jsonl data/memory.duckdb
           if git diff --cached --quiet; then
             echo "tidak ada perubahan untuk di-commit"
             exit 0
@@ -148,22 +183,47 @@ jobs:
           git commit -m "$MSG"
 
           # Rebase dulu: lajur lain merge ke main tiap hari, dan commit otomatis
-          # tidak boleh menimpa kerja mereka.
+          # tidak boleh menimpa kerja mereka. --autostash: kalau toh ada berkas
+          # terlacak yang tersentuh tapi belum di-add, ia disimpan sementara dan
+          # dikembalikan setelah rebase — jaring pengaman kedua supaya satu
+          # berkas terlewat tidak pernah lagi menjatuhkan seluruh push.
           for attempt in 1 2 3; do
-            git pull --rebase origin "${GITHUB_REF_NAME}" && git push && exit 0
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push && exit 0
             echo "percobaan push $attempt gagal, coba lagi"
             sleep $((attempt * 5))
           done
           echo "::error::gagal push artefak setelah 3 percobaan"
           exit 1
 
+      # SETELAH push, bukan sebelumnya: tautan transkrip baru hidup setelah
+      # commit ada di main. Kalau commit gagal, langkah ini tidak jalan dan
+      # issue tetap terbuka — lebih baik daripada ditutup dengan tautan mati.
+      # Gagal menutup cuma warning; issue terbuka ikut antrean malam berikutnya.
+      - name: Tutup permintaan yang terpenuhi
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python tools/permintaan.py tutup --as-of "${{ steps.tanggal.outputs.as_of }}" \
+            || echo "::warning::sebagian issue permintaan belum tertutup"
+
       # Bukti untuk juri: artefak bisa diunduh dari halaman run, ber-timestamp,
       # walau commit-nya gagal karena alasan lain.
+      #
+      # Transkrip investigasi hari itu WAJIB ikut. Commit 21 dan 23 Sep gagal,
+      # dan karena dulu cuma runs/<tanggal>/ yang diunggah, sapuannya bisa
+      # dipulihkan tapi investigasinya hilang tanpa jejak — harus dibayar ulang
+      # dengan kredit, dan hasilnya bukan lagi yang dibuat cron. [PR #16]
+      #
+      # Dua path → akar artefak jadi runs/, jadi pulihkan dengan unzip ke runs/.
+      # Isinya mentah, belum tentu lolos gerbang kosakata (23 Sep justru gagal di
+      # sana) — memulihkan dari sini tetap lewat `make vocab` sebelum commit. [K5]
       - name: Unggah artefak run
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: run-${{ steps.tanggal.outputs.as_of }}
-          path: runs/${{ steps.tanggal.outputs.as_of }}/
+          path: |
+            runs/${{ steps.tanggal.outputs.as_of }}/
+            runs/investigations/*-${{ steps.tanggal.outputs.as_of }}.json
           if-no-files-found: warn
           retention-days: 30

@@ -10,6 +10,7 @@ Empat baris QA di TASK_MELCO.md M2 diuji di sini:
 
 from __future__ import annotations
 
+import pandas as pd
 import pytest
 
 from contracts.schemas import PROBE_TO_COMPONENT, ProbeResult
@@ -180,7 +181,7 @@ def test_biaya_probe_sesuai_biaya_terdokumentasi():
     assert cost_table() == {
         "broker_concentration": 3,   # broker-summary-top 2 + broker-summary 1
         "volume_anomaly": 1,
-        "price_fundamental": 6,      # fetch-close 1 + quarterly 5 (1/kuartal)
+        "price_fundamental": 6,      # daily-transaction 1 + quarterly 5 (1/kuartal)
         "free_float": 1,
         "foreign_flow": 2,           # foreign-flow 1 + daily-transaction 1
         "structural": 3,             # suspensions 1 + filings 1 + corp-actions 1
@@ -194,6 +195,16 @@ def test_investigasi_menyeluruh_muat_di_pagar_agen():
     assert baseline_credits() <= 25
 
 
+def test_pfd_meminta_kuartal_sebanyak_yang_dianggarkan():
+    """Tarif per kuartal: n_quarters yang diminta probe adalah biayanya. Minta
+    lebih dari units di routing = belanja melebihi perkiraan perencana."""
+    from core.probes import fundamental
+    from core.sectors.routing import route
+
+    assert route("fetch-quarterly-financials").units == fundamental.N_KUARTAL
+    assert fundamental.N_KUARTAL > fundamental.YOY_LAG_QUARTERS, "minimum year-on-year"
+
+
 def test_katalog_probe_lolos_kontrak():
     entri = catalog()
     assert len(entri) == 6
@@ -202,3 +213,233 @@ def test_katalog_probe_lolos_kontrak():
         assert 0 <= e.credit_cost <= 3, "ToolCatalogEntry mematok 0..3"
         assert len(e.description) > 60, "deskripsi terlalu pendek untuk dipakai perencana"
         assert e.args_schema["required"] == ["symbol"]
+
+
+# ── kesegaran data ──────────────────────────────────────────────────────────
+class _KlienPalsu:
+    """Klien yang mencatat panggilan, nol jaringan."""
+
+    def __init__(self) -> None:
+        self.panggilan: list[str] = []
+
+    def rows(self, endpoint, params, phase=None, symbol=None):
+        from types import SimpleNamespace
+
+        self.panggilan.append(endpoint)
+        return [], SimpleNamespace(credits_spent=1, cached=False)
+
+
+@pytest.fixture
+def warehouse_tertinggal(tmp_path):
+    """Warehouse yang meniru keadaan produksi 8–22 Sep.
+
+    MANDEK punya riwayat panjang yang berhenti di 7 Sep. SAPUAN terus diisi
+    sapuan Tier-1 harian sampai 22 Sep — jadi kalender bursa maju, sementara
+    satu emiten diam-diam tertinggal. Justru beda inilah yang bisa dideteksi:
+    kalau seluruh warehouse berhenti bersamaan, tidak ada acuan untuk menyebutnya
+    basi, dan itu keadaan yang berbeda (pipeline mati, bukan emiten terlewat).
+    """
+    from datetime import date
+
+    from core.ingest.warehouse import Warehouse
+
+    wh = Warehouse(tmp_path)
+    baris = []
+    for hari in range(1, 8):  # 1–7 Sep, keduanya terisi
+        for sym in ("MANDEK", "SAPUAN"):
+            baris.append({"trade_date": date(2026, 9, hari), "symbol": sym,
+                          "close_price": 100.0, "volume": 1_000_000, "market_cap": None})
+    for hari in (8, 9, 10, 11, 14, 15, 16, 17, 18, 22):  # hanya SAPUAN yang lanjut
+        baris.append({"trade_date": date(2026, 9, hari), "symbol": "SAPUAN",
+                      "close_price": 100.0, "volume": 1_000_000, "market_cap": None})
+    wh.write("daily_transaction", pd.DataFrame(baris))
+    return wh
+
+
+def _ctx(wh, klien):
+    from datetime import date
+
+    return Context(as_of=date(2026, 9, 22), warehouse=wh, client=klien, budget_remaining=25)
+
+
+def test_ensure_menarik_lagi_saat_deret_harian_berhenti_diperbarui(warehouse_tertinggal):
+    """Riwayat panjang tapi mandek BUKAN data yang cukup.
+
+    Regresi untuk cacat 8–22 Sep: kandidat watchlist punya ratusan baris
+    daily_transaction yang berhenti di 7 Sep, dan karena `ensure` cuma
+    menghitung baris, probe volume tidak pernah menembak API lagi — nol kredit
+    terbakar, bukti menua diam-diam, dan skor watchlist tercetak identik
+    sembilan hari bursa berturut-turut.
+    """
+    klien = _KlienPalsu()
+    ctx = _ctx(warehouse_tertinggal, klien)
+
+    ctx.ensure("daily_transaction", "fetch-daily-transaction", {"symbol": "MANDEK"},
+               symbol="MANDEK", where="symbol = ?", where_params=["MANDEK"], fresh=True)
+    assert klien.panggilan == ["fetch-daily-transaction"], \
+        "fresh=True wajib menarik lagi ketika baris terbaru belum mencapai hari bursa terakhir"
+
+
+def test_ensure_diam_saat_data_sudah_mencapai_hari_bursa_terakhir(warehouse_tertinggal):
+    """Emiten yang memang terisi sampai hari bursa terakhir tidak ditarik lagi —
+    pembandingnya kalender bursa di warehouse, bukan selisih hari kalender, jadi
+    akhir pekan dan libur bursa tidak terbaca sebagai basi."""
+    klien = _KlienPalsu()
+    ctx = _ctx(warehouse_tertinggal, klien)
+
+    ctx.ensure("daily_transaction", "fetch-daily-transaction", {"symbol": "SAPUAN"},
+               symbol="SAPUAN", where="symbol = ?", where_params=["SAPUAN"], fresh=True)
+    assert klien.panggilan == []
+
+
+def test_ensure_tanpa_fresh_mempertahankan_perilaku_lama(warehouse_tertinggal):
+    """Tabel peristiwa (suspensi, filing) tidak berderet harian: kosong untuk
+    satu emiten itu temuan, bukan data hilang. Pemeriksaan kesegaran harus
+    ikut-serta, bukan diam-diam menyala untuk semua pemanggil."""
+    klien = _KlienPalsu()
+    ctx = _ctx(warehouse_tertinggal, klien)
+
+    ctx.ensure("daily_transaction", "fetch-daily-transaction", {"symbol": "MANDEK"},
+               symbol="MANDEK", where="symbol = ?", where_params=["MANDEK"])
+    assert klien.panggilan == []
+
+
+class _KlienBerledger(_KlienPalsu):
+    def __init__(self, ledger) -> None:
+        super().__init__()
+        self.ledger = ledger
+
+
+def _aksi(ctx):
+    return ctx.ensure("corporate_actions", "fetch-corporate-actions",
+                      {"symbol": "BERSIH", "start": "2024-09-01", "end": ctx.as_of.isoformat()},
+                      symbol="BERSIH", segar_hari=7)
+
+
+@pytest.fixture
+def ledger_bersih(tmp_path):
+    """Ledger yang mencatat aksi korporasi BERSIH sudah dibeli hari ini — dan
+    warehouse tidak punya satu baris pun untuknya, karena memang bersih."""
+    from core.sectors.ledger import CreditLedger
+
+    ledger = CreditLedger(tmp_path / "l.jsonl", caps={"daily": 250})
+    ledger.record(phase="daily", endpoint="fetch-corporate-actions", transport="mcp",
+                  credits=1, params_hash="x", symbol="BERSIH")
+    return ledger
+
+
+def test_aksi_korporasi_emiten_bersih_tidak_dibeli_ulang(ledger_bersih, tmp_path):
+    """AUDIT B6: nol baris = emiten bersih, temuan sah. Dulu ensure menganggapnya
+    'belum cukup' dan menarik ulang di setiap investigasi — 1 kredit bocor per
+    emiten bersih per hari, dan cache tidak menolong karena tidak di-commit."""
+    from datetime import date
+
+    from core.ingest.warehouse import Warehouse
+
+    klien = _KlienBerledger(ledger_bersih)
+    ctx = Context(as_of=date.today(), warehouse=Warehouse(tmp_path / "wh"), client=klien,
+                  budget_remaining=25)
+    assert _aksi(ctx) == 0
+    assert klien.panggilan == []
+
+
+def test_aksi_korporasi_dibeli_lagi_setelah_basi(ledger_bersih, tmp_path):
+    from datetime import date, timedelta
+
+    from core.ingest.warehouse import Warehouse
+
+    klien = _KlienBerledger(ledger_bersih)
+    ctx = Context(as_of=date.today() + timedelta(days=8), warehouse=Warehouse(tmp_path / "wh"),
+                  client=klien, budget_remaining=25)
+    _aksi(ctx)
+    assert klien.panggilan == ["fetch-corporate-actions"]
+
+
+def test_aksi_korporasi_emiten_baru_tetap_dibeli(tmp_path):
+    from datetime import date
+
+    from core.ingest.warehouse import Warehouse
+    from core.sectors.ledger import CreditLedger
+
+    klien = _KlienBerledger(CreditLedger(tmp_path / "kosong.jsonl"))
+    ctx = Context(as_of=date.today(), warehouse=Warehouse(tmp_path / "wh"), client=klien,
+                  budget_remaining=25)
+    _aksi(ctx)
+    assert klien.panggilan == ["fetch-corporate-actions"]
+
+
+@pytest.mark.parametrize("probe", SEMUA, ids=NAMA)
+def test_probe_hanya_membeli_yang_dianggarkan(probe, warehouse_tertinggal):
+    """AUDIT B4: yang dianggarkan harus sama dengan yang dibeli. PFD dulu
+    menganggarkan fetch-close yang tidak pernah dipanggil; pagu perencana
+    dihitung atas panggilan yang tidak pernah terjadi."""
+    klien = _KlienPalsu()
+    probe.run("MANDEK", _ctx(warehouse_tertinggal, klien))
+    assert set(klien.panggilan) <= set(probe.endpoints)
+    assert "fetch-close" not in klien.panggilan
+
+
+def test_pfd_menyegarkan_harga_yang_basi(warehouse_tertinggal):
+    """Return 90 hari dari harga yang berhenti di tanggal backfill bukan return
+    hari ini. PFD kini menyegarkan harga seperti VAS."""
+    klien = _KlienPalsu()
+    PROBES["price_fundamental"].run("MANDEK", _ctx(warehouse_tertinggal, klien))
+    assert klien.panggilan[0] == "fetch-daily-transaction"
+
+
+def _harian(sym, hari):
+    from datetime import date
+
+    return pd.DataFrame([{"trade_date": date(2026, 9, h), "symbol": sym, "close_price": 100.0,
+                          "volume": 1_000_000, "market_cap": None} for h in hari])
+
+
+def test_ensure_menarik_lagi_saat_baris_sapuan_menutupi_lubang(warehouse_tertinggal):
+    """Baris terbaru yang segar belum tentu deret yang utuh.
+
+    Sapuan Tier-1 menulis most-traded ke daily_transaction, tapi cuma untuk ±30
+    emiten teramai hari itu. Emiten yang riwayatnya berhenti di 7 Sep lalu masuk
+    most-traded 22 Sep punya baris 22 Sep — terbaca segar, padahal 8–18 Sep
+    kosong. Persis PACK di warehouse produksi: baris terakhir 17 Sep dari sapuan,
+    lubang 8–16 Sep di belakangnya.
+    """
+    warehouse_tertinggal.write("daily_transaction", _harian("TAMBAL", [*range(1, 8), 22]))
+    klien = _KlienPalsu()
+    ctx = _ctx(warehouse_tertinggal, klien)
+
+    ctx.ensure("daily_transaction", "fetch-daily-transaction",
+               {"symbol": "TAMBAL", "start": "2026-09-01", "end": "2026-09-22"},
+               symbol="TAMBAL", where="symbol = ?", where_params=["TAMBAL"], fresh=True)
+    assert klien.panggilan == ["fetch-daily-transaction"]
+
+
+def test_ensure_lubang_dihitung_dari_baris_pertama_emiten(warehouse_tertinggal):
+    """Emiten yang baru tercatat di tengah jendela tidak punya lubang — sesi
+    sebelum baris pertamanya bukan data hilang. Tanpa ini, tiap emiten baru
+    ditarik ulang di setiap investigasi."""
+    warehouse_tertinggal.write("daily_transaction", _harian("BARU", [15, 16, 17, 18, 22]))
+    klien = _KlienPalsu()
+    ctx = _ctx(warehouse_tertinggal, klien)
+
+    ctx.ensure("daily_transaction", "fetch-daily-transaction",
+               {"symbol": "BARU", "start": "2026-09-01", "end": "2026-09-22"},
+               symbol="BARU", where="symbol = ?", where_params=["BARU"], fresh=True)
+    assert klien.panggilan == []
+
+
+def test_ensure_tidak_mencari_lubang_di_tabel_agregat_rentang(warehouse_tertinggal):
+    """broker_summary dari fetch-broker-summary-top adalah AGREGAT satu rentang,
+    bertanggal satu hari — jarang memang bentuknya. Mencari lubang di sini akan
+    menarik ulang 2 kredit di setiap investigasi. Cukup baris terbarunya."""
+    from datetime import date
+
+    warehouse_tertinggal.write("broker_summary", pd.DataFrame([
+        {"trade_date": date(2026, 9, h), "symbol": "JARANG", "broker_code": "YP",
+         "net_value": 1.0, "buy_value": 2.0, "sell_value": 1.0} for h in (7, 22)]))
+    klien = _KlienPalsu()
+    ctx = _ctx(warehouse_tertinggal, klien)
+
+    ctx.ensure("broker_summary", "fetch-broker-summary-top",
+               {"symbol": "JARANG", "start": "2026-09-01", "end": "2026-09-22"},
+               symbol="JARANG", where="symbol = ?", where_params=["JARANG"], fresh=True)
+    assert klien.panggilan == []

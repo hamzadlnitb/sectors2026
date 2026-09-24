@@ -47,10 +47,28 @@ WIB = timezone(timedelta(hours=7))
 # bukan jam cron kita berjalan. [K7]
 MARKET_CLOSE = time(16, 0)
 
+# Tabel yang juga diisi sapuan Tier-1 — tapi cuma untuk ±30 emiten teramai hari
+# itu (core/ingest/tier1_market.py). Di sini baris terbaru bisa berasal dari
+# sapuan dan menutupi lubang di belakangnya, jadi "segar" berarti tanpa lubang,
+# bukan sekadar baris terakhirnya baru. Tabel lain sengaja tidak ikut:
+# broker_summary adalah agregat satu rentang bertanggal satu hari, jarang memang
+# bentuknya, dan mencari lubang di sana berarti menarik ulang tiap investigasi.
+DIISI_SAPUAN = frozenset({"daily_transaction", "daily_close"})
+
 
 def stamp(day: date) -> datetime:
     """Tanggal bursa → penanda waktu berzona WIB. Datetime naif ditolak kontrak."""
     return datetime.combine(day, MARKET_CLOSE, tzinfo=WIB)
+
+
+def _tanggal(nilai: Any) -> date | None:
+    """Parameter `start` probe (ISO string, date, atau None) → date."""
+    if nilai is None or isinstance(nilai, date):
+        return nilai
+    try:
+        return date.fromisoformat(str(nilai)[:10])
+    except ValueError:
+        return None
 
 
 def ramp(value: float, lo: float, hi: float) -> float:
@@ -137,24 +155,94 @@ class Context:
 
         return trading_days(self.warehouse, self.as_of, lookback)
 
+    def _tertinggal(self, table: str, existing: pd.DataFrame,
+                    since: date | None = None) -> bool:
+        """True kalau baris terbaru belum mencapai hari bursa terakhir ≤ as_of —
+        atau, untuk tabel DIISI_SAPUAN, kalau ada sesi bursa yang bolong di
+        jendela [since, as_of].
+
+        Pembandingnya kalender bursa yang benar-benar ada di warehouse, bukan
+        selisih hari kalender — kalau tidak, tiap Senin akan terbaca basi karena
+        data Jumat berumur tiga hari, dan tiap libur bursa memicu tarikan yang
+        tidak menghasilkan baris baru.
+
+        Lubang dihitung mulai baris pertama emiten itu, bukan dari `since`:
+        emiten yang baru tercatat di tengah jendela tidak kehilangan apa pun.
+        Suspensi di tengah jendela memang terbaca bolong dan memicu satu tarikan
+        per investigasi — harga yang wajar, karena justru emiten itu yang layak
+        dilihat dengan data utuh.
+        """
+        from core.ingest.warehouse import TABLES, trading_days
+
+        cut = TABLES[table].cut_column
+        if existing.empty or not cut or cut not in existing.columns:
+            return False
+        sesi = trading_days(self.warehouse, self.as_of, 1)
+        if not sesi:
+            return False
+        ada = set(pd.to_datetime(existing[cut], errors="coerce").dropna().dt.date)
+        if not ada:
+            return False
+        if max(ada) < sesi[-1]:
+            return True
+        if table not in DIISI_SAPUAN:
+            return False
+
+        awal = max(since, min(ada)) if since else min(ada)
+        jendela = trading_days(self.warehouse, self.as_of, (self.as_of - awal).days + 1)
+        return any(d >= awal and d not in ada for d in jendela)
+
+    def _baru_dibeli(self, endpoint: str, symbol: str | None, hari: int) -> bool:
+        """Ledger mencatat endpoint ini dibeli untuk emiten ini dalam `hari` terakhir?
+
+        Ledger di-commit cron tiap malam; cache respons tidak (data/cache/ ada di
+        .gitignore). Jadi di cron, ledger satu-satunya ingatan belanja yang
+        bertahan dari satu malam ke malam berikutnya.
+        """
+        ledger = getattr(self.client, "ledger", None)
+        if ledger is None or symbol is None:
+            return False
+        batas = (self.as_of - timedelta(days=hari)).isoformat()
+        return any(e.endpoint == endpoint and e.symbol == symbol and e.ts[:10] >= batas
+                   for e in ledger.entries())
+
     # ── ambil kalau kurang ──────────────────────────────────────────────────
     def ensure(self, table: str, endpoint: str, params: dict, *,
                symbol: str | None = None, min_rows: int = 1,
-               where: str = "", where_params: list | None = None) -> int:
+               where: str = "", where_params: list | None = None,
+               fresh: bool = False, segar_hari: int | None = None) -> int:
         """Isi warehouse dari Sectors kalau data yang dibutuhkan belum cukup.
 
         Mengembalikan kredit yang terbakar (0 kalau warehouse sudah cukup, kalau
         tidak ada klien, atau kalau pagu tidak mengizinkan). Probe tidak pernah
         memanggil client langsung — supaya penganggaran punya satu tempat.
 
+        `fresh=True` untuk tabel deret harian: "cukup" berarti barisnya mencapai
+        hari bursa terakhir, bukan sekadar banyak. Tanpa ini, emiten yang punya
+        riwayat panjang tapi berhenti diperbarui dianggap lengkap selamanya —
+        probe tidak pernah menembak API lagi, nol kredit terbakar, dan bukti yang
+        dikutip diam-diam menua. Persis yang terjadi 8–22 Sep: seluruh kandidat
+        watchlist berhenti di 7 Sep sementara skornya tetap dicetak tiap hari.
+
+        `segar_hari=N` untuk tabel peristiwa per emiten (aksi korporasi): di sana
+        kosong adalah temuan sah — emiten bersih — jadi jumlah baris tidak bisa
+        menjawab "sudah dibeli?". Tanpa ini emiten bersih ditarik ulang di setiap
+        investigasi, dan emiten yang punya satu baris tidak pernah diperbarui
+        lagi. Cukup = ledger mencatat pembelian dalam N hari terakhir. [AUDIT B6]
+
         Kalau pagu investigasi tidak cukup, probe TIDAK dipaksa gagal: ia
         melanjutkan dengan data warehouse seadanya dan, kalau memang kurang,
         menutup dengan unavailable_reason. Menyerah karena pagu adalah perilaku
         yang diminta kontrak, bukan kesalahan. [AD-6]
         """
-        existing = self.frame(table, where, where_params)
-        if len(existing) >= min_rows:
-            return 0
+        if segar_hari is not None:
+            if self._baru_dibeli(endpoint, symbol, segar_hari):
+                return 0
+        else:
+            existing = self.frame(table, where, where_params)
+            if len(existing) >= min_rows and not (
+                    fresh and self._tertinggal(table, existing, _tanggal(params.get("start")))):
+                return 0
         if self.client is None:
             return 0
 
