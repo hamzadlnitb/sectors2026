@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { bandMeta } from "@/lib/bands";
-import { fmtDate, wibTime } from "@/lib/format";
+import { fmtDate, fmtSavings, wibTime } from "@/lib/format";
 import type { ActivityEvent } from "@/lib/activity";
 
 const SIG: Record<string, string> = {
@@ -57,7 +57,7 @@ function InvRow({ e }: { e: ActivityEvent }) {
         </div>
         <div className="fr-detail">
           <span className="mono">{e.steps}</span> langkah · <span className="mono">{e.credits}</span> kredit
-          {typeof e.savings_pct === "number" && <> · hemat <span className="mono">{e.savings_pct}%</span></>}
+          {typeof e.savings_pct === "number" && <> · <span className="mono">{fmtSavings(e.savings_pct).text}</span></>}
         </div>
       </div>
     </div>

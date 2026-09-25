@@ -38,6 +38,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
   const moments = detectMoments(t);
   const confidencePct = Math.round(t.confidence * 100);
   const creditsPct = t.baseline_credits ? Math.round((t.credits_total / t.baseline_credits) * 100) : 0;
+  const sav = savingsPct(t); // bisa negatif sejak C6 (agen bisa lebih boros dari baseline)
 
   const tagByStep = new Map<number, string>();
   for (const m of moments) {
@@ -85,7 +86,10 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
               </div>
               <div className="stat wide">
                 <div className="k">Hemat agen</div>
-                <div className="v good">−{savingsPct(t)}%<small> kredit vs investigasi menyeluruh (6 probe)</small></div>
+                <div className={`v ${sav >= 0 ? "good" : "bad"}`}>
+                  {sav >= 0 ? `−${sav}%` : `+${-sav}%`}
+                  <small> {sav >= 0 ? "kredit vs investigasi menyeluruh (6 probe)" : "kredit lebih dari investigasi menyeluruh (agen kalah)"}</small>
+                </div>
               </div>
             </div>
           </div>

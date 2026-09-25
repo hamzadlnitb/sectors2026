@@ -120,6 +120,12 @@ Jangan biarkan angkanya berdiri sendiri. `savings_pct` di `to_json.py` harus ber
 ditampilkan ketika `credits_total == baseline_credits`, dan `ARCHITECTURE.md` perlu
 menyatakan bahwa `baseline_credits` adalah batas bawah, bukan biaya menyeluruh.
 
+**Persetujuan Nadhilla (25 Sep):** setuju. Sisi web **sudah siap** menampilkan
+`savings_pct` negatif (helper `fmtSavings`, kartu/detail pakai warna danger +
+label "lebih boros" saat agen kalah) — jadi menghapus invarian di `check.py`
+tidak akan merusak tampilan. Tinggal persetujuan Melco + Hamzah menghapus invarian
+di `contracts/check.py` & `adjudicator.py`, lalu pindahkan entri ini ke Riwayat.
+
 ---
 
 ## Riwayat

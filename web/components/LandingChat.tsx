@@ -78,7 +78,7 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
         keys: ["hemat", "kredit", "efisien", "biaya", "murah"],
         answer: () => ({
           trace: ["bandingkan kredit vs baseline 6-probe"],
-          text: `Dengan hanya mengejar bukti yang perlu lalu berhenti, agen memakai rata-rata ~${avgSav}% lebih sedikit kredit dibanding investigasi menyeluruh (6 probe), di ${total} kasus hari ini.`,
+          text: `Dengan hanya mengejar bukti yang perlu lalu berhenti, agen memakai rata-rata ${avgSav >= 0 ? `~${avgSav}% lebih sedikit` : `~${-avgSav}% lebih banyak`} kredit dibanding investigasi menyeluruh (6 probe), di ${total} kasus hari ini.`,
           tools: [],
         }),
       },

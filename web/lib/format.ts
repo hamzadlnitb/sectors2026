@@ -49,6 +49,15 @@ export function fmtIDR(n: number): string {
   return `${sign}Rp ${Math.round(abs).toLocaleString("id-ID")}`;
 }
 
+/** Label hemat kredit yang aman untuk nilai negatif. Sejak C6 (Hamzah),
+ *  `savings_pct` boleh < 0 = agen memakai LEBIH banyak kredit dari baseline
+ *  menyeluruh (agen kalah — dan itu jujur, tak disembunyikan). */
+export function fmtSavings(pct: number): { text: string; sign: "good" | "bad" | "flat" } {
+  if (pct > 0) return { text: `hemat ${pct}%`, sign: "good" };
+  if (pct < 0) return { text: `${-pct}% lebih boros`, sign: "bad" };
+  return { text: "setara baseline", sign: "flat" };
+}
+
 /** Render source_params as compact "k=v · k=v". */
 export function fmtParams(params: Record<string, unknown>): string {
   return Object.entries(params)

@@ -102,7 +102,7 @@ export default function AgentChat({
         keys: ["berhenti", "stop", "hemat", "kredit", "budget", "jatah"],
         answer: () => ({
           trace: ["baca langkah terakhir", "bandingkan kredit vs baseline"],
-          text: `Agen berhenti setelah ${steps.length} langkah, "${last?.reason ?? ""}" Total ${creditsTotal} kredit vs ${baseline} untuk investigasi menyeluruh → hemat ${savings}%.`,
+          text: `Agen berhenti setelah ${steps.length} langkah, "${last?.reason ?? ""}" Total ${creditsTotal} kredit vs ${baseline} untuk investigasi menyeluruh → ${savings >= 0 ? `hemat ${savings}%` : `malah ${-savings}% lebih boros`}.`,
           tools: [{ label: "Lihat di replay", ref: sec(".trail") }],
         }),
       },
