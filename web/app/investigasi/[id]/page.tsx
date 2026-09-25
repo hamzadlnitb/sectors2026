@@ -207,7 +207,7 @@ function MomentCard({ m }: { m: Moment }) {
       title: "Berhenti dini",
       at: `langkah ${"step" in m ? m.step : ""}`,
       icon: <StopIcon />,
-      desc: <>Berhenti lebih awal &amp; melewati probe sisa, band tak akan berubah.</>,
+      desc: <>Menyimpulkan di langkah {"step" in m ? m.step : ""} dari 6 probe, di bawah jatah menyeluruh.</>,
     },
     memory: {
       title: "Memori",

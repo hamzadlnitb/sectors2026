@@ -187,6 +187,17 @@ def collect_transcripts(sources: list[Path]) -> list[tuple[Path, InvestigationTr
     return out
 
 
+def main_sources(*, with_fixtures: bool) -> list[Path]:
+    """Sumber transkrip untuk satu jalan ekspor.
+
+    Fixture adalah placeholder UI (FIXA–FIXD), bukan investigasi. Dulu keduanya
+    digabung tanpa syarat, jadi keempatnya tampil di landing berdampingan dengan
+    ASLI dan NICK tanpa penanda apa pun — dan sejak cron mengekspor tiap malam
+    (ee3a629), kebocoran itu jadi permanen kalau bendera ini terbalik. [AUDIT B5]
+    """
+    return [REAL_SOURCE] + ([FIXTURE_SOURCE] if with_fixtures else [])
+
+
 def write_investigations(check_only: bool, sources: list[Path]) -> tuple[list[dict], bool]:
     summaries: list[dict] = []
     failed = False
@@ -294,7 +305,7 @@ def main() -> int:
                     help="sertakan fixtures/transcripts (default: hanya transkrip asli runs/investigations)")
     args = ap.parse_args()
 
-    sources = [REAL_SOURCE] + ([FIXTURE_SOURCE] if args.with_fixtures else [])
+    sources = main_sources(with_fixtures=args.with_fixtures)
     summaries, failed = write_investigations(args.check, sources)
     watch_dates = write_watchlists(args.check)
 
