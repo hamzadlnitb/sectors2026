@@ -1,43 +1,66 @@
-/* Riwayat analisa — jejak skor per emiten dari hari ke hari. */
+/* Riwayat analisa — dashboard chart: ringkasan + overview + per emiten. */
 
-.rw-list { display: flex; flex-direction: column; gap: 16px; }
+.rw-dash { display: flex; flex-direction: column; gap: 18px; }
+
+/* kartu ringkasan */
+.rw-tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media (min-width: 620px) { .rw-tiles { grid-template-columns: repeat(4, 1fr); } }
+.rw-tile { border: 1px solid var(--border); border-radius: 12px; background: var(--surface); padding: 15px 17px; }
+.rw-tile-n { font-family: var(--font-jbm), monospace; font-weight: 800; font-size: clamp(1.5rem, 4vw, 2rem); color: var(--text); line-height: 1; }
+.rw-tile-k { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+/* panel overview */
+.rw-panel { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); padding: 16px 16px 12px; }
+.rw-panel-h h2 { font-family: var(--font-dm), var(--font-inter), sans-serif; font-weight: 600; font-size: clamp(1.05rem, 2.4vw, 1.3rem); margin: 0 0 3px; color: var(--text); }
+.rw-panel-h p { font-size: 12.5px; color: var(--muted); margin: 0 0 12px; }
+.rw-chart-lg { height: clamp(240px, 40vw, 320px); width: 100%; }
+.rw-chart-sm { height: 172px; width: 100%; }
+
+/* legenda overview */
+.rw-legend { display: flex; flex-wrap: wrap; gap: 10px 16px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+.rw-leg { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-jbm), monospace; font-size: 11.5px; color: var(--muted); }
+.rw-leg-d { width: 10px; height: 3px; border-radius: 2px; }
+
+/* tooltip */
+.rw-tip { background: var(--surface-2); border: 1px solid var(--border-strong); border-radius: 9px; padding: 9px 11px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35); font-size: 12px; min-width: 120px; }
+.rw-tip-h { font-family: var(--font-jbm), monospace; font-size: 11px; color: var(--dim); margin-bottom: 6px; }
+.rw-tip-row { display: flex; align-items: center; gap: 6px; color: var(--muted); padding: 1px 0; }
+.rw-tip-row b { margin-left: auto; color: var(--text); font-family: var(--font-jbm), monospace; }
+.rw-tip-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.rw-tip-sub { margin-top: 5px; font-size: 11px; color: var(--dim); }
+
+/* grid per emiten */
+.rw-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 900px) { .rw-grid { grid-template-columns: 1fr 1fr; } }
 
 .rw-card { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); overflow: hidden; }
-
-.rw-head {
-  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-  padding: 14px 18px; border-bottom: 1px solid var(--border); background: var(--surface-2);
-}
-.rw-head .rw-sym { font-family: var(--font-jbm), monospace; font-weight: 800; font-size: 18px; letter-spacing: 0.04em; }
-.rw-head .rw-range { font-family: var(--font-jbm), monospace; font-size: 11.5px; color: var(--dim); }
-.rw-spark { margin-left: auto; width: clamp(120px, 30vw, 240px); height: 40px; }
+.rw-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding: 13px 16px 6px; }
+.rw-head .rw-sym { font-family: var(--font-jbm), monospace; font-weight: 800; font-size: 17px; letter-spacing: 0.04em; }
+.rw-head .rw-range { font-family: var(--font-jbm), monospace; font-size: 11px; color: var(--dim); }
 
 .rw-rows { display: flex; flex-direction: column; }
 .rw-row {
-  display: grid; align-items: center; gap: 10px;
-  grid-template-columns: 96px 40px 92px 1fr auto auto;
-  padding: 11px 18px; border-top: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+  display: grid; align-items: center; gap: 8px 10px;
+  grid-template-columns: 60px 34px 84px 1fr auto auto;
+  padding: 10px 16px; border-top: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
   transition: background 0.14s;
 }
-.rw-row:first-child { border-top: none; }
 .rw-row:hover { background: color-mix(in srgb, var(--accent) 7%, transparent); }
 .rw-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-
-.rw-date { font-family: var(--font-jbm), monospace; font-size: 12px; color: var(--muted); }
-.rw-score { font-family: var(--font-jbm), monospace; font-weight: 800; font-size: 18px; text-align: right; }
-.rw-badge { font-family: var(--font-jbm), monospace; font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 6px; text-align: center; white-space: nowrap; }
-.rw-cov { font-size: 12.5px; color: var(--muted); }
+.rw-date { font-family: var(--font-jbm), monospace; font-size: 11.5px; color: var(--muted); }
+.rw-score { font-family: var(--font-jbm), monospace; font-weight: 800; font-size: 16px; text-align: right; }
+.rw-badge { font-family: var(--font-jbm), monospace; font-size: 10px; font-weight: 700; padding: 3px 7px; border-radius: 6px; text-align: center; white-space: nowrap; }
+.rw-cov { font-size: 12px; color: var(--muted); }
 .rw-cov .rw-thin { color: var(--sig-watch); font-weight: 700; }
-.rw-conf { font-family: var(--font-jbm), monospace; font-size: 11.5px; color: var(--dim); white-space: nowrap; }
-.rw-delta { font-family: var(--font-jbm), monospace; font-size: 11.5px; font-weight: 700; white-space: nowrap; }
-.rw-delta.up { color: var(--sig-danger); }      /* skor NAIK = makin waspada = warna bahaya */
-.rw-delta.down { color: var(--sig-normal); }     /* skor TURUN = makin tenang */
+.rw-conf { font-family: var(--font-jbm), monospace; font-size: 11px; color: var(--dim); white-space: nowrap; }
+.rw-delta { font-family: var(--font-jbm), monospace; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.rw-delta.up { color: var(--sig-danger); }
+.rw-delta.down { color: var(--sig-normal); }
 .rw-delta.flat { color: var(--dim); }
 .rw-moments { display: flex; gap: 5px; flex-wrap: wrap; grid-column: 1 / -1; }
 .rw-mtag { font-family: var(--font-jbm), monospace; font-size: 10px; color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent); border-radius: 5px; padding: 1px 6px; }
 
-@media (max-width: 640px) {
-  .rw-row { grid-template-columns: 1fr auto auto; row-gap: 6px; }
+@media (max-width: 560px) {
+  .rw-row { grid-template-columns: 1fr auto auto; row-gap: 5px; }
   .rw-cov, .rw-conf { grid-column: 1 / -1; }
-  .rw-spark { display: none; }
 }
