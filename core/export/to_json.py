@@ -24,6 +24,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -55,11 +56,18 @@ WEB_DATA = ROOT / "web" / "public" / "data"
 INV_OUT = WEB_DATA / "investigations"
 WATCH_OUT = WEB_DATA / "watchlist"
 
-TRANSCRIPT_SOURCES = [
-    ROOT / "runs" / "investigations",
-    ROOT / "fixtures" / "transcripts",
-]
+REAL_SOURCE = ROOT / "runs" / "investigations"      # transkrip agen sungguhan (kanonik)
+FIXTURE_SOURCE = ROOT / "fixtures" / "transcripts"  # placeholder UI — hanya untuk dev/test
 WATCHLIST_GLOB = "runs/*/watchlist.json"
+
+# Hilangkan em dash (—) dari teks yang tampil di web (permintaan desain UI). Aman:
+# em dash hanya muncul di dalam nilai string JSON, tak pernah di sintaksnya, jadi
+# menormalkannya di string serialisasi tidak merusak struktur.
+_EMDASH = re.compile(r"\s*—\s*")
+
+
+def _no_emdash(s: str) -> str:
+    return _EMDASH.sub(", ", s)
 
 
 def moment_kinds(t: InvestigationTranscript) -> list[str]:
@@ -155,15 +163,17 @@ def summarize(t: InvestigationTranscript, ident: str) -> dict:
         "memory_ref": t.memory_ref,
         "narrative_source": t.narrative_source,
         "moments": moment_kinds(t),
+        "components_investigated": sum(1 for c in t.components if c.investigated),
+        "components_total": len(t.components),
         "llm": dari_llm(t),
         "headline": headline(t),
     }
 
 
-def collect_transcripts() -> list[tuple[Path, InvestigationTranscript, list[str]]]:
+def collect_transcripts(sources: list[Path]) -> list[tuple[Path, InvestigationTranscript, list[str]]]:
     """Kembalikan (path, transkrip, error) untuk tiap berkas sumber."""
     out: list[tuple[Path, InvestigationTranscript, list[str]]] = []
-    for src in TRANSCRIPT_SOURCES:
+    for src in sources:
         if not src.exists():
             continue
         for path in sorted(src.glob("*.json")):
@@ -177,7 +187,18 @@ def collect_transcripts() -> list[tuple[Path, InvestigationTranscript, list[str]
     return out
 
 
-def write_investigations(check_only: bool) -> tuple[list[dict], bool]:
+def main_sources(*, with_fixtures: bool) -> list[Path]:
+    """Sumber transkrip untuk satu jalan ekspor.
+
+    Fixture adalah placeholder UI (FIXA–FIXD), bukan investigasi. Dulu keduanya
+    digabung tanpa syarat, jadi keempatnya tampil di landing berdampingan dengan
+    ASLI dan NICK tanpa penanda apa pun — dan sejak cron mengekspor tiap malam
+    (ee3a629), kebocoran itu jadi permanen kalau bendera ini terbalik. [AUDIT B5]
+    """
+    return [REAL_SOURCE] + ([FIXTURE_SOURCE] if with_fixtures else [])
+
+
+def write_investigations(check_only: bool, sources: list[Path]) -> tuple[list[dict], bool]:
     summaries: list[dict] = []
     failed = False
 
@@ -186,7 +207,7 @@ def write_investigations(check_only: bool) -> tuple[list[dict], bool]:
         for old in INV_OUT.glob("*.json"):
             old.unlink()
 
-    for path, t, errors in collect_transcripts():
+    for path, t, errors in collect_transcripts(sources):
         if t is None or errors:
             failed = True
             print(f"✗ {path.name}")
@@ -202,7 +223,7 @@ def write_investigations(check_only: bool) -> tuple[list[dict], bool]:
             # Tulis dari model tervalidasi, bukan salin mentah — normalisasi
             # bentuk & buang berkas yang tak lolos kontrak.
             (INV_OUT / f"{ident}.json").write_text(
-                t.model_dump_json(indent=2), encoding="utf-8"
+                _no_emdash(t.model_dump_json(indent=2)), encoding="utf-8"
             )
 
     # Urut: skor tertinggi dulu, lalu tanggal terbaru.
@@ -220,6 +241,10 @@ def write_watchlists(check_only: bool) -> list[dict]:
             print(f"✗ watchlist {path}: {exc}")
             continue
         as_of = data.get("as_of") or path.parent.name
+        # Sertakan run.log (bukti timestamp cron tak-ditunggui) di payload watchlist.
+        log_path = path.parent / "run.log"
+        if log_path.exists():
+            data["run_log"] = log_path.read_text(encoding="utf-8").splitlines()
         dates.append(
             {
                 "as_of": as_of,
@@ -231,24 +256,57 @@ def write_watchlists(check_only: bool) -> list[dict]:
         if not check_only:
             WATCH_OUT.mkdir(parents=True, exist_ok=True)
             (WATCH_OUT / f"{as_of}.json").write_text(
-                json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8"
+                _no_emdash(json.dumps(data, ensure_ascii=False, indent=2)), encoding="utf-8"
             )
         print(f"✓ watchlist {as_of} ({len(data.get('candidates', []))} kandidat)")
 
     dates.sort(key=lambda d: d["as_of"], reverse=True)
     if not check_only and dates:
         (WATCH_OUT / "index.json").write_text(
-            json.dumps({"dates": dates}, ensure_ascii=False, indent=2), encoding="utf-8"
+            _no_emdash(json.dumps({"dates": dates}, ensure_ascii=False, indent=2)), encoding="utf-8"
         )
     return dates
+
+
+def build_activity(summaries: list[dict], watch_dates: list[dict]) -> dict:
+    """Feed aktivitas agen (kronologis) untuk dashboard #4 — gabungan sapuan
+    Tier-1 harian (Melco) + investigasi agen (Hamzah). Statis, dari runs/."""
+    events: list[dict] = []
+    for w in watch_dates:
+        events.append({
+            "ts": w.get("generated_at") or f"{w['as_of']}T00:00:00+00:00",
+            "date": w["as_of"],
+            "kind": "sweep",
+            "candidates": w.get("candidates", 0),
+            "credits": w.get("credits_spent"),
+        })
+    for s in summaries:
+        events.append({
+            "ts": f"{s['as_of']}T17:30:00+07:00",  # EOD WIB (transkrip hanya bertanggal)
+            "date": s["as_of"],
+            "kind": "investigation",
+            "id": s["id"],
+            "symbol": s["symbol"],
+            "band": s["band"],
+            "pantau_score": s["pantau_score"],
+            "steps": s["steps"],
+            "credits": s["credits_total"],
+            "savings_pct": s["savings_pct"],
+            "moments": s["moments"],
+        })
+    events.sort(key=lambda e: e["ts"], reverse=True)
+    return {"generated_at": datetime.now(UTC).isoformat(timespec="seconds"), "events": events}
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="Ekspor transkrip + watchlist ke web/public/data")
     ap.add_argument("--check", action="store_true", help="validasi saja, jangan tulis")
+    ap.add_argument("--with-fixtures", action="store_true",
+                    help="sertakan fixtures/transcripts (default: hanya transkrip asli runs/investigations)")
     args = ap.parse_args()
 
-    summaries, failed = write_investigations(args.check)
+    sources = main_sources(with_fixtures=args.with_fixtures)
+    summaries, failed = write_investigations(args.check, sources)
     watch_dates = write_watchlists(args.check)
 
     if not args.check:
@@ -260,9 +318,13 @@ def main() -> int:
             "llm": rekap_llm(summaries),
         }
         (WEB_DATA / "index.json").write_text(
-            json.dumps(index, ensure_ascii=False, indent=2), encoding="utf-8"
+            _no_emdash(json.dumps(index, ensure_ascii=False, indent=2)), encoding="utf-8"
         )
-        print(f"\n→ {len(summaries)} investigasi, {len(watch_dates)} watchlist ditulis ke {WEB_DATA.relative_to(ROOT)}")
+        activity = build_activity(summaries, watch_dates)
+        (WEB_DATA / "activity.json").write_text(
+            _no_emdash(json.dumps(activity, ensure_ascii=False, indent=2)), encoding="utf-8"
+        )
+        print(f"\n→ {len(summaries)} investigasi, {len(watch_dates)} watchlist, {len(activity['events'])} aktivitas ditulis ke {WEB_DATA.relative_to(ROOT)}")
 
     if failed:
         print("\n✗ ada transkrip yang tidak lolos kontrak — tidak diekspor.")

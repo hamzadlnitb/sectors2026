@@ -27,7 +27,7 @@
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Volume anomaly sangat kuat (Z=8,2σ, 9,9× median) — ini anomali nyata. Sebelum menyimpulkan, perlu tahu apakah anomali ini bisa dijelaskan oleh struktur free_float yang sangat kecil. Probe free_float hanya 1 kredit dan langsung menjawab apakah rendahnya sirkulasi saham mendukung interpretasi \"pump tipis\" vs \"pola abnormal lain\". Jalankan dulu yang termurah, lalu putuskan.",
+      "reason": "Volume anomaly sangat kuat (Z=8,2σ, 9,9× median), ini anomali nyata. Sebelum menyimpulkan, perlu tahu apakah anomali ini bisa dijelaskan oleh struktur free_float yang sangat kecil. Probe free_float hanya 1 kredit dan langsung menjawab apakah rendahnya sirkulasi saham mendukung interpretasi \"pump tipis\" vs \"pola abnormal lain\". Jalankan dulu yang termurah, lalu putuskan.",
       "credits_spent": 1,
       "credits_remaining": 3
     },

@@ -7,7 +7,7 @@
     "hypotheses": [
       {
         "id": "H1",
-        "claim": "Penurunan -27% didorong anomali volume (distribusi besar-besaran atau akumulasi tersembunyi oleh sedikit pihak) — bukan pergerakan normal sektor Heavy Constructions.",
+        "claim": "Penurunan -27% didorong anomali volume (distribusi besar-besaran atau akumulasi tersembunyi oleh sedikit pihak), bukan pergerakan normal sektor Heavy Constructions.",
         "probes": [
           "volume_anomaly",
           "broker_concentration"
@@ -25,7 +25,7 @@
       }
     ],
     "credit_budget_requested": 5,
-    "rationale": "Prioritas disusun dari termah & paling informatif ke probe yang lebih kontekstual: (1) volume_anomaly 1 kredit karena -27% adalah pergerakan besar dan z-score 90 hari langsung menjawab 'apakah ini wajar atau anomali' — hipotesis termurah yang menyaring apakah H1 valid. (2) free_float 1 kredit karena modal pasar 2.5T bisa menipu jika float kecil; murah dan menentukan apakah harga rentan digoyang modal kecil. (3) broker_concentration 3 kredit karena berbobot 25% dan langsung menjawab pertanyaan kunci: 'apakah -27% ini akumulasi terdistribusi atau distribusi murni' — tapi probe ini mahal, layak hanya setelah volume_anomaly memberi sinyal anomali. Total 5 kredit. price_fundamental (6, bobot 12%) di-skip karena harga TUR, hipotesis fundamental tertinggal kurang relevan dan biaya tidak sepadan bobot. foreign_flow (2) dan structural (3) di-defer ke iterasi berikutnya agar keyakinan terkumpul dulu dari tiga probe inti."
+    "rationale": "Prioritas disusun dari termah & paling informatif ke probe yang lebih kontekstual: (1) volume_anomaly 1 kredit karena -27% adalah pergerakan besar dan z-score 90 hari langsung menjawab 'apakah ini wajar atau anomali', hipotesis termurah yang menyaring apakah H1 valid. (2) free_float 1 kredit karena modal pasar 2.5T bisa menipu jika float kecil; murah dan menentukan apakah harga rentan digoyang modal kecil. (3) broker_concentration 3 kredit karena berbobot 25% dan langsung menjawab pertanyaan kunci: 'apakah -27% ini akumulasi terdistribusi atau distribusi murni', tapi probe ini mahal, layak hanya setelah volume_anomaly memberi sinyal anomali. Total 5 kredit. price_fundamental (6, bobot 12%) di-skip karena harga TUR, hipotesis fundamental tertinggal kurang relevan dan biaya tidak sepadan bobot. foreign_flow (2) dan structural (3) di-defer ke iterasi berikutnya agar keyakinan terkumpul dulu dari tiga probe inti."
   },
   "steps": [
     {
@@ -36,7 +36,7 @@
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Probe volume_anomaly mengembalikan anomali sangat kuat (21,7σ, 23,8× median) — hipotesis H1 (pergerakan wajar vs anomali) terkonfirmasi refuted: ini BUKAN pergerakan wajar. Bukti ini justru MENUNTUT probe lanjutan untuk mengkarakterisasi sifat anomali (apakah rentan manipulasi, apakah distribusi murni, dll.). free_float adalah langkah murah (1 kredit) dan sangat informatif — modal pasar 2,5T bisa menyesatkan jika float tipis; probe ini langsung menjawab apakah harga -27% rentan digoyang modal kecil. Wajib dijalankan sebelum broker_concentration yang lebih mahal agar kita tahu apakah struktur kepemilikan mendukung interpretasi konsentrasi broker nanti.",
+      "reason": "Probe volume_anomaly mengembalikan anomali sangat kuat (21,7σ, 23,8× median), hipotesis H1 (pergerakan wajar vs anomali) terkonfirmasi refuted: ini BUKAN pergerakan wajar. Bukti ini justru MENUNTUT probe lanjutan untuk mengkarakterisasi sifat anomali (apakah rentan manipulasi, apakah distribusi murni, dll.). free_float adalah langkah murah (1 kredit) dan sangat informatif, modal pasar 2,5T bisa menyesatkan jika float tipis; probe ini langsung menjawab apakah harga -27% rentan digoyang modal kecil. Wajib dijalankan sebelum broker_concentration yang lebih mahal agar kita tahu apakah struktur kepemilikan mendukung interpretasi konsentrasi broker nanti.",
       "credits_spent": 0,
       "credits_remaining": 5
     },
@@ -48,7 +48,7 @@
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Probe broker_concentration menghasilkan sub-skor 54/100 — belum cukup untuk konfirmasi atau refutasi. Herfindahl 0,23 menunjukkan konsentrasi broker moderat (bukan tinggi), pangsa 3 broker net buy 65% dari total 10 broker net buy positif memberi sinyal: ada akumulasi terfokus di XL/MG/AK, tapi tidak dominan mutlak. Sinyal ini ambigu dan butuh konteks free_float untuk menilai apakah akumulasi ini bisa menggerakkan harga -27% dengan modal kecil. free_float hanya 1 kredit dan merupakan filter kritis: float kecil berarti harga rentan digoyang modal kecil (memperkuat skenario anomali/anomalous move), float besar berarti pergerakan besar lebih sulit didorong sehingga hipotesis anomali melemah. Probe ini akan menyaring apakah bukti broker_concentration cukup serius untuk dianggap material. Sisa pagu 5 kredit cukup untuk free_float (1) dan masih menyisakan ruang untuk probe lanjutan bila diperlukan. price_fundamental (6) tetap di-skip karena harga TURUN -27%, hipotesis fundamental tidak releva",
+      "reason": "Probe broker_concentration menghasilkan sub-skor 54/100, belum cukup untuk konfirmasi atau refutasi. Herfindahl 0,23 menunjukkan konsentrasi broker moderat (bukan tinggi), pangsa 3 broker net buy 65% dari total 10 broker net buy positif memberi sinyal: ada akumulasi terfokus di XL/MG/AK, tapi tidak dominan mutlak. Sinyal ini ambigu dan butuh konteks free_float untuk menilai apakah akumulasi ini bisa menggerakkan harga -27% dengan modal kecil. free_float hanya 1 kredit dan merupakan filter kritis: float kecil berarti harga rentan digoyang modal kecil (memperkuat skenario anomali/anomalous move), float besar berarti pergerakan besar lebih sulit didorong sehingga hipotesis anomali melemah. Probe ini akan menyaring apakah bukti broker_concentration cukup serius untuk dianggap material. Sisa pagu 5 kredit cukup untuk free_float (1) dan masih menyisakan ruang untuk probe lanjutan bila diperlukan. price_fundamental (6) tetap di-skip karena harga TURUN -27%, hipotesis fundamental tidak releva",
       "credits_spent": 0,
       "credits_remaining": 5
     },
@@ -60,7 +60,7 @@
       "next_action": "escalate",
       "new_probe": "structural",
       "budget_granted": 3,
-      "reason": "Free float 37% (sub-skor 28/100) menunjukkan likuiditas rendah-menengah — harga bisa rentan digoyang modal kecil, sehingga -27% tidak otomatis anomali murni. Rencana awal (volume_anomaly, free_float, broker_concentration) sudah selesai dan tidak menyisakan antrean. Untuk membedakan 'distribusi murni' vs 'aksi korporat/insider' pada emiten dengan float terbatas, saya butuh probe structural (3 kredit): riwayat suspensi 24 bulan, jual insider 90 hari, dan rights issue/private placement — semuanya jalur bukti yang TIDAK ada di rencana awal. foreign_flow (2) dan price_fundamental (6) belum diperlukan; foreign_flow bisa ditunda karena pivot harga TUR, dan price_fundamental bobotnya kecil relatif biayanya. Eskalasi 3 kredit, masih dalam pagar keras 20. [eskalasi 3 kredit dikabulkan 3: masih di bawah pagar dan beralasan]",
+      "reason": "Free float 37% (sub-skor 28/100) menunjukkan likuiditas rendah-menengah, harga bisa rentan digoyang modal kecil, sehingga -27% tidak otomatis anomali murni. Rencana awal (volume_anomaly, free_float, broker_concentration) sudah selesai dan tidak menyisakan antrean. Untuk membedakan 'distribusi murni' vs 'aksi korporat/insider' pada emiten dengan float terbatas, saya butuh probe structural (3 kredit): riwayat suspensi 24 bulan, jual insider 90 hari, dan rights issue/private placement, semuanya jalur bukti yang TIDAK ada di rencana awal. foreign_flow (2) dan price_fundamental (6) belum diperlukan; foreign_flow bisa ditunda karena pivot harga TUR, dan price_fundamental bobotnya kecil relatif biayanya. Eskalasi 3 kredit, masih dalam pagar keras 20. [eskalasi 3 kredit dikabulkan 3: masih di bawah pagar dan beralasan]",
       "credits_spent": 0,
       "credits_remaining": 8
     },
@@ -72,7 +72,7 @@
       "next_action": "conclude",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Probe structural menghasilkan sub-skor 55/100 — netral, bukan sinyal kuat. Bukti: 4 suspensi dalam 24 bulan (rata-rata ~2x/tahun) dengan alasan pergerakan tidak wajar, plus suspensi terakhir 04-09-2026. Ini konsisten dengan emiten saham kecil yang volatilitasnya tinggi (sesuai free_float kecil dan modal 2.5T), dan volume_anomaly -27% mungkin sudah terjelaskan oleh dinamika struktural tersebut tanpa perlu bukti lebih lanjut. Hipotesis H1 (anomali) sudah ter筛选 dari 3 probe inti (volume, float, konsentrasi broker) — karena tidak ada probe inti yang tersisa untuk dijalankan dan pagu sudah cukup untuk 3 probe tersebut, serta probe structural gagal memperkuat sinyal anomali secara meyakinkan, hipotesis H1 tidak terkonfirmasi maupun terrefutasi. Probe price_fundamental (6 kredit) di-skip di rencana awal karena harga TUR — hipotesis fundamental tertinggal relevan, dan biaya 6 kredit untuk bobot 12% tidak sepadan. foreign_flow (2 kredit) berpotensi informatif untuk membaca arah modal institusi,",
+      "reason": "Probe structural menghasilkan sub-skor 55/100, netral, bukan sinyal kuat. Bukti: 4 suspensi dalam 24 bulan (rata-rata ~2x/tahun) dengan alasan pergerakan tidak wajar, plus suspensi terakhir 04-09-2026. Ini konsisten dengan emiten saham kecil yang volatilitasnya tinggi (sesuai free_float kecil dan modal 2.5T), dan volume_anomaly -27% mungkin sudah terjelaskan oleh dinamika struktural tersebut tanpa perlu bukti lebih lanjut. Hipotesis H1 (anomali) sudah ter筛选 dari 3 probe inti (volume, float, konsentrasi broker), karena tidak ada probe inti yang tersisa untuk dijalankan dan pagu sudah cukup untuk 3 probe tersebut, serta probe structural gagal memperkuat sinyal anomali secara meyakinkan, hipotesis H1 tidak terkonfirmasi maupun terrefutasi. Probe price_fundamental (6 kredit) di-skip di rencana awal karena harga TUR, hipotesis fundamental tertinggal relevan, dan biaya 6 kredit untuk bobot 12% tidak sepadan. foreign_flow (2 kredit) berpotensi informatif untuk membaca arah modal institusi,",
       "credits_spent": 0,
       "credits_remaining": 8
     }

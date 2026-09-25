@@ -7,7 +7,7 @@
     "hypotheses": [
       {
         "id": "H1",
-        "claim": "Harga SCCO relatif stagnan (+0%) di kapitalisasi 2.14T, namun perlu dicek apakah ada akumulasi senyap oleh segelintir broker di atas float yang tipis — jika iya, ini bisa menjelaskan resistensi harga dan potensi distribusi lanjutan.",
+        "claim": "Harga SCCO relatif stagnan (+0%) di kapitalisasi 2.14T, namun perlu dicek apakah ada akumulasi senyap oleh segelintir broker di atas float yang tipis, jika iya, ini bisa menjelaskan resistensi harga dan potensi distribusi lanjutan.",
         "probes": [
           "free_float",
           "volume_anomaly",
@@ -17,7 +17,7 @@
       },
       {
         "id": "H2",
-        "claim": "Dengan subsektor Industrial Goods dan data 119 hari bursa, perubahan harga 0% bisa menutupi divergensi antara aliran asing dan harga — perlu diuji apakah ada distribusi asing ke ritel di tengah harga flat.",
+        "claim": "Dengan subsektor Industrial Goods dan data 119 hari bursa, perubahan harga 0% bisa menutupi divergensi antara aliran asing dan harga, perlu diuji apakah ada distribusi asing ke ritel di tengah harga flat.",
         "probes": [
           "foreign_flow"
         ],
@@ -44,7 +44,7 @@
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Free float 24% (moderat rendah) dengan data segar 2 hari sudah memberi satu titik bukti. Probe termurah adalah volume_anomaly (1 kredit) dan sangat informatif untuk konteks SCCO — memberi sinyal apakah ada akumulasi/distribusi abnormal yang bisa menjelaskan atau tidak mendukung free float terkonsentrasi. Sisa pagu 7 kredit masih cukup untuk menyambung probe berikutnya bila perlu.",
+      "reason": "Free float 24% (moderat rendah) dengan data segar 2 hari sudah memberi satu titik bukti. Probe termurah adalah volume_anomaly (1 kredit) dan sangat informatif untuk konteks SCCO, memberi sinyal apakah ada akumulasi/distribusi abnormal yang bisa menjelaskan atau tidak mendukung free float terkonsentrasi. Sisa pagu 7 kredit masih cukup untuk menyambung probe berikutnya bila perlu.",
       "credits_spent": 0,
       "credits_remaining": 7
     },
@@ -56,7 +56,7 @@
       "next_action": "conclude",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Probe volume_anomaly mencatatkan Z-score 3,6σ dan rasio volume 4,0× terhadap median baseline 90 hari. Untuk SCCO di BEI, anomali volume sebesar itu berdiri sendiri sebagai sinyal abnormalitas yang material terhadap risiko perdagangan; ambang umum untuk \"anomali signifikan\" adalah Z ≥ 2,5σ atau rasio ≥ 3×, dan temuan ini melampaui keduanya dengan margin yang cukup lebar.\n\nProbe yang tersisa (broker_concentration, foreign_flow, structural) dirancang untuk menjawab pertanyaan berbeda: siapa pelaku di balik akumulasi, apakah ada dorongan aliran asing, dan ada tidaknya masalah governance/suspensi. Ketiganya akan memperkaya karakterisasi anomali, tetapi tidak akan membatalkan atau memperkuat sinyal inti — anomali volume sudah berdiri tanpa tergantung siapa pelakunya. Probe price_fundamental sudah out of scope untuk sinyal ini (harga SCCO tidak disebut naik tajam dalam bukti yang ada), sehingga menambah kredit untuk probe yang tidak akan mengubah kesimpulan adalah pemborosan pagu.\n\nKarena buk",
+      "reason": "Probe volume_anomaly mencatatkan Z-score 3,6σ dan rasio volume 4,0× terhadap median baseline 90 hari. Untuk SCCO di BEI, anomali volume sebesar itu berdiri sendiri sebagai sinyal abnormalitas yang material terhadap risiko perdagangan; ambang umum untuk \"anomali signifikan\" adalah Z ≥ 2,5σ atau rasio ≥ 3×, dan temuan ini melampaui keduanya dengan margin yang cukup lebar.\n\nProbe yang tersisa (broker_concentration, foreign_flow, structural) dirancang untuk menjawab pertanyaan berbeda: siapa pelaku di balik akumulasi, apakah ada dorongan aliran asing, dan ada tidaknya masalah governance/suspensi. Ketiganya akan memperkaya karakterisasi anomali, tetapi tidak akan membatalkan atau memperkuat sinyal inti, anomali volume sudah berdiri tanpa tergantung siapa pelakunya. Probe price_fundamental sudah out of scope untuk sinyal ini (harga SCCO tidak disebut naik tajam dalam bukti yang ada), sehingga menambah kredit untuk probe yang tidak akan mengubah kesimpulan adalah pemborosan pagu.\n\nKarena buk",
       "credits_spent": 0,
       "credits_remaining": 7
     }

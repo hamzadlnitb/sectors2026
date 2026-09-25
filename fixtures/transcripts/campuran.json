@@ -1,112 +1,125 @@
 {
   "schema_version": "1.0",
-  "symbol": "FIXB",
+  "symbol": "FIXD",
   "as_of": "2026-09-05",
   "weights_version": "cal-fixture",
   "plan": {
     "hypotheses": [
       {
         "id": "h1",
-        "claim": "Volume tidak wajar tanpa dukungan fundamental",
+        "claim": "Perdagangan terkonsentrasi di sedikit broker",
         "probes": [
-          "volume_anomaly",
-          "price_fundamental"
+          "broker_concentration"
         ],
         "priority": 1
       },
       {
         "id": "h2",
-        "claim": "Perdagangan terkonsentrasi di sedikit broker",
+        "claim": "Volume tidak wajar tanpa dukungan fundamental",
         "probes": [
-          "broker_concentration"
+          "volume_anomaly",
+          "price_fundamental"
         ],
         "priority": 2
       },
       {
         "id": "h3",
-        "claim": "Asing mendistribusikan ke ritel saat harga naik",
+        "claim": "Saham beredar langka dan asing mendistribusikan",
         "probes": [
+          "free_float",
           "foreign_flow",
           "structural"
         ],
         "priority": 3
       }
     ],
-    "credit_budget_requested": 21,
-    "rationale": "Sinyal Tier-1 keras: volume 4σ, harga naik tajam 90 hari. Dahulukan probe broker karena paling menentukan meski paling mahal."
+    "credit_budget_requested": 24,
+    "rationale": "Sinyal Tier-1 campur: konsentrasi broker tinggi tapi kenaikan harga moderat. Jalankan semua jalur untuk memastikan tidak ada yang terlewat."
   },
   "steps": [
     {
       "step": 1,
-      "hypothesis": "h2",
+      "hypothesis": "h1",
       "probe": "broker_concentration",
       "finding": "confirmed",
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "78% net buy dikuasai tiga broker. Konsentrasi ekstrem, lanjutkan.",
+      "reason": "71% net buy dikuasai tiga broker. Konsentrasi tinggi.",
       "credits_spent": 6,
-      "credits_remaining": 15
+      "credits_remaining": 18
     },
     {
       "step": 2,
-      "hypothesis": "h1",
+      "hypothesis": "h2",
       "probe": "volume_anomaly",
       "finding": "confirmed",
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Volume 4,1σ di atas baseline.",
+      "reason": "Volume 4,2σ di atas baseline.",
       "credits_spent": 2,
-      "credits_remaining": 13
+      "credits_remaining": 16
     },
     {
       "step": 3,
-      "hypothesis": "h1",
+      "hypothesis": "h2",
       "probe": "price_fundamental",
-      "finding": "confirmed",
+      "finding": "refuted",
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Harga +142% sementara laba bersih turun 8%. Divergensi lebar.",
+      "reason": "Return +58% masih sejalan dengan laba yang hanya turun 3%. Divergensi lemah; hipotesis 'tanpa dukungan fundamental' terbantah.",
       "credits_spent": 4,
-      "credits_remaining": 9
+      "credits_remaining": 12
     },
     {
       "step": 4,
       "hypothesis": "h3",
-      "probe": "foreign_flow",
+      "probe": "free_float",
       "finding": "confirmed",
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Asing keluar bersih Rp 184 M saat harga naik. Pola distribusi.",
-      "credits_spent": 4,
-      "credits_remaining": 5
+      "reason": "Free float 9% — cukup langka untuk digerakkan.",
+      "credits_spent": 2,
+      "credits_remaining": 10
     },
     {
       "step": 5,
+      "hypothesis": "h3",
+      "probe": "foreign_flow",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Data arus asing 30 hari tidak lengkap pada tanggal acuan; probe menyerah tanpa sub-skor. Jalur bukti ini tidak konklusif dan dikeluarkan dari skor.",
+      "credits_spent": 3,
+      "credits_remaining": 7
+    },
+    {
+      "step": 6,
       "hypothesis": "h3",
       "probe": "structural",
       "finding": "confirmed",
       "next_action": "conclude",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Tiga transaksi jual insider dalam 90 hari menguatkan h3. Bukti sudah cukup; free float tidak akan mengubah band.",
+      "reason": "Dua transaksi jual insider dalam 90 hari. Bukti sudah cukup untuk menyimpulkan.",
       "credits_spent": 5,
-      "credits_remaining": 0
+      "credits_remaining": 2
     }
   ],
   "evidence": [
     {
       "id": "bci.top3_share",
       "label": "Pangsa net buy 3 broker teratas",
-      "value": 0.78,
-      "display": "78%",
+      "value": 0.71,
+      "display": "71%",
       "probe": "broker_concentration",
       "source_endpoint": "fetch-broker-summary-top",
       "source_params": {
-        "symbol": "FIXB",
+        "symbol": "FIXD",
         "start": "2026-08-22",
         "end": "2026-09-05"
       },
@@ -117,12 +130,12 @@
     {
       "id": "bci.hhi",
       "label": "Indeks Herfindahl konsentrasi broker",
-      "value": 0.31,
-      "display": "0,31",
+      "value": 0.28,
+      "display": "0,28",
       "probe": "broker_concentration",
       "source_endpoint": "fetch-broker-summary",
       "source_params": {
-        "symbol": "FIXB",
+        "symbol": "FIXD",
         "start": "2026-08-22",
         "end": "2026-09-05"
       },
@@ -133,12 +146,12 @@
     {
       "id": "vas.zscore",
       "label": "Z-score volume vs baseline 90 hari",
-      "value": 4.1,
-      "display": "4,1σ",
+      "value": 4.2,
+      "display": "4,2σ",
       "probe": "volume_anomaly",
       "source_endpoint": "fetch-daily-transaction",
       "source_params": {
-        "symbol": "FIXB",
+        "symbol": "FIXD",
         "start": "2026-06-08",
         "end": "2026-09-05"
       },
@@ -149,8 +162,8 @@
     {
       "id": "pfd.return_90d",
       "label": "Return 90 hari",
-      "value": 1.42,
-      "display": "+142%",
+      "value": 0.58,
+      "display": "+58%",
       "probe": "price_fundamental",
       "source_endpoint": "fetch-close",
       "source_params": {
@@ -163,12 +176,12 @@
     {
       "id": "pfd.earnings_change",
       "label": "Perubahan laba bersih year-on-year",
-      "value": -0.08,
-      "display": "-8%",
+      "value": -0.03,
+      "display": "-3%",
       "probe": "price_fundamental",
       "source_endpoint": "fetch-quarterly-financials",
       "source_params": {
-        "symbol": "FIXB",
+        "symbol": "FIXD",
         "n_quarters": 8
       },
       "source_transport": "mcp",
@@ -176,30 +189,28 @@
       "credits_spent": 2
     },
     {
-      "id": "frd.foreign_net_30d",
-      "label": "Arus asing bersih 30 hari",
-      "value": -184000000000,
-      "display": "-Rp 184 M",
-      "probe": "foreign_flow",
-      "source_endpoint": "fetch-foreign-flow",
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.09,
+      "display": "9%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
       "source_params": {
-        "symbol": "FIXB",
-        "start": "2026-08-06",
-        "end": "2026-09-05"
+        "sub_sector": "technology"
       },
-      "source_transport": "rest",
+      "source_transport": "mcp",
       "as_of": "2026-09-05T17:30:00+07:00",
-      "credits_spent": 4
+      "credits_spent": 2
     },
     {
       "id": "sss.insider_sells",
       "label": "Transaksi jual insider 90 hari",
-      "value": 3,
-      "display": "3 transaksi",
+      "value": 2,
+      "display": "2 transaksi",
       "probe": "structural",
       "source_endpoint": "fetch-filings",
       "source_params": {
-        "symbol": "FIXB",
+        "symbol": "FIXD",
         "transaction_type": "sell",
         "start": "2026-06-08"
       },
@@ -211,7 +222,7 @@
   "components": [
     {
       "code": "BCI",
-      "sub_score": 88.0,
+      "sub_score": 72.0,
       "weight": 0.24,
       "evidence_ids": [
         "bci.top3_share",
@@ -221,7 +232,7 @@
     },
     {
       "code": "VAS",
-      "sub_score": 76.0,
+      "sub_score": 65.0,
       "weight": 0.18,
       "evidence_ids": [
         "vas.zscore"
@@ -230,7 +241,7 @@
     },
     {
       "code": "PFD",
-      "sub_score": 71.0,
+      "sub_score": 40.0,
       "weight": 0.16,
       "evidence_ids": [
         "pfd.return_90d",
@@ -240,23 +251,23 @@
     },
     {
       "code": "FFS",
-      "sub_score": null,
+      "sub_score": 80.0,
       "weight": 0.12,
-      "evidence_ids": [],
-      "investigated": false
-    },
-    {
-      "code": "FRD",
-      "sub_score": 68.0,
-      "weight": 0.18,
       "evidence_ids": [
-        "frd.foreign_net_30d"
+        "ffs.pct"
       ],
       "investigated": true
     },
     {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.18,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
       "code": "SSS",
-      "sub_score": 55.0,
+      "sub_score": 58.0,
       "weight": 0.12,
       "evidence_ids": [
         "sss.insider_sells"
@@ -264,13 +275,13 @@
       "investigated": true
     }
   ],
-  "pantau_score": 74,
+  "pantau_score": 63,
   "band": "waspada",
-  "confidence": 0.88,
-  "credits_total": 21,
+  "confidence": 0.82,
+  "credits_total": 22,
   "baseline_credits": 23,
-  "narrative": "Beberapa indikator menunjukkan pola tidak biasa. Sebanyak 78% net buy dikuasai tiga broker, volume berada 4,1σ di atas baseline, dan harga naik 142% dalam 90 hari sementara laba bersih justru turun 8%. Pada periode yang sama asing keluar bersih Rp 184 M dan tercatat 3 transaksi jual insider.",
-  "narrative_source": "llm",
+  "narrative": "Beberapa indikator menunjukkan pola tidak biasa. Bukti yang terkumpul: pangsa net buy tiga broker teratas 71%; volume 4,2σ di atas baseline; return 90 hari +58%; free float 9%; dan 2 transaksi jual insider dalam 90 hari. Satu jalur bukti (arus asing) tidak konklusif dan dikeluarkan dari skor. Seluruh angka di atas berasal dari buku bukti investigasi ini dan bisa ditelusuri ke sumber datanya.",
+  "narrative_source": "template",
   "memory_ref": null,
   "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
 }

@@ -16,7 +16,7 @@
       },
       {
         "id": "H2",
-        "claim": "Jika anomali volume terkonfirmasi dan float tipis, perlu diuji apakah pengumpulan dilakukan segelintir broker (top-3 HHI tinggi) — distribusi ke ritel atau ke tangan kuat.",
+        "claim": "Jika anomali volume terkonfirmasi dan float tipis, perlu diuji apakah pengumpulan dilakukan segelintir broker (top-3 HHI tinggi), distribusi ke ritel atau ke tangan kuat.",
         "probes": [
           "broker_concentration",
           "foreign_flow"
@@ -34,7 +34,7 @@
       }
     ],
     "credit_budget_requested": 10,
-    "rationale": "Urutan mengikuti prinsip 'keyakinan per kredit': mulai dari probe termurah/free_float+volume_anomaly (2 kredit) untuk menjawab pertanyaan terbesar pada emiten dengan kenaikan +103% — apakah float tipis memungkinkan harga digerakkan modal kecil. Hanya jika anomali volume nyata, naik ke broker_concentration+foreign_flow (5 kredit) untuk melihat siapa yang kumpulkan. Terakhir, structural (3 kredit) memberi konteks korporasi; price_fundamental (6 kredit, bobot hanya 12%) tidak dimasukkan dulu karena ongkos terhadap bobotnya paling buruk di tahap awal — bisa ditambahkan di investigasi lanjutan bila H1/H2 layak dikejar. Total 10 kredit dari 25, menyisakan ruang untuk probe mahal bila sinyal Tier-2 berikutnya menguat."
+    "rationale": "Urutan mengikuti prinsip 'keyakinan per kredit': mulai dari probe termurah/free_float+volume_anomaly (2 kredit) untuk menjawab pertanyaan terbesar pada emiten dengan kenaikan +103%, apakah float tipis memungkinkan harga digerakkan modal kecil. Hanya jika anomali volume nyata, naik ke broker_concentration+foreign_flow (5 kredit) untuk melihat siapa yang kumpulkan. Terakhir, structural (3 kredit) memberi konteks korporasi; price_fundamental (6 kredit, bobot hanya 12%) tidak dimasukkan dulu karena ongkos terhadap bobotnya paling buruk di tahap awal, bisa ditambahkan di investigasi lanjutan bila H1/H2 layak dikejar. Total 10 kredit dari 25, menyisakan ruang untuk probe mahal bila sinyal Tier-2 berikutnya menguat."
   },
   "steps": [
     {
@@ -45,7 +45,7 @@
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Free float 22% bukan float tipis yang bisa digerakkan modal kecil untuk kenaikan +103% — sub-skor 63/100 mendukung itu. Namun skor tunggal tanpa konfirmasi volume membuat kesimpulan prematur: float 22% dengan likuiditas normal berbeda maknanya dengan float 22% dengan anomali volume. Probe volume_anomaly hanya 1 kredit dan merupakan langkah termurah berikutnya dalam rencana awal; jika z-score tidak anomali, jalur Tier-2 (broker/foreign) dapat diabaikan dan kita bisa langsung ke structural untuk menutup investigasi secara murah. Kalau anomali, baru eskalasi ke broker_concentration+foreign_flow sesuai rencana.",
+      "reason": "Free float 22% bukan float tipis yang bisa digerakkan modal kecil untuk kenaikan +103%, sub-skor 63/100 mendukung itu. Namun skor tunggal tanpa konfirmasi volume membuat kesimpulan prematur: float 22% dengan likuiditas normal berbeda maknanya dengan float 22% dengan anomali volume. Probe volume_anomaly hanya 1 kredit dan merupakan langkah termurah berikutnya dalam rencana awal; jika z-score tidak anomali, jalur Tier-2 (broker/foreign) dapat diabaikan dan kita bisa langsung ke structural untuk menutup investigasi secara murah. Kalau anomali, baru eskalasi ke broker_concentration+foreign_flow sesuai rencana.",
       "credits_spent": 0,
       "credits_remaining": 10
     },
@@ -57,7 +57,7 @@
       "next_action": "conclude",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Probe volume_anomaly (2 kredit) memberi sub-skor 3/100: Z-score 0,2σ dan rasio volume 1,3× median. Ini secara tegas memungkiri hipotesis float tipis + pergerakan modal kecil yang menjadi pemicu kenaikan +103%. Tanpa anomali volume yang nyata, seluruh tesis 'thin float-driven rally' runtuh di fondasinya.\n\nRencana awal mensyaratkan broker_concentration+foreign_flow (total 5 kredit) HANYA jika anomali volume terbukti nyata. Syarat tidak terpenuhi — menurunkan konsumsi kredit di sini bukan节约 melainkan menghindari sinyal palsu dari probe Tier-2 yang akan kehilangan konteks. foreign_flow (2 kredit) berdiri sendiri dan tidak bisa menyelamatkan hipotesis yang sudah refuted di level paling dasar; tanpa anomali volume, arus asing pun tidak relevan karena pertanyaan intinya bukan 'siapa' tapi 'apakah memang ada abnormal demand'.\n\nstructural (3 kredit) memberi konteks korporasi tapi TIDAK mengubah simpulan bahwa kenaikan harga TIDAK ditopang oleh aktivitas perdagangan abnormal. Ini konteks latar b",
+      "reason": "Probe volume_anomaly (2 kredit) memberi sub-skor 3/100: Z-score 0,2σ dan rasio volume 1,3× median. Ini secara tegas memungkiri hipotesis float tipis + pergerakan modal kecil yang menjadi pemicu kenaikan +103%. Tanpa anomali volume yang nyata, seluruh tesis 'thin float-driven rally' runtuh di fondasinya.\n\nRencana awal mensyaratkan broker_concentration+foreign_flow (total 5 kredit) HANYA jika anomali volume terbukti nyata. Syarat tidak terpenuhi, menurunkan konsumsi kredit di sini bukan节约 melainkan menghindari sinyal palsu dari probe Tier-2 yang akan kehilangan konteks. foreign_flow (2 kredit) berdiri sendiri dan tidak bisa menyelamatkan hipotesis yang sudah refuted di level paling dasar; tanpa anomali volume, arus asing pun tidak relevan karena pertanyaan intinya bukan 'siapa' tapi 'apakah memang ada abnormal demand'.\n\nstructural (3 kredit) memberi konteks korporasi tapi TIDAK mengubah simpulan bahwa kenaikan harga TIDAK ditopang oleh aktivitas perdagangan abnormal. Ini konteks latar b",
       "credits_spent": 1,
       "credits_remaining": 9
     }

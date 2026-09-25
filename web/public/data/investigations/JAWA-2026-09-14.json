@@ -27,7 +27,7 @@
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Volume anomaly 9,2σ dan 8,5× median sudah kuat sebagai sinyal anomali, tapi belum cukup untuk menyimpulkan jenis risikonya. free_float adalah probe paling murah (1 kredit) dan katalog sendiri menekankan bahwa float kecil menentukan apakah lonjakan volume bisa dimanipulasi dengan murah — jadi ini informasi yang hampir wajib ada sebelum menilai apakah anomali volume ini berisiko atau sekadar peningkatan likuiditas organik. Probe ini sudah ada di antrean, tidak butuh eskalasi.",
+      "reason": "Volume anomaly 9,2σ dan 8,5× median sudah kuat sebagai sinyal anomali, tapi belum cukup untuk menyimpulkan jenis risikonya. free_float adalah probe paling murah (1 kredit) dan katalog sendiri menekankan bahwa float kecil menentukan apakah lonjakan volume bisa dimanipulasi dengan murah, jadi ini informasi yang hampir wajib ada sebelum menilai apakah anomali volume ini berisiko atau sekadar peningkatan likuiditas organik. Probe ini sudah ada di antrean, tidak butuh eskalasi.",
       "credits_spent": 1,
       "credits_remaining": 3
     },
@@ -39,7 +39,7 @@
       "next_action": "escalate",
       "new_probe": "structural",
       "budget_granted": 3,
-      "reason": "Probe free_float menunjukkan skor 94/100 dengan free float hanya 8% (sangat rendah) dan data baru (7 hari). Ini adalah temuan berisiko tinggi yang tunggal — satu sinyal dari satu probe tidak cukup untuk menyimpulkan, terutama karena free float rendah bisa berasal dari dua skenario berbeda: (1) struktur kepemilikan yang memang terkonsentrasi secara fundamental/insider (low-risk structural lock), atau (2) saham yang sengaja dikunci/di-stabilkan oleh segelintir pihak dengan potensi manipulasi (high-risk). Untuk membedakan keduanya, probe structural (3 kredit) sangat diperlukan karena probe ini langsung menguji riwayat suspensi, penjualan insider, dan rights issue/private placement — semua sinyal yang bisa mengkonfirmasi atau membantah kekhawatiran. Probe ini paling relevan dan paling murah (3 kredit vs 6 untuk price_fundamental atau 3+2 untuk structural+foreign). Sisa pagu 3 kredit cukup untuk satu probe, jadi saya pilih structural karena paling langsung menjawab pertanyaan \"apakah konsen",
+      "reason": "Probe free_float menunjukkan skor 94/100 dengan free float hanya 8% (sangat rendah) dan data baru (7 hari). Ini adalah temuan berisiko tinggi yang tunggal, satu sinyal dari satu probe tidak cukup untuk menyimpulkan, terutama karena free float rendah bisa berasal dari dua skenario berbeda: (1) struktur kepemilikan yang memang terkonsentrasi secara fundamental/insider (low-risk structural lock), atau (2) saham yang sengaja dikunci/di-stabilkan oleh segelintir pihak dengan potensi manipulasi (high-risk). Untuk membedakan keduanya, probe structural (3 kredit) sangat diperlukan karena probe ini langsung menguji riwayat suspensi, penjualan insider, dan rights issue/private placement, semua sinyal yang bisa mengkonfirmasi atau membantah kekhawatiran. Probe ini paling relevan dan paling murah (3 kredit vs 6 untuk price_fundamental atau 3+2 untuk structural+foreign). Sisa pagu 3 kredit cukup untuk satu probe, jadi saya pilih structural karena paling langsung menjawab pertanyaan \"apakah konsen",
       "credits_spent": 0,
       "credits_remaining": 6
     },
@@ -51,7 +51,7 @@
       "next_action": "conclude",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Probe structural menunjukkan tidak ada peristiwa struktural, tetapi ini tidak cukup untuk menyimpulkan risiko rendah — hasilnya bisa negatif palsu. Karena probe awal dirancang sebagai dua probe termurah untuk memutuskan ulang, dan hanya satu probe yang dilaporkan (structural), dengan tidak ada probe lain yang mengantre atau telah dijalankan, bukti belum memadai untuk conclude. Namun, menjalankan probe tambahan akan melebihi rencana awal yang ditentukan (hanya dua probe termurah), dan satu-satunya bukti yang tersedia tidak menunjukkan tanda bahaya struktural. Untuk menghormati prinsip berhenti ketika bukti cukup dan menjaga efisiensi pagu, saya conclude dengan status inconclusive berdasarkan satu-satunya bukti yang ada: tidak ada peristiwa struktural terdeteksi. Ini adalah kesimpulan terbaik yang dapat dicapai tanpa eskalasi di luar rencana awal.",
+      "reason": "Probe structural menunjukkan tidak ada peristiwa struktural, tetapi ini tidak cukup untuk menyimpulkan risiko rendah, hasilnya bisa negatif palsu. Karena probe awal dirancang sebagai dua probe termurah untuk memutuskan ulang, dan hanya satu probe yang dilaporkan (structural), dengan tidak ada probe lain yang mengantre atau telah dijalankan, bukti belum memadai untuk conclude. Namun, menjalankan probe tambahan akan melebihi rencana awal yang ditentukan (hanya dua probe termurah), dan satu-satunya bukti yang tersedia tidak menunjukkan tanda bahaya struktural. Untuk menghormati prinsip berhenti ketika bukti cukup dan menjaga efisiensi pagu, saya conclude dengan status inconclusive berdasarkan satu-satunya bukti yang ada: tidak ada peristiwa struktural terdeteksi. Ini adalah kesimpulan terbaik yang dapat dicapai tanpa eskalasi di luar rencana awal.",
       "credits_spent": 0,
       "credits_remaining": 6
     }

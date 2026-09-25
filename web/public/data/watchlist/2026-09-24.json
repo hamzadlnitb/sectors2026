@@ -191,5 +191,19 @@
       },
       "alasan": "tidak ada sinyal menonjol"
     }
+  ],
+  "run_log": [
+    "[15:22:34Z] sapuan Tier-1 untuk 2026-09-24",
+    "[15:22:35Z]   fetch-most-traded-stocks        10 baris -> daily_transaction (kini 2054 baris, 2 kredit)",
+    "[15:22:36Z]   fetch-companies-top-changes     20 baris -> daily_close (kini 254 baris, 1 kredit)",
+    "[15:22:36Z]   fetch-suspensions                0 baris (tidak ada yang baru, 1 kredit)",
+    "[15:22:37Z]   fetch-filings                    8 baris -> filings (kini 929 baris, 1 kredit)",
+    "[15:22:37Z] total 5 kredit; 4 panggilan, 0 dari cache (0%), 5 kredit terpakai",
+    "[15:22:37Z] watchlist: 15 kandidat",
+    "[15:22:37Z]   ASLI  skor 0.650  volume 51.7σ di atas baseline; harga +119% dalam 20 hari bursa; kapitalisasi kecil",
+    "[15:22:37Z]   JAWA  skor 0.500  volume 89.7σ di atas baseline; kapitalisasi kecil",
+    "[15:22:37Z]   PACK  skor 0.359  volume 5.4σ di atas baseline",
+    "[15:22:37Z]   PPGL  skor 0.200  kapitalisasi kecil; ada suspensi/filing baru",
+    "[15:22:37Z]   TRUK  skor 0.200  kapitalisasi kecil; ada suspensi/filing baru"
   ]
 }

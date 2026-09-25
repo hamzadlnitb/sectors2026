@@ -16,7 +16,7 @@
       },
       {
         "id": "H2-freefloat-thin-float-distribution",
-        "claim": "Free float tipis (kapas Rp2,5T di subsektor Heavy Construction) memungkinkan harga digerakkan dengan modal kecil sehingga aksi jual -24% baru 3 hari ini bukan koreksi fundamental melainkan distribusi ke ritel/asing — diuji dengan free_float lalu foreign_flow.",
+        "claim": "Free float tipis (kapas Rp2,5T di subsektor Heavy Construction) memungkinkan harga digerakkan dengan modal kecil sehingga aksi jual -24% baru 3 hari ini bukan koreksi fundamental melainkan distribusi ke ritel/asing, diuji dengan free_float lalu foreign_flow.",
         "probes": [
           "free_float",
           "foreign_flow"
@@ -25,7 +25,7 @@
       },
       {
         "id": "H3-structural-corporate-catalyst",
-        "claim": "Ada katalis korporasi (insider selling, suspensi berulang, atau aksi korporasi 24 bulan terakhir) yang menjelaskan perubahan tajam 3 hari terakhir ini — probe structural jadi konteks tambahan, bukan prioritas.",
+        "claim": "Ada katalis korporasi (insider selling, suspensi berulang, atau aksi korporasi 24 bulan terakhir) yang menjelaskan perubahan tajam 3 hari terakhir ini, probe structural jadi konteks tambahan, bukan prioritas.",
         "probes": [
           "structural"
         ],
@@ -33,7 +33,7 @@
       }
     ],
     "credit_budget_requested": 10,
-    "rationale": "Investigasi sebelumnya (3 hari lalu, skor 100, keyakinan 22%, hanya 1 kredit = volume_anomaly) sudah memberi isyarat kuat tapi keyakinan rendah karena baru satu probe. Yang berubah: harga sudah bergerak -24% dalam 3 hari, sehingga konteks 'volume masih anomali atau tidak' HARUS diperbarui dulu — kalau z-score sudah normal, hipotesis distribusi melemah dan saya hemat kredit. Urutan: (1) volume_anomaly 1 kredit sebagai gatekeeper murah untuk menyaring apakah anomali masih aktif pasca-turunnya harga; (2) broker_concentration 3 kredit langsung menguji H1 karena -24% + kapet Rp2,5T sangat rentan dimanipulasi segelintir broker, dan probe ini bobotnya 25% (terbesar) — melewatkan = skor akhir rendah walau murah; (3) free_float 1 kredit (bobot 18%) menjawab pertanyaan modal-minimum untuk menggerakkan harga, krusial di kapet kecil seperti ini; (4) foreign_flow 2 kredit (bobot 15%) menguji apakah distribusi ke ritel atau ke asing; (5) structural 3 kredit (bobot 8%) sengaja di akhir karena bobotnya kecil dan hanya konfirmasi — harga_fundamental 6 kredit (bobot 12%) saya TIDAK ambil: return 90 hari yang sudah -24% membuat price-vs-fundamental lebih cocok sebagai konteks jangka panjang, bukan untuk menjelaskan guncangan 3 hari ini; biaya 6 kredit terlalu mahal untuk keyakinan yang setara probe structural. Total 10/25 kredit, menyisakan buffer jika ada anomali tak terduga."
+    "rationale": "Investigasi sebelumnya (3 hari lalu, skor 100, keyakinan 22%, hanya 1 kredit = volume_anomaly) sudah memberi isyarat kuat tapi keyakinan rendah karena baru satu probe. Yang berubah: harga sudah bergerak -24% dalam 3 hari, sehingga konteks 'volume masih anomali atau tidak' HARUS diperbarui dulu, kalau z-score sudah normal, hipotesis distribusi melemah dan saya hemat kredit. Urutan: (1) volume_anomaly 1 kredit sebagai gatekeeper murah untuk menyaring apakah anomali masih aktif pasca-turunnya harga; (2) broker_concentration 3 kredit langsung menguji H1 karena -24% + kapet Rp2,5T sangat rentan dimanipulasi segelintir broker, dan probe ini bobotnya 25% (terbesar), melewatkan = skor akhir rendah walau murah; (3) free_float 1 kredit (bobot 18%) menjawab pertanyaan modal-minimum untuk menggerakkan harga, krusial di kapet kecil seperti ini; (4) foreign_flow 2 kredit (bobot 15%) menguji apakah distribusi ke ritel atau ke asing; (5) structural 3 kredit (bobot 8%) sengaja di akhir karena bobotnya kecil dan hanya konfirmasi, harga_fundamental 6 kredit (bobot 12%) saya TIDAK ambil: return 90 hari yang sudah -24% membuat price-vs-fundamental lebih cocok sebagai konteks jangka panjang, bukan untuk menjelaskan guncangan 3 hari ini; biaya 6 kredit terlalu mahal untuk keyakinan yang setara probe structural. Total 10/25 kredit, menyisakan buffer jika ada anomali tak terduga."
   },
   "steps": [
     {
@@ -44,7 +44,7 @@
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Probe gatekeeper (volume_anomaly) justru malah KONFIRMASI kuat anomali pasca-turun harga: z-score 16,0σ dan rasio 18,1× median. Ini membuat hipotesis distribusi/distorsi malah LEBIH hidup, bukan melemah. Isyarat awalnya keyakinan 22% naik material. Karena anomali masih sangat aktif bahkan setelah -24%, justifikasi untuk broker_concentration (bobot 25%, terbesar) jadi makin kuat — di skenario seperti ini, distribusi yg berlanjut pasca-jatuh biasanya jejak broker-nya paling diagnostik. Biaya 3 kredit masih dalam pagu (sisa jadi 6), dan probe ini tidak tergantikan. Saya lanjut ke broker_concentration dulu; free_float (1kr) dan foreign_flow (2kr) tetap di antrian, structural (3kr) jadi konfirmasi akhir. price_fundamental (6kr) tetap di-skip sesuai rencana awal — konteks fundamental 90 hari tidak menjelaskan guncangan 3 hari dan biayanya tidak sebanding.",
+      "reason": "Probe gatekeeper (volume_anomaly) justru malah KONFIRMASI kuat anomali pasca-turun harga: z-score 16,0σ dan rasio 18,1× median. Ini membuat hipotesis distribusi/distorsi malah LEBIH hidup, bukan melemah. Isyarat awalnya keyakinan 22% naik material. Karena anomali masih sangat aktif bahkan setelah -24%, justifikasi untuk broker_concentration (bobot 25%, terbesar) jadi makin kuat, di skenario seperti ini, distribusi yg berlanjut pasca-jatuh biasanya jejak broker-nya paling diagnostik. Biaya 3 kredit masih dalam pagu (sisa jadi 6), dan probe ini tidak tergantikan. Saya lanjut ke broker_concentration dulu; free_float (1kr) dan foreign_flow (2kr) tetap di antrian, structural (3kr) jadi konfirmasi akhir. price_fundamental (6kr) tetap di-skip sesuai rencana awal, konteks fundamental 90 hari tidak menjelaskan guncangan 3 hari dan biayanya tidak sebanding.",
       "credits_spent": 1,
       "credits_remaining": 9
     },
@@ -56,7 +56,7 @@
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Sub-skor 42/100 dari broker_concentration BELUM cukup untuk menolak H1 (distribusi). HHI 0,19 + pangsa top-3 60% dengan kode broker tak umum (XL, MG, AK) memberi sinyal moderat, bukan kuat. Ada dua penjelasan tanding: (a) konsentrasi broker memang ciri manipulator tersembunyi, atau (b) free float kecil → 3 broker wajar mendominasi karena thin market. Tanpa free_float, hipotesis (b) tidak bisa dikesampingkan dan keyakinan akan macet di sekitar 50-55%. Probe free_float hanya 1 kredit, bobot 18% (kedua terbesar di rencana), dan langsung mematikan ambiguinitas antara kedua penjelasan. Urutan yang benar: free_float dulu (paling murah, paling membuka), baru foreign_flow (2k) untuk lihat apakah distribusi ke asing/ritel, baru structural (3k) sebagai konfirmasi akhir. Total ≥8 dari 7 sisa — masih dalam pagar keras. Tidak eskalasi, tidak tambah pagu: probe yang direncanakan sudah memadai, tinggal eksekusi sesuai urutan.",
+      "reason": "Sub-skor 42/100 dari broker_concentration BELUM cukup untuk menolak H1 (distribusi). HHI 0,19 + pangsa top-3 60% dengan kode broker tak umum (XL, MG, AK) memberi sinyal moderat, bukan kuat. Ada dua penjelasan tanding: (a) konsentrasi broker memang ciri manipulator tersembunyi, atau (b) free float kecil → 3 broker wajar mendominasi karena thin market. Tanpa free_float, hipotesis (b) tidak bisa dikesampingkan dan keyakinan akan macet di sekitar 50-55%. Probe free_float hanya 1 kredit, bobot 18% (kedua terbesar di rencana), dan langsung mematikan ambiguinitas antara kedua penjelasan. Urutan yang benar: free_float dulu (paling murah, paling membuka), baru foreign_flow (2k) untuk lihat apakah distribusi ke asing/ritel, baru structural (3k) sebagai konfirmasi akhir. Total ≥8 dari 7 sisa, masih dalam pagar keras. Tidak eskalasi, tidak tambah pagu: probe yang direncanakan sudah memadai, tinggal eksekusi sesuai urutan.",
       "credits_spent": 2,
       "credits_remaining": 7
     },
@@ -68,7 +68,7 @@
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Free float 37% dengan sub-skor 28/100 itu ambigu: di satu sisi 37% cukup untuk melancarkan distribusi (ambang umum ~20-25%), di sisi lain free float kecil-menengah mengurangi kemampuan one-sided move. Sub-skor rendah bukan konfirmasi aman — ia juga belum refute. Jadi hipotesis distribusi masih berdiri dan saya tidak boleh berhenti di sini. Lanjut ke foreign_flow (2 kredit, bobot 15%) yang sudah di-antrean: probe ini paling murah dan langsung menjawab 'distribusi ke asing atau ke ritel', yang merupakan pembeda kunci antara manipulasi terstruktur dan panic selling fundamentals. structural (3 kredit) disimpan di akhir sebagai konfirmasi bobot kecil. Tetap dalam pagu 10/25.",
+      "reason": "Free float 37% dengan sub-skor 28/100 itu ambigu: di satu sisi 37% cukup untuk melancarkan distribusi (ambang umum ~20-25%), di sisi lain free float kecil-menengah mengurangi kemampuan one-sided move. Sub-skor rendah bukan konfirmasi aman, ia juga belum refute. Jadi hipotesis distribusi masih berdiri dan saya tidak boleh berhenti di sini. Lanjut ke foreign_flow (2 kredit, bobot 15%) yang sudah di-antrean: probe ini paling murah dan langsung menjawab 'distribusi ke asing atau ke ritel', yang merupakan pembeda kunci antara manipulasi terstruktur dan panic selling fundamentals. structural (3 kredit) disimpan di akhir sebagai konfirmasi bobot kecil. Tetap dalam pagu 10/25.",
       "credits_spent": 0,
       "credits_remaining": 7
     },
@@ -80,7 +80,7 @@
       "next_action": "conclude",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "foreign_flow skor 0/100 + catatan internal: perubahan harga 30 hari bursa +88% padahal arus asing 30 hari hanya Rp10,9M (sangat kecil) dan proporsi asing terhadap nilai transaksi 0,0%. Ini menyatu kuat dengan dua bukti sebelumnya: (a) volume_anomaly sebagai gatekeeper menyaring anomali aktif pasca-turun -24%, dan (b) broker_concentration sub-skor 0 yang menguji H1 manipulasi segelintir broker di kapet Rp2,5T. Jika distribusi adalah ulah broker ritel/konsentrasi lokal, asing akan absen — dan itulah yang ditunjukkan data: 0,0% porsi asing. Jadi foreign_flow bukan hanya netral, ia justru mengkonfirmasi sisi 'bukan distribusi asing' dari pola anomali. Skor agregat probe yang sudah dijalankan (volume_anomaly gate + broker_concentration 0 + foreign_flow 0) tidak cukup untuk menerima hipotesis distribusi, namun probe yang tersisa tidak akan membalik kesimpulan: structural (insider/restriction) menjelaskan kronologi korporat, bukan mekanisme distribusi 3 hari; price_fundamental adalah konteks ",
+      "reason": "foreign_flow skor 0/100 + catatan internal: perubahan harga 30 hari bursa +88% padahal arus asing 30 hari hanya Rp10,9M (sangat kecil) dan proporsi asing terhadap nilai transaksi 0,0%. Ini menyatu kuat dengan dua bukti sebelumnya: (a) volume_anomaly sebagai gatekeeper menyaring anomali aktif pasca-turun -24%, dan (b) broker_concentration sub-skor 0 yang menguji H1 manipulasi segelintir broker di kapet Rp2,5T. Jika distribusi adalah ulah broker ritel/konsentrasi lokal, asing akan absen, dan itulah yang ditunjukkan data: 0,0% porsi asing. Jadi foreign_flow bukan hanya netral, ia justru mengkonfirmasi sisi 'bukan distribusi asing' dari pola anomali. Skor agregat probe yang sudah dijalankan (volume_anomaly gate + broker_concentration 0 + foreign_flow 0) tidak cukup untuk menerima hipotesis distribusi, namun probe yang tersisa tidak akan membalik kesimpulan: structural (insider/restriction) menjelaskan kronologi korporat, bukan mekanisme distribusi 3 hari; price_fundamental adalah konteks ",
       "credits_spent": 1,
       "credits_remaining": 6
     }

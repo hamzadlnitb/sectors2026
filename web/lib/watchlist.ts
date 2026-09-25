@@ -25,6 +25,7 @@ export interface Watchlist {
   generated_at?: string | null;
   credits_spent?: number | null;
   candidates: Candidate[];
+  run_log?: string[];
 }
 
 export interface WatchDate {

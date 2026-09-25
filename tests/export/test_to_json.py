@@ -98,3 +98,33 @@ def test_ringkasan_memuat_blok_llm():
     ringkas = summarize(_transkrip(), f"WSPD-{date(2026, 9, 22)}")
     assert set(ringkas["llm"]) == {
         "planner_llm", "llm_decisions", "fallback_decisions", "narrative_llm"}
+
+
+# ── fixture tidak boleh bocor ke ekspor produksi (AUDIT B5) ─────────────────
+
+def test_sumber_bawaan_hanya_transkrip_sungguhan():
+    """FIXA–FIXD adalah placeholder UI, bukan investigasi. Sejak cron mengekspor
+    tiap malam, bendera yang terbalik berarti kebocoran permanen ke landing."""
+    from core.export import to_json as ex
+
+    assert ex.main_sources(with_fixtures=False) == [ex.REAL_SOURCE]
+    assert ex.FIXTURE_SOURCE in ex.main_sources(with_fixtures=True)
+
+
+def test_ekspor_bawaan_tidak_memuat_simbol_fix():
+    from core.export import to_json as ex
+
+    ringkasan, _ = ex.write_investigations(True, ex.main_sources(with_fixtures=False))
+
+    simbol = {r["symbol"] for r in ringkasan}
+    assert simbol, "ada transkrip sungguhan untuk diperiksa"
+    assert not any(s.startswith("FIX") for s in simbol), sorted(simbol)
+
+
+def test_dengan_fixtures_memang_memuatnya():
+    """Bendera itu ada gunanya — tes UI butuh keempat keadaan band."""
+    from core.export import to_json as ex
+
+    ringkasan, _ = ex.write_investigations(True, ex.main_sources(with_fixtures=True))
+
+    assert {"FIXA", "FIXB", "FIXC"} <= {r["symbol"] for r in ringkasan}

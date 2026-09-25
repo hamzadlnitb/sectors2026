@@ -27,7 +27,7 @@
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Volume anomali ekstrem terkonfirmasi (Z 81,6σ, 94,2× median) — sinyal kuat manipulatif/manja. Namun keyakinan masih rendah (22%) karena hanya 1/6 komponen tercakup. Probe termurah berikutnya yang paling relevan untuk anomali volume adalah free_float (1 kredit): float kecil bisa menjelaskan pergerakan harga tanpa memerlukan bukti tambahan. Setelah hasilnya, baru putuskan apakah perlu lanjut broker_concentration (3) atau cukup konfirmasi dengan dua probe dan conclude.",
+      "reason": "Volume anomali ekstrem terkonfirmasi (Z 81,6σ, 94,2× median), sinyal kuat manipulatif/manja. Namun keyakinan masih rendah (22%) karena hanya 1/6 komponen tercakup. Probe termurah berikutnya yang paling relevan untuk anomali volume adalah free_float (1 kredit): float kecil bisa menjelaskan pergerakan harga tanpa memerlukan bukti tambahan. Setelah hasilnya, baru putuskan apakah perlu lanjut broker_concentration (3) atau cukup konfirmasi dengan dua probe dan conclude.",
       "credits_spent": 1,
       "credits_remaining": 3
     },
@@ -39,7 +39,7 @@
       "next_action": "escalate",
       "new_probe": "foreign_flow",
       "budget_granted": 2,
-      "reason": "Sisa pagu 3 kredit cukup untuk satu probe lagi. Probe termurah adalah foreign_flow (2 kredit) dan paling relevan menyilang dengan temuan volume anomaly ekstrem (94× median, 81,6σ). Foreign_flow memberi konteks apakah lonjakan volume didorong akumulasi asing atau murni domestik — informasi ini menentukan kesimpulan akhir dan tidak bisa digantikan broker_concentration/price_fundamental/structural pada tahap ini. Setelah foreign_flow, pagu habis dan kita harus conclude.' [eskalasi 2 kredit dikabulkan 2: masih di bawah pagar dan beralasan]",
+      "reason": "Sisa pagu 3 kredit cukup untuk satu probe lagi. Probe termurah adalah foreign_flow (2 kredit) dan paling relevan menyilang dengan temuan volume anomaly ekstrem (94× median, 81,6σ). Foreign_flow memberi konteks apakah lonjakan volume didorong akumulasi asing atau murni domestik, informasi ini menentukan kesimpulan akhir dan tidak bisa digantikan broker_concentration/price_fundamental/structural pada tahap ini. Setelah foreign_flow, pagu habis dan kita harus conclude.' [eskalasi 2 kredit dikabulkan 2: masih di bawah pagar dan beralasan]",
       "credits_spent": 0,
       "credits_remaining": 5
     },
@@ -51,7 +51,7 @@
       "next_action": "escalate",
       "new_probe": "structural",
       "budget_granted": 3,
-      "reason": "Volume anomali ekstrem (81,6σ, 94× median) dengan kenaikan harga +149% dalam 30 hari tanpa foreign flow — pola khas pump-and-distribute oleh insider/domestic terpusat. Free float hanya 37% (cukup tipis untuk amplifikasi). Sebelum menilai apakah ini perlu 'escalate' atau cukup 'conclude', kita perlu tahu apakah ada insiden struktural (suspensi historis, penjualan insider, atau aksi korporasi seperti rights issue/private placement) yang bisa menjelaskan lonjakan ini secara fundamental. Probe structural (3 kredit) paling murah dan langsung menjawab: apakah pergerakan ini didorong oleh kejadian korporasi yang legitimate atau murni manipulation. Setelahnya, dengan sisa 1 kredit, kita bisa conclude — karena broker_concentration (3) dan price_fundamental (6) sudah tidak muat, dan tanpa foreign flow + dengan data struktural kita sudah punya cukup bukti untuk menilai level kewaspadaan. [eskalasi 3 kredit dikabulkan 3: masih di bawah pagar dan beralasan]",
+      "reason": "Volume anomali ekstrem (81,6σ, 94× median) dengan kenaikan harga +149% dalam 30 hari tanpa foreign flow, pola khas pump-and-distribute oleh insider/domestic terpusat. Free float hanya 37% (cukup tipis untuk amplifikasi). Sebelum menilai apakah ini perlu 'escalate' atau cukup 'conclude', kita perlu tahu apakah ada insiden struktural (suspensi historis, penjualan insider, atau aksi korporasi seperti rights issue/private placement) yang bisa menjelaskan lonjakan ini secara fundamental. Probe structural (3 kredit) paling murah dan langsung menjawab: apakah pergerakan ini didorong oleh kejadian korporasi yang legitimate atau murni manipulation. Setelahnya, dengan sisa 1 kredit, kita bisa conclude, karena broker_concentration (3) dan price_fundamental (6) sudah tidak muat, dan tanpa foreign flow + dengan data struktural kita sudah punya cukup bukti untuk menilai level kewaspadaan. [eskalasi 3 kredit dikabulkan 3: masih di bawah pagar dan beralasan]",
       "credits_spent": 1,
       "credits_remaining": 7
     },
@@ -63,7 +63,7 @@
       "next_action": "conclude",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Skor sementara 50 (perhatian) dengan keyakinan 63% — 4/6 komponen tercakup. Komponen PFD (bobot 0.12, 6 kredit) belum diperiksa dan merupakan komponen terakhir yang tersisa. Mengingat bukti yang sudah ada sangat kuat mengindikasikan anomali (volume 81,6σ, harga +149% dalam 30 hari, foreign_flow 0/100, 4 suspensi termasuk terkait pergerakan tidak wajar), probe PFD sangat relevan untuk membedakan apakah kenaikan harga sepenuhnya ditopang fundamental atau sudah脱离 valuasi. Ini bisa menggeser skor dari 'perhatian' ke 'curiga' atau sebaliknya, sehingga layak dijalankan meski memakan 6 kredit dari sisa pagu. Probe broker_concentration (3 kredit) tidak dijalankan karena tidak akan mengalahkan signifikansi PFD dalam menilai apakah kenaikan harga masuk akal secara fundamental. [eskalasi 6 kredit ditolak: batas 2 eskalasi per investigasi sudah tercapai] [ditutup: antrean habis]",
+      "reason": "Skor sementara 50 (perhatian) dengan keyakinan 63%, 4/6 komponen tercakup. Komponen PFD (bobot 0.12, 6 kredit) belum diperiksa dan merupakan komponen terakhir yang tersisa. Mengingat bukti yang sudah ada sangat kuat mengindikasikan anomali (volume 81,6σ, harga +149% dalam 30 hari, foreign_flow 0/100, 4 suspensi termasuk terkait pergerakan tidak wajar), probe PFD sangat relevan untuk membedakan apakah kenaikan harga sepenuhnya ditopang fundamental atau sudah脱离 valuasi. Ini bisa menggeser skor dari 'perhatian' ke 'curiga' atau sebaliknya, sehingga layak dijalankan meski memakan 6 kredit dari sisa pagu. Probe broker_concentration (3 kredit) tidak dijalankan karena tidak akan mengalahkan signifikansi PFD dalam menilai apakah kenaikan harga masuk akal secara fundamental. [eskalasi 6 kredit ditolak: batas 2 eskalasi per investigasi sudah tercapai] [ditutup: antrean habis]",
       "credits_spent": 1,
       "credits_remaining": 6
     }

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-25T15:26:35+00:00",
+  "generated_at": "2026-09-25T20:02:02+00:00",
   "investigations": [
     {
       "id": "NICK-2026-09-17",
@@ -18,6 +18,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 1,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 1,
@@ -43,6 +45,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 1,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 1,
@@ -68,6 +72,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 2,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 2,
@@ -93,6 +99,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 3,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 3,
@@ -118,6 +126,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 2,
+      "components_total": 6,
       "llm": {
         "planner_llm": false,
         "llm_decisions": 2,
@@ -125,33 +135,6 @@
         "narrative_llm": true
       },
       "headline": "Free float JAWA tercatat hanya 8% dengan data berusia 9 hari, menandakan struktur kepemilikan yang sangat terkonsentr…"
-    },
-    {
-      "id": "FIXC-2026-09-05",
-      "symbol": "FIXC",
-      "as_of": "2026-09-05",
-      "pantau_score": 87,
-      "band": "sangat_waspada",
-      "confidence": 0.6,
-      "steps": 4,
-      "credits_total": 13,
-      "baseline_credits": 23,
-      "savings_pct": 43,
-      "memory_ref": "FIXC-2026-08-24",
-      "narrative_source": "llm",
-      "moments": [
-        "adaptive",
-        "escalation",
-        "early_stop",
-        "memory"
-      ],
-      "llm": {
-        "planner_llm": true,
-        "llm_decisions": 4,
-        "fallback_decisions": 0,
-        "narrative_llm": true
-      },
-      "headline": "Banyak indikator menunjukkan pola tidak biasa secara bersamaan"
     },
     {
       "id": "NICK-2026-09-11",
@@ -170,6 +153,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 2,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 2,
@@ -197,6 +182,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 3,
+      "components_total": 6,
       "llm": {
         "planner_llm": false,
         "llm_decisions": 3,
@@ -222,6 +209,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 3,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 3,
@@ -229,30 +218,6 @@
         "narrative_llm": true
       },
       "headline": "JAWA menunjukkan lonjakan volume sangat mencolok dengan z-score 104,3σ dan rasio 85,8× terhadap median baseline, namu…"
-    },
-    {
-      "id": "FIXB-2026-09-05",
-      "symbol": "FIXB",
-      "as_of": "2026-09-05",
-      "pantau_score": 74,
-      "band": "waspada",
-      "confidence": 0.88,
-      "steps": 5,
-      "credits_total": 21,
-      "baseline_credits": 23,
-      "savings_pct": 9,
-      "memory_ref": null,
-      "narrative_source": "llm",
-      "moments": [
-        "early_stop"
-      ],
-      "llm": {
-        "planner_llm": true,
-        "llm_decisions": 5,
-        "fallback_decisions": 0,
-        "narrative_llm": true
-      },
-      "headline": "Beberapa indikator menunjukkan pola tidak biasa"
     },
     {
       "id": "NICK-2026-09-15",
@@ -271,6 +236,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 2,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 2,
@@ -296,6 +263,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 2,
+      "components_total": 6,
       "llm": {
         "planner_llm": false,
         "llm_decisions": 2,
@@ -323,6 +292,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 3,
+      "components_total": 6,
       "llm": {
         "planner_llm": false,
         "llm_decisions": 3,
@@ -347,6 +318,8 @@
       "moments": [
         "early_stop"
       ],
+      "components_investigated": 5,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 5,
@@ -374,6 +347,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 4,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 4,
@@ -398,6 +373,8 @@
       "moments": [
         "early_stop"
       ],
+      "components_investigated": 3,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 3,
@@ -422,6 +399,8 @@
       "moments": [
         "early_stop"
       ],
+      "components_investigated": 2,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 2,
@@ -447,6 +426,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 3,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 3,
@@ -474,6 +455,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 4,
+      "components_total": 6,
       "llm": {
         "planner_llm": false,
         "llm_decisions": 4,
@@ -499,6 +482,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 3,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 3,
@@ -526,6 +511,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 3,
+      "components_total": 6,
       "llm": {
         "planner_llm": false,
         "llm_decisions": 3,
@@ -553,6 +540,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 4,
+      "components_total": 6,
       "llm": {
         "planner_llm": false,
         "llm_decisions": 4,
@@ -580,6 +569,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 4,
+      "components_total": 6,
       "llm": {
         "planner_llm": false,
         "llm_decisions": 4,
@@ -606,6 +597,8 @@
         "escalation",
         "early_stop"
       ],
+      "components_investigated": 3,
+      "components_total": 6,
       "llm": {
         "planner_llm": false,
         "llm_decisions": 3,
@@ -631,6 +624,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 3,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 3,
@@ -656,6 +651,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 4,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 4,
@@ -680,6 +677,8 @@
       "moments": [
         "early_stop"
       ],
+      "components_investigated": 4,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 4,
@@ -705,6 +704,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 4,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 4,
@@ -730,6 +731,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 2,
+      "components_total": 6,
       "llm": {
         "planner_llm": false,
         "llm_decisions": 2,
@@ -754,6 +757,8 @@
       "moments": [
         "early_stop"
       ],
+      "components_investigated": 5,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 5,
@@ -778,6 +783,8 @@
       "moments": [
         "early_stop"
       ],
+      "components_investigated": 4,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 4,
@@ -802,6 +809,8 @@
       "moments": [
         "early_stop"
       ],
+      "components_investigated": 2,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 2,
@@ -827,6 +836,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 4,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 4,
@@ -852,6 +863,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 4,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 4,
@@ -877,6 +890,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 2,
+      "components_total": 6,
       "llm": {
         "planner_llm": false,
         "llm_decisions": 2,
@@ -901,6 +916,8 @@
       "moments": [
         "early_stop"
       ],
+      "components_investigated": 2,
+      "components_total": 6,
       "llm": {
         "planner_llm": false,
         "llm_decisions": 0,
@@ -908,30 +925,6 @@
         "narrative_llm": false
       },
       "headline": "Tidak ada pola tidak biasa yang menonjol pada TRUK"
-    },
-    {
-      "id": "FIXA-2026-09-05",
-      "symbol": "FIXA",
-      "as_of": "2026-09-05",
-      "pantau_score": 18,
-      "band": "normal",
-      "confidence": 0.3,
-      "steps": 2,
-      "credits_total": 4,
-      "baseline_credits": 23,
-      "savings_pct": 83,
-      "memory_ref": null,
-      "narrative_source": "llm",
-      "moments": [
-        "early_stop"
-      ],
-      "llm": {
-        "planner_llm": true,
-        "llm_decisions": 2,
-        "fallback_decisions": 0,
-        "narrative_llm": true
-      },
-      "headline": "Tidak ada pola tidak biasa terdeteksi"
     },
     {
       "id": "JAWA-2026-09-18",
@@ -950,6 +943,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 1,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 1,
@@ -974,6 +969,8 @@
       "moments": [
         "early_stop"
       ],
+      "components_investigated": 1,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 1,
@@ -999,6 +996,8 @@
         "early_stop",
         "memory"
       ],
+      "components_investigated": 1,
+      "components_total": 6,
       "llm": {
         "planner_llm": true,
         "llm_decisions": 1,
@@ -1095,11 +1094,11 @@
     }
   ],
   "llm": {
-    "investigations": 40,
-    "planner_llm": 28,
-    "narrative_llm": 28,
-    "llm_decisions": 114,
+    "investigations": 37,
+    "planner_llm": 25,
+    "narrative_llm": 25,
+    "llm_decisions": 103,
     "fallback_decisions": 2,
-    "steps": 116
+    "steps": 105
   }
 }

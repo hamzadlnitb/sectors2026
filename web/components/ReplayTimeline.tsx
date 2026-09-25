@@ -11,7 +11,7 @@ const FINDING_LABEL: Record<Step["finding"], string> = {
   inconclusive: "inconclusive",
 };
 
-/** Step-by-step replay with full transport controls — play/pause, rewind,
+/** Step-by-step replay with full transport controls, play/pause, rewind,
  *  forward, and jump-to-step (click a step number). At rest every step is
  *  visible (good first frame); the controls re-walk the agent's reasoning. */
 export default function ReplayTimeline({ steps }: { steps: RenderStep[] }) {
@@ -26,7 +26,9 @@ export default function ReplayTimeline({ steps }: { steps: RenderStep[] }) {
   }, [playing, n]);
 
   useEffect(() => {
-    if (shown >= n) setPlaying(false);
+    if (shown < n) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hentikan autoplay saat langkah terakhir tercapai
+    setPlaying(false);
   }, [shown, n]);
 
   function togglePlay() {

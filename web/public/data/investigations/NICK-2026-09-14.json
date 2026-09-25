@@ -7,7 +7,7 @@
     "hypotheses": [
       {
         "id": "H1_volume_and_float_drive_most_of_signal",
-        "claim": "Setelah +107% dalam 122 hari bursa, gerak NICK terutama ditopang volume tidak wajar di atas free float yang tipis — dan itulah perubahan terbesar yang perlu diuji ulang sejak 2026-09-11.",
+        "claim": "Setelah +107% dalam 122 hari bursa, gerak NICK terutama ditopang volume tidak wajar di atas free float yang tipis, dan itulah perubahan terbesar yang perlu diuji ulang sejak 2026-09-11.",
         "probes": [
           "volume_anomaly",
           "free_float"
@@ -16,7 +16,7 @@
       },
       {
         "id": "H2_who_is_accumulating",
-        "claim": "Jika H1 terkonfirmasi (volume tinggi + float tipis), perlu diuji apakah pengumpulan dilakukan segelintir broker (HHI tinggi) — ini yang membedakan rally organik dari akumulasi terpusat dan merupakan gap terbesar berikutnya.",
+        "claim": "Jika H1 terkonfirmasi (volume tinggi + float tipis), perlu diuji apakah pengumpulan dilakukan segelintir broker (HHI tinggi), ini yang membedakan rally organik dari akumulasi terpusat dan merupakan gap terbesar berikutnya.",
         "probes": [
           "broker_concentration"
         ],
@@ -24,7 +24,7 @@
       },
       {
         "id": "H3_fundamental_vs_price_divergence",
-        "claim": "Jika ternyata rally tidak ditopang broker terpusat, gap pengetahuan berikutnya: apakah fundamental (laba YoY) ikut bergerak, atau divergensi murni harga — ini yang menentukan apakah peringatan sebelumnya masih berlaku 3 hari kemudian.",
+        "claim": "Jika ternyata rally tidak ditopang broker terpusat, gap pengetahuan berikutnya: apakah fundamental (laba YoY) ikut bergerak, atau divergensi murni harga, ini yang menentukan apakah peringatan sebelumnya masih berlaku 3 hari kemudian.",
         "probes": [
           "price_fundamental"
         ],
@@ -32,7 +32,7 @@
       }
     ],
     "credit_budget_requested": 10,
-    "rationale": "Investigasi 3 hari lalu (2026-09-11) sudah mengeluarkan 2 kredit dan memberi skor 85/43% — artinya ada sinyal kuat tapi keyakinan rendah; data stok sebagian sudah usang dan +107% dalam 122 hari membuat NICK sangat rentan terhadap noise. Yang paling berubah dalam 3 hari pada saham holding small-mid cap yang baru rally tajam adalah (a) volume intraday dan (b) apakah free float makin terkunci — keduanya probe termurah (1+1=2 kredit) dan menyumbang 40% bobot skor. Maka H1 dijalankan duluan.\n\nSetelah H1, pertanyaan berikutnya bukan ulang volume tapi \"siapa\": broker_concentration (3 kredit, 25% bobot) adalah probe paling mahal tapi juga bobot terbesar, dan pada saham dengan float tipis, HHI 20-hari biasanya menjadi pembeda antara rally organik vs akumulasi pihak terbatas. Saya tidak menjalankan foreign_flow (2 kr, 15% bobot) lebih dulu karena pada holding dengan +107% dalam 122 HB, foreign flow kurang membedakan dibanding HHI broker lokal — efisiensi informasi per kredit lebih rendah.\n\nprice_fundamental (6 kr, 12% bobot) sengaja di akhir: bobotnya paling kecil di antara probe berbobot besar, dan pada emiten holding yang baru +107%, divergensi harga-fundamental sudah hampir pasti eksis — nilai informasi tambahannya paling rendah. structural (3 kr, 8% bobot) dan sisanya tidak diminta: bobot kumulatifnya kecil dan 3 hari terlalu pendek untuk perubahan korporasi material; menunggu sampai H1-H3 memberi arah.\n\nTotal 1+1+3+6 = 11 kredit. Saya minta 10 (membulatkan ke bawah agar tidak boros) karena ini cukup untuk H1+H2 dan dana darurat 15 kredit tersimpan untuk probe lanjutan di iterasi berikutnya. foreign_flow (2 kr) sengaja saya tahan untuk round 2 karena posisinya tepat di antara H2 dan H3 dan akan memberi informasi lebih baik setelah tahu apakah HHI broker sudah terkonfirmasi."
+    "rationale": "Investigasi 3 hari lalu (2026-09-11) sudah mengeluarkan 2 kredit dan memberi skor 85/43%, artinya ada sinyal kuat tapi keyakinan rendah; data stok sebagian sudah usang dan +107% dalam 122 hari membuat NICK sangat rentan terhadap noise. Yang paling berubah dalam 3 hari pada saham holding small-mid cap yang baru rally tajam adalah (a) volume intraday dan (b) apakah free float makin terkunci, keduanya probe termurah (1+1=2 kredit) dan menyumbang 40% bobot skor. Maka H1 dijalankan duluan.\n\nSetelah H1, pertanyaan berikutnya bukan ulang volume tapi \"siapa\": broker_concentration (3 kredit, 25% bobot) adalah probe paling mahal tapi juga bobot terbesar, dan pada saham dengan float tipis, HHI 20-hari biasanya menjadi pembeda antara rally organik vs akumulasi pihak terbatas. Saya tidak menjalankan foreign_flow (2 kr, 15% bobot) lebih dulu karena pada holding dengan +107% dalam 122 HB, foreign flow kurang membedakan dibanding HHI broker lokal, efisiensi informasi per kredit lebih rendah.\n\nprice_fundamental (6 kr, 12% bobot) sengaja di akhir: bobotnya paling kecil di antara probe berbobot besar, dan pada emiten holding yang baru +107%, divergensi harga-fundamental sudah hampir pasti eksis, nilai informasi tambahannya paling rendah. structural (3 kr, 8% bobot) dan sisanya tidak diminta: bobot kumulatifnya kecil dan 3 hari terlalu pendek untuk perubahan korporasi material; menunggu sampai H1-H3 memberi arah.\n\nTotal 1+1+3+6 = 11 kredit. Saya minta 10 (membulatkan ke bawah agar tidak boros) karena ini cukup untuk H1+H2 dan dana darurat 15 kredit tersimpan untuk probe lanjutan di iterasi berikutnya. foreign_flow (2 kr) sengaja saya tahan untuk round 2 karena posisinya tepat di antara H2 dan H3 dan akan memberi informasi lebih baik setelah tahu apakah HHI broker sudah terkonfirmasi."
   },
   "steps": [
     {
@@ -43,7 +43,7 @@
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Sub-skor volume 1/100 gagal menyangkal maupun mengonfirmasi tesis (+107% dalam 122 hari, float tipis, kerentanan noise) — volume justru normal, sehingga sinyal rally tidak datang dari volume abnormal. Karena H1 paling murah dan posisinya krusial sebagai filter awal (volume + free float menyumbang 40% bobot), langkah rasional berikutnya bukan langsung H2 (broker_concentration, 3 kr) melainkan menyelesaikan sisi \"float\" dulu: free_float (1 kr) probe termurah kedua dan penjelasan katalog menyebut float tipis bisa menjelaskan rally tanpa volume abnormal. Setelah free_float, tersisa 8 kr — cukup untuk H2 (3 kr) + H4 (6 kr) = 9 kr pas, atau H2 + menahan H4 untuk round 2. foreign_flow (2 kr) tetap di tahan sesuai rencana awal: lebih informatif setelah HHI broker memberi arah apakah rally organik atau terakumulasi pihak terbatas. Tidak perlu eskalasi; bukti cukup untuk menyimpulkan akan jatuh setelah H2 dan H4.",
+      "reason": "Sub-skor volume 1/100 gagal menyangkal maupun mengonfirmasi tesis (+107% dalam 122 hari, float tipis, kerentanan noise), volume justru normal, sehingga sinyal rally tidak datang dari volume abnormal. Karena H1 paling murah dan posisinya krusial sebagai filter awal (volume + free float menyumbang 40% bobot), langkah rasional berikutnya bukan langsung H2 (broker_concentration, 3 kr) melainkan menyelesaikan sisi \"float\" dulu: free_float (1 kr) probe termurah kedua dan penjelasan katalog menyebut float tipis bisa menjelaskan rally tanpa volume abnormal. Setelah free_float, tersisa 8 kr, cukup untuk H2 (3 kr) + H4 (6 kr) = 9 kr pas, atau H2 + menahan H4 untuk round 2. foreign_flow (2 kr) tetap di tahan sesuai rencana awal: lebih informatif setelah HHI broker memberi arah apakah rally organik atau terakumulasi pihak terbatas. Tidak perlu eskalasi; bukti cukup untuk menyimpulkan akan jatuh setelah H2 dan H4.",
       "credits_spent": 1,
       "credits_remaining": 9
     },
@@ -55,7 +55,7 @@
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "H1 selesai: free_float 22% dengan data umur 7 hari (masih segar). Skor 63/100 — free float tipis, sesuai dengan kerentanan terhadap noise pada saham yang sudah +107%. Namun satu probe saja belum cukup untuk konfirmasi apakah rally organik atau akumulasi pihak terbatas. Langkah berikutnya sesuai rencana: broker_concentration (3 kr, 25% bobot). Pada emiten dengan float 22% yang baru rally tajam, HHI broker 20-hari adalah pembeda kunci antara rally broad-based vs akumulasi segmented. Menjalankan broker_concentration sekarang daripada foreign_flow karena: (1) bobot lebih besar (25% vs 15%), (2) pada holding small-mid cap lokal, HHI broker lebih membedakan dibanding foreign flow yang biasanya tipis di saham seperti ini, (3) informasi per-kredit lebih tinggi untuk probe ini dalam konteks yang ada. Sisa pagu setelah probe ini: 6 kredit (cukup untuk price_fundamental 6 kr di langkah terakhir sesuai rencana, atau menahan dan konklusi lebih awal kalau H2 sudah determinatif).",
+      "reason": "H1 selesai: free_float 22% dengan data umur 7 hari (masih segar). Skor 63/100, free float tipis, sesuai dengan kerentanan terhadap noise pada saham yang sudah +107%. Namun satu probe saja belum cukup untuk konfirmasi apakah rally organik atau akumulasi pihak terbatas. Langkah berikutnya sesuai rencana: broker_concentration (3 kr, 25% bobot). Pada emiten dengan float 22% yang baru rally tajam, HHI broker 20-hari adalah pembeda kunci antara rally broad-based vs akumulasi segmented. Menjalankan broker_concentration sekarang daripada foreign_flow karena: (1) bobot lebih besar (25% vs 15%), (2) pada holding small-mid cap lokal, HHI broker lebih membedakan dibanding foreign flow yang biasanya tipis di saham seperti ini, (3) informasi per-kredit lebih tinggi untuk probe ini dalam konteks yang ada. Sisa pagu setelah probe ini: 6 kredit (cukup untuk price_fundamental 6 kr di langkah terakhir sesuai rencana, atau menahan dan konklusi lebih awal kalau H2 sudah determinatif).",
       "credits_spent": 0,
       "credits_remaining": 9
     },
@@ -67,7 +67,7 @@
       "next_action": "conclude",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Hasil H1+H2 sudah cukup untuk menyimpulkan arah bukti tanpa probe lanjutan. H1 (volume) + H2 (broker_concentration dengan skor 100/100) menunjukkan HHI 0,92 dan pangsa 99% di tangan 3 broker (PD, XC, KK) — ini ciri klasik akumulasi tertutup pada saham dengan free float tipis pasca-rally +107%/122 hari. Menjalankan price_fundamental (6 kr) akan mengonfirmasi divergensi harga-fundamental yang pada emiten holding yang sudah rally tajam hampir pasti eksis — nilai informasi tambahannya rendah dan tidak akan mengubah kesimpulan bahwa rally digerakkan oleh konsentrasi broker, bukan oleh aliran terdistribusi. foreign_flow (2 kr) dan structural (3 kr) bobotnya kecil dan tidak akan membalik arah bukti. Total 11 kredit sudah cukup untuk skor akhir; sisa pagu 7 kr disimpan sebagai cadangan.",
+      "reason": "Hasil H1+H2 sudah cukup untuk menyimpulkan arah bukti tanpa probe lanjutan. H1 (volume) + H2 (broker_concentration dengan skor 100/100) menunjukkan HHI 0,92 dan pangsa 99% di tangan 3 broker (PD, XC, KK), ini ciri klasik akumulasi tertutup pada saham dengan free float tipis pasca-rally +107%/122 hari. Menjalankan price_fundamental (6 kr) akan mengonfirmasi divergensi harga-fundamental yang pada emiten holding yang sudah rally tajam hampir pasti eksis, nilai informasi tambahannya rendah dan tidak akan mengubah kesimpulan bahwa rally digerakkan oleh konsentrasi broker, bukan oleh aliran terdistribusi. foreign_flow (2 kr) dan structural (3 kr) bobotnya kecil dan tidak akan membalik arah bukti. Total 11 kredit sudah cukup untuk skor akhir; sisa pagu 7 kr disimpan sebagai cadangan.",
       "credits_spent": 2,
       "credits_remaining": 7
     }

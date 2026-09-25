@@ -44,7 +44,7 @@
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Volume anomaly 104σ dan 85,8× median adalah sinyal yang terlalu mencolok untuk diabaikan. Probe termurah dan paling menentukan apakah lonjakan volume ini bersifat artifisial atau genuine adalah free_float (1 kredit). Float kecil = sedikit saham tersedia, sehingga perubahan tipis porsi kepemilikan bisa memicu lonjakan volume besar — penjelasan murah untuk anomali sebesar ini. Setelah free_float, tersisa broker_concentration (3), foreign_flow (2), structural (3) = 8 kredit, cukup untuk jalur bukti inti. price_fundamental (6) belum diaktifkan karena lebih tepat bila pola kenaikan harga sudah terkonfirmasi sebagai organik; belum sampai situ.",
+      "reason": "Volume anomaly 104σ dan 85,8× median adalah sinyal yang terlalu mencolok untuk diabaikan. Probe termurah dan paling menentukan apakah lonjakan volume ini bersifat artifisial atau genuine adalah free_float (1 kredit). Float kecil = sedikit saham tersedia, sehingga perubahan tipis porsi kepemilikan bisa memicu lonjakan volume besar, penjelasan murah untuk anomali sebesar ini. Setelah free_float, tersisa broker_concentration (3), foreign_flow (2), structural (3) = 8 kredit, cukup untuk jalur bukti inti. price_fundamental (6) belum diaktifkan karena lebih tepat bila pola kenaikan harga sudah terkonfirmasi sebagai organik; belum sampai situ.",
       "credits_spent": 1,
       "credits_remaining": 9
     },
@@ -68,7 +68,7 @@
       "next_action": "conclude",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Sub-skor free_float 94/100 dengan free float hanya 8% dan data sangat segar (3 hari) sudah cukup sebagai bukti dominan: struktur kepemilikan emiten JAJA terkonsentrasi, sehingga publik yang dapat menyerap goncangan harga sangat tipis. Probe lain (foreign_flow 2 kredit, structural 3 kredit) tidak akan mengubah simpulan inti terkait risiko likuiditas/konsentrasi free float ini — hanya akan memberi nuansa tambahan, bukan推翻 bukti utama. Menghemat 5 kredit sisa dengan conclude sekarang; jalur bukti yang ada sudah memadai dan eskalasi tidak diperlukan.",
+      "reason": "Sub-skor free_float 94/100 dengan free float hanya 8% dan data sangat segar (3 hari) sudah cukup sebagai bukti dominan: struktur kepemilikan emiten JAJA terkonsentrasi, sehingga publik yang dapat menyerap goncangan harga sangat tipis. Probe lain (foreign_flow 2 kredit, structural 3 kredit) tidak akan mengubah simpulan inti terkait risiko likuiditas/konsentrasi free float ini, hanya akan memberi nuansa tambahan, bukan推翻 bukti utama. Menghemat 5 kredit sisa dengan conclude sekarang; jalur bukti yang ada sudah memadai dan eskalasi tidak diperlukan.",
       "credits_spent": 0,
       "credits_remaining": 7
     }
@@ -259,7 +259,7 @@
   "confidence": 0.65,
   "credits_total": 3,
   "baseline_credits": 16,
-  "narrative": "JAWA menunjukkan lonjakan volume sangat mencolok dengan z-score 104,3σ dan rasio 85,8× terhadap median baseline, namun free float yang hanya 8% dengan umur data 3 hari menunjukkan bahwa sedikitnya saham yang tersedia untuk publik bisa menjadi penjelasan sederhana mengapa perubahan tipis porsi kepemilikan memicu pergerakan volume sebesar itu. Konsentrasi broker juga moderat, di mana 14 broker tercatat net buy positif dan tiga broker teratas — XL, LG, YU — mengendalikan 59% pangsa net buy, sebuah struktur yang dalam kondisi free float sekecil ini rentan terhadap distorsi. Herfindahl 0,16 mengindikasikan tingkat konsentrasi broker yang belum ekstrem, sehingga pola yang terbentuk belum cukup berdiri sendiri sebagai bukti organik tanpa mempertimbangkan faktor float kecil. Secara keseluruhan, bukti yang ada sejauh ini mengarah pada indikasi bahwa anomali volume JAWA lebih mungkin dipengaruhi oleh struktur kepemilikan yang tipis dan konsentrasi broker daripada oleh aktivitas perdagangan terdistribusi secara luas.",
+  "narrative": "JAWA menunjukkan lonjakan volume sangat mencolok dengan z-score 104,3σ dan rasio 85,8× terhadap median baseline, namun free float yang hanya 8% dengan umur data 3 hari menunjukkan bahwa sedikitnya saham yang tersedia untuk publik bisa menjadi penjelasan sederhana mengapa perubahan tipis porsi kepemilikan memicu pergerakan volume sebesar itu. Konsentrasi broker juga moderat, di mana 14 broker tercatat net buy positif dan tiga broker teratas, XL, LG, YU, mengendalikan 59% pangsa net buy, sebuah struktur yang dalam kondisi free float sekecil ini rentan terhadap distorsi. Herfindahl 0,16 mengindikasikan tingkat konsentrasi broker yang belum ekstrem, sehingga pola yang terbentuk belum cukup berdiri sendiri sebagai bukti organik tanpa mempertimbangkan faktor float kecil. Secara keseluruhan, bukti yang ada sejauh ini mengarah pada indikasi bahwa anomali volume JAWA lebih mungkin dipengaruhi oleh struktur kepemilikan yang tipis dan konsentrasi broker daripada oleh aktivitas perdagangan terdistribusi secara luas.",
   "narrative_source": "llm",
   "memory_ref": "JAWA-2026-09-09",
   "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."

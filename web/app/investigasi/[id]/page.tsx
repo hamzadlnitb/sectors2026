@@ -1,12 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import ReplayTimeline, { type RenderStep } from "@/components/ReplayTimeline";
 import EvidenceVerdict from "@/components/EvidenceVerdict";
+import AgentChat from "@/components/AgentChat";
 import { bandMeta } from "@/lib/bands";
 import { fmtDate } from "@/lib/format";
 import {
   detectMoments,
   gaugeDot,
   listInvestigationIds,
+  loadIndex,
   loadInvestigation,
   savingsPct,
   type Moment,
@@ -19,6 +22,15 @@ export function generateStaticParams() {
   return listInvestigationIds().map((id) => ({ id }));
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const t = loadInvestigation(id);
+  const band = bandMeta(t.band);
+  const title = `Investigasi ${t.symbol}, ${band.label}`;
+  const description = `Skor PANTAU ${t.pantau_score}/100 (${band.label}) untuk ${t.symbol} · ${t.steps.length} langkah investigasi otonom, tiap angka tertelusuri ke buktinya. Bukan saran investasi.`;
+  return { title, description, openGraph: { title, description }, twitter: { title, description } };
+}
+
 export default async function InvestigationPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const t = loadInvestigation(id);
@@ -27,12 +39,17 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
   const moments = detectMoments(t);
   const confidencePct = Math.round(t.confidence * 100);
   const creditsPct = t.baseline_credits ? Math.round((t.credits_total / t.baseline_credits) * 100) : 0;
+  const sav = savingsPct(t); // bisa negatif sejak C6 (agen bisa lebih boros dari baseline)
+  // T10: baca investigasi yang benar-benar diingat agen dari ekspor, bukan mengarang.
+  const recalled = t.memory_ref ? loadIndex().investigations.find((e) => e.id === t.memory_ref) ?? null : null;
+  const recallDays = recalled ? Math.round((Date.parse(t.as_of) - Date.parse(recalled.as_of)) / 86400000) : null;
+  const recallDelta = recalled ? t.pantau_score - recalled.pantau_score : null;
 
   const tagByStep = new Map<number, string>();
   for (const m of moments) {
-    if (m.kind === "adaptive") tagByStep.set(m.step, "⟿ adaptive routing");
-    if (m.kind === "escalation" && !tagByStep.has(m.step)) tagByStep.set(m.step, "↑ escalation");
-    if (m.kind === "early_stop" && !tagByStep.has(m.step)) tagByStep.set(m.step, "■ early stop");
+    if (m.kind === "adaptive") tagByStep.set(m.step, "⟿ perutean adaptif");
+    if (m.kind === "escalation" && !tagByStep.has(m.step)) tagByStep.set(m.step, "↑ eskalasi");
+    if (m.kind === "early_stop" && !tagByStep.has(m.step)) tagByStep.set(m.step, "■ berhenti dini");
   }
   const steps: RenderStep[] = t.steps.map((s) => ({ ...s, tag: tagByStep.get(s.step) }));
 
@@ -44,12 +61,12 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
       <div className="panel">
         <div className="panel-head">
           <span className="dots"><i /><i /><i /></span>
-          <span className="t mono">investigation · <b>{t.symbol}</b></span>
-          <span className="r mono">closed · {fmtDate(t.as_of)}</span>
+          <span className="t mono">investigasi · <b>{t.symbol}</b></span>
+          <span className="r mono">selesai · {fmtDate(t.as_of)}</span>
         </div>
         <div className="verdict">
           <div className="gauge-wrap">
-            <svg className="gauge" viewBox="0 0 280 172" role="img" aria-label={`PANTAU score ${t.pantau_score} of 100 — ${band.label}`}>
+            <svg className="gauge" viewBox="0 0 280 172" role="img" aria-label={`PANTAU score ${t.pantau_score} of 100, ${band.label}`}>
               <path className="track" d={ARC} pathLength={100} />
               <path className={`val ${band.cls}`} d={ARC} pathLength={100} strokeDasharray={`${t.pantau_score} 100`} />
               <circle className={`dot ${band.cls}`} cx={dot.x} cy={dot.y} r={7.5} />
@@ -60,21 +77,24 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
           </div>
           <div>
             <h1 className="vtitle"><span className="tk">{t.symbol}</span> · IDX</h1>
-            <div className="vsub mono">Autonomous investigation · <b>{t.steps.length} steps</b> · <b>{t.credits_total} credits</b> used</div>
+            <div className="vsub mono">Investigasi otonom · <b>{t.steps.length} langkah</b> · <b>{t.credits_total} kredit</b></div>
             <div className="stats">
               <div className="stat">
-                <div className="k">Confidence</div>
+                <div className="k">Keyakinan</div>
                 <div className="v">{confidencePct}<small>%</small></div>
                 <div className="bar"><i style={{ width: `${confidencePct}%`, background: "var(--accent)" }} /></div>
               </div>
               <div className="stat">
-                <div className="k">Credits vs baseline</div>
+                <div className="k">Kredit vs baseline</div>
                 <div className="v">{t.credits_total}<small> / {t.baseline_credits}</small></div>
                 <div className="bar"><i style={{ width: `${creditsPct}%`, background: "var(--sig-normal)" }} /></div>
               </div>
               <div className="stat wide">
-                <div className="k">Agent savings</div>
-                <div className="v good">−{savingsPct(t)}%<small> credits vs full investigation (all 6 probes)</small></div>
+                <div className="k">Hemat agen</div>
+                <div className={`v ${sav >= 0 ? "good" : "bad"}`}>
+                  {sav >= 0 ? `−${sav}%` : `+${-sav}%`}
+                  <small> {sav >= 0 ? "kredit vs investigasi menyeluruh (6 probe)" : "kredit lebih dari investigasi menyeluruh (agen kalah)"}</small>
+                </div>
               </div>
             </div>
           </div>
@@ -84,7 +104,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
       {/* ── Agentic moments ── */}
       {moments.length > 0 && (
         <section>
-          <div className="sec-label"><h2>Agentic moments</h2><span className="n">// Track 1</span></div>
+          <div className="sec-label"><h2>Momen kunci agen</h2><span className="n">yang membedakannya dari if-else</span></div>
           <div className="moments">
             {moments.map((m) => <MomentCard key={m.kind} m={m} />)}
           </div>
@@ -92,8 +112,23 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
             <div className="memory">
               <span className="ic"><MemoryIcon /></span>
               <div className="txt">
-                Agen mengingat investigasi sebelumnya. Rencana kali ini <b>menahan pagu di awal</b> karena run{" "}
-                <a href="#">{t.memory_ref}</a> berakhir normal — bukan mengulang dari nol.
+                {recalled ? (
+                  <>
+                    Saat menyusun rencana, agen membaca investigasi{" "}
+                    <Link href={`/investigasi/${recalled.id}`}>{recalled.symbol} {fmtDate(recalled.as_of)}</Link>
+                    {recallDays != null && recallDays > 0 ? ` (${recallDays} hari sebelumnya)` : ""}: skor{" "}
+                    <b>{recalled.pantau_score}</b> ({bandMeta(recalled.band).label}), keyakinan{" "}
+                    {Math.round(recalled.confidence * 100)}%, {recalled.credits_total} kredit.
+                    {recallDelta != null && (
+                      <> Skor hari ini bergerak <b>{recallDelta > 0 ? "+" : ""}{recallDelta}</b>.</>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    Agen mengingat run sebelumnya (<code>{t.memory_ref}</code>) saat menyusun rencana, tapi
+                    transkrip itu tidak ada di ekspor ini, jadi detailnya tak bisa ditampilkan.
+                  </>
+                )}
               </div>
             </div>
           )}
@@ -102,11 +137,11 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
 
       {/* ── Plan ── */}
       <section>
-        <div className="sec-label"><h2>Investigation plan</h2><span className="n">// planner</span></div>
+        <div className="sec-label"><h2>Rencana investigasi</h2><span className="n">disusun sebelum menyelidiki</span></div>
         <div className="panel">
           <div className="plan-top">
-            <span className="lbl">{t.plan.hypotheses.length} hypotheses, by priority</span>
-            <span className="bud">budget requested <b>{t.plan.credit_budget_requested} credits</b> · hard cap 25</span>
+            <span className="lbl">{t.plan.hypotheses.length} dugaan, urut prioritas</span>
+            <span className="bud">jatah diminta <b>{t.plan.credit_budget_requested} kredit</b> · batas keras 25</span>
           </div>
           <div className="hyps">
             {t.plan.hypotheses.map((h) => (
@@ -127,20 +162,29 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
 
       {/* ── Reasoning replay ── */}
       <section>
-        <div className="sec-label"><h2>Reasoning replay</h2><span className="n">// investigator</span></div>
+        <div className="sec-label"><h2>Putar ulang penalaran</h2><span className="n">langkah demi langkah</span></div>
         <ReplayTimeline steps={steps} />
       </section>
 
       {/* ── Evidence + verdict ── */}
       <EvidenceVerdict evidence={t.evidence} narrative={t.narrative} narrativeSource={t.narrative_source} />
 
-      <div className="disclaimer">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-          <circle cx="12" cy="12" r="9.5" /><path d="M12 8v5" strokeLinecap="round" /><circle cx="12" cy="16.4" r="0.4" fill="currentColor" stroke="none" />
-        </svg>
-        {t.disclaimer}
-      </div>
-      <div className="footnote">zero API &amp; LLM calls at runtime · replays a stored transcript · {t.symbol} · {t.weights_version}</div>
+      {/* ── Chat walkthrough (static, grounded ke rekaman) ── */}
+      <AgentChat
+        symbol={t.symbol}
+        band={t.band}
+        score={t.pantau_score}
+        confidence={t.confidence}
+        creditsTotal={t.credits_total}
+        baseline={t.baseline_credits}
+        savings={savingsPct(t)}
+        steps={t.steps}
+        evidence={t.evidence}
+        moments={moments}
+        memoryRef={t.memory_ref ?? null}
+      />
+
+      <div className="footnote">Diputar dari rekaman tersimpan · tanpa panggilan API atau AI saat dibuka · {t.symbol} · {t.weights_version}</div>
     </main>
   );
 }
@@ -148,28 +192,28 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
 function MomentCard({ m }: { m: Moment }) {
   const view = {
     adaptive: {
-      title: "Adaptive routing",
-      at: `step ${"step" in m ? m.step : ""}`,
+      title: "Perutean adaptif",
+      at: `langkah ${"step" in m ? m.step : ""}`,
       icon: <AdaptiveIcon />,
-      desc: <>Membuka <code>{m.kind === "adaptive" ? m.probe : ""}</code> — probe di luar rencana awal.</>,
+      desc: <>Membuka <code>{m.kind === "adaptive" ? m.probe : ""}</code>, probe di luar rencana awal.</>,
     },
     escalation: {
-      title: "Escalation",
-      at: `step ${"step" in m ? m.step : ""}`,
+      title: "Eskalasi",
+      at: `langkah ${"step" in m ? m.step : ""}`,
       icon: <EscalationIcon />,
-      desc: <>Minta tambah pagu <code>+{m.kind === "escalation" ? m.granted : 0} credits</code> dengan alasan tertulis — dikabulkan.</>,
+      desc: <>Minta tambah jatah <code>+{m.kind === "escalation" ? m.granted : 0} kredit</code> dengan alasan tertulis, dikabulkan.</>,
     },
     early_stop: {
-      title: "Early stop",
-      at: `step ${"step" in m ? m.step : ""}`,
+      title: "Berhenti dini",
+      at: `langkah ${"step" in m ? m.step : ""}`,
       icon: <StopIcon />,
-      desc: <>Berhenti lebih awal &amp; melewati probe sisa — band tak akan berubah.</>,
+      desc: <>Menyimpulkan di langkah {"step" in m ? m.step : ""} dari 6 probe, di bawah jatah menyeluruh.</>,
     },
     memory: {
-      title: "Memory",
+      title: "Memori",
       at: "memori",
       icon: <MemoryIcon />,
-      desc: <>Run sebelumnya (<code>{m.kind === "memory" ? m.ref : ""}</code>) memandu rencana — bukan mengulang dari nol.</>,
+      desc: <>Run sebelumnya (<code>{m.kind === "memory" ? m.ref : ""}</code>) memandu rencana, bukan mengulang dari nol.</>,
     },
   }[m.kind];
 

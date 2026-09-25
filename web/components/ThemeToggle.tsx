@@ -13,6 +13,7 @@ export default function ThemeToggle() {
     const isDark = attr
       ? attr === "dark"
       : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- sinkronkan sekali dengan tema DOM/OS saat mount (tak bisa dibaca saat SSR)
     setDark(isDark);
   }, []);
 
@@ -22,15 +23,14 @@ export default function ThemeToggle() {
     try {
       localStorage.setItem("pantau-theme", next);
     } catch {
-      /* private mode — ignore */
+      /* private mode, ignore */
     }
     setDark(!dark);
   }
 
   return (
-    <button className="toggle" onClick={flip} aria-label="Ganti tema terang/gelap">
+    <button className="toggle icon-only" onClick={flip} aria-label={dark ? "Ganti ke tema terang" : "Ganti ke tema gelap"} title={dark ? "Tema terang" : "Tema gelap"}>
       {dark ? <MoonIcon /> : <SunIcon />}
-      <span>{dark ? "Dark" : "Light"}</span>
     </button>
   );
 }

@@ -27,7 +27,7 @@
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Probe volume_anomaly mengirim sinyal kuat (Z-score 12,4σ, volume 14,4× median). Pada emiten mikro-cap, anomali volume sebesar itu tanpa dasar fundamental biasanya bersandar pada free float yang sangat kecil — jika float tipis terkonfirmasi, hipotesis pergerakan non-organik (digemari broker-bandar/pump) langsung terbuka. Probe free_float hanya 1 kredit dan sudah ada di antrian, jadi eskalasi di sini bersifat \"jalankan probe yang sudah direncanakan\", bukan permintaan pagu baru. Catatan: free_float ada dalam rencana awal (antrian), jadi saya tetap pada jalur bukti yang sudah dipetakan; setelah hasilnya,大概率 cukup untuk menyimpulkan tanpa probe lain.",
+      "reason": "Probe volume_anomaly mengirim sinyal kuat (Z-score 12,4σ, volume 14,4× median). Pada emiten mikro-cap, anomali volume sebesar itu tanpa dasar fundamental biasanya bersandar pada free float yang sangat kecil, jika float tipis terkonfirmasi, hipotesis pergerakan non-organik (digemari broker-bandar/pump) langsung terbuka. Probe free_float hanya 1 kredit dan sudah ada di antrian, jadi eskalasi di sini bersifat \"jalankan probe yang sudah direncanakan\", bukan permintaan pagu baru. Catatan: free_float ada dalam rencana awal (antrian), jadi saya tetap pada jalur bukti yang sudah dipetakan; setelah hasilnya,大概率 cukup untuk menyimpulkan tanpa probe lain.",
       "credits_spent": 0,
       "credits_remaining": 4
     },
@@ -39,7 +39,7 @@
       "next_action": "escalate",
       "new_probe": "structural",
       "budget_granted": 3,
-      "reason": "Free float 37% (di bawah ambang 40%) dengan umur data hanya 9 hari adalah sinyal likuiditas/governance yang belum cukup untuk simpulkan risiko emiten. Skor 28/100 adalah indikatif, bukan konklusif — perlu probe yang menyentuh dimensi berbeda dari sekadar likuiditas. Probe structural (3 kredit) memeriksa suspensi 24 bulan, transaksi insider 90 hari, dan rights issue/private placement — dimensi yang sama sekali tidak tercakup oleh free_float dan krusial untuk menyimpulkan apakah struktur perusahaan mendukung atau memperburuk profil risiko. Ini jalur bukti baru yang TIDAK ada di rencana awal (rencana hanya memuat free_float sebagai probe). Setelah structural, tersisa 1 kredit dan cukup untuk satu probe murah (foreign_flow 2 kredit... tidak cukup) — jadi structural adalah eskalasi terakhir yang rasional, dan broker_concentration (3) atau price_fundamental (6) tidak muat di sisa pagu pasca-eskalasi. Pilih structural karena memberi sinyal governance/struktur yang paling mendasar dan tidak bi",
+      "reason": "Free float 37% (di bawah ambang 40%) dengan umur data hanya 9 hari adalah sinyal likuiditas/governance yang belum cukup untuk simpulkan risiko emiten. Skor 28/100 adalah indikatif, bukan konklusif, perlu probe yang menyentuh dimensi berbeda dari sekadar likuiditas. Probe structural (3 kredit) memeriksa suspensi 24 bulan, transaksi insider 90 hari, dan rights issue/private placement, dimensi yang sama sekali tidak tercakup oleh free_float dan krusial untuk menyimpulkan apakah struktur perusahaan mendukung atau memperburuk profil risiko. Ini jalur bukti baru yang TIDAK ada di rencana awal (rencana hanya memuat free_float sebagai probe). Setelah structural, tersisa 1 kredit dan cukup untuk satu probe murah (foreign_flow 2 kredit... tidak cukup), jadi structural adalah eskalasi terakhir yang rasional, dan broker_concentration (3) atau price_fundamental (6) tidak muat di sisa pagu pasca-eskalasi. Pilih structural karena memberi sinyal governance/struktur yang paling mendasar dan tidak bi",
       "credits_spent": 0,
       "credits_remaining": 7
     },
@@ -51,7 +51,7 @@
       "next_action": "escalate",
       "new_probe": "foreign_flow",
       "budget_granted": 2,
-      "reason": "Sub-skor structural 55/100 di zona abu-abu; suspensi berulang 4x dalam 24 bulan terkait pergerakan tidak wajar adalah sinyal manipulasi harga yang kuat dan perlu dikonfirmasi/dipatahkan dengan bukti aliran modal. Probe foreign_flow paling murah (2 kredit) dan paling relevan untuk membaca apakah kenaikan/penurunan harga ditopang oleh aktivitas asing yang terpusat. broker_concentration (3) juga relevan tapi lebih mahal — simpan untuk langkah berikut bila foreign_flow belum konklusif. price_fundamental (6) belum layak karena butuh baseline valuasi yang tidak tersedia saat ini. [eskalasi 2 kredit dikabulkan 2: masih di bawah pagar dan beralasan]",
+      "reason": "Sub-skor structural 55/100 di zona abu-abu; suspensi berulang 4x dalam 24 bulan terkait pergerakan tidak wajar adalah sinyal manipulasi harga yang kuat dan perlu dikonfirmasi/dipatahkan dengan bukti aliran modal. Probe foreign_flow paling murah (2 kredit) dan paling relevan untuk membaca apakah kenaikan/penurunan harga ditopang oleh aktivitas asing yang terpusat. broker_concentration (3) juga relevan tapi lebih mahal, simpan untuk langkah berikut bila foreign_flow belum konklusif. price_fundamental (6) belum layak karena butuh baseline valuasi yang tidak tersedia saat ini. [eskalasi 2 kredit dikabulkan 2: masih di bawah pagar dan beralasan]",
       "credits_spent": 0,
       "credits_remaining": 9
     },
@@ -63,7 +63,7 @@
       "next_action": "conclude",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Foreign flow sub-skor 0/100 dengan kenaikan harga +82% dalam 30 hari — tanda klasik rally yang tidak ditopang akumulasi asing. Sebelum menilai harga vs fundamental (6 kredit), perlu probe lebih murah untuk melihat apakah konsentrasi broker mengisyaratkan akumulasi terstruktur atau sekadar aksi retail/spekulatif. Ini menentukan arah interpretasi probe harga-fundamental berikutnya dan menghindari pemakaian pagu besar pada bukti yang belum konteks. [ditutup: antrean habis]",
+      "reason": "Foreign flow sub-skor 0/100 dengan kenaikan harga +82% dalam 30 hari, tanda klasik rally yang tidak ditopang akumulasi asing. Sebelum menilai harga vs fundamental (6 kredit), perlu probe lebih murah untuk melihat apakah konsentrasi broker mengisyaratkan akumulasi terstruktur atau sekadar aksi retail/spekulatif. Ini menentukan arah interpretasi probe harga-fundamental berikutnya dan menghindari pemakaian pagu besar pada bukti yang belum konteks. [ditutup: antrean habis]",
       "credits_spent": 1,
       "credits_remaining": 8
     }

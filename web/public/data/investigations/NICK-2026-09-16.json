@@ -27,7 +27,7 @@
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Probe volume_anomaly menunjukkan skor rendah (13/100). Z-score 0,8σ dan rasio volume 2,1× median bukan indikasi kuat anomali volume — hanya sedikit di atas rata-rata. Belum cukup untuk konfirmasi atau refutasi risiko. Lanjutkan ke probe termurah berikutnya (free_float, 1 kredit) yang relevan: float kecil bisa menjelaskan lonjakan volume tanpa motif abnormal. Setelah free_float, keputusan diambil ulang.",
+      "reason": "Probe volume_anomaly menunjukkan skor rendah (13/100). Z-score 0,8σ dan rasio volume 2,1× median bukan indikasi kuat anomali volume, hanya sedikit di atas rata-rata. Belum cukup untuk konfirmasi atau refutasi risiko. Lanjutkan ke probe termurah berikutnya (free_float, 1 kredit) yang relevan: float kecil bisa menjelaskan lonjakan volume tanpa motif abnormal. Setelah free_float, keputusan diambil ulang.",
       "credits_spent": 1,
       "credits_remaining": 3
     },

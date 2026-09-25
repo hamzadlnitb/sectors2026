@@ -27,7 +27,7 @@
       "next_action": "continue",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Probe volume_anomaly menunjukkan anomali volume yang sangat kuat (Z-score 41,8σ, 36,1× median) — ini sinyal kuat bahwa ada ketidakwajaran. Namun, anomali volume saja belum cukup untuk menyimpulkan risiko; kita perlu tahu apakah free_float kecil (yang bisa menjelaskan pergerakan harga mudah dimanipulasi) atau besar (yang berarti anomali lebih mencurigakan). free_float adalah probe termurah (1 kredit) dan secara langsung relevan dengan interpretasi anomali volume. Jalankan dulu ini sebelum mengambil keputusan apakah perlu eskalasi ke broker_concentration atau structural.",
+      "reason": "Probe volume_anomaly menunjukkan anomali volume yang sangat kuat (Z-score 41,8σ, 36,1× median), ini sinyal kuat bahwa ada ketidakwajaran. Namun, anomali volume saja belum cukup untuk menyimpulkan risiko; kita perlu tahu apakah free_float kecil (yang bisa menjelaskan pergerakan harga mudah dimanipulasi) atau besar (yang berarti anomali lebih mencurigakan). free_float adalah probe termurah (1 kredit) dan secara langsung relevan dengan interpretasi anomali volume. Jalankan dulu ini sebelum mengambil keputusan apakah perlu eskalasi ke broker_concentration atau structural.",
       "credits_spent": 1,
       "credits_remaining": 3
     },
@@ -39,7 +39,7 @@
       "next_action": "conclude",
       "new_probe": null,
       "budget_granted": 0,
-      "reason": "Free float JAWA hanya 8% (sangat rendah) dengan data segar 9 hari — tanda likuiditas dan struktur kepemilikan yang terkonsentrasi. Skor 94 bukan gambaran risiko; ia hanya menandakan data terkonfirmasi, bukan risiko rendah. Dengan emitten sekonsentrasi ini, aturan main mengharuskan probe struktural dan konsentrasi broker dijalankan. Probe structural (3 kr) wajib: riwayat suspensi, jual insider, rights/PP bisa menjelaskan mengapa free float sekecil ini dan ada tidaknya sinyal manipulatif. Probe broker_concentration (3 kr) wajib: pada free float 8%, sedikit order dari 3 broker bisa menggerakkan harga — penting untuk melihat seberapa terpusat kontrol. foreign_flow (2 kr) dan price_fundamental (6 kr) belum relevan di tahap ini karena struktur pasar dan governance perlu dipetakan dulu. Total 6 kredit dari sisa 3 + eskalasi 6 = pas di pagar. [ditutup: antrean habis]",
+      "reason": "Free float JAWA hanya 8% (sangat rendah) dengan data segar 9 hari, tanda likuiditas dan struktur kepemilikan yang terkonsentrasi. Skor 94 bukan gambaran risiko; ia hanya menandakan data terkonfirmasi, bukan risiko rendah. Dengan emitten sekonsentrasi ini, aturan main mengharuskan probe struktural dan konsentrasi broker dijalankan. Probe structural (3 kr) wajib: riwayat suspensi, jual insider, rights/PP bisa menjelaskan mengapa free float sekecil ini dan ada tidaknya sinyal manipulatif. Probe broker_concentration (3 kr) wajib: pada free float 8%, sedikit order dari 3 broker bisa menggerakkan harga, penting untuk melihat seberapa terpusat kontrol. foreign_flow (2 kr) dan price_fundamental (6 kr) belum relevan di tahap ini karena struktur pasar dan governance perlu dipetakan dulu. Total 6 kredit dari sisa 3 + eskalasi 6 = pas di pagar. [ditutup: antrean habis]",
       "credits_spent": 0,
       "credits_remaining": 3
     }

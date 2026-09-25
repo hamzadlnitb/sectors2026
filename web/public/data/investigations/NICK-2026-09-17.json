@@ -7,7 +7,7 @@
     "hypotheses": [
       {
         "id": "H1",
-        "claim": "Mengingat harga sudah naik +124% dalam periode 126 hari bursa dan kapitalisasi 1.56T, pergerakan harga lebih banyak ditopang oleh tumpukan permintaan tersembunyi dari segelintir broker, bukan oleh fundamental — maka yang paling penting kita ketahui dalam 24 jam ke depan adalah apakah ada perubahan struktur akumulasi broker sejak probe terakhir, dan seberapa sentralisasi distribusinya.",
+        "claim": "Mengingat harga sudah naik +124% dalam periode 126 hari bursa dan kapitalisasi 1.56T, pergerakan harga lebih banyak ditopang oleh tumpukan permintaan tersembunyi dari segelintir broker, bukan oleh fundamental, maka yang paling penting kita ketahui dalam 24 jam ke depan adalah apakah ada perubahan struktur akumulasi broker sejak probe terakhir, dan seberapa sentralisasi distribusinya.",
         "probes": [
           "broker_concentration",
           "volume_anomaly",
@@ -17,7 +17,7 @@
       },
       {
         "id": "H2",
-        "claim": "Jika motif utamanya memang distribusi ke ritel asing, kita perlu menguji apakah arus asing 30 hari terakhir mendukung kenaikan harga, atau justru berlawanan arah — karena kombinasi harga naik +124% tanpa dukungan asing adalah tanda klasik distribusi ke retail domestik.",
+        "claim": "Jika motif utamanya memang distribusi ke ritel asing, kita perlu menguji apakah arus asing 30 hari terakhir mendukung kenaikan harga, atau justru berlawanan arah, karena kombinasi harga naik +124% tanpa dukungan asing adalah tanda klasik distribusi ke retail domestik.",
         "probes": [
           "foreign_flow"
         ],
@@ -33,7 +33,7 @@
       }
     ],
     "credit_budget_requested": 14,
-    "rationale": "Investigasi kemarin hanya 1 kredit (volume_anomaly saja) dengan keyakinan 40% — artinya kita hampir buta terhadap distribusi, foreign flow, dan struktur. Yang BERUBAH dalam 24 jam perlu kita uji adalah apakah pola akumulasi broker makin terkonsentrasi, apakah ada anomali volume hari ini, dan berapa float yang sebenarnya tersedia (murah, 1 kredit, bobot 18%). Urutan dimulai dari probe paling murah dan paling informatif (volume_anomaly 1k untuk refresh baseline + free_float 1k) sebelum probe mahal (broker_concentration 3k, bobot 25%). Foreign_flow (2k) untuk menguji H2 distribusi ritel. Structural (3k) ditahan ke akhir sebagai konteks korporasi karena bobotnya kecil (8%). price_fundamental (6k, bobot 12%) dilewati dulu — biayanya terlalu besar dibanding bobotnya, dan hipotesis H1-H3 belum memerlukan konfirmasi laba untuk menentukan motif anomali. Total 14 dari 25 kredit, menyisakan buffer 11 kredit untuk investigasi lanjutan."
+    "rationale": "Investigasi kemarin hanya 1 kredit (volume_anomaly saja) dengan keyakinan 40%, artinya kita hampir buta terhadap distribusi, foreign flow, dan struktur. Yang BERUBAH dalam 24 jam perlu kita uji adalah apakah pola akumulasi broker makin terkonsentrasi, apakah ada anomali volume hari ini, dan berapa float yang sebenarnya tersedia (murah, 1 kredit, bobot 18%). Urutan dimulai dari probe paling murah dan paling informatif (volume_anomaly 1k untuk refresh baseline + free_float 1k) sebelum probe mahal (broker_concentration 3k, bobot 25%). Foreign_flow (2k) untuk menguji H2 distribusi ritel. Structural (3k) ditahan ke akhir sebagai konteks korporasi karena bobotnya kecil (8%). price_fundamental (6k, bobot 12%) dilewati dulu, biayanya terlalu besar dibanding bobotnya, dan hipotesis H1-H3 belum memerlukan konfirmasi laba untuk menentukan motif anomali. Total 14 dari 25 kredit, menyisakan buffer 11 kredit untuk investigasi lanjutan."
   },
   "steps": [
     {

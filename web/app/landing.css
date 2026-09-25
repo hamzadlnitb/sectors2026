@@ -1,11 +1,11 @@
-/* Landing page — hero + reasoning-trail proof + today's board. */
+/* Landing page, hero + reasoning-trail proof + today's board. */
 
 .hero { max-width: 680px; padding: clamp(10px, 3vw, 30px) 0 clamp(18px, 3vw, 34px); }
 
 .eyebrow {
   display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-jbm), monospace;
   font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
-  border: 1px dashed var(--dash); border-radius: 999px; padding: 5px 13px; margin-bottom: 22px;
+  border: 1px solid var(--border); border-radius: 999px; padding: 5px 13px; margin-bottom: 22px;
 }
 .eyebrow .live { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: live 2s infinite; }
 @keyframes live { 0% { box-shadow: 0 0 0 0 var(--accent-soft); } 70% { box-shadow: 0 0 0 7px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
@@ -20,7 +20,7 @@
 .hero .sub { font-size: clamp(15px, 2vw, 17px); color: var(--muted); max-width: 46ch; margin: 0 0 26px; }
 .hero .sub b { color: var(--text); font-weight: 600; }
 
-.search { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px dashed var(--dash); border-radius: 12px; padding: 6px 6px 6px 15px; max-width: 440px; }
+.search { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 6px 6px 6px 15px; max-width: 440px; }
 .search svg { color: var(--accent); flex-shrink: 0; }
 .search input { flex: 1; min-width: 0; background: none; border: none; color: var(--text); font-family: var(--font-jbm), monospace; font-size: 14px; padding: 11px 0; outline: none; letter-spacing: 0.02em; }
 .search input::placeholder { color: var(--dim); }
@@ -30,19 +30,26 @@
 .microcopy { display: flex; align-items: center; gap: 8px; font-family: var(--font-jbm), monospace; font-size: 11.5px; color: var(--dim); margin-top: 14px; }
 .microcopy .tick { color: var(--sig-normal); }
 
+/* search: pesan "belum diselidiki" + tautan minta investigasi (T3) */
+.searchwrap { max-width: 480px; }
+.search-miss { margin-top: 11px; font-size: 13px; line-height: 1.5; color: var(--muted); font-family: var(--font-dm), var(--font-inter), sans-serif; }
+.search-miss b { color: var(--text); font-family: var(--font-jbm), monospace; }
+.search-miss a { color: var(--accent); font-weight: 600; border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent); white-space: nowrap; }
+.search-miss a:hover { border-bottom-color: var(--accent); }
+
 /* today's board */
 .board { margin-top: clamp(46px, 7vw, 80px); }
-.board-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; padding-bottom: 14px; border-bottom: 1px dashed var(--dash); margin-bottom: 22px; }
+.board-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; padding-bottom: 14px; border-bottom: 1px solid var(--border); margin-bottom: 22px; }
 .board-head h2 { font-family: var(--font-jbm), monospace; font-size: 13px; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase; margin: 0; }
 .board-stats { display: flex; gap: 16px; margin-left: auto; font-family: var(--font-jbm), monospace; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
 .board-stats b { color: var(--text); font-weight: 700; }
 .board-stats .d { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; }
 /* .cards / .card* live in globals.css (shared by landing, index, papan). */
 
-/* how it works — 01 / 02 / 03 */
+/* how it works, 01 / 02 / 03 */
 .process { display: grid; grid-template-columns: 1fr; gap: 14px; }
 @media (min-width: 720px) { .process { grid-template-columns: repeat(3, 1fr); } }
-.pstep { border: 1px dashed var(--dash); border-radius: 12px; padding: 18px; background: var(--surface); }
+.pstep { border: 1px solid var(--border); border-radius: 12px; padding: 18px; background: var(--surface); }
 .pstep .pn { font-family: var(--font-jbm), monospace; font-size: 12px; color: var(--accent); letter-spacing: 0.14em; }
 .pstep .pw { font-family: var(--font-jbm), monospace; font-weight: 800; font-size: 16px; letter-spacing: 0.06em; margin: 8px 0; }
 .pstep .pd { font-size: 13px; color: var(--muted); line-height: 1.5; }
@@ -58,8 +65,100 @@
 .sig-more { display: inline-block; margin-top: 14px; font-family: var(--font-jbm), monospace; font-size: 12.5px; color: var(--accent); border-bottom: 1px solid var(--dash); }
 
 /* autonomy strip */
-.autobar { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; border: 1px dashed var(--dash); background: var(--accent-soft); border-radius: 12px; padding: 16px 18px; margin-top: 22px; }
+.autobar { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; border: 1px solid var(--border); background: var(--accent-soft); border-radius: 12px; padding: 16px 18px; margin-top: 22px; }
 .autobar .ai { color: var(--accent); flex-shrink: 0; }
 .autobar .at { font-size: 13.5px; color: var(--text); line-height: 1.5; flex: 1; min-width: 220px; }
 .autobar .at b { font-weight: 600; }
 .autobar a { font-family: var(--font-jbm), monospace; font-size: 12.5px; color: var(--accent); white-space: nowrap; border-bottom: 1px solid var(--dash); }
+
+/* ═══ Retheme landing → gaya "Crypgo" (navy + glow + teal), di-scope ke .lp ═══
+   Ditulis ulang di token CSS kita sendiri (bukan port Tailwind/Shadcn, tanpa
+   menyalin aset berlisensi). Halaman lain tak tersentuh. Aksen = teal; hijau
+   hanya untuk band 'normal'. Landing selalu tampil gelap-navy (hero showcase). */
+/* Token kaca yang IKUT TEMA: dark = tint terang tipis, light = tint gelap tipis.
+   Warna teks/aksen diwarisi dari token global (navy di gelap, paper di terang). */
+.lp {
+  --surface: color-mix(in srgb, var(--text) 4%, transparent);
+  --border: color-mix(in srgb, var(--text) 12%, transparent);
+  --dash: color-mix(in srgb, var(--accent) 30%, transparent);
+  color: var(--text);
+}
+.lp-bg {
+  position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+  background: radial-gradient(125% 80% at 50% -12%, #0d1526 0%, #080b14 55%, #06090f 100%);
+}
+:root[data-theme="light"] .lp-bg { background: radial-gradient(125% 80% at 50% -12%, #fbf7ee 0%, #f1eadb 55%, #e9dfc8 100%); }
+.lp-orb { position: absolute; border-radius: 50%; filter: blur(120px); }
+.lp-orb.a { width: 540px; height: 540px; top: -150px; right: -130px; background: radial-gradient(circle, rgba(53, 197, 201, 0.5), transparent 70%); }
+.lp-orb.b { width: 480px; height: 480px; bottom: -170px; left: -150px; background: radial-gradient(circle, rgba(94, 224, 120, 0.22), transparent 70%); }
+:root[data-theme="light"] .lp-orb { opacity: 0.42; }
+.lp-grid {
+  position: absolute; inset: 0; opacity: 0.6;
+  background-image: linear-gradient(color-mix(in srgb, var(--text) 3%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--text) 3%, transparent) 1px, transparent 1px);
+  background-size: 34px 34px;
+  -webkit-mask-image: radial-gradient(circle at 50% 18%, #000 0%, transparent 72%);
+  mask-image: radial-gradient(circle at 50% 18%, #000 0%, transparent 72%);
+}
+
+/* hero, DM Sans, lebih besar, highlight gradien teal */
+.lp .hero { max-width: 780px; padding-top: clamp(20px, 6vw, 56px); }
+.lp .hero h1 { font-family: var(--font-dm), var(--font-inter), sans-serif; font-weight: 600; font-size: clamp(2.1rem, 5.6vw, 3.7rem); letter-spacing: -0.03em; line-height: 1.07; color: var(--text); }
+.lp .hero h1 .hl { background: linear-gradient(92deg, var(--accent), color-mix(in srgb, var(--accent) 55%, #7ad0a0)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.lp .hero h1 .cur { background: var(--accent); }
+.lp .hero .sub { font-family: var(--font-dm), var(--font-inter), sans-serif; font-size: clamp(15px, 2vw, 18px); color: var(--muted); max-width: 54ch; }
+.lp .hero .sub b { color: var(--text); }
+.lp .eyebrow { background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent); color: var(--accent); }
+
+/* search, kartu kaca membulat */
+.lp .search { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; backdrop-filter: blur(6px); }
+.lp .search button { border-radius: 10px; padding: 12px 18px; }
+
+/* kartu & panel, rounded + kaca + glow saat hover */
+.lp .pstep, .lp .sig, .lp .autobar, .lp .feed, .lp .chat { border-radius: 16px; background: var(--surface); border: 1px solid var(--border); backdrop-filter: blur(6px); }
+.lp .card { border-radius: 18px; background: var(--surface); border: 1px solid var(--border); backdrop-filter: blur(6px); }
+.lp .card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 60%, transparent), 0 16px 44px color-mix(in srgb, var(--text) 22%, transparent); }
+.lp .autobar { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 24%, transparent); }
+.lp .sig .sc, .lp .pstep .pn, .lp .pstep .pw { color: var(--accent); }
+
+/* ── Pass keramahan: bahasa manusiawi, lebih lega, hierarki jelas ── */
+/* jarak antar-section lebih lega */
+.lp section { margin-top: clamp(52px, 8vw, 92px); }
+.lp .hero { margin-top: 0; }
+
+/* header section ramah: judul DM Sans + subjudul kalimat biasa (ganti // mono) */
+.lp-head { margin-bottom: clamp(18px, 3vw, 28px); max-width: 60ch; }
+.lp-head h2 { font-family: var(--font-dm), var(--font-inter), sans-serif; font-weight: 600; font-size: clamp(1.4rem, 3vw, 2rem); letter-spacing: -0.02em; text-transform: none; margin: 0 0 8px; color: var(--text); }
+.lp-head p { font-size: clamp(14px, 1.7vw, 16px); color: var(--muted); line-height: 1.55; margin: 0; }
+
+/* eyebrow: kalimat biasa, bukan HURUF KAPITAL mono */
+.lp .eyebrow { text-transform: none; font-family: var(--font-dm), var(--font-inter), sans-serif; letter-spacing: 0.01em; font-size: 12.5px; }
+
+/* contoh ticker di bawah search, ajakan konkret */
+.lp-eg { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; color: var(--muted); font-family: var(--font-dm), var(--font-inter), sans-serif; }
+.lp-eg .eg { font-family: var(--font-jbm), monospace; font-weight: 700; font-size: 12.5px; letter-spacing: 0.04em; color: var(--accent); border: 1px solid rgba(53, 197, 201, 0.3); background: var(--accent-soft); border-radius: 999px; padding: 5px 12px; transition: background 0.16s; }
+.lp-eg .eg:hover { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+
+/* microcopy ramah (bukan mono) */
+.lp .microcopy { font-family: var(--font-dm), var(--font-inter), sans-serif; font-size: 13px; color: var(--dim); }
+
+/* proses: badge angka bulat + judul DM Sans (bukan 01/UPPERCASE mono) */
+.lp .pstep { padding: 22px; }
+.lp .pstep .pn { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; background: var(--accent-soft); border: 1px solid rgba(53, 197, 201, 0.3); color: var(--accent); font-family: var(--font-dm), var(--font-inter), sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0; margin-bottom: 12px; }
+.lp .pstep .pw { font-family: var(--font-dm), var(--font-inter), sans-serif; font-weight: 600; font-size: 17px; letter-spacing: 0; text-transform: none; color: var(--text); margin: 0 0 8px; }
+.lp .pstep .pd { font-size: 13.5px; line-height: 1.6; color: var(--muted); }
+
+/* board head: judul DM Sans + subjudul, statistik ramah */
+.lp .board-head { align-items: flex-start; border-bottom-color: var(--dash); }
+.lp .bh-title h2 { font-family: var(--font-dm), var(--font-inter), sans-serif; font-weight: 600; font-size: clamp(1.4rem, 3vw, 2rem); letter-spacing: -0.02em; text-transform: none; margin: 0 0 6px; color: var(--text); }
+.lp .bh-title p { font-size: 14px; color: var(--muted); margin: 0; max-width: 46ch; line-height: 1.5; }
+
+/* sinyal: sedikit lebih lega + judul lebih jelas */
+.lp .sig { padding: 15px 17px; }
+.lp .sig .sn { font-family: var(--font-dm), var(--font-inter), sans-serif; font-size: 14px; }
+.lp .sig-more { font-family: var(--font-dm), var(--font-inter), sans-serif; font-size: 13.5px; border-bottom: none; color: var(--accent); }
+.lp .sig-more:hover { text-decoration: underline; }
+
+/* header .sec-label yang tersisa di landing (Aktivitas agen) → gaya ramah sama */
+.lp .activity .sec-label { display: block; margin-bottom: clamp(18px, 3vw, 28px); }
+.lp .activity .sec-label h2 { font-family: var(--font-dm), var(--font-inter), sans-serif; font-weight: 600; font-size: clamp(1.4rem, 3vw, 2rem); letter-spacing: -0.02em; text-transform: none; color: var(--text); }
+.lp .activity .sec-label .n { display: block; margin-top: 6px; margin-left: 0; font-family: var(--font-dm), var(--font-inter), sans-serif; font-size: 14px; color: var(--muted); text-transform: none; letter-spacing: 0; }
