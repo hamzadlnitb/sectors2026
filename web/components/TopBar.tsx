@@ -8,6 +8,7 @@ import ThemeToggle from "./ThemeToggle";
 const NAV = [
   { href: "/investigasi", label: "Investigasi" },
   { href: "/papan", label: "Papan Waspada" },
+  { href: "/riwayat", label: "Riwayat" },
   { href: "/metodologi", label: "Metodologi" },
 ];
 

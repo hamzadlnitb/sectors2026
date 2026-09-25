@@ -106,6 +106,8 @@ export interface IndexEntry {
   memory_ref: string | null;
   narrative_source: "llm" | "template";
   moments: string[];
+  components_investigated: number;
+  components_total: number;
   headline: string;
 }
 

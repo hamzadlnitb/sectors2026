@@ -163,6 +163,8 @@ def summarize(t: InvestigationTranscript, ident: str) -> dict:
         "memory_ref": t.memory_ref,
         "narrative_source": t.narrative_source,
         "moments": moment_kinds(t),
+        "components_investigated": sum(1 for c in t.components if c.investigated),
+        "components_total": len(t.components),
         "llm": dari_llm(t),
         "headline": headline(t),
     }
