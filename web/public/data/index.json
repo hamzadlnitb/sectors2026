@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T15:24:55+00:00",
+  "generated_at": "2026-09-25T15:26:35+00:00",
   "investigations": [
     {
       "id": "NICK-2026-09-17",
@@ -50,6 +50,31 @@
         "narrative_llm": true
       },
       "headline": "Pada ASLI tercatat anomali volume yang luar biasa besar, yaitu 12,7× lipat dari median baseline dengan z-score 10,9σ …"
+    },
+    {
+      "id": "JAWA-2026-09-25",
+      "symbol": "JAWA",
+      "as_of": "2026-09-25",
+      "pantau_score": 97,
+      "band": "sangat_waspada",
+      "confidence": 0.4,
+      "steps": 2,
+      "credits_total": 1,
+      "baseline_credits": 16,
+      "savings_pct": 94,
+      "memory_ref": "JAWA-2026-09-22",
+      "narrative_source": "llm",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 2,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
+      "headline": "Free float JAWA tercatat 8% dengan usia data 18 hari, sehingga pembacaan float tipis bersifat kadaluarsa dan belum te…"
     },
     {
       "id": "JAWA-2026-09-21",
@@ -786,6 +811,31 @@
       "headline": "Free float NICK tercatat 22% dengan rasio volume 1,3× median dan z-score 0,2σ, yang menunjukkan tidak ada anomali per…"
     },
     {
+      "id": "ASLI-2026-09-25",
+      "symbol": "ASLI",
+      "as_of": "2026-09-25",
+      "pantau_score": 24,
+      "band": "normal",
+      "confidence": 0.66,
+      "steps": 4,
+      "credits_total": 4,
+      "baseline_credits": 16,
+      "savings_pct": 75,
+      "memory_ref": "ASLI-2026-09-24",
+      "narrative_source": "llm",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 4,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
+      "headline": "Arus asing bersih 30 hari bursa tercatat positif Rp 27,7 M dengan rasio arus keluar terhadap nilai transaksi 0,0%, se…"
+    },
+    {
       "id": "PACK-2026-09-24",
       "symbol": "PACK",
       "as_of": "2026-09-24",
@@ -809,6 +859,31 @@
         "narrative_llm": false
       },
       "headline": "Tidak ada pola tidak biasa yang menonjol pada PACK"
+    },
+    {
+      "id": "TRUK-2026-09-25",
+      "symbol": "TRUK",
+      "as_of": "2026-09-25",
+      "pantau_score": 20,
+      "band": "normal",
+      "confidence": 0.4,
+      "steps": 2,
+      "credits_total": 1,
+      "baseline_credits": 16,
+      "savings_pct": 94,
+      "memory_ref": "TRUK-2026-09-09",
+      "narrative_source": "llm",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "llm": {
+        "planner_llm": false,
+        "llm_decisions": 2,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
+      "headline": "TRUK tercatat dengan free float 30% dan volume perdagangan terakhir hanya 0,5× median baseline, dengan z-score volume…"
     },
     {
       "id": "TRUK-2026-09-09",
@@ -935,6 +1010,12 @@
   ],
   "watchlist_dates": [
     {
+      "as_of": "2026-09-25",
+      "generated_at": "2026-09-25T15:25:23+00:00",
+      "credits_spent": 5,
+      "candidates": 15
+    },
+    {
       "as_of": "2026-09-24",
       "generated_at": "2026-09-24T15:22:37+00:00",
       "credits_spent": 5,
@@ -1014,11 +1095,11 @@
     }
   ],
   "llm": {
-    "investigations": 37,
-    "planner_llm": 26,
-    "narrative_llm": 25,
-    "llm_decisions": 106,
+    "investigations": 40,
+    "planner_llm": 28,
+    "narrative_llm": 28,
+    "llm_decisions": 114,
     "fallback_decisions": 2,
-    "steps": 108
+    "steps": 116
   }
 }
