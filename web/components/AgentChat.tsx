@@ -149,7 +149,7 @@ export default function AgentChat({
         keys: ["memori", "memory", "ulang", "sebelum"],
         answer: () => ({
           trace: ["cek memori per-ticker"],
-          text: `Ya, agen mengingat run sebelumnya (${memoryRef}) dan menyusun rencana berbeda diarahkan ke apa yang berubah.`,
+          text: `Ya, ini investigasi ulang. Agen mengingat run sebelumnya (${memoryRef}) saat menyusun rencananya, lihat blok "memori" di atas untuk skor & band run itu.`,
           tools: [],
         }),
       });

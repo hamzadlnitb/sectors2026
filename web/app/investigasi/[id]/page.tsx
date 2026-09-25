@@ -9,6 +9,7 @@ import {
   detectMoments,
   gaugeDot,
   listInvestigationIds,
+  loadIndex,
   loadInvestigation,
   savingsPct,
   type Moment,
@@ -39,6 +40,10 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
   const confidencePct = Math.round(t.confidence * 100);
   const creditsPct = t.baseline_credits ? Math.round((t.credits_total / t.baseline_credits) * 100) : 0;
   const sav = savingsPct(t); // bisa negatif sejak C6 (agen bisa lebih boros dari baseline)
+  // T10: baca investigasi yang benar-benar diingat agen dari ekspor, bukan mengarang.
+  const recalled = t.memory_ref ? loadIndex().investigations.find((e) => e.id === t.memory_ref) ?? null : null;
+  const recallDays = recalled ? Math.round((Date.parse(t.as_of) - Date.parse(recalled.as_of)) / 86400000) : null;
+  const recallDelta = recalled ? t.pantau_score - recalled.pantau_score : null;
 
   const tagByStep = new Map<number, string>();
   for (const m of moments) {
@@ -107,8 +112,23 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
             <div className="memory">
               <span className="ic"><MemoryIcon /></span>
               <div className="txt">
-                Agen mengingat investigasi sebelumnya. Rencana kali ini <b>menahan jatah di awal</b> karena run{" "}
-                <a href="#">{t.memory_ref}</a> berakhir normal, bukan mengulang dari nol.
+                {recalled ? (
+                  <>
+                    Saat menyusun rencana, agen membaca investigasi{" "}
+                    <Link href={`/investigasi/${recalled.id}`}>{recalled.symbol} {fmtDate(recalled.as_of)}</Link>
+                    {recallDays != null && recallDays > 0 ? ` (${recallDays} hari sebelumnya)` : ""}: skor{" "}
+                    <b>{recalled.pantau_score}</b> ({bandMeta(recalled.band).label}), keyakinan{" "}
+                    {Math.round(recalled.confidence * 100)}%, {recalled.credits_total} kredit.
+                    {recallDelta != null && (
+                      <> Skor hari ini bergerak <b>{recallDelta > 0 ? "+" : ""}{recallDelta}</b>.</>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    Agen mengingat run sebelumnya (<code>{t.memory_ref}</code>) saat menyusun rencana, tapi
+                    transkrip itu tidak ada di ekspor ini, jadi detailnya tak bisa ditampilkan.
+                  </>
+                )}
               </div>
             </div>
           )}
