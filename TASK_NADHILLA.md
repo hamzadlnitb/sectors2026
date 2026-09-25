@@ -39,6 +39,7 @@ tests/web/ · tests/export/
 ### N1 · Fondasi & fixture · 8–10 Sep
 - [x] Bareng tim: bekukan `InvestigationTranscript`, lalu tulis **tiga fixture** yang mewakili tiga keadaan UI yang berbeda: `normal.json` (agen berhenti setelah 2 langkah), `waspada.json` (investigasi penuh), `eskalasi.json` (agen membuka probe di luar rencana). Tanpa ketiganya, UI lu cuma teruji di satu jalur
 - [ ] Next.js 15 App Router + Tailwind + Recharts, deploy Vercel kosong hari ini juga — supaya masalah deploy ketahuan sekarang, bukan tanggal 25
+      · _25 Sep: Next.js (16) ✅ · Tailwind ⊘ sengaja dibuang (SVG/CSS token) · **Recharts ✅** dipasang untuk dashboard Riwayat. **Sisa satu-satunya: deploy Vercel** (Root Directory=web)._
 - [x] `core/export/to_json.py` — kontrak tulis ke `web/public/data/` dan `runs/`
 - [x] **Aturan mati:** web **hanya membaca JSON statis**. Nol panggilan Sectors API, nol panggilan LLM saat runtime `[AD-1]`. Ini yang membuat demo tidak bisa gagal
 
@@ -73,18 +74,29 @@ tests/web/ · tests/export/
       · _19 Sep: semua timestamp sweep/Papan kini WIB (helper `wibTime`), kalender bursa (nama hari ID + akhir pekan bursa-tutup), helper `fmtIDR` (data `display` sudah pra-format, tak ada rupiah mentah). ID penuh; chrome EN memang disengaja per keputusan tema._
 - [x] **Mobile-first** — persona kita pegang HP di angkot, bukan Bloomberg terminal `[T1]`
 - [x] Tukar fixture → transkrip asli dari Hamzah (±18 Sep). Kalau ada yang pecah di sini, berarti kontraknya bocor — laporkan, jangan tambal diam-diam
-      · _19 Sep: `to_json` default real-only; web membaca `runs/investigations/` asli (JAWA/SCCO/TRUK 09-09) — fixtures tak lagi dipakai, tak ada yang pecah (kontrak utuh). ⏳ investigasi tanggal lebih baru/kaya (eskalasi/memori) belum diproduksi Hamzah._
+      · _19 Sep: `to_json` default real-only; web membaca `runs/investigations/` asli, fixtures tak lagi dipakai, tak ada yang pecah (kontrak utuh)._
+      · _25 Sep: **data asli kini kaya** — 34 investigasi (8 ticker, 09-10…09-24) ditarik dari main + re-export. ASLI/NICK 09-22 punya **keempat momen** (eskalasi+adaptif+memori+berhenti dini). Sanitizer em-dash di `to_json`._
 - [ ] **QA:** uji di HP asli, bukan cuma devtools · teks panjang Bahasa Indonesia tidak merusak layout · halaman tetap terbaca saat transkrip minimal
       · _19 Sep: teks panjang ✅ (375px, nol overflow horizontal di 4 halaman) · transkrip minimal ✅ (2-langkah render rapi). ❌ tersisa: uji di **HP asli** — butuh deploy Vercel dulu._
 
 ### N6 · Siap rekam · 22–25 Sep
 - [ ] Pilih 3–4 ticker yang **menceritakan sesuatu**: satu normal (agen berhenti cepat), satu waspada penuh, satu dengan eskalasi, satu investigasi ulang yang menunjukkan memori
+      · _25 Sep: **datanya kini cukup** — normal (JAWA), waspada (NICK/ASLI ALERT), **eskalasi + adaptif** (ASLI/NICK 22), **investigasi ulang/memori** (banyak). Halaman **/riwayat** (dashboard chart) memperlihatkan tren skor tiap emiten. Tinggal pilih 3–4 + rekam (bareng tim)._
 - [x] Pra-muat semua state. **Nol pemuatan lambat di depan kamera** `[T9]`
       · _19 Sep: export statis (AD-1) — nol fetch runtime, font self-hosted `display:swap`; tak ada state loading yang bisa lambat._
 - [x] Buang setiap komponen yang pernah goyah saat dicoba — kelihatan rapi mengalahkan kelihatan lengkap `[T9]`
       · _19 Sep: QA sweep semua interaksi (replay, kalender, sitasi bukti, chat, tema, search) — semua stabil, nol error konsol; tak ada yang perlu dibuang._
 - [ ] Verifikasi URL Vercel dari **incognito dan HP**, bukan dari laptop yang sudah login
 - [ ] 🔒 **Feature freeze 25 Sep** — setelah ini hanya bugfix
+
+### Tambahan dari AUDIT.md — sisi web (selesai 25 Sep)
+- [x] **T3** · SearchBox tawarkan "minta agen menyelidiki" via GitHub Issue `selidiki` saat ticker belum diselidiki (jalur permintaan; sisi cron sudah ada).
+- [x] **T10** · Seluruh UI membaca transkrip (data-driven), bukan teks tetap.
+- [x] **N2 (visibilitas)** · Halaman **/riwayat** dashboard chart (Recharts): filter emiten → tren skor + cakupan **n/6 komponen** + delta + momen; menandai ⚠ skor tinggi dari sedikit komponen (mis. ASLI 11 Sep 100 dari 1/6).
+- [x] **D9/C7 (sisi web)** · Siap tampilkan `savings_pct` negatif (`fmtSavings`, warna danger). Nadhilla setuju C6 Hamzah; dicatat di `contracts/CHANGES.md`.
+- [x] **B5/T7 (sisi web)** · `to_json` default tanpa fixture; data web bersih.
+- [ ] **Merge branch web → `main`** (PR) — penghalang audit "merge PR #13" untuk T7/T10/B5 mendarat di main. Branch sudah di-push; PR tinggal dibuat.
+- [~] **Retheme + revisi UI** (di luar audit, permintaan Ikhsan): gaya navy+teal theme-aware, copywriting ramah, tanpa em dash, header seragam, kalender rata, chat. Selesai; poles orisinalitas berlanjut.
 
 ---
 
