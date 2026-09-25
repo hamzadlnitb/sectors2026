@@ -1,0 +1,186 @@
+{
+  "schema_version": "1.0",
+  "symbol": "NICK",
+  "as_of": "2026-09-15",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1-volume-and-float",
+        "claim": "Harga +107% YTD pada kapitalisasi 1.56T di subsektor holding didorong oleh float tipis dan/atau volume spike yang belum terkonfirmasi sebagai akumulasi terpusat; perlu cek dulu apakah anomali volume masih berlangsung dan seberapa kecil free float yang tersedia.",
+        "probes": [
+          "volume_anomaly",
+          "free_float"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2-accumulator-vs-distribution",
+        "claim": "Jika volume masih anomali dan float tipis, perlu diketahui apakah kenaikan baru ini ditopang akumulasi segelintir broker (broker_concentration) atau justru distribusi ke ritel (foreign_flow), untuk memilah hipotesis mark-up vs distribusi.",
+        "probes": [
+          "broker_concentration",
+          "foreign_flow"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "H3-fundamental-context",
+        "claim": "Setelah sisi teknikal/sentimen terpetakan, probe harga_vs_laba dan structural memberi konteks apakah kenaikan +107% berbanding lurus dengan fundamental dan ada atau tidaknya peristiwa korporasi (rights issue, insider sale, suspensi) yang bisa menjelaskan anomali.",
+        "probes": [
+          "price_fundamental",
+          "structural"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 15,
+    "rationale": "Investigasi kemarin (2026-09-14) skor 56, keyakinan 65%, menghabiskan 3 kredit (kemungkinan volume_anomaly dan/atau free_float). Karena itu, hipotesis H1 mengulang dua probe murah (volume_anomaly 1 + free_float 1 = 2 kredit) untuk melihat APA YANG BERUBAH dalam 1 hari: apakah spike volume mereda atau berlanjut, dan apakah data float berubah (statis vs dinamis). H2 memprioritaskan broker_concentration (bobot 25%, terbesar) sebelum foreign_flow (bobot 15%) karena pada holding dengan kapitalisasi 1.56T dan kenaikan +107%, pertanyaan sentral adalah siapa yang mengangkat harga, akumulasi tertutup atau distribusi asing. Mengambil broker_concentration duluan mendapat porsi bobot terbesar di skor akhir. H3 di urutan terakhir karena price_fundamental (bobot 12%) dan structural (bobot 8%) adalah probe konteks bernilai tambah rendah per kredit; mereka hanya relevan setelah sinyal teknikal terkonfirmasi. Total 1+1+3+2+6+3 = 16 kredit, saya minta 15 karena H3 opsional: jika H2 sudah menunjukkan distribusi bersih ke ritel tanpa akumulasi broker, structural tetap bermanfaat tapi price_fundamental bisa ditunda. Skema ini memaksimalkan keyakinan per kredit dengan mengeksekusi probe berbobot besar (broker_concentration 25%, price_fundamental 12%) sambil menutupi hipotesis utama dengan probe murah duluan."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1-volume-and-float",
+      "probe": "volume_anomaly",
+      "finding": "confirmed",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume anomaly terkonfirmasi sangat kuat (Z=4,7σ, 7,7× median), spike belum mereda, justru ekstrem. Ini MEMPERKUAT hipotesis awal bahwa NICK dalam fase akumulasi/distribusi abnormal. Sebelum loncat ke probe mahal (broker_concentration 3 kredit, price_fundamental 6 kredit), saya jalankan free_float (1 kredit) dulu sesuai rencana H1: pertanyaan krusial pada emiten +107% dengan kapitalisasi kecil (1,56T) adalah apakah float tipis sehingga volume 7,7× median bisa digerakkan oleh sedikit pemain. Jika float kecil (mis <20%), ini menjelaskan spike tanpa butuh distribusi luas dan broker_concentration jadi wajib. Jika float longgar, spike lebih mungkin merepresentasikan minat luas dan arah investigasi bergeser. free_float adalah probe termurah dan paling informatif untuk konteks kapitalisasi mikro. Skor volume_anomaly=78 sudah memberi dasar kuat; free_float akan mengkonfirmasi atau mengubah arah H2.",
+      "credits_spent": 1,
+      "credits_remaining": 14
+    },
+    {
+      "step": 2,
+      "hypothesis": "H1-volume-and-float",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Probe free_float selesai: sub-skor 63/100, free float 22% (moderat, bukan mikro-float), umur data 8 hari (relatif segar). Ini informasi berharga tapi tunggal tidak cukup untuk menaikkan keyakinan secara berarti, skor komposit kemarin 56, free_float 63 menunjukkan free float bukan anomali utama. Pagunya masih 14 kredit, tapi keputusan harus didasarkan pada apakah probe tersisa akan mengubah kesimpulan. Hipotesis sentral rencana: pada kapitalisasi 1.56T dengan kenaikan +107%, siapa pengangkat harga, akumulasi broker atau distribusi asing. Ini hanya bisa dijawab oleh broker_concentration (3 kr) dan foreign_flow (2 kr), total 5 kredit. Probe itu akan menutupi 40% bobot skor dan menjawab pertanyaan inti. Namun, rencana awal secara eksplisit meminta pagu 15 dan menyatakan H3 (price_fundamental + structural = 9 kr) opsional. Sekarang tanpa H3, dengan sisa 14 kredit, H1+H2 total = 2 (sudah pakai) + 3 + 2 = 7 kredit, sisa 7 kredit tidak terpakai tapi tidak dibutuhkan. Lebih murah dan bersih: jala",
+      "credits_spent": 0,
+      "credits_remaining": 14
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 8,
+      "display": "8 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "NICK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.2162,
+      "display": "22%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "NICK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 7.68,
+      "display": "7,7×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-02-02",
+        "end": "2026-09-15"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-15T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 4.69,
+      "display": "4,7σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-02-02",
+        "end": "2026-09-15"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-15T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 78.1,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 63.1,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 71,
+  "band": "waspada",
+  "confidence": 0.4,
+  "credits_total": 1,
+  "baseline_credits": 16,
+  "narrative": "Free float NICK tercatat 22% dengan umur data 8 hari, sehingga_probe free_float hasilnya belum dapat disimpulkan karena data belum cukup kedaluwarsa. Volume perdagangan terakhir melonjak menjadi 7,7× median baseline dengan Z-score 4,7σ, menunjukkan anomali volume yang ekstrem dan belum mereda sejak temuan awal. Lonjakan volume pada free float moderat ini menyiratkan spike dapat digerakkan tanpa partisipasi luas, sehingga investigasi lanjutan perlu memetakan siapa pelaku di balik akumulasi atau distribusi abnormal tersebut. Karena free_float tidak cukup menaikkan keyakinan, arah berikutnya adalah mengecek konsentrasi broker dan aliran asing untuk menjawab motif penggerak harga.",
+  "narrative_source": "llm",
+  "memory_ref": "NICK-2026-09-14",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

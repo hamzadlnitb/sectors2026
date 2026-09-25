@@ -21,6 +21,9 @@ from core.probes.base import BaseProbe, Context, Finding
 SUSPENSI_BULAN = 24
 FILING_HARI = 90
 AKSI_BULAN = 24
+AKSI_SEGAR_HARI = 7
+"""Aksi korporasi dibeli ulang paling cepat seminggu sekali per emiten — selaras
+memori agen yang menganggap bukti SSS segar 7 hari (LAMBAT_BERUBAH)."""
 
 # Bobot peristiwa. Dijumlahkan lalu dipotong di 100.
 POIN_SUSPENSI = 40
@@ -64,8 +67,9 @@ class StructuralProbe(BaseProbe):
         # suspensions dan filings diisi sapuan Tier-1 secara MARKET-WIDE, jadi
         # yang diperiksa "apakah tabelnya sudah pernah disapu", bukan "apakah
         # ticker ini punya baris". Ticker tanpa baris di tabel yang sudah tersapu
-        # memang berarti bersih. corporate_actions Tier-2 per-ticker, jadi di
-        # sana pemeriksaannya per symbol.
+        # memang berarti bersih. corporate_actions Tier-2 per-ticker, dan kosong
+        # di sana juga temuan sah — jadi "sudah dibeli" dijawab ledger, bukan
+        # jumlah baris. Dulu emiten bersih ditarik ulang tiap investigasi. [AUDIT B6]
         ctx.ensure("suspensions", "fetch-suspensions",
                    {"symbol": symbol, "start": sejak_suspensi.isoformat(),
                     "end": ctx.as_of.isoformat()}, symbol=symbol)
@@ -75,7 +79,7 @@ class StructuralProbe(BaseProbe):
         ctx.ensure("corporate_actions", "fetch-corporate-actions",
                    {"symbol": symbol, "start": sejak_aksi.isoformat(),
                     "end": ctx.as_of.isoformat()}, symbol=symbol,
-                   where="symbol = ?", where_params=[symbol])
+                   segar_hari=AKSI_SEGAR_HARI)
 
         # Kosong untuk ticker ini vs kosong untuk semua ticker adalah dua hal
         # yang sangat berbeda, dan cuma satu di antaranya temuan.

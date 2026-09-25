@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0",
+  "symbol": "ASLI",
+  "as_of": "2026-09-15",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "h1",
+        "claim": "Ada pola perdagangan tidak biasa yang belum terjelaskan",
+        "probes": [
+          "volume_anomaly",
+          "free_float"
+        ],
+        "priority": 1
+      }
+    ],
+    "credit_budget_requested": 4,
+    "rationale": "Rencana cadangan berbasis aturan: perencana LLM tidak menghasilkan keluaran yang lolos skema, jadi investigasi dimulai dari dua probe termurah dan diputuskan ulang setelah temuan pertama."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "h1",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume anomaly sangat kuat (Z=8,2σ, 9,9× median), ini anomali nyata. Sebelum menyimpulkan, perlu tahu apakah anomali ini bisa dijelaskan oleh struktur free_float yang sangat kecil. Probe free_float hanya 1 kredit dan langsung menjawab apakah rendahnya sirkulasi saham mendukung interpretasi \"pump tipis\" vs \"pola abnormal lain\". Jalankan dulu yang termurah, lalu putuskan.",
+      "credits_spent": 1,
+      "credits_remaining": 3
+    },
+    {
+      "step": 2,
+      "hypothesis": "h1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Skor free_float rendah (28/100) dengan free float 37% (moderat, bukan extreme) dan umur data hanya 8 hari (masih sangat segar). Antrean kosong; probe tersisa yang tersedia adalah broker_concentration (3), price_fundamental (6, di atas sisa pagu 3), foreign_flow (2), structural (3). Mengingat tidak ada antrean dan sinyal free_float saja belum cukup untuk menarik kesimpulan risiko, foreign_flow (2 kredit, paling murah dan informatif untuk menilai tekanan jual/belakang Free float moderat) adalah probe paling bernilai berikutnya untuk diselesaikan dalam pagu. Namun, demi kehati-hatian pagu dan karena tidak ada probe yang secara langsung mengunci perubahan kesimpulan dari skor 28/100 ini, kita simpulkan inconclusive berdasarkan bukti yang ada; sisa pagu disimpan untuk risiko yang lebih definitif.",
+      "credits_spent": 0,
+      "credits_remaining": 3
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 8,
+      "display": "8 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ASLI"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.3728,
+      "display": "37%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ASLI"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 9.87,
+      "display": "9,9×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-02-02",
+        "end": "2026-09-15"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-15T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 8.21,
+      "display": "8,2σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-02-02",
+        "end": "2026-09-15"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-15T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 100.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 28.3,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 68,
+  "band": "waspada",
+  "confidence": 0.4,
+  "credits_total": 1,
+  "baseline_credits": 16,
+  "narrative": "Beberapa indikator pada ASLI menunjukkan pola tidak biasa. Bukti yang terkumpul: Umur data free float 8 hari; Free float 37%; Volume hari terakhir vs median baseline 9,9×; Z-score volume vs baseline 90 hari 8,2σ. Putusan disusun dari dua langkah penyelidikan yang menyentuh dua probe. Seluruh angka di atas berasal dari buku bukti investigasi ini dan bisa ditelusuri ke sumber datanya.",
+  "narrative_source": "template",
+  "memory_ref": "ASLI-2026-09-14",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

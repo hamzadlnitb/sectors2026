@@ -41,7 +41,7 @@ class ForeignFlowProbe(BaseProbe):
             "foreign_flow", "fetch-foreign-flow",
             {"symbol": symbol, "start": since.isoformat() if since else None,
              "end": ctx.as_of.isoformat()},
-            symbol=symbol, where="symbol = ?", where_params=[symbol],
+            symbol=symbol, where="symbol = ?", where_params=[symbol], fresh=True,
         )
 
         asing = ctx.symbol_frame("foreign_flow", symbol, since=since)
@@ -53,6 +53,15 @@ class ForeignFlowProbe(BaseProbe):
                 f"arus asing {symbol} baru {len(asing)} hari bursa, minimum {MIN_SESSIONS}"
             )
 
+        # Arus asing di atas baru saja disegarkan; penyebutnya harus sezaman.
+        # Tanpa ini nilai transaksi bisa berhenti di tanggal backfill sementara
+        # arus asingnya sampai hari ini — rasio dua periode yang berbeda.
+        ctx.ensure(
+            "daily_transaction", "fetch-daily-transaction",
+            {"symbol": symbol, "start": since.isoformat() if since else None,
+             "end": ctx.as_of.isoformat()},
+            symbol=symbol, where="symbol = ?", where_params=[symbol], fresh=True,
+        )
         pasar = ctx.symbol_frame("daily_transaction", symbol, since=since)
         pasar = pasar[pasar["close_price"].notna()]
         if len(pasar) < MIN_SESSIONS:

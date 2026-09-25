@@ -33,7 +33,9 @@ fixture dan transkrip lama ketahuan basi.
 
 ## Diajukan
 
-### C6 · 19 Sep 2026 · Perluasan kebijakan AD-1 — bidang live additive (chat + investigate) · **DIAJUKAN, menunggu sign-off bertiga**
+### C7 · 19 Sep 2026 · Nadhilla · Perluasan kebijakan AD-1 — bidang live additive (chat + investigate) · **DIAJUKAN, menunggu sign-off bertiga**
+
+> _Semula diajukan sebagai C6 (19 Sep). Dinomori ulang ke C7 saat merge `main` → `feat` karena C6 keburu dipakai Hamzah (24 Sep). Sesuai aturan berkas ini, nomor tak pernah dipakai ulang; entri yang menggantung yang pindah._
 
 **Pengaju:** Nadhilla (lajur Web). **Bukan perubahan bentuk data** — `schema_version` tetap `1.0`,
 tak satu pun field `schemas.py` berubah. Yang berubah hanya **kebijakan AD-1**, karena AD-1
@@ -60,12 +62,63 @@ verdict **persis v1.0** (dikutip, bukan diubah).
 
 **Kenapa aman menjelang beku.** Ongkos menolak = nol (bidang statis sudah lengkap & cukup untuk
 submit; live murni stretch). Ongkos salah = rendah: kalau live tak jadi, dokumen tetap berlaku
-sebagai spesifikasi, tak ada kode beku yang terlanjur berubah. **Kalau ragu waktu → tolak C6,
+sebagai spesifikasi, tak ada kode beku yang terlanjur berubah. **Kalau ragu waktu → tolak C7,
 kirim statis saja.**
 
 **Yang diminta:** persetujuan Hamzah + Melco atas perluasan kebijakan (bukan atas kode). Kalau
 setuju, pindahkan ke Riwayat dengan tanggal + commit. Kalau ada yang keberatan, live dibatalkan
 dan submit tetap jalan dengan bidang statis.
+
+### C6 · 24 Sep 2026 · Hamzah · `credits_total <= baseline_credits` memaksa transkrip berbohong
+
+**Status: diajukan, belum disetujui.** Melewati batas beku 12 Sep, jadi standarnya adalah
+"membuat lajur mustahil jalan". Gua **tidak** mengklaim ini memenuhi standar itu — kodenya
+jalan. Yang gua klaim: invarian ini memaksa transkrip mencatat angka yang bukan hasil
+pengukuran, dan itu lebih buruk daripada kerapian. Keputusannya ada di ketiga orang.
+
+| | |
+| --- | --- |
+| **Berkas** | `contracts/check.py:85` (invarian), `core/agent/adjudicator.py` (yang menyiasatinya) |
+| **Dampak ke lajur lain** | Melco: nol — `check.py` hanya melonggar, transkrip lama tetap lolos. Nadhilla: `savings_pct` di `index.json` bisa **negatif**; kartu papan dan halaman detail perlu menangani tanda minus (satu baris CSS + format). |
+| **Ongkos** | satu baris di `check.py`, satu baris di `adjudicator.py`, satu tes. `schema_version` **tidak** naik — bentuknya tidak berubah, hanya rentang nilai yang sah melebar. |
+| **Kalau ditolak** | tidak ada yang rusak. Yang tersisa adalah angka "hemat 0%" yang tidak berarti apa-apa, dan catatan ini sebagai penjelasannya. |
+
+#### Masalahnya
+
+`contracts/check.py:85` menegakkan:
+
+```python
+if t.credits_total > t.baseline_credits:
+    errors.append("credits_total melebihi baseline — tidak ada penghematan untuk diklaim")
+```
+
+`adjudicator.py` memenuhinya dengan `baseline_credits = max(credits_total, 16)`. Jadi ketika
+agen membelanjakan 18 kredit, "baseline menyeluruh" ikut berubah jadi 18 — dan transkrip
+melaporkan **hemat 0%**, bukan **−13%**.
+
+Ini bukan siasat penulis `adjudicator.py`; dengan invarian itu, tidak ada pilihan lain.
+Tapi akibatnya `baseline_credits` berhenti berarti "biaya menjalankan keenam probe" dan
+berubah jadi "angka apa pun yang membuat penghematan tidak negatif". Kolom yang seharusnya
+pembanding tetap jadi cermin.
+
+Yang hilang justru kasus yang paling layak dilihat juri: **investigasi di mana agen kalah
+dari pendekatan menyeluruh.** Eval Angka 2 punya lengan pembanding justru supaya kekalahan
+bisa terlihat; transkrip produksi tidak boleh menyembunyikannya.
+
+#### Usulan
+
+Hapus invarian itu dari `check.py`, dan di `adjudicator.py` pakai `baseline_credits(symbol)`
+apa adanya. Penghematan negatif adalah hasil pengukuran yang sah, bukan pelanggaran kontrak.
+
+Pagar yang sesungguhnya sudah ada dan tidak disentuh usulan ini: `credits_total > 25`
+ditolak, dan `Budget` menegakkannya saat investigasi berjalan. Invarian baseline tidak
+pernah memagari belanja — ia cuma memagari *pelaporannya*.
+
+#### Kalau ditolak, yang harus ikut berubah
+
+Jangan biarkan angkanya berdiri sendiri. `savings_pct` di `to_json.py` harus berhenti
+ditampilkan ketika `credits_total == baseline_credits`, dan `ARCHITECTURE.md` perlu
+menyatakan bahwa `baseline_credits` adalah batas bawah, bukan biaya menyeluruh.
 
 ---
 

@@ -1,0 +1,296 @@
+{
+  "schema_version": "1.0",
+  "symbol": "ASLI",
+  "as_of": "2026-09-24",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "h1",
+        "claim": "Ada pola perdagangan tidak biasa yang belum terjelaskan",
+        "probes": [
+          "volume_anomaly",
+          "free_float"
+        ],
+        "priority": 1
+      }
+    ],
+    "credit_budget_requested": 4,
+    "rationale": "Rencana cadangan berbasis aturan: perencana LLM tidak menghasilkan keluaran yang lolos skema, jadi investigasi dimulai dari dua probe termurah dan diputuskan ulang setelah temuan pertama."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "h1",
+      "probe": "volume_anomaly",
+      "finding": "confirmed",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume anomali ekstrem terkonfirmasi (Z 81,6σ, 94,2× median), sinyal kuat manipulatif/manja. Namun keyakinan masih rendah (22%) karena hanya 1/6 komponen tercakup. Probe termurah berikutnya yang paling relevan untuk anomali volume adalah free_float (1 kredit): float kecil bisa menjelaskan pergerakan harga tanpa memerlukan bukti tambahan. Setelah hasilnya, baru putuskan apakah perlu lanjut broker_concentration (3) atau cukup konfirmasi dengan dua probe dan conclude.",
+      "credits_spent": 1,
+      "credits_remaining": 3
+    },
+    {
+      "step": 2,
+      "hypothesis": "h1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "escalate",
+      "new_probe": "foreign_flow",
+      "budget_granted": 2,
+      "reason": "Sisa pagu 3 kredit cukup untuk satu probe lagi. Probe termurah adalah foreign_flow (2 kredit) dan paling relevan menyilang dengan temuan volume anomaly ekstrem (94× median, 81,6σ). Foreign_flow memberi konteks apakah lonjakan volume didorong akumulasi asing atau murni domestik, informasi ini menentukan kesimpulan akhir dan tidak bisa digantikan broker_concentration/price_fundamental/structural pada tahap ini. Setelah foreign_flow, pagu habis dan kita harus conclude.' [eskalasi 2 kredit dikabulkan 2: masih di bawah pagar dan beralasan]",
+      "credits_spent": 0,
+      "credits_remaining": 5
+    },
+    {
+      "step": 3,
+      "hypothesis": null,
+      "probe": "foreign_flow",
+      "finding": "inconclusive",
+      "next_action": "escalate",
+      "new_probe": "structural",
+      "budget_granted": 3,
+      "reason": "Volume anomali ekstrem (81,6σ, 94× median) dengan kenaikan harga +149% dalam 30 hari tanpa foreign flow, pola khas pump-and-distribute oleh insider/domestic terpusat. Free float hanya 37% (cukup tipis untuk amplifikasi). Sebelum menilai apakah ini perlu 'escalate' atau cukup 'conclude', kita perlu tahu apakah ada insiden struktural (suspensi historis, penjualan insider, atau aksi korporasi seperti rights issue/private placement) yang bisa menjelaskan lonjakan ini secara fundamental. Probe structural (3 kredit) paling murah dan langsung menjawab: apakah pergerakan ini didorong oleh kejadian korporasi yang legitimate atau murni manipulation. Setelahnya, dengan sisa 1 kredit, kita bisa conclude, karena broker_concentration (3) dan price_fundamental (6) sudah tidak muat, dan tanpa foreign flow + dengan data struktural kita sudah punya cukup bukti untuk menilai level kewaspadaan. [eskalasi 3 kredit dikabulkan 3: masih di bawah pagar dan beralasan]",
+      "credits_spent": 1,
+      "credits_remaining": 7
+    },
+    {
+      "step": 4,
+      "hypothesis": null,
+      "probe": "structural",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Skor sementara 50 (perhatian) dengan keyakinan 63%, 4/6 komponen tercakup. Komponen PFD (bobot 0.12, 6 kredit) belum diperiksa dan merupakan komponen terakhir yang tersisa. Mengingat bukti yang sudah ada sangat kuat mengindikasikan anomali (volume 81,6σ, harga +149% dalam 30 hari, foreign_flow 0/100, 4 suspensi termasuk terkait pergerakan tidak wajar), probe PFD sangat relevan untuk membedakan apakah kenaikan harga sepenuhnya ditopang fundamental atau sudah脱离 valuasi. Ini bisa menggeser skor dari 'perhatian' ke 'curiga' atau sebaliknya, sehingga layak dijalankan meski memakan 6 kredit dari sisa pagu. Probe broker_concentration (3 kredit) tidak dijalankan karena tidak akan mengalahkan signifikansi PFD dalam menilai apakah kenaikan harga masuk akal secara fundamental. [eskalasi 6 kredit ditolak: batas 2 eskalasi per investigasi sudah tercapai] [ditutup: antrean habis]",
+      "credits_spent": 1,
+      "credits_remaining": 6
+    }
+  ],
+  "evidence": [
+    {
+      "id": "frd.foreign_net_30d",
+      "label": "Arus asing bersih 30 hari bursa",
+      "value": 27741090500.0,
+      "display": "Rp 27,7 M",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-08-12",
+        "end": "2026-09-24"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-24T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.outflow_ratio",
+      "label": "Arus keluar asing terhadap nilai transaksi periode",
+      "value": 0.0,
+      "display": "0,0%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-08-12",
+        "end": "2026-09-24"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-24T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.price_change_30d",
+      "label": "Perubahan harga 30 hari bursa",
+      "value": 1.4923,
+      "display": "+149%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-08-12",
+        "end": "2026-09-24"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-24T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 17,
+      "display": "17 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ASLI"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.3728,
+      "display": "37%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ASLI"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.prior_suspension",
+      "label": "Suspensi terakhir",
+      "value": "2026-09-04",
+      "display": "04-09-2026",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2024-09-24",
+        "end": "2026-09-24"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-04T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.suspension_count",
+      "label": "Jumlah suspensi 24 bulan terakhir",
+      "value": 4,
+      "display": "4 kali",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2024-09-24",
+        "end": "2026-09-24"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-04T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.suspension_unusual",
+      "label": "Alasan suspensi terkait pergerakan tidak wajar",
+      "value": 1.0,
+      "display": "ya",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2024-09-24",
+        "end": "2026-09-24"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-04T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 94.25,
+      "display": "94,2×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-02-11",
+        "end": "2026-09-24"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-24T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 81.64,
+      "display": "81,6σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-02-11",
+        "end": "2026-09-24"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-24T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 100.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 28.3,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": 0.0,
+      "weight": 0.15,
+      "evidence_ids": [
+        "frd.foreign_net_30d",
+        "frd.outflow_ratio",
+        "frd.price_change_30d"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "SSS",
+      "sub_score": 55.0,
+      "weight": 0.08,
+      "evidence_ids": [
+        "sss.prior_suspension",
+        "sss.suspension_count",
+        "sss.suspension_unusual"
+      ],
+      "investigated": true
+    }
+  ],
+  "pantau_score": 50,
+  "band": "perhatian",
+  "confidence": 0.63,
+  "credits_total": 3,
+  "baseline_credits": 16,
+  "narrative": "Volume perdagangan ASLI menunjukkan anomali ekstrem dengan Z-score 81,6σ dan rasio 94,2× terhadap median baseline 90 hari, disertai kenaikan harga +149% dalam 30 hari bursa. Arus asing bersih 30 hari tercatat positif Rp 27,7 M namun kontribusi asing terhadap nilai transaksi periode hanya 0,0%, menandakan pergerakan didorong pelaku domestik. Free float 37% relatif tipis untuk amplifikasi, dan saham pernah mengalami suspensi 4 kali dalam 24 bulan terakhir termasuk yang связаны dengan pergerakan tidak wajar. Perubahan profil struktural belum dapat dikonfirmasi karena pagu kredit investigasi habis, sehingga kesimpulan kewaspadaan masih di tingkat perhatian.",
+  "narrative_source": "llm",
+  "memory_ref": "ASLI-2026-09-22",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

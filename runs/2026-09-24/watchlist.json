@@ -1,0 +1,195 @@
+{
+  "as_of": "2026-09-24",
+  "generated_at": "2026-09-24T15:22:37+00:00",
+  "credits_spent": 5,
+  "rows_written": {
+    "fetch-most-traded-stocks": 10,
+    "fetch-companies-top-changes": 20,
+    "fetch-suspensions": 0,
+    "fetch-filings": 8
+  },
+  "skipped": [],
+  "failures": [],
+  "candidates": [
+    {
+      "symbol": "ASLI",
+      "score": 0.65,
+      "signals": {
+        "return_5d": null,
+        "return_20d": 1.1892,
+        "volume_z": 51.6802,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "volume 51.7σ di atas baseline; harga +119% dalam 20 hari bursa; kapitalisasi kecil"
+    },
+    {
+      "symbol": "JAWA",
+      "score": 0.5,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": 89.6761,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "volume 89.7σ di atas baseline; kapitalisasi kecil"
+    },
+    {
+      "symbol": "PACK",
+      "score": 0.3591,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": 5.3859,
+        "small_cap": 0.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "volume 5.4σ di atas baseline"
+    },
+    {
+      "symbol": "PPGL",
+      "score": 0.2,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 1.0
+      },
+      "alasan": "kapitalisasi kecil; ada suspensi/filing baru"
+    },
+    {
+      "symbol": "TRUK",
+      "score": 0.2,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 1.0
+      },
+      "alasan": "kapitalisasi kecil; ada suspensi/filing baru"
+    },
+    {
+      "symbol": "ARNA",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "CGAS",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "CSMI",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "CTTH",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "INOV",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "MSKY",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "NICK",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": -0.6999,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "SAFE",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "SCCO",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "KLBF",
+      "score": 0.0,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 0.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "tidak ada sinyal menonjol"
+    }
+  ]
+}

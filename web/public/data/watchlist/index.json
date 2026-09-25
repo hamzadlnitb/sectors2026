@@ -1,8 +1,20 @@
 {
   "dates": [
     {
+      "as_of": "2026-09-24",
+      "generated_at": "2026-09-24T15:22:37+00:00",
+      "credits_spent": 5,
+      "candidates": 15
+    },
+    {
       "as_of": "2026-09-22",
       "generated_at": "2026-09-22T15:06:51+00:00",
+      "credits_spent": 5,
+      "candidates": 15
+    },
+    {
+      "as_of": "2026-09-21",
+      "generated_at": "2026-09-21T16:32:58+00:00",
       "credits_spent": 5,
       "candidates": 15
     },

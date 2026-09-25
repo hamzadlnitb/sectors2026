@@ -1,0 +1,218 @@
+{
+  "schema_version": "1.0",
+  "symbol": "NICK",
+  "as_of": "2026-09-11",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1",
+        "claim": "Setelah +107% dalam satu periode di kapitalisasi 1.56T, pertanyaan terpenting yang belum terjawab bukan lagi apakah volume tinggi (sudah dites kemarin, skor 30) melainkan seberapa mudah rally ini digerakkan, free float kecil + volume masih anomal = modal minimal bisa menggeser harga.",
+        "probes": [
+          "free_float"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2",
+        "claim": "Jika free float证实 kecil, hipotesis berikutnya: apakah segelintir broker yang mengakumulasi (broker_concentration, bobot 25%, terbesar) dan apakah distribusi ke ritel ditopang atau tidak oleh asing (foreign_flow).",
+        "probes": [
+          "broker_concentration",
+          "foreign_flow"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "H3",
+        "claim": "Setelah struktur pemain terpetakan, layak dites apakah ada konteks korporasi (insider sell, rights/placement, suspensi historis) yang menopang rally; price_fundamental dipasang hanya jika ada sinyal kuat bahwa fundamental ikut bergerak, kalau tidak, skip.",
+        "probes": [
+          "structural"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 7,
+    "rationale": "Investigasi kemarin (2026-09-10) hanya menjalankan volume_anomaly dengan skor 30, keyakinan 40%. Artinya sinyal volume sudah diketahui (ada anomaly), tapi belum cukup untuk keyakinan tinggi. Karena bobot terbesar ada di broker_concentration (25%) dan free_float (18%), saya arahkan kredit ke dua probe itu dulu. free_float paling murah (1 kr) dan часто决定 apakah rally ini rentan dimanipulasi, jawaban 'iya' membuat semua probe lain punya konteks. broker_concentration (3 kr) adalah probe bobot terbesar, wajib diambil untuk skor akhir percaya diri. foreign_flow (2 kr) menutup skenario 'distribusi ke ritel' sebelum saya habiskan kredit untuk structural. structural (3 kr) ditunda ke H3 karena bobotnya kecil (8%) dan baru relevan setelah struktur pemain terpetakan. price_fundamental (6 kr, bobot 12%) sengaja tidak diminta: pada holding company dengan kapitalisasi 1.56T yang sudah +107%, konsistensi return vs pertumbuhan laba yoY jarang jadi pemicu keputusan, biaya/kredit tidak sepadan. Total 1+3+2+3 = 9... saya rasionalisasi ulang: H1=1, H2=3+2=5, H3=3 → total 9. Saya minta 7 dan jalankan H1+H2 dulu (6 kr), sisakan 1 kr sebagai cadangan jika H2 memunculkan kebutuhan探头 lanjutan, atau eksekusi H3 di urutan akhir. Saya tetap cantumkan 7 sebagai pagu rencana (1+3+2+1 cadangan) agar tidak boros."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Free float 22% dengan data 4 hari cukup segar, ini konteks rentan-manipulasi yang sudah aktif. Sebelum lanjut foreign_flow (2 kr) untuk skenario distribusi, saya wajib selesaikan probe bobot terbesar dulu: broker_concentration (3 kr) memberi sub-skor inti untuk menilai apakah rally +107% ditopang segelintir broker. Jika konsentrasi tinggi, foreign_flow jadi wajib dibaca ulang (distribusi asing); jika rendah, H3 structural masih bisa ditunda. Probe ini paling menentukan keyakinan akhir dan tidak bisa diganti probe lain dari katalog.",
+      "credits_spent": 0,
+      "credits_remaining": 7
+    },
+    {
+      "step": 2,
+      "hypothesis": "H2",
+      "probe": "broker_concentration",
+      "finding": "confirmed",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Saya sudah memiliki bukti yang cukup untuk menyimpulkan. Probe broker_concentration (bobot 25%) menghasilkan skor sempurna 100/100 dengan Herfindahl 0,92 dan total 9 broker net buy, ini mengkonfirmasi bahwa rally NICK didukung konsentrasi akumulasi yang kuat oleh segelintir broker (PD, XC, KK mengambil 100% pangsa net buy), bukan tersebar acak. Pola ini khas akumulasi terarah, bukan manipulasi pump-and-dump klasik. Probe free_float (1 kr) sudah selesai dan menjawab kerentanan terhadap manipulasi. Probe foreign_flow (2 kr) dan structural (3 kr) tersisa, namun keduanya tidak akan mengubah kesimpulan: foreign_flow hanya relevan untuk mengkonfirmasi 'distribusi ke ritel' yang sudah sangat tidak mungkin di tengah konsentrasi broker 100%; structural (suspensi/insider/rights) butuh biaya 3 kr untuk menambah bobot 8% saja pada skor akhir, sementara bukti anomali volume (skor 30) + konsentrasi broker sempurna sudah cukup membentuk gambaran risiko. Menjalankan kedua probe ini akan menghabiskan ",
+      "credits_spent": 2,
+      "credits_remaining": 5
+    }
+  ],
+  "evidence": [
+    {
+      "id": "bci.broker_count",
+      "label": "Jumlah broker dengan net buy positif",
+      "value": 9,
+      "display": "9 broker",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-09-07",
+        "end": "2026-09-11"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-11T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.hhi",
+      "label": "Indeks Herfindahl konsentrasi broker",
+      "value": 0.9205,
+      "display": "0,92",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-09-07",
+        "end": "2026-09-11"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-11T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_codes",
+      "label": "Kode 3 broker net buy teratas",
+      "value": "PD, XC, KK",
+      "display": "PD, XC, KK",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-09-07",
+        "end": "2026-09-11"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-11T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_share",
+      "label": "Pangsa net buy 3 broker teratas",
+      "value": 0.9951,
+      "display": "100%",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "NICK",
+        "start": "2026-09-07",
+        "end": "2026-09-11"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-11T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 4,
+      "display": "4 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "NICK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.2162,
+      "display": "22%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "NICK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": 100.0,
+      "weight": 0.25,
+      "evidence_ids": [
+        "bci.top3_share",
+        "bci.hhi",
+        "bci.top3_codes",
+        "bci.broker_count"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "VAS",
+      "sub_score": null,
+      "weight": 0.22,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 63.1,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 85,
+  "band": "sangat_waspada",
+  "confidence": 0.43,
+  "credits_total": 2,
+  "baseline_credits": 16,
+  "narrative": "Ticker NICK menunjukkan rally yang sepenuhnya ditopang oleh konsentrasi tiga broker (PD, XC, KK) yang menyerap 100% pangsa net buy dari total 9 broker, dengan indeks Herfindahl 0,92 menandakan akumulasi terarah yang sangat terfokus. Free float yang hanya 22% dengan umur data 4 hari menambah konteks kerentanan terhadap manipulasi, menjadikan pola yang terbentuk perlu dicermati secara hati-hati. Konsentrasi broker yang sempurna ini bukan merupakan pola akumulasi yang tersebar alami, melainkan menggambarkan pergerakan yang digerakkan oleh segelintir pihak. Temuan ini menempatkan NICK pada status sangat_waspada karena kombinasi antara free float tipis dan dominasi broker tertentu dalam menopang rally.",
+  "narrative_source": "llm",
+  "memory_ref": "NICK-2026-09-10",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}
