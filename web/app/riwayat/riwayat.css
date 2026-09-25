@@ -1,10 +1,9 @@
 /* Riwayat analisa — satu dashboard: ringkasan + filter emiten + chart + detail. */
 
-.rw-dash { display: flex; flex-direction: column; gap: 16px; }
+.rw-dash { display: flex; flex-direction: column; gap: 13px; }
 
 /* kartu ringkasan */
-.rw-tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-@media (min-width: 620px) { .rw-tiles { grid-template-columns: repeat(4, 1fr); } }
+.rw-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .rw-tile { border: 1px solid var(--border); border-radius: 12px; background: var(--surface); padding: 15px 17px; }
 .rw-tile-n { font-family: var(--font-jbm), monospace; font-weight: 800; font-size: clamp(1.5rem, 4vw, 2rem); color: var(--text); line-height: 1; }
 .rw-tile-k { font-size: 12px; color: var(--muted); margin-top: 6px; }
@@ -22,10 +21,10 @@
 .rw-filter button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* panel chart */
-.rw-panel { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); padding: 16px 16px 14px; }
+.rw-panel { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); padding: 15px 16px 12px; }
 .rw-panel-h h2 { font-family: var(--font-jbm), monospace; font-weight: 800; font-size: clamp(1.1rem, 2.6vw, 1.4rem); letter-spacing: 0.03em; margin: 0 0 3px; color: var(--text); }
-.rw-panel-h p { font-size: 12.5px; color: var(--muted); margin: 0 0 14px; }
-.rw-chart { height: clamp(260px, 44vw, 380px); width: 100%; }
+.rw-panel-h p { font-size: 12.5px; color: var(--muted); margin: 0 0 8px; }
+.rw-chart { height: clamp(220px, 38vw, 320px); width: 100%; }
 
 /* legenda (klik untuk fokus emiten) */
 .rw-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }

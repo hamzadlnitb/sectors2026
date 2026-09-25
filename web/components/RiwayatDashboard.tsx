@@ -97,7 +97,6 @@ export default function RiwayatDashboard({ series, summary }: { series: RiwayatS
         <Tile n={summary.total} k="investigasi" />
         <Tile n={summary.symbols} k="emiten dipantau" />
         <Tile n={summary.flagged} k="perlu perhatian" accent="var(--sig-alert)" />
-        <Tile n={summary.avgCov.toFixed(1)} k="rata cakupan (dari 6)" />
       </div>
 
       {/* filter emiten */}
