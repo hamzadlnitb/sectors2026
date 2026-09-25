@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0",
+  "symbol": "TRUK",
+  "as_of": "2026-09-25",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "h1",
+        "claim": "Ada pola perdagangan tidak biasa yang belum terjelaskan",
+        "probes": [
+          "volume_anomaly",
+          "free_float"
+        ],
+        "priority": 1
+      }
+    ],
+    "credit_budget_requested": 4,
+    "rationale": "Rencana cadangan berbasis aturan: perencana LLM tidak menghasilkan keluaran yang lolos skema, jadi investigasi dimulai dari dua probe termurah dan diputuskan ulang setelah temuan pertama."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "h1",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume normal (0/100) tidak mendukung hipotesis anomali. Masih ada 1 probe murah (free_float, 1 kredit) yang bisa langsung dijalankan dari antrean dengan sisa pagu 3 kredit. free_float adalah probe paling murah dan krusial karena float kecil bisa menjelaskan volatilitas meski volume terlihat normal. Setelah itu, skor dengan komponen yang sudah ada cukup untuk menyimpulkan arah risiko tanpa harus eskalasi.",
+      "credits_spent": 1,
+      "credits_remaining": 3
+    },
+    {
+      "step": 2,
+      "hypothesis": "h1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Bukti terkumpul tidak menunjukkan anomali yang mengarah pada suspensi atau risiko abnormal. Volume normal (z-score -0,3σ, sub-skor 0/100) dan free float 30% (sub-skor 45/100, hanya karena moderate, bukan risiko tinggi) memberi skor sementara 20 (normal) dengan keyakinan 40%. Dari 4 komponen yang belum diperiksa (BCI, FRD, PFD, SSS), tidak ada trigger awal yang menuntut eskalasi: volume tidak anomali (tidak perlu foreign_flow lebih lanjut karena tidak ada sinyal aliran besar), free float cukup moderat (tidak perlu broker_concentration untuk menilai risiko konsentrasi karena belum ada indikasi abnormalitas). Probe price_fundamental (6 kred) dan structural (3 kred) keduanya memerlukan kredit yang tersisa (total 9 kred) padahal pagu hanya 3, mustahil ditanggung. Bahkan bila dijalankan, tidak ada hipotesis yang masuk akal bahwa hasilnya akan mengangkat skor dari 20 (normal) menjadi tingkat yang memerlukan perhatian, karena komponen yang sudah diuji semuanya rendah. Investigasi dihentikan s",
+      "credits_spent": 0,
+      "credits_remaining": 3
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 18,
+      "display": "18 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "TRUK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.2983,
+      "display": "30%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "TRUK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 0.55,
+      "display": "0,5×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "TRUK",
+        "start": "2026-02-12",
+        "end": "2026-09-25"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": -0.33,
+      "display": "-0,3σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "TRUK",
+        "start": "2026-02-12",
+        "end": "2026-09-25"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 0.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 44.8,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 20,
+  "band": "normal",
+  "confidence": 0.4,
+  "credits_total": 1,
+  "baseline_credits": 16,
+  "narrative": "TRUK tercatat dengan free float 30% dan volume perdagangan terakhir hanya 0,5× median baseline, dengan z-score volume -0,3σ yang menunjukkan aktivitas perdagangan berada di bawah rata-rata 90 hari. Pola seperti ini lazim untuk saham dengan free float moderat, karena rendahnya volume tidak diimbangi oleh indikasi penumpukan atau distribusi yang mencolok. Penyelidikan dihentikan setelah dua probe awal tidak menghasilkan sinyal anomali, sehingga TRUK dikembalikan ke pemantauan rutin dalam pita normal.",
+  "narrative_source": "llm",
+  "memory_ref": "TRUK-2026-09-09",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

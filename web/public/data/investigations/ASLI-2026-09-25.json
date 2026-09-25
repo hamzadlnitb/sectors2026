@@ -1,0 +1,346 @@
+{
+  "schema_version": "1.0",
+  "symbol": "ASLI",
+  "as_of": "2026-09-25",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1_volume_buyer_identity",
+        "claim": "Lonjakan volume 48.2σ di kapitalisasi kecil ditopang oleh segelintir broker (bukan akumulasi terdistribusi), ini risiko paling kritis dan langsung menjawab apakah ada pihak yang mengumpulkan secara terkoordinasi.",
+        "probes": [
+          "broker_concentration"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2_amplification_mechanics",
+        "claim": "Harga sudah turun -12% dengan volume anomalistik; pergerakan bisa dikalikan oleh free float yang sangat tipis dan/atau distribusi ke ritel setelah akumulasi asing, perlu tahu apakah modal kecil cukup menggerakkan harga.",
+        "probes": [
+          "free_float",
+          "foreign_flow"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "H3_corporate_trigger",
+        "claim": "Ada peristiwa korporasi dalam periode (filing/suspensi); konteks rights issue, private placement, atau insider selling menjelaskan apakah lonjakan volume adalah respons terhadap corporate action, bukan akumulasi murni.",
+        "probes": [
+          "structural"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 9,
+    "rationale": "APA YANG BERUBAH sejak 2026-09-24: skor hanya 50 (perhatian) dengan keyakinan 63% karena BCI/PFD belum pernah diperiksa, artinya hipotesis \"siapa pembeli & apakah float tipis\" sama sekali belum punya bukti. Dua probe termurah (volume_anomaly sudah implicit di sinyal Tier-1 48.2σ dan tidak perlu diulang; foreign_flow belum dilakukan) sebenarnya menarik, tapi dalam konteks ini BCI lebih menjawab pertanyaan terbesar.\n\nUrutan_probe:\n1) broker_concentration (3 kr, bobot 25%): paling mahal bobotnya dan langsung menjawab \"siapa yang mengangkat 48.2σ di saham kecil\". Hipotesis \"akumulasi terkoordinasi vs terdistribusi\" adalah pertanyaan paling bernilai per kredit untuk emiten micro-cap dengan suspensi/filing. Jika HHI tinggi → risiko tinggi; jika rendah → bisa distribusi organik. Tanpa BCI, skor akhir tidak akan pernah konklusif.\n\n2) free_float (1 kr, bobot 18%): kombinasi murahnya dan penentuan cepat apakah modal kecil bisa menggerakkan harga. Pada kap 2.5T, perubahan free_float 1–2% bisa menjelaskan seluruh anomali. Ditempatkan kedua karena H2 menyangkut \"mekanisme amplifikasi\", setelah tahu siapa pembelinya (H1), kita perlu tahu apakah float cukup tipis untuk satu broker mendominasi.\n\n3) foreign_flow (2 kr, bobot 15%): menyilangkan arah harga -12% dengan apakah asing distribusi ke ritel atau justru akumulasi diam-diam. Diletakkan setelah free_float karenaforeign_flow lebih informatif ketika dikombinasikan dengan konteks float.\n\n4) structural (3 kr, bobot 8%): paling akhir karena (a) bobotnya kecil per kredit, (b) peristiwa korporasi sudah diketahui ada dari Tier-1 jadi konteksnya sudah tersedia, dan (c) kita ingin tahu \"siapa & bagaimana\" sebelum menambah konteks \"mengapa\".\n\nYang TIDAK dilakukan:\n- volume_anomaly (1 kr, 22%): sinyal Tier-1 sudah memberikan 48.2σ; mengulangnya dengan kredit adalah pemborosan murni. Tier-1 sudah cukup sebagai baseline.\n- price_fundamental (6 kr, 12%): harga justru TURUN -12%, bukan naik tajam; probe ini dirancang untuk \"harga naik tajam tanpa fundamental\" sehingga value-per-credit rendah. Subsektor Heavy Constructions juga jarang memicu price-discovery mendadak via earnings.\n\nTotal 9/25 kredit, menyisakan buffer untuk investigasi lanjutan jika BCI/PFD menunjukkan anomali yang memerlukan probe tambahan. Keyakinan per kredit: ~0.078 (skor berbobot ≈ 0.70), jauh lebih efisien dari probe fundamental 0.02/kredit."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1_volume_buyer_identity",
+      "probe": "broker_concentration",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "BCI 26/100 sebenarnya sudah sangat informatif: HHI 0,15 rendah (batas \"konsentrasi tinggi\" biasanya ≥0,25) dan pangsa top-3 hanya 52% dengan 18 broker net buy positif, ini pola DISTRIBUSI ORGANIK, bukan akumulasi terkoordinasi. Argumen \"float tipis\" dari rencana awal harus diuji langsung: pada kap 2,5T dengan 18 broker ikut serta, float yang masuk akal (>5–10%) akan semakin mengonfirmasi bahwa anomali 48,2σ bukan manipulasi melainkan minat luas. free_float hanya 1 kr dan menutup komponen bobot 18%, kombinasi efisiensi tertinggi yang tersedia. Dengan sisa pagu 7 kr pasca-probe, kita masih bisa menjalankan foreign_flow (2) dan structural (3) sambil menahan price_fundamental 6 kr yang memang ber-value rendah untuk konteks harga turun -12%. Urutan: free_float → foreign_flow → structural.",
+      "credits_spent": 2,
+      "credits_remaining": 7
+    },
+    {
+      "step": 2,
+      "hypothesis": "H2_amplification_mechanics",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Dua probe sudah selesai dengan skor rendah (BCI 26, PFD 28), skor sementara 27 (normal) dengan keyakinan baru 43%. BCI tidak menunjukkan konsentrasi terkoordinasi (HHI 0,15, hanya 52% pangsa top-3 dari 18 broker net buy), dan free float 37% cukup lebar sehingga mekanisme \"float tipis\" tidak dominan. Ini justru menaikkan nilai probe foreign_flow: dengan BCI rendah + float tidak tipis, anomali 48,2σ pada saham yang turun -12% paling plausibel dijelaskan oleh distribusi asing ke ritel (atau sebaliknya, akumulasi diam asing saat harga jatuh). FRD adalah silangan paling efisien berikutnya (2 kr, bobot 15%) untuk membedakan apakah asing adalah penjual atau pembeli di balik pergerakan ini. Probe structural (3 kr) dan price_fundamental (6 kr) memiliki value-per-credit lebih rendah; price_fundamental尤其 mahal dan dirancang untuk skenario harga naik, bukan turun -12%. Setelah FRD, tersisa 5 kr, cukup untuk structural jika diperlukan, atau langsung konklusi.",
+      "credits_spent": 0,
+      "credits_remaining": 7
+    },
+    {
+      "step": 3,
+      "hypothesis": "H2_amplification_mechanics",
+      "probe": "foreign_flow",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Skor sementara 20 (normal) dengan keyakinan 58%, 3/6 komponen tercakup. Komponen belum diperiksa: VAS (0.22), PFD (0.12), SSS (0.08). foreign_flow = 0/100 (asing justru net buy +27,7M saat harga +149%, bukan distribusi ke ritel), BCI hanya 26/100 dengan HHI 0,15 (cukup terdistribusi) dan 18 broker net buy, free_float 37% (moderat, bukan tipis). Kombinasi ini membuat hipotesis \"akumulasi terkoordinasi\" melemah: tidak ada konsentrasi broker tinggi, float tidak tipis, asing justru pembeli. Untuk memahami MEKANISME di balik +149% dengan bukti tersebut, konteks struktural (suspensi/insider/rights issue) paling relevan dan paling murah per kredit dibanding PFD (6 kr). VAS (1 kr) sebenarnya paling murah, tapi karena foreign_flow sudah menyangkal anomali volume berbasis distribusi asing dan Tier-1 sudah memberi 48.2σ sebagai baseline, VAS hanya akan mengkonfirmasi sesuatu yang sudah implicitly diketahui tanpa menambah bobot diskriminatif sebesar SSS dalam menjawab \"mengapa\". Menjalankan stru",
+      "credits_spent": 2,
+      "credits_remaining": 5
+    },
+    {
+      "step": 4,
+      "hypothesis": "H3_corporate_trigger",
+      "probe": "structural",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Bukti yang terkumpul sudah cukup untuk menyimpulkan tanpa probe tambahan. Catatan:\n\n1) Volume_anomaly (1 kr, bobot 22%) tidak akan mengubah kesimpulan. Tier-1 sudah memberikan sinyal 48.2σ; menambah z-score baseline hanya mengkonfirmasi apa yang sudah implicit. Value per kredit rendah dan redundan.\n\n2) price_fundamental (6 kr, bobot 12%) akan menghabiskan sisa pagu (5 kr) plus 1 kr ekstra dengan gain keyakinan marjinal. Harga justru TURUN -12%, bukan naik tajam tanpa fundamental, justru menegaskan bahwa anomali bukan soal valuasi. Subsektor Heavy Constructions jarang memicu price-discovery mendadak via earnings. Value per kredit rendah (~0.02) dan konsisten dengan alasan awal tidak mengajukannya.\n\nKesimpulan konvergen dari 4 bukti yang sudah ada:\n- HHI broker rendah (0,15) dengan 18 broker net buy positif → distribusi organik, BUKAN akumulasi terkoordinasi. 3 broker teratas (XL/AK/AZ) menyumbang 52% adalah konsentrasi moderat, bukan ekstrem.\n- Free float 37% (data 18 hari) → cukup tip",
+      "credits_spent": 0,
+      "credits_remaining": 5
+    }
+  ],
+  "evidence": [
+    {
+      "id": "bci.broker_count",
+      "label": "Jumlah broker dengan net buy positif",
+      "value": 18,
+      "display": "18 broker",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-09-07",
+        "end": "2026-09-25"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.hhi",
+      "label": "Indeks Herfindahl konsentrasi broker",
+      "value": 0.1491,
+      "display": "0,15",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-09-07",
+        "end": "2026-09-25"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_codes",
+      "label": "Kode 3 broker net buy teratas",
+      "value": "XL, AK, AZ",
+      "display": "XL, AK, AZ",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-09-07",
+        "end": "2026-09-25"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_share",
+      "label": "Pangsa net buy 3 broker teratas",
+      "value": 0.5156,
+      "display": "52%",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-09-07",
+        "end": "2026-09-25"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.foreign_net_30d",
+      "label": "Arus asing bersih 30 hari bursa",
+      "value": 27726521400.0,
+      "display": "Rp 27,7 M",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-08-13",
+        "end": "2026-09-25"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.outflow_ratio",
+      "label": "Arus keluar asing terhadap nilai transaksi periode",
+      "value": 0.0,
+      "display": "0,0%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-08-13",
+        "end": "2026-09-25"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.price_change_30d",
+      "label": "Perubahan harga 30 hari bursa",
+      "value": 1.4923,
+      "display": "+149%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-08-13",
+        "end": "2026-09-25"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 18,
+      "display": "18 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ASLI"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.3728,
+      "display": "37%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ASLI"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.prior_suspension",
+      "label": "Suspensi terakhir",
+      "value": "2026-09-25",
+      "display": "25-09-2026",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2024-09-25",
+        "end": "2026-09-25"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.suspension_count",
+      "label": "Jumlah suspensi 24 bulan terakhir",
+      "value": 5,
+      "display": "5 kali",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2024-09-25",
+        "end": "2026-09-25"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.suspension_unusual",
+      "label": "Alasan suspensi terkait pergerakan tidak wajar",
+      "value": 1.0,
+      "display": "ya",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2024-09-25",
+        "end": "2026-09-25"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": 26.4,
+      "weight": 0.25,
+      "evidence_ids": [
+        "bci.top3_share",
+        "bci.hhi",
+        "bci.top3_codes",
+        "bci.broker_count"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "VAS",
+      "sub_score": null,
+      "weight": 0.22,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 28.3,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": 0.0,
+      "weight": 0.15,
+      "evidence_ids": [
+        "frd.foreign_net_30d",
+        "frd.outflow_ratio",
+        "frd.price_change_30d"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "SSS",
+      "sub_score": 55.0,
+      "weight": 0.08,
+      "evidence_ids": [
+        "sss.prior_suspension",
+        "sss.suspension_count",
+        "sss.suspension_unusual"
+      ],
+      "investigated": true
+    }
+  ],
+  "pantau_score": 24,
+  "band": "normal",
+  "confidence": 0.66,
+  "credits_total": 4,
+  "baseline_credits": 16,
+  "narrative": "Arus asing bersih 30 hari bursa tercatat positif Rp 27,7 M dengan rasio arus keluar terhadap nilai transaksi 0,0%, sementara perubahan harga 30 hari bursa mencapai +149%. Konsentrasi broker rendah dengan HHI 0,15 dan 18 broker net buy positif, di mana tiga broker teratas XL, AK, AZ hanya menyumbang 52% pangsa net buy sehingga pola yang muncul更像 distribusi organik dan bukan akumumulasi terkoordinasi. Free float sebesar 37% dengan umur data 18 hari menunjukkan ketersediaan saham yang cukup moderat. Saham pernah disuspensi 5 kali dalam 24 bulan terakhir dengan suspensi terakhir 25-09-2026 dan alasan suspensi terkait pergerakan tidak wajar, sehingga profil likuiditas dan riwayat perdagangan perlu diperhatikan saat membaca besaran anomali harga.",
+  "narrative_source": "llm",
+  "memory_ref": "ASLI-2026-09-24",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

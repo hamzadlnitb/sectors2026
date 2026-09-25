@@ -1,0 +1,186 @@
+{
+  "schema_version": "1.0",
+  "symbol": "JAWA",
+  "as_of": "2026-09-25",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1_volume_vs_fundamental",
+        "claim": "Lonjakan volume 89.7σ bukan ditopang fundamental; free float kecil + harga sudah +4% membuka risiko spike non-fundamental yang perlu dikonfirmasi sebelum atribusi lebih jauh.",
+        "probes": [
+          "free_float",
+          "volume_anomaly",
+          "price_fundamental"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2_distribusi_vs_asing",
+        "claim": "Setelah 3 hari tanpa bukti baru, perlu tahu apakah spike volume 89.7σ konsisten dengan pola distribusi ke ritel (foreign_flow negatif + konsentrasi broker tinggi) atau murni akumulasi segelintir pihak.",
+        "probes": [
+          "foreign_flow",
+          "broker_concentration"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "H3_konteks_struktural",
+        "claim": "Sinyal pasar yang sudah sangat kuat (z=89.7, +4% dalam窗口 sempit) perlu konteks korporasi: suspensi 24 bulan, insider selling, atau aksi korporasi yang bisa menjelaskan anomali.",
+        "probes": [
+          "structural"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 17,
+    "rationale": "Investigasi 3 hari lalu skor 38 dengan keyakinan 80% tanpa消耗 kredit — semua bukti sudah kadaluarsa (per 07-09, sekarang 25-09). Karena itu saya tidak mengulang probe lama dan fokus pada deltanya.\n\nUrutan dan bobot:\n1. H1 dieksekusi pertama karena menyentuh pertanyaan terbesar: apakah spike ini riil atau artefak float tipis. free_float (1k, 18%) dan volume_anomaly (1k, 22%) sangat murah tapi bobotnya tinggi dan langsung memutuskan apakah kasus ini layak lanjut. price_fundamental (6k, 12%) mahal, jadi saya tempatkan terakhir di H1 — hanya dijalankan setelah hipotesis float/volume初步 disaring, agar tidak boros jika sinyal palsu.\n2. H2 (foreign_flow 2k + broker_concentration 3k) dijalankan setelah H1 karena foreign_flow menguji hipotesis distribusi ritel yang paling relevan untuk emiten berkapitalisasi kecil, dan broker_concentration (prob termahal 3k) hanya layak bila H1 tidak排除 kasus. Bobot gabungannya 40% — melewatkan keduanya menurunkan keyakinan akhir terlalu jauh.\n3. H3 structural (3k, 8%) paling akhir: bobotnya kecil, hanya relevan bila H1+H2 masih terbuka.\n\nTotal 17 dari 25 kredit: menyisakan buffer 8k tanpa kehilangan bobot probe utama (volume_anomaly 22% + free_float 18% + broker_concentration 25% + foreign_flow 15% = 80% tercakup). price_fundamental dan structural bisa diulang di siklus berikutnya bila diperlukan."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1_volume_vs_fundamental",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "free_float skor 94 mengonfirmasi float tipis (8%) konsisten dengan karakteristik manipulated_move, tapi skor ini sudah kadaluarsa 18 hari dan belum divalidasi oleh bukti lain. Sebelum jalur 5k+ (foreign_flow, broker_concentration, price_fundamental) dijalankan, hipotesis float/volume harus disaring dulu. volume_anomaly hanya 1 kredit tapi bobot 22% — termurah dan paling menentukan apakah spike ini didukung oleh aktivitas perdagangan atau murni artefak float tipis. Menjalankan probe ini sekarang melindungi pagu: jika volume ternyata normal/aneh rendah, kita bisa stop dan tidak perlu ke H2/H3. Ini probe urutan #1 sesuai rencana awal (H1 bagian kedua).",
+      "credits_spent": 0,
+      "credits_remaining": 17
+    },
+    {
+      "step": 2,
+      "hypothesis": "H1_volume_vs_fundamental",
+      "probe": "volume_anomaly",
+      "finding": "confirmed",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Bukti yang sudah terkumpul (free_float 94/100 + volume_anomaly 100/100, bobot gabungan 40%) sudah cukup untuk membentuk kesimpulan risiko yang kuat tanpa probe tambahan: float tipis 8% dan anomali volume 21,2σ / 20,7× median adalah sinyal risiko stock-specific yang kuat dan sudah self-reinforcing. Probe tersisa (price_fundamental 6k, foreign_flow 2k, broker_concentration 3k, structural 3k = 14k) tidak akan mengubah arah kesimpulan karena: (1) free_float 8% + spike volume 20,7× sudah cukup menjelaskan fenomena tanpa perlu memecah distribusi ke broker/asing; (2) data free_float sudah 18 hari — batas kadaluarsa, sehingga keyakinan sudah dibatasi 40% dan probe tambahan hanya mengerek keyakinan, bukan mengubah finding; (3) price_fundamental paling informatif tapi sangat mahal (6k) dan untuk emiten float tipis seperti ini, deviasi harga dari fundamental bukan faktor risiko tambahan yang material di luar float tipis. Menghabiskan 14 kredit untuk mengerek keyakinan dari 40% ke ~55% tidak seban",
+      "credits_spent": 1,
+      "credits_remaining": 16
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 18,
+      "display": "18 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "JAWA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.075,
+      "display": "8%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "JAWA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 20.69,
+      "display": "20,7×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-02-12",
+        "end": "2026-09-25"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 21.17,
+      "display": "21,2σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-02-12",
+        "end": "2026-09-25"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 100.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 94.4,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 97,
+  "band": "sangat_waspada",
+  "confidence": 0.4,
+  "credits_total": 1,
+  "baseline_credits": 16,
+  "narrative": "Free float JAWA tercatat 8% dengan usia data 18 hari, sehingga pembacaan float tipis bersifat kadaluarsa dan belum terkonfirmasi silang. Volume perdagangan hari terakhir melonjak 20,7× median baseline dengan z-score 21,2σ terhadap 90 hari, menunjukkan anomali volume yang ekstrem. Kombinasi float tipis 8% dan lonjakan volume sebesar ini merupakan sinyal risiko stock-specific yang saling menguatkan, di mana spike volume pada modal publik sekecil ini rentan dimanipulasi oleh少数 pemegang saham. Temuan ini sudah memadai untuk menggambarkan risiko, meskipun keyakinan terbatas karena data free float belum diperbarui.",
+  "narrative_source": "llm",
+  "memory_ref": "JAWA-2026-09-22",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}
