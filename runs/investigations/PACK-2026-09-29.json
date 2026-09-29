@@ -1,0 +1,329 @@
+{
+  "schema_version": "1.0",
+  "symbol": "PACK",
+  "as_of": "2026-09-29",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1",
+        "claim": "Lonjakan +15% dalam 5 hari hanya noise/gap yang tidak ditopang partisipasi luas — hanya distribusi ke ritel atau thin float yang mengangkat harga.",
+        "probes": [
+          "volume_anomaly",
+          "free_float"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2",
+        "claim": "Akumulasi terarah oleh segelintir broker — harga dan volume sama-sama naik karena 2-3 pihak mengumpulkan, bukan karena permintaan tersebar.",
+        "probes": [
+          "broker_concentration"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "H3",
+        "claim": "Pergerakan +15% tidak diikuti fundamental — ada kemungkinan news-driven atau koreksi sehat setelahnya (perubahan periode -6% mengisyaratkan koreksi mulai terjadi).",
+        "probes": [
+          "foreign_flow"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 7,
+    "rationale": "Investigasi 5 hari lalu skor 23 (normal, keyakinan 80%) sudah memeriksa BCI, VAS, FFS, FRD. Yang berubah sejak 24-09: harga +15% dalam 5 hari, volume_z naik ke 1.3σ, dan skor seleksi watchlist hanya 0.22 (lemah). Ini pola khas yang perlu dites ulang, bukan ditutup.\n\nUrutan pilihan:\n1. volume_anomaly (1 kr, bobot 22%) — termurah dan menjawab dulu: apakah z-score 1.3σ dari baseline 90 hari itu valid dan seberapa anomali persisnya dibanding pembacaan 5 hari lalu. Kalau sudah normal, hipotesis H1 runtuh dan kita berhenti murah.\n2. free_float (1 kr, bobot 18%) — murah, dan untuk kapitalisasi Rp19,1T di subsektor Basic Materials, float kecil = modal kecil bisa menggerakkan harga. Ini menjelaskan +15% tanpa bukti akumulasi broker.\n3. broker_concentration (3 kr, bobot 25%) — bobot skor terbesar, hanya dijalankan kalau H1 ambigu (volume memang anomali ATAU float tipis). Probe ini menjawab apakah ada segelintir pihak yang sengaja mengumpulkan di balik kenaikan.\n4. foreign_flow (2 kr, bobot 15%) — hipotesis H3 sebagai cabang: kalau H1/H2 positif, cek apakah distribusi ke ritel asing menjelaskan -6% di periode yang lebih panjang. Lebih lambat karena H3 paling lemah di antara ketiganya.\n\nTotal 7 dari 25 kredit pagu — sisipan besar sengaja disimpan agar PFD/SSS yang belum pernah diperiksa bisa dipakai di siklus berikut bila diperlukan."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1",
+      "probe": "volume_anomaly",
+      "finding": "refuted",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "[keyakinan 22% < 40%, masih ada probe terjangkau] Probe volume_anomaly hasilnya 6/100 — Z-score volume hanya 0,4σ dan rasio volume vs median baseline 1,4×. Itu artinya pembacaan 1,3σ 5 hari lalu yang memicu hipotesis anomali sudah kembali normal di 0,4σ. H1 (volume anomali sebagai pemicu +15%) runtuh: harga +15% terjadi BUKAN karena lonjakan volume yang persisten. Cabang free_float dan broker_conentrasi sengaja dibingkai sebagai lanjutan H1 — kalau H1 sendiri sudah refuted, keduanya tidak perlu dijalankan. Menghabiskan 4–5 kredit lagi untuk mengonfirmasi anomali yang sudah mati bukan investigasi yang bersih. Skor watchlist 0,22 (lemah) konsisten dengan kesimpulan bahwa tidak ada bukti tekanan beli abnormal; rendahnya skor seleksi memang benar, bukan anomali yang perlu di-escate. Kesimpulan final: skor normal, keyakinan rendah hanya karena coverage komponen tipis (1/6), tapi bukti yang ada sudah cukup untuk menolak hipotesis risiko aktif. Pagu 6 kredit sisanya disimpan untuk siklus beri",
+      "credits_spent": 1,
+      "credits_remaining": 6
+    },
+    {
+      "step": 2,
+      "hypothesis": "H1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume_z terkini 0,4σ (vs 1,3σ 5 hari lalu) → H1 volume anomali melemah. Free float 38% bukan tipis, H2 tidak terkonfirmasi. Tapi +15% dalam 5 hari dengan skor watchlist 0,22 tetap anomali harga tanpa penjelasan. Cabang berikutnya sesuai rencana: broker_concentration (3 kr, bobot 25%) untuk menguji apakah segelintir broker mengakumulasi di balik kenaikan. Ini probe dengan bobot skor tertinggi dan biayanya masuk sisa pagu 6 kr. Tanpa probe ini, kesimpulan +15% tanpa bukti akumulasi akan menggantung.",
+      "credits_spent": 0,
+      "credits_remaining": 6
+    },
+    {
+      "step": 3,
+      "hypothesis": "H2",
+      "probe": "broker_concentration",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Skor sementara 17 (normal) dengan keyakinan 65% — batas bawah. H1 (volume) sudah runtuh: z-score 0,4σ, hanya 1,4× median, jauh dari anomali. H2 (float) juga lemah, free float 38% cukup lebar sehingga argumen \"float tipis\" tidak berlaku. H3 (konsentrasi broker) ternyata ambigu: Herfindahl 0,12 (rendah-konsentrasi) dan 16 broker net buy positif menunjukkan distribusi luas, walau pangsa top-3 50% perlu penjelasan. Karena H1/H2 sudah refuted dan H3 ambigu, hipotesis H3 (foreign_flow sebagai cabang) tidak langsung relevan — distributor asing justru bukan penjelasan terbaik untuk +15% dengan bukti yang ada. Namun menolak foreign_flow sepenuhnya berarti meninggalkan satu-satunya probe murah (2 kr) untuk menguji apakah ada distribusi ke non-residen yang bisa menjelaskan lemahnya skor seleksi (0,22). Probe ini krusial karena H4 (distribusi asing menjelaskan -6% periode panjang) adalah satu-satunya cabang yang belum disentuh dan biayanya paling murah. Komponen PFD/SSS yang belum diperiksa (6+3=9",
+      "credits_spent": 2,
+      "credits_remaining": 4
+    },
+    {
+      "step": 4,
+      "hypothesis": "H3",
+      "probe": "foreign_flow",
+      "finding": "refuted",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Semua hipotesis utama sudah jatuh. volume_anomaly 6/100 (z-score 0,4σ, hanya 1,4× median) → H1 runtuh, kenaikan +15% bukan didorong anomali volume. free_float 26/100 (float 38%, cukup lebar, bukan float tipis) → H2 runtuh. broker_concentration 20/100 (Herfindahl 0,12 rendah, 16 broker net buy positif, top-3 hanya 50%) → H3 runtuh, tidak ada akumulasi terpusat. foreign_flow 29/100 (arus asing justru keluar -Rp198,6M / -7,3%, sementara harga +64%) → H4 justru kontra-produktif: distribusi ke ritel asing salah arah, bukan akumulasi. Keempat bukti berbarengan menunjuk fenomena non-mikro: kenaikan harga tanpa dasar aliran dana yang teridentifikasi. Skor agregat sementara 19 (normal) sudah konvergen. Menjalankan price_fundamental (6 kr) atau structural (3 kr) tidak akan mengubah kesimpulan karena semua jalur kausal mikro sudah tersingkap dan skor sudah di bawah ambang watchlist (0,22). Probe PFD/SSS sengaja disimpan untuk siklus berikutnya per disiplin pagu — di sini tidak relevan. Investigas",
+      "credits_spent": 1,
+      "credits_remaining": 3
+    }
+  ],
+  "evidence": [
+    {
+      "id": "bci.broker_count",
+      "label": "Jumlah broker dengan net buy positif",
+      "value": 16,
+      "display": "16 broker",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "PACK",
+        "start": "2026-09-07",
+        "end": "2026-09-29"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-29T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.hhi",
+      "label": "Indeks Herfindahl konsentrasi broker",
+      "value": 0.1219,
+      "display": "0,12",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "PACK",
+        "start": "2026-09-07",
+        "end": "2026-09-29"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-29T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_codes",
+      "label": "Kode 3 broker net buy teratas",
+      "value": "DP, AZ, IF",
+      "display": "DP, AZ, IF",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "PACK",
+        "start": "2026-09-07",
+        "end": "2026-09-29"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-29T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_share",
+      "label": "Pangsa net buy 3 broker teratas",
+      "value": 0.4966,
+      "display": "50%",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "PACK",
+        "start": "2026-09-07",
+        "end": "2026-09-29"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-29T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.foreign_net_30d",
+      "label": "Arus asing bersih 30 hari bursa",
+      "value": -198603561500.0,
+      "display": "-Rp 198,6 M",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "PACK",
+        "start": "2026-08-18",
+        "end": "2026-09-29"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-29T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.outflow_ratio",
+      "label": "Arus keluar asing terhadap nilai transaksi periode",
+      "value": 0.0727,
+      "display": "7,3%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "PACK",
+        "start": "2026-08-18",
+        "end": "2026-09-29"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-29T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.price_change_30d",
+      "label": "Perubahan harga 30 hari bursa",
+      "value": 0.6358,
+      "display": "+64%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "PACK",
+        "start": "2026-08-18",
+        "end": "2026-09-29"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-29T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 22,
+      "display": "22 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "PACK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.3819,
+      "display": "38%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "PACK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 1.4,
+      "display": "1,4×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "PACK",
+        "start": "2026-02-18",
+        "end": "2026-09-29"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-29T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 0.36,
+      "display": "0,4σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "PACK",
+        "start": "2026-02-18",
+        "end": "2026-09-29"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-29T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": 20.5,
+      "weight": 0.25,
+      "evidence_ids": [
+        "bci.top3_share",
+        "bci.hhi",
+        "bci.top3_codes",
+        "bci.broker_count"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "VAS",
+      "sub_score": 6.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 26.2,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": 29.3,
+      "weight": 0.15,
+      "evidence_ids": [
+        "frd.foreign_net_30d",
+        "frd.outflow_ratio",
+        "frd.price_change_30d"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 19,
+  "band": "normal",
+  "confidence": 0.8,
+  "credits_total": 4,
+  "baseline_credits": 16,
+  "narrative": "Pada PACK, harga memang naik 64% dalam 30 hari bursa, namun volumenya hanya 1,4× median dengan z-score 0,4σ sehingga tidak ada indikasi tekanan beli abnormal yang persisten. Distribusi broker relatif luas dengan 16 broker net buy positif dan Herfindahl 0,12, walau pangsa tiga broker teratas mencapai 50%. Free float 38% juga tidak menyokong narasi float tipis, sementara arus asing justru keluar -Rp198,6 M atau -7,3% dari nilai transaksi. Secara keseluruhan, bukti yang tersedia tidak cukup menjelaskan kenaikan tersebut, sehingga skornya berakhir di kisaran normal tanpa tanda risiko aktif.",
+  "narrative_source": "llm",
+  "memory_ref": "PACK-2026-09-24",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

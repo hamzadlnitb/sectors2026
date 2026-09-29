@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-25T20:02:02+00:00",
+  "generated_at": "2026-09-29T16:37:24+00:00",
   "investigations": [
     {
       "id": "NICK-2026-09-17",
@@ -218,6 +218,33 @@
         "narrative_llm": true
       },
       "headline": "JAWA menunjukkan lonjakan volume sangat mencolok dengan z-score 104,3σ dan rasio 85,8× terhadap median baseline, namu…"
+    },
+    {
+      "id": "JAWA-2026-09-29",
+      "symbol": "JAWA",
+      "as_of": "2026-09-29",
+      "pantau_score": 71,
+      "band": "waspada",
+      "confidence": 0.55,
+      "steps": 3,
+      "credits_total": 2,
+      "baseline_credits": 16,
+      "savings_pct": 88,
+      "memory_ref": "JAWA-2026-09-25",
+      "narrative_source": "template",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 3,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 3,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
+      "headline": "Beberapa indikator pada JAWA menunjukkan pola tidak biasa"
     },
     {
       "id": "NICK-2026-09-15",
@@ -927,6 +954,60 @@
       "headline": "Tidak ada pola tidak biasa yang menonjol pada TRUK"
     },
     {
+      "id": "PACK-2026-09-29",
+      "symbol": "PACK",
+      "as_of": "2026-09-29",
+      "pantau_score": 19,
+      "band": "normal",
+      "confidence": 0.8,
+      "steps": 4,
+      "credits_total": 4,
+      "baseline_credits": 16,
+      "savings_pct": 75,
+      "memory_ref": "PACK-2026-09-24",
+      "narrative_source": "llm",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 4,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 4,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
+      "headline": "Pada PACK, harga memang naik 64% dalam 30 hari bursa, namun volumenya hanya 1,4× median dengan z-score 0,4σ sehingga …"
+    },
+    {
+      "id": "ASLI-2026-09-29",
+      "symbol": "ASLI",
+      "as_of": "2026-09-29",
+      "pantau_score": 18,
+      "band": "normal",
+      "confidence": 0.88,
+      "steps": 5,
+      "credits_total": 4,
+      "baseline_credits": 16,
+      "savings_pct": 75,
+      "memory_ref": "ASLI-2026-09-25",
+      "narrative_source": "llm",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 5,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 5,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
+      "headline": "Arus beli bersih pada ASLI tersebar di 18 broker dengan pangsa 51% dari tiga broker teratas (XL, AK, YU), sehingga po…"
+    },
+    {
       "id": "JAWA-2026-09-18",
       "symbol": "JAWA",
       "as_of": "2026-09-18",
@@ -1008,6 +1089,12 @@
     }
   ],
   "watchlist_dates": [
+    {
+      "as_of": "2026-09-29",
+      "generated_at": "2026-09-29T16:35:42+00:00",
+      "credits_spent": 5,
+      "candidates": 15
+    },
     {
       "as_of": "2026-09-25",
       "generated_at": "2026-09-25T15:25:23+00:00",
@@ -1094,11 +1181,11 @@
     }
   ],
   "llm": {
-    "investigations": 37,
-    "planner_llm": 25,
-    "narrative_llm": 25,
-    "llm_decisions": 103,
+    "investigations": 40,
+    "planner_llm": 28,
+    "narrative_llm": 27,
+    "llm_decisions": 115,
     "fallback_decisions": 2,
-    "steps": 105
+    "steps": 117
   }
 }

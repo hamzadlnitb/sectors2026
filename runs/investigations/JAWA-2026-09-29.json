@@ -1,0 +1,247 @@
+{
+  "schema_version": "1.0",
+  "symbol": "JAWA",
+  "as_of": "2026-09-29",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1_volume_lagi_atau_sudah_mendingin",
+        "claim": "Lonjakan volume 24.4σ pada watchlist kemarin kemungkinan adalah anomali terdistribusi luas (bukan terkonsentrasi di segelintir broker), atau sudah mendingin dalam 4 hari terakhir.",
+        "probes": [
+          "volume_anomaly"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2_float_kecil_penggerak_harga",
+        "claim": "Kapitalisasi kecil (2.24T) + skor watchlist hanya 0.50 mengindikasikan free float tipis, di mana modal relatif kecil bisa menggerakkan harga -2% periode ini.",
+        "probes": [
+          "free_float"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "H3_distribusi_asing_vs_ritel",
+        "claim": "Jika bukan broker lokal yang mengakumulasi, arus asing kemungkinan besar net sell (distribusi ke ritel) — pola khas saham berkapitalisasi kecil yang diparkang asing lalu dilepas.",
+        "probes": [
+          "foreign_flow"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 4,
+    "rationale": "Investigasi 4 hari lalu sudah memakai 1 kredit untuk volume_anomaly dan skor masih 40% keyakinan dengan VAS=100 (volume masif) dan FFS=94 (float sangat tipis). Karena yang paling BERUBAH sejak 25-09 adalah: (a) apakah lonjakan volume masih berlangsung atau sudah reda, dan (b) apakah pola distribusi sudah terbentuk — maka fokus harus pada probe murah yang mengisi gap terbesar per kredit.\n\nUrutan:\n1. volume_anomaly (1 kr, bobot 22%) — termurah, menguji apakah anomali 24.4σ masih aktif. Jika sudah mendingin, hipotesis likuiditas abnormal gugur dan kita hemat kredit untuk langkah lanjut. Sangat cost-efficient.\n2. free_float (1 kr, bobot 18%) — skor FFS=94 dari 07-09 sudah tinggi, tapi data itu 3 minggu lalu dan float bisa berubah karena corporate action. Dengan hanya 1 kredit dan bobot 18%, probe ini terlalu menguntungkan untuk dilewati pada emiten kapitalisasi kecil.\n3. foreign_flow (2 kr, bobot 15%) — prioritas ketiga karena foreign_flow menguji apakah distribusi ke ritel terjadi. Pada emiten sekecil ini dengan harga turun -2%, pola net sell asing 30 hari bisa menjelaskan siapa yang keluar. Bobot 15% per 2 kredit = 7.5%/kr, masih wajar.\n\nProbe yang DITANGGUHKAN:\n- broker_concentration (3 kr, 25%) — mahal dan HHI butuh konteks dulu. Belum relevan kalau volume sudah mendingin atau float ternyata tidak sekecil yang diasumsikan. Bisa dibeli di iterasi berikutnya bila H1-H3 memvalidasi anomali masih berlangsung.\n- price_fundamental (6 kr, 12%) — efisiensi sangat buruk (2%/kr), dan harga hanya turun -2% periode ini sehingga hipotesis disconnect fundamental belum aktif.\n- structural (3 kr, 8%) — efisiensi terburuk (~2.7%/kr) dan bobot kecil. Tidak relevan sampai pola anomali pasar terkonfirmasi.\n\nTotal 4 kredit dari pagu 25, menyisakan 21 kredit untuk iterasi lanjutan bila diperlukan. Strategi ini menghormati \"keyakinan per kredit\" — fokus pada probe yang mengisi gap terbesar dengan biaya minimal, sambil menahan probe mahal sampai hipotesis awal terkonfirmasi."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1_volume_lagi_atau_sudah_mendingin",
+      "probe": "volume_anomaly",
+      "finding": "confirmed",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume_anomaly tetap masif (Z=23,9σ, 23,4× median) per 29-09 — anomali BELUM mendingin, H1 terkonfirmasi. Dengan sisa pagu hanya 3 kredit, free_float (1 kr) adalah pilihan terbaik berikutnya: paling murah, dan data FFS=94 dari 07-09 sudah 3 minggu lalu — perlu verifikasi apakah float masih sekecil itu, karena jika free_float terkonfirmasi tipis, ini menjelaskan mengapa volume besar bisa menggerakkan harga pada kapitalisasi kecil. Efisiensi 18%/kr.",
+      "credits_spent": 1,
+      "credits_remaining": 3
+    },
+    {
+      "step": 2,
+      "hypothesis": "H2_float_kecil_penggerak_harga",
+      "probe": "free_float",
+      "finding": "confirmed",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Foreign_flow sudah ada di antrian awal dengan biaya 2 — cukup dengan sisa pagu 3. Bukti yang sudah terkumpul (volume_anomaly=100/100, free_float=94/100, skor sementara 97/sangat_waspada) mengarah pada anomali likuiditas klasik: volume masif + float sangat tipis. Untuk naik dari keyakinan 40% ke kesimpulan yang bisa dipertahankan, foreign_flow adalah gap terbesar berikutnya — ia menguji apakah distribusi ke ritel benar terjadi (net sell asing 30 hari). Bobot FRD 15% dengan biaya 2 kredit = 7,5%/kr, tertinggi di antara probe yang tersisa. Probe mahal (BCI 3kr, PFD 6kr, SSS 3kr) sengaja ditunda: PFD tidak relevan karena harga hanya turun -2%, SSS rendah prioritas, dan BCI baru bernilai setelah foreign_flow mengonfirmasi ada pola distribusi yang perlu diinvestigasi konsentrasinya. Eskalasi ini hanya meminta eksekusi probe yang sudah ada di rencana awal — bukan probe baru di luar rencana — sehingga tidak menambah kompleksitas, hanya menyelesaikan urutan yang sudah dirancang.",
+      "credits_spent": 0,
+      "credits_remaining": 3
+    },
+    {
+      "step": 3,
+      "hypothesis": "H3_distribusi_asing_vs_ritel",
+      "probe": "foreign_flow",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Dengan sisa pagu hanya 2 kredit, tidak ada satu pun probe yang belum dijalankan (broker_concentration 3 kr, price_fundamental 6 kr, structural 3 kr) yang bisa dibeli. Bukti yang sudah terkumpul sudah cukup untuk menyimpulkan: volume_anomaly 100/100 (anomali 23,9σ masih aktif per 29-09, BUKAN sudah mendingin seperti hipotesis awal), free_float 94/100 (float 8%, sangat tipis), foreign_flow 0/100 (distribusi ke ritel TIDAK terkonfirmasi — justru asing net sell sangat kecil hanya 0,2% dari nilai transaksi meski harga naik +33%, artinya asing BUKAN pendorong rally; rally ditopang oleh pemain lokal dengan volume masif di float tipis). Skor 71/100, keyakinan 55%. Komponen tersisa (BCI, PFD, SSS) tidak akan secara material mengubah kesimpulan inti: anomali likuiditas aktif terkonfirmasi, free float tipis terkonfirmasi, dan absennya distribusi asing berarti pola akumulasi lokal pada saham illiquid. Eskalasi tidak dibenarkan karena hipotesis sentral sudah terjawab; mengejar probe mahal hanya men",
+      "credits_spent": 1,
+      "credits_remaining": 2
+    }
+  ],
+  "evidence": [
+    {
+      "id": "frd.foreign_net_30d",
+      "label": "Arus asing bersih 30 hari bursa",
+      "value": -393541500.0,
+      "display": "-Rp 393,5 jt",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-08-18",
+        "end": "2026-09-29"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-29T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.outflow_ratio",
+      "label": "Arus keluar asing terhadap nilai transaksi periode",
+      "value": 0.0024,
+      "display": "0,2%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-08-18",
+        "end": "2026-09-29"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-29T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.price_change_30d",
+      "label": "Perubahan harga 30 hari bursa",
+      "value": 0.3256,
+      "display": "+33%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-08-18",
+        "end": "2026-09-29"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-29T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 22,
+      "display": "22 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "JAWA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.075,
+      "display": "8%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "JAWA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 23.35,
+      "display": "23,4×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-02-13",
+        "end": "2026-09-29"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-29T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 23.86,
+      "display": "23,9σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-02-13",
+        "end": "2026-09-29"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-29T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 100.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 94.4,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": 0.0,
+      "weight": 0.15,
+      "evidence_ids": [
+        "frd.foreign_net_30d",
+        "frd.outflow_ratio",
+        "frd.price_change_30d"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 71,
+  "band": "waspada",
+  "confidence": 0.55,
+  "credits_total": 2,
+  "baseline_credits": 16,
+  "narrative": "Beberapa indikator pada JAWA menunjukkan pola tidak biasa. Bukti yang terkumpul: Arus asing bersih 30 hari bursa -Rp 393,5 jt; Arus keluar asing terhadap nilai transaksi periode 0,2%; Perubahan harga 30 hari bursa +33%; Umur data free float 22 hari. Putusan disusun dari tiga langkah penyelidikan yang menyentuh tiga probe. Seluruh angka di atas berasal dari buku bukti investigasi ini dan bisa ditelusuri ke sumber datanya.",
+  "narrative_source": "template",
+  "memory_ref": "JAWA-2026-09-25",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}
