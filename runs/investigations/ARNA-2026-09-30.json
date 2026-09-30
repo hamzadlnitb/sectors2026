@@ -1,0 +1,186 @@
+{
+  "schema_version": "1.0",
+  "symbol": "ARNA",
+  "as_of": "2026-09-30",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1",
+        "claim": "Penurunan harga -5% pada emiten berkapitalisasi kecil (3.74T) kemungkinan besar digerakkan oleh likuiditas/Float Effect, bukan oleh perubahan fundamental atau aksi korporasi berbahaya.",
+        "probes": [
+          "volume_anomaly",
+          "free_float",
+          "foreign_flow"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2",
+        "claim": "Jika terdeteksi anomali volume dan/atau foreign flow abnormal, konsentrasi broker akan menentukan apakah pergerakan ditahan sedikit akumulator atau sudah terdispersi ke pasar.",
+        "probes": [
+          "broker_concentration"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "H3",
+        "claim": "Setelah gambaran teknikal & distribusi terbentuk, konteks korporasi (suspensi, insider selling, aksi korporasi) dan deviasi harga-vs-laba memvalidasi apakah sinyal perlu ditindaklanjuti.",
+        "probes": [
+          "structural",
+          "price_fundamental"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 10,
+    "rationale": "ARNA adalah emiten small-cap (3.74T, subsektor Industrial Goods) dengan move harga moderat (-5%) dan skor seleksi watchlist rendah (0.10). Tidak ada sinyal keras yang memaksa probe mahal di tahap awal. Karena itu urutan disusun dari keyakinan-per-kredit tertinggi: (1) volume_anomaly (1kr, bobot 22%) — baseline murah untuk melihat apakah ada sesuatu yang bergerak di luar kebiasaan; (2) free_float (1kr, bobot 18%) — pada kapitalisasi kecil, free float sering jadi pemicu utama kemampuan harga 'digoyang', dan sama murahnya; (3) foreign_flow (2kr, bobot 15%) — menguji apakah distribusi ke ritel sedang terjadi lewat sisi asing. Ketiga probe ini total hanya 4 kredit tapi mencakup bobot 55% skor akhir, sehingga keyakinan terbentuk dulu sebelum menyentuh probe mahal. (4) broker_concentration (3kr, bobot 25%) — probe paling mahal kedua dan berbobot tertinggi, hanya layak setelah volume/Float/asing memberi sinyal bahwa ada akumulasi nyata yang perlu diatribusikan ke broker. (5) structural (3kr, bobot 8%) — konteks korporasi bernilai tambah besar hanya jika sinyal pasar sudah kuat; dimasukkan terakhir karena bobotnya kecil. price_fundamental (6kr, bobot 12%) tidak diminta: cost-per-bobot-nya paling buruk (0.5 poin bobot per kredit vs broker_concentration ~8.3 per kredit), dan untuk saham small-cap dengan move moderat, deviasi 90-hari terhadap pertumbuhan laba biasanya tidak diskriminatif di tahap awal. Total diminta 10 kredit dari pagu 25 — konservatif, menyisakan ruang jika butuh re-test tanpa membuang kredit di awal."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Probe pertama (volume_anomaly) mendapat skor 0/100 dengan bukti kuat: Z-score -0,8σ dan volume hari terakhir hanya 0,5× median. Ini bukan sekadar 'tidak ada anomali', tapi volume secara aktif di bawah baseline — biasanya mengindikasikan tidak ada akumulasi/distribusi yang sedang terjadi. Bobot 22% sudah diamankan dengan keyakinan tinggi bahwa komponen ini normal, sehingga skor maksimum yang bisa disumbangkan volume ke skor akhir sudah final di 0.\n\nUntuk menyimpulkan sekarang, saya harus mengasumsikan kelima komponen lain juga mendekati 0. Itu asumsi yang terlalu kuat — free_float dan foreign_flow pada small-cap bisa bernilai tinggi bahkan saat volume sepi (misal float terkunci atau asing diam-diam akumulasi via broker tertentu). Broker_concentration juga bisa mendeteksi akumulasi terselubung yang tidak muncul sebagai volume anomali.\n\nLanjutkan ke free_float (1kr, bobot 18%) — urutan kedua dalam rencana awal, biaya termurah kedua, dan logikanya ortogonal terhadap volume: free float keci",
+      "credits_spent": 1,
+      "credits_remaining": 9
+    },
+    {
+      "step": 2,
+      "hypothesis": "H1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Dua probe termurah sudah dijalankan dengan hasil negatif: volume_anomaly 0/100 (tidak ada akumulasi tidak biasa) dan free_float 28/100 (free float 37% — cukup likuid untuk small-cap, bukan pemicu manipulasi). Skor sementara 13 (normal) dengan keyakinan 40%. Probe berikutnya yang paling murah adalah foreign_flow (2kr, bobot 15%). Menjalankannya biayanya 2kr tapi keyakinan yang mungkin naik hanya moderat (bobot 15%), dan foreign_flow pada small-cap dengan volume 0,5× median hampir pasti tidak menunjukkan distribusi agresif — expected value rendah. broker_concentration (3kr, bobot 25%) hanya layak kalau ada sinyal akumulasi dari volume/asing, tapi volume_anomaly sudah 0/100 sehingga probabilitas broker terpusat tinggi juga rendah. structural (3kr, bobot 8%) cost-per-bobot-nya paling buruk kedua. price_fundamental (6kr) sudah dieksklusi sejak rencana awal. Total probes tersisa (foreign_flow + broker_concentration) = 5kr dari 9kr sisa, tapi expected gain keyakinan kecil karena bukti awal ne",
+      "credits_spent": 0,
+      "credits_remaining": 9
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 23,
+      "display": "23 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ARNA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.3726,
+      "display": "37%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ARNA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 0.48,
+      "display": "0,5×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-02-19",
+        "end": "2026-09-30"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-30T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": -0.81,
+      "display": "-0,8σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-02-19",
+        "end": "2026-09-30"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-30T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 0.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 28.3,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 13,
+  "band": "normal",
+  "confidence": 0.4,
+  "credits_total": 1,
+  "baseline_credits": 16,
+  "narrative": "Tidak ada pola tidak biasa yang menonjol pada ARNA. Bukti yang terkumpul: Umur data free float 23 hari; Free float 37%; Volume hari terakhir vs median baseline 0,5×; Z-score volume vs baseline 90 hari -0,8σ. Putusan disusun dari dua langkah penyelidikan yang menyentuh dua probe. Seluruh angka di atas berasal dari buku bukti investigasi ini dan bisa ditelusuri ke sumber datanya.",
+  "narrative_source": "template",
+  "memory_ref": null,
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}
