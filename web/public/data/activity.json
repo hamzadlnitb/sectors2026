@@ -1,6 +1,63 @@
 {
-  "generated_at": "2026-09-30T16:29:45+00:00",
+  "generated_at": "2026-10-01T17:08:53+00:00",
   "events": [
+    {
+      "ts": "2026-10-01T17:30:00+07:00",
+      "date": "2026-10-01",
+      "kind": "investigation",
+      "id": "TRUK-2026-10-01",
+      "symbol": "TRUK",
+      "band": "perhatian",
+      "pantau_score": 53,
+      "steps": 2,
+      "credits": 2,
+      "savings_pct": 88,
+      "moments": [
+        "early_stop",
+        "memory"
+      ]
+    },
+    {
+      "ts": "2026-10-01T17:30:00+07:00",
+      "date": "2026-10-01",
+      "kind": "investigation",
+      "id": "ARNA-2026-10-01",
+      "symbol": "ARNA",
+      "band": "normal",
+      "pantau_score": 28,
+      "steps": 2,
+      "credits": 4,
+      "savings_pct": 75,
+      "moments": [
+        "early_stop",
+        "memory"
+      ]
+    },
+    {
+      "ts": "2026-10-01T17:30:00+07:00",
+      "date": "2026-10-01",
+      "kind": "investigation",
+      "id": "ASLI-2026-10-01",
+      "symbol": "ASLI",
+      "band": "normal",
+      "pantau_score": 15,
+      "steps": 4,
+      "credits": 2,
+      "savings_pct": 88,
+      "moments": [
+        "adaptive",
+        "escalation",
+        "early_stop",
+        "memory"
+      ]
+    },
+    {
+      "ts": "2026-10-01T17:05:40+00:00",
+      "date": "2026-10-01",
+      "kind": "sweep",
+      "candidates": 15,
+      "credits": 5
+    },
     {
       "ts": "2026-09-30T17:30:00+07:00",
       "date": "2026-09-30",

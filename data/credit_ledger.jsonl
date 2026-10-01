@@ -393,3 +393,13 @@
 {"credits": 2, "endpoint": "fetch-broker-summary-top", "params_hash": "476518597ad5b445", "phase": "daily", "run_id": "investigate-2026-09-30", "symbol": "PACK", "transport": "mcp", "ts": "2026-09-30T16:29:14+00:00"}
 {"credits": 1, "endpoint": "fetch-corporate-actions", "params_hash": "3043c15126c7760f", "phase": "daily", "run_id": "investigate-2026-09-30", "symbol": "PACK", "transport": "mcp", "ts": "2026-09-30T16:29:17+00:00"}
 {"credits": 1, "endpoint": "fetch-daily-transaction", "params_hash": "b5201a3343eb385d", "phase": "daily", "run_id": "investigate-2026-09-30", "symbol": "ARNA", "transport": "rest", "ts": "2026-09-30T16:29:35+00:00"}
+{"credits": 2, "endpoint": "fetch-most-traded-stocks", "params_hash": "98146cc85fccb0b5", "phase": "daily", "run_id": "2026-10-01", "transport": "rest", "ts": "2026-10-01T17:05:38+00:00"}
+{"credits": 1, "endpoint": "fetch-companies-top-changes", "params_hash": "d78bac96433948b7", "phase": "daily", "run_id": "2026-10-01", "transport": "rest", "ts": "2026-10-01T17:05:38+00:00"}
+{"credits": 1, "endpoint": "fetch-suspensions", "params_hash": "ef31950bab0c319b", "phase": "daily", "run_id": "2026-10-01", "transport": "rest", "ts": "2026-10-01T17:05:39+00:00"}
+{"credits": 1, "endpoint": "fetch-filings", "params_hash": "142071c5902890fd", "phase": "daily", "run_id": "2026-10-01", "transport": "rest", "ts": "2026-10-01T17:05:39+00:00"}
+{"credits": 2, "endpoint": "fetch-broker-summary-top", "params_hash": "c63c423bd28ffef8", "phase": "daily", "run_id": "investigate-2026-10-01", "symbol": "TRUK", "transport": "mcp", "ts": "2026-10-01T17:06:39+00:00"}
+{"credits": 2, "endpoint": "fetch-broker-summary-top", "params_hash": "8b63fbc15828f850", "phase": "daily", "run_id": "investigate-2026-10-01", "symbol": "ARNA", "transport": "mcp", "ts": "2026-10-01T17:07:41+00:00"}
+{"credits": 1, "endpoint": "fetch-foreign-flow", "params_hash": "effd7226244fa17e", "phase": "daily", "run_id": "investigate-2026-10-01", "symbol": "ARNA", "transport": "rest", "ts": "2026-10-01T17:07:46+00:00"}
+{"credits": 1, "endpoint": "fetch-daily-transaction", "params_hash": "2e8462d7c312eb90", "phase": "daily", "run_id": "investigate-2026-10-01", "symbol": "ARNA", "transport": "rest", "ts": "2026-10-01T17:07:47+00:00"}
+{"credits": 1, "endpoint": "fetch-foreign-flow", "params_hash": "cbaadc8fc9ce5d4a", "phase": "daily", "run_id": "investigate-2026-10-01", "symbol": "ASLI", "transport": "rest", "ts": "2026-10-01T17:08:15+00:00"}
+{"credits": 1, "endpoint": "fetch-daily-transaction", "params_hash": "6c630f6b8ed6533a", "phase": "daily", "run_id": "investigate-2026-10-01", "symbol": "ASLI", "transport": "rest", "ts": "2026-10-01T17:08:15+00:00"}

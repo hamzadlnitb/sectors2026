@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-30T16:29:45+00:00",
+  "generated_at": "2026-10-01T17:08:53+00:00",
   "investigations": [
     {
       "id": "NICK-2026-09-17",
@@ -549,6 +549,33 @@
       "headline": "Pada ASLI terdetek anomali volume yang sangat besar dengan rasio 53,5× median dan Z-score 48,3σ terhadap baseline 90 …"
     },
     {
+      "id": "TRUK-2026-10-01",
+      "symbol": "TRUK",
+      "as_of": "2026-10-01",
+      "pantau_score": 53,
+      "band": "perhatian",
+      "confidence": 0.43,
+      "steps": 2,
+      "credits_total": 2,
+      "baseline_credits": 16,
+      "savings_pct": 88,
+      "memory_ref": "TRUK-2026-09-25",
+      "narrative_source": "llm",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 2,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 2,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
+      "headline": "Investigasi pada TRUK menemukan bahwa 14 broker mencatatkan net buy positif, namun distribusinya sangat terkonsentras…"
+    },
+    {
       "id": "NICK-2026-09-22",
       "symbol": "NICK",
       "as_of": "2026-09-22",
@@ -903,6 +930,33 @@
       "headline": "Free float NICK tercatat 22% dengan rasio volume 1,3× median dan z-score 0,2σ, yang menunjukkan tidak ada anomali per…"
     },
     {
+      "id": "ARNA-2026-10-01",
+      "symbol": "ARNA",
+      "as_of": "2026-10-01",
+      "pantau_score": 28,
+      "band": "normal",
+      "confidence": 0.4,
+      "steps": 2,
+      "credits_total": 4,
+      "baseline_credits": 16,
+      "savings_pct": 75,
+      "memory_ref": "ARNA-2026-09-30",
+      "narrative_source": "template",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 2,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 2,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
+      "headline": "Tidak ada pola tidak biasa yang menonjol pada ARNA"
+    },
+    {
       "id": "ASLI-2026-09-25",
       "symbol": "ASLI",
       "as_of": "2026-09-25",
@@ -1117,6 +1171,35 @@
       "headline": "Tidak ada pola tidak biasa yang menonjol pada JAWA"
     },
     {
+      "id": "ASLI-2026-10-01",
+      "symbol": "ASLI",
+      "as_of": "2026-10-01",
+      "pantau_score": 15,
+      "band": "normal",
+      "confidence": 0.63,
+      "steps": 4,
+      "credits_total": 2,
+      "baseline_credits": 16,
+      "savings_pct": 88,
+      "memory_ref": "ASLI-2026-09-29",
+      "narrative_source": "llm",
+      "moments": [
+        "adaptive",
+        "escalation",
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 4,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 4,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
+      "headline": "Arus asing bersih 30 hari bursa hanya Rp 28,8 M dengan rasio outflow terhadap transaksi 0,0%, sehingga kenaikan harga…"
+    },
+    {
       "id": "ARNA-2026-09-30",
       "symbol": "ARNA",
       "as_of": "2026-09-30",
@@ -1171,6 +1254,12 @@
     }
   ],
   "watchlist_dates": [
+    {
+      "as_of": "2026-10-01",
+      "generated_at": "2026-10-01T17:05:40+00:00",
+      "credits_spent": 5,
+      "candidates": 15
+    },
     {
       "as_of": "2026-09-30",
       "generated_at": "2026-09-30T16:28:16+00:00",
@@ -1269,11 +1358,11 @@
     }
   ],
   "llm": {
-    "investigations": 43,
-    "planner_llm": 31,
-    "narrative_llm": 27,
-    "llm_decisions": 127,
+    "investigations": 46,
+    "planner_llm": 34,
+    "narrative_llm": 29,
+    "llm_decisions": 135,
     "fallback_decisions": 2,
-    "steps": 129
+    "steps": 137
   }
 }
