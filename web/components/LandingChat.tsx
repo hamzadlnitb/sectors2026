@@ -98,14 +98,14 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
         keys: ["momen", "agentik", "agentic", "eskalasi", "adaptif", "adaptive"],
         answer: (): ChatAnswer => {
           const parts: string[] = [];
-          if (esc.length) parts.push(`${esc.length} minta tambah jatah (${esc.map((e) => e.symbol).join(", ")})`);
-          if (adapt.length) parts.push(`${adapt.length} keluar dari rencana (${adapt.map((e) => e.symbol).join(", ")})`);
+          if (esc.length) parts.push(`${esc.length} eskalasi (${esc.map((e) => e.symbol).join(", ")})`);
+          if (adapt.length) parts.push(`${adapt.length} perutean adaptif (${adapt.map((e) => e.symbol).join(", ")})`);
           if (mem.length) parts.push(`${mem.length} investigasi ulang dengan memori (${mem.map((e) => e.symbol).join(", ")})`);
           if (parts.length) {
             const it = esc[0] ?? adapt[0] ?? mem[0];
-            return { trace: ["cari momen di semua run"], text: `Ya, ${parts.join("; ")}. Inilah yang bikin agen terasa seperti analis, bukan rumus.`, tools: it ? [{ label: `Buka investigasi ${it.symbol}`, ref: routeTo(it) }] : [] };
+            return { trace: ["cari momen di semua run"], text: `Ya, ${parts.join("; ")}. Inilah yang membedakan agen dari if-else.`, tools: it ? [{ label: `Buka investigasi ${it.symbol}`, ref: routeTo(it) }] : [] };
           }
-          return { trace: ["cari momen di semua run"], text: "Hari ini kebanyakan berakhir dengan agen berhenti lebih awal begitu bukti cukup, tanpa menghabiskan jatah. Tak ada yang minta tambah jatah atau keluar dari rencana.", tools: [] };
+          return { trace: ["cari momen di semua run"], text: "Hari ini kebanyakan berakhir dengan penghentian dini, agen berhenti begitu bukti cukup dan tak menghabiskan jatah. Tak ada eskalasi/perutean di luar rencana.", tools: [] };
         },
       },
     ];

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const COMPONENTS = [
   { code: "BCI", name: "Broker Concentration Index", q: "Berapa persen net buy dikuasai 3 broker teratas? (HHI)", src: "fetch-broker-summary-top" },
-  { code: "VAS", name: "Volume Anomaly Score", q: "Volume hari ini berapa jauh di atas rata-rata 90 hari?", src: "fetch-daily-transaction" },
+  { code: "VAS", name: "Volume Anomaly Score", q: "Volume hari ini berapa sigma di atas baseline 90 hari?", src: "fetch-daily-transaction" },
   { code: "PFD", name: "Price–Fundamental Divergence", q: "Harga naik tajam sementara laba flat/rugi?", src: "fetch-quarterly-financials" },
   { code: "FFS", name: "Free Float Scarcity", q: "Berapa kecil saham yang benar-benar beredar?", src: "fetch-free-float" },
   { code: "FRD", name: "Foreign–Retail Divergence", q: "Asing keluar saat harga naik = distribusi ke ritel?", src: "fetch-foreign-flow" },
@@ -154,9 +154,9 @@ export default function MetodologiPage() {
       <section>
         <div className="sec-label"><h2>Batasan yang diakui terbuka</h2><span className="n">kejujuran menambah kredibilitas</span></div>
         <div className="limits">
-          <div className="limit"><span className="m">01</span><span><b>Suspensi bukan sama dengan manipulasi.</b> Contoh kasusnya sedikit; suspensi karena pergerakan tidak wajar cuma penanda terdekat, bukan bukti pasti.</span></div>
-          <div className="limit"><span className="m">02</span><span><b>FFS bukan potret per tanggal.</b> Sectors cuma menyediakan free float terkini, jadi FFS kami pakai sebagai sinyal kondisi sekarang, bukan ukuran yang disetel konsisten lintas waktu.</span></div>
-          <div className="limit"><span className="m">03</span><span><b>Data akhir hari, ada jeda.</b> Semua angka bertanda <code className="mono">as_of</code> WIB dan ditampilkan apa adanya, kami tidak berpura-pura real-time.</span></div>
+          <div className="limit"><span className="m">01</span><span><b>Suspensi bukan sinonim manipulasi.</b> Himpunan positif kecil; suspensi karena pergerakan tidak wajar hanya proksi terdekat, bukan label sempurna.</span></div>
+          <div className="limit"><span className="m">02</span><span><b>FFS bukan point-in-time historis.</b> Sectors hanya menyediakan free float terkini, jadi FFS berperan sebagai sinyal keadaan-terkini, bukan komponen berkalibrasi lintas waktu.</span></div>
+          <div className="limit"><span className="m">03</span><span><b>Data EOD, ada keterlambatan.</b> Semua angka bertanda <code className="mono">as_of</code> WIB dan ditampilkan apa adanya, kami tidak berpura-pura real-time.</span></div>
           <div className="limit"><span className="m">04</span><span><b>Bobot berversi.</b> Tiap rekaman membawa <code className="mono">weights_version</code>; skor lama tidak tercampur dengan bobot baru.</span></div>
         </div>
       </section>

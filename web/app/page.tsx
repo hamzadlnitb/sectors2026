@@ -148,7 +148,7 @@ export default function Landing() {
           <div className="board-stats">
             <span><b>{index.investigations.length}</b> diselidiki</span>
             <span><span className="d" style={{ background: "var(--sig-alert)" }} /><b>{flagged}</b> perlu perhatian</span>
-            <span><span className="d" style={{ background: "var(--accent)" }} /><b>{escalated}</b> minta jatah tambah</span>
+            <span><span className="d" style={{ background: "var(--accent)" }} /><b>{escalated}</b> eskalasi</span>
           </div>
         </div>
         <div className="cards">

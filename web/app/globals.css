@@ -68,8 +68,7 @@ body::before {
 .brand { display: flex; align-items: center; gap: 9px; font-family: var(--font-jbm), monospace; font-weight: 800; letter-spacing: 0.12em; font-size: 15px; }
 .brand svg { display: block; }
 .nav-links { display: none; gap: 6px; margin-left: 10px; }
-/* Menu di tengah topbar: brand tetap kiri, tombol tema kanan, nav mengambang di tengah. */
-@media (min-width: 760px) { .nav-links { display: flex; position: absolute; left: 50%; transform: translateX(-50%); margin-left: 0; } }
+@media (min-width: 760px) { .nav-links { display: flex; } }
 .nav-links a { font-family: var(--font-jbm), monospace; font-size: 12.5px; color: var(--muted); padding: 6px 10px; border-radius: 6px; transition: color .16s, background .16s, transform .16s; }
 .nav-links a.active { color: var(--text); background: var(--surface); border: 1px solid var(--border); }
 .nav-links a:hover { color: var(--text); background: color-mix(in srgb, var(--text) 7%, transparent); transform: translateY(-1px); }

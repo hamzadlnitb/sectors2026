@@ -10,9 +10,9 @@ import type { EvidenceEntry, Moment, Step } from "@/lib/transcript";
 // Bentuk jawaban = §4 kontrak middleware; live-mode = ganti prop mode saja.
 
 const MOMENT_LABEL: Record<string, string> = {
-  adaptive: "keluar dari rencana",
-  escalation: "minta tambah jatah",
-  early_stop: "berhenti lebih awal",
+  adaptive: "perutean adaptif",
+  escalation: "eskalasi",
+  early_stop: "penghentian dini",
   memory: "memori",
 };
 
@@ -92,7 +92,7 @@ export default function AgentChat({
           strongest
             ? {
                 trace: ["buka buku bukti", "urutkan menurut biaya kredit"],
-                text: `Bukti termahal (paling dalam) di investigasi ini: ${strongest.label} = ${strongest.display}, dari pemeriksaan ${strongest.probe} (${strongest.credits_spent} kredit). Klik untuk lihat endpoint & as_of-nya.`,
+                text: `Bukti termahal (paling dalam) di investigasi ini: ${strongest.label} = ${strongest.display}, dari probe ${strongest.probe} (${strongest.credits_spent} kredit). Klik untuk lihat endpoint & as_of-nya.`,
                 tools: [{ label: `Buka: ${strongest.label}`, ref: ev(strongest.id) }],
               }
             : { trace: ["cek buku bukti"], text: "Investigasi ini tidak mengumpulkan bukti berbayar.", tools: [] },
@@ -101,7 +101,7 @@ export default function AgentChat({
         q: "Kenapa agen berhenti & berapa hematnya?",
         keys: ["berhenti", "stop", "hemat", "kredit", "budget", "jatah"],
         answer: () => ({
-          trace: ["baca langkah terakhir", "bandingkan kredit vs periksa semua"],
+          trace: ["baca langkah terakhir", "bandingkan kredit vs baseline"],
           text: `Agen berhenti setelah ${steps.length} langkah, "${last?.reason ?? ""}" Total ${creditsTotal} kredit vs ${baseline} untuk investigasi menyeluruh → ${savings >= 0 ? `hemat ${savings}%` : `malah ${-savings}% lebih boros`}.`,
           tools: [{ label: "Lihat di replay", ref: sec(".trail") }],
         }),
@@ -112,34 +112,34 @@ export default function AgentChat({
         answer: () => ({
           trace: ["deteksi momen agentik"],
           text: moments.length
-            ? `Terdeteksi: ${moments.map((m) => MOMENT_LABEL[m.kind]).join(", ")}. Ini yang bikin agen terasa seperti analis, bukan rumus.`
-            : "Investigasi ringkas, tidak ada momen khusus selain berhenti lebih awal.",
+            ? `Terdeteksi: ${moments.map((m) => MOMENT_LABEL[m.kind]).join(", ")}. Ini yang membedakan agen dari if-else.`
+            : "Investigasi ringkas, tidak ada momen agentik khusus selain penghentian dini.",
           tools: [{ label: "Lihat momen", ref: sec(".moments") }],
         }),
       },
       {
-        q: "Agen minta tambah jatah?",
-        keys: ["eskalasi", "escalate", "tambah jatah", "jatah"],
+        q: "Ada eskalasi?",
+        keys: ["eskalasi", "escalate", "tambah jatah"],
         answer: (): ChatAnswer =>
           esc && esc.kind === "escalation"
             ? {
-                trace: ["cari langkah minta tambah jatah"],
+                trace: ["cari langkah eskalasi"],
                 text: `Ya, pada langkah ${esc.step} agen minta tambah jatah +${esc.granted} kredit dengan alasan tertulis, dan dikabulkan.`,
                 tools: [{ label: "Lihat di replay", ref: sec(".trail") }],
               }
-            : { trace: ["cari langkah minta tambah jatah"], text: "Tidak ada, agen cukup dengan jatah awalnya.", tools: [] },
+            : { trace: ["cari langkah eskalasi"], text: "Tidak ada eskalasi, agen cukup dengan jatah awalnya.", tools: [] },
       },
       {
-        q: adaptive ? "Kenapa buka pemeriksaan di luar rencana?" : "Apa itu keluar dari rencana?",
+        q: adaptive ? "Kenapa buka probe di luar rencana?" : "Apa itu perutean adaptif?",
         keys: ["luar rencana", "adaptif", "adaptive", "routing", "perutean"],
         answer: (): ChatAnswer =>
           adaptive && adaptive.kind === "adaptive"
             ? {
                 trace: ["bandingkan probe vs rencana awal"],
-                text: `Pada langkah ${adaptive.step} agen membuka \`${adaptive.probe}\`, tidak ada di rencana awal, karena temuan sebelumnya mengejutkan. Jadi agen keluar dari rencananya.`,
+                text: `Pada langkah ${adaptive.step} agen membuka \`${adaptive.probe}\`, tidak ada di rencana awal, karena temuan sebelumnya mengejutkan. Ini perutean adaptif.`,
                 tools: [{ label: "Lihat di replay", ref: sec(".trail") }],
               }
-            : { trace: ["cek rencana"], text: "Semua pemeriksaan di investigasi ini sudah ada di rencana awal, tidak ada yang keluar dari rencana.", tools: [] },
+            : { trace: ["cek rencana"], text: "Semua probe di investigasi ini sudah ada di rencana awal, tidak ada perutean adaptif.", tools: [] },
       },
     ];
 
