@@ -53,7 +53,7 @@ export function staticSource(opts: {
   const fallback = opts.fallback ?? DEFAULT_FALLBACK;
   return {
     greeting,
-    chips: intents.map((it) => it.q),
+    chips: intents.slice(0, 4).map((it) => it.q), // tampilkan 4 teratas; sisanya tetap cocok lewat ketik bebas
     async *ask(q: string) {
       const hit = matchIntent(intents, q);
       const ans = hit ? hit.answer() : fallback;

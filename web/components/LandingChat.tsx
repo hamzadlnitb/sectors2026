@@ -96,14 +96,14 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
         keys: ["momen", "agentik", "agentic", "eskalasi", "adaptif", "adaptive"],
         answer: (): ChatAnswer => {
           const parts: string[] = [];
-          if (esc.length) parts.push(`${esc.length} eskalasi (${esc.map((e) => e.symbol).join(", ")})`);
-          if (adapt.length) parts.push(`${adapt.length} perutean adaptif (${adapt.map((e) => e.symbol).join(", ")})`);
+          if (esc.length) parts.push(`${esc.length} minta tambah jatah (${esc.map((e) => e.symbol).join(", ")})`);
+          if (adapt.length) parts.push(`${adapt.length} keluar dari rencana (${adapt.map((e) => e.symbol).join(", ")})`);
           if (mem.length) parts.push(`${mem.length} investigasi ulang dengan memori (${mem.map((e) => e.symbol).join(", ")})`);
           if (parts.length) {
             const it = esc[0] ?? adapt[0] ?? mem[0];
-            return { trace: ["cari momen di semua run"], text: `Ya, ${parts.join("; ")}. Inilah yang membedakan agen dari if-else.`, tools: it ? [{ label: `Buka investigasi ${it.symbol}`, ref: routeTo(it) }] : [] };
+            return { trace: ["cari momen di semua run"], text: `Ya, ${parts.join("; ")}. Inilah yang bikin agen terasa seperti analis, bukan rumus.`, tools: it ? [{ label: `Buka investigasi ${it.symbol}`, ref: routeTo(it) }] : [] };
           }
-          return { trace: ["cari momen di semua run"], text: "Hari ini kebanyakan berakhir dengan penghentian dini, agen berhenti begitu bukti cukup dan tak menghabiskan jatah. Tak ada eskalasi/perutean di luar rencana.", tools: [] };
+          return { trace: ["cari momen di semua run"], text: "Hari ini kebanyakan berakhir dengan agen berhenti lebih awal begitu bukti cukup, tanpa menghabiskan jatah. Tak ada yang minta tambah jatah atau keluar dari rencana.", tools: [] };
         },
       },
     ];
@@ -122,7 +122,7 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
 
     const greeting: ChatAnswer = {
       trace: [],
-      text: `Aku agen investigasi PANTAU. Tanya apa yang kutemukan hari ini, jawaban ditarik dari ${total} investigasi nyata. Ini bukan saran investasi.`,
+      text: `Aku agen investigasi PANTAU. Tanya apa yang kutemukan hari ini, jawaban ditarik dari ${total} investigasi nyata.`,
       tools: [],
     };
     return { greeting, intents };
@@ -146,7 +146,12 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
 
       <div ref={popRef} className={`chat-pop ${open ? "open" : ""}`} role="dialog" aria-modal="false" aria-label="Chat, tanya agen" aria-hidden={!open} inert={!open}>
         <div className="chat-pop-head">
-          <span className="ttl">Coba tanya agen <span className="n">· hasil hari ini</span></span>
+          <span className="cha" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9">
+              <path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 20l1.4-4.2A8.5 8.5 0 1 1 21 11.5z" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <span className="ttl">Tanya agen<span className="n">hasil hari ini</span></span>
           <button className="cx" onClick={() => setOpen(false)} aria-label="Tutup chat">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
               <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
@@ -154,6 +159,7 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
           </button>
         </div>
         <ChatPanel source={source} resolveTool={resolveTool} placeholder="Tanya soal hasil hari ini…" />
+        <div className="chat-pop-foot">Jawaban dari data tersimpan · bukan saran investasi</div>
       </div>
     </>
   );

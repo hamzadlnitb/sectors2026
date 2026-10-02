@@ -35,6 +35,7 @@ export default function ChatPanel({
   const [log, setLog] = useState<ChatMsg[]>([{ role: "agent", answer: source.greeting }]);
   const [input, setInput] = useState("");
   const busy = useRef(false);
+  const asked = log.some((m) => m.role === "user");
 
   async function ask(q: string) {
     if (busy.current) return;
@@ -61,37 +62,47 @@ export default function ChatPanel({
       <div className="chat-log" role="log" aria-live="polite" aria-atomic="false">
         {log.map((m, i) =>
           m.role === "user" ? (
-            <div className="cmsg user" key={i}>{m.text}</div>
+            <div className="crow user" key={i}>
+              <div className="cmsg user">{m.text}</div>
+            </div>
           ) : (
-            <div className={`cmsg agent${m.streaming ? " streaming" : ""}`} key={i}>
-              {m.answer.trace.length > 0 && (
-                <div className="ctrace">
-                  {m.answer.trace.map((t, j) => (
-                    <span className="tc" key={j}>▸ {t}</span>
-                  ))}
-                </div>
-              )}
-              {m.answer.text && <div className="ctext">{m.answer.text}</div>}
-              {m.answer.tools.length > 0 && (
-                <div className="ctools">
-                  {m.answer.tools.map((t, j) => {
-                    const onClick = resolveTool(t.ref);
-                    return (
-                      <button key={j} onClick={onClick} disabled={!onClick}>
-                        {t.label} →
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
+            <div className="crow agent" key={i}>
+              <span className="cav" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9">
+                  <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+              <div className={`cmsg agent${m.streaming ? " streaming" : ""}`}>
+                {m.answer.trace.length > 0 && (
+                  <div className="ctrace">
+                    {m.answer.trace.map((t, j) => (
+                      <span className="tc" key={j}>▸ {t}</span>
+                    ))}
+                  </div>
+                )}
+                {m.answer.text && <div className="ctext">{m.answer.text}</div>}
+                {m.answer.tools.length > 0 && (
+                  <div className="ctools">
+                    {m.answer.tools.map((t, j) => {
+                      const onClick = resolveTool(t.ref);
+                      return (
+                        <button key={j} onClick={onClick} disabled={!onClick}>
+                          {t.label} →
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
           )
         )}
       </div>
-      {source.chips.length > 0 && (
+      {source.chips.length > 0 && !asked && (
         <div className="chat-chips">
+          <span className="chips-label">Coba tanya</span>
           {source.chips.map((q) => (
-            <button key={q} onClick={() => ask(q)}>{q}</button>
+            <button key={q} onClick={() => ask(q)}><span className="ch-ar" aria-hidden="true">›</span>{q}</button>
           ))}
         </div>
       )}
@@ -109,7 +120,7 @@ export default function ChatPanel({
           placeholder={placeholder}
           aria-label="Tanya agen"
         />
-        <button type="submit">Kirim →</button>
+        <button type="submit" disabled={!input.trim()}>Kirim →</button>
       </form>
     </div>
   );

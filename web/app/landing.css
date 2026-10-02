@@ -7,8 +7,6 @@
   font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
   border: 1px solid var(--border); border-radius: 999px; padding: 5px 13px; margin-bottom: 22px;
 }
-.eyebrow .live { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: live 2s infinite; }
-@keyframes live { 0% { box-shadow: 0 0 0 0 var(--accent-soft); } 70% { box-shadow: 0 0 0 7px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
 
 .hero h1 {
   font-family: var(--font-jbm), monospace; font-weight: 800; font-size: clamp(1.7rem, 4.2vw, 2.9rem);
@@ -88,17 +86,10 @@
   background: radial-gradient(125% 80% at 50% -12%, #0d1526 0%, #080b14 55%, #06090f 100%);
 }
 :root[data-theme="light"] .lp-bg { background: radial-gradient(125% 80% at 50% -12%, #fbf7ee 0%, #f1eadb 55%, #e9dfc8 100%); }
-.lp-orb { position: absolute; border-radius: 50%; filter: blur(120px); }
-.lp-orb.a { width: 540px; height: 540px; top: -150px; right: -130px; background: radial-gradient(circle, rgba(53, 197, 201, 0.5), transparent 70%); }
-.lp-orb.b { width: 480px; height: 480px; bottom: -170px; left: -150px; background: radial-gradient(circle, rgba(94, 224, 120, 0.22), transparent 70%); }
-:root[data-theme="light"] .lp-orb { opacity: 0.42; }
-.lp-grid {
-  position: absolute; inset: 0; opacity: 0.6;
-  background-image: linear-gradient(color-mix(in srgb, var(--text) 3%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--text) 3%, transparent) 1px, transparent 1px);
-  background-size: 34px 34px;
-  -webkit-mask-image: radial-gradient(circle at 50% 18%, #000 0%, transparent 72%);
-  mask-image: radial-gradient(circle at 50% 18%, #000 0%, transparent 72%);
-}
+/* Satu aksen cahaya halus di pojok, bukan dua orb + grid gaya template. */
+.lp-orb { position: absolute; border-radius: 50%; filter: blur(130px); }
+.lp-orb.a { width: 520px; height: 520px; top: -190px; right: -150px; background: radial-gradient(circle, rgba(53, 197, 201, 0.22), transparent 70%); }
+:root[data-theme="light"] .lp-orb { opacity: 0.4; }
 
 /* hero, DM Sans, lebih besar, highlight gradien teal */
 .lp .hero { max-width: 780px; padding-top: clamp(20px, 6vw, 56px); }

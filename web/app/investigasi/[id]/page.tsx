@@ -47,9 +47,9 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
 
   const tagByStep = new Map<number, string>();
   for (const m of moments) {
-    if (m.kind === "adaptive") tagByStep.set(m.step, "⟿ perutean adaptif");
-    if (m.kind === "escalation" && !tagByStep.has(m.step)) tagByStep.set(m.step, "↑ eskalasi");
-    if (m.kind === "early_stop" && !tagByStep.has(m.step)) tagByStep.set(m.step, "■ berhenti dini");
+    if (m.kind === "adaptive") tagByStep.set(m.step, "⟿ keluar dari rencana");
+    if (m.kind === "escalation" && !tagByStep.has(m.step)) tagByStep.set(m.step, "↑ minta tambah jatah");
+    if (m.kind === "early_stop" && !tagByStep.has(m.step)) tagByStep.set(m.step, "■ berhenti lebih awal");
   }
   const steps: RenderStep[] = t.steps.map((s) => ({ ...s, tag: tagByStep.get(s.step) }));
 
@@ -77,7 +77,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
           </div>
           <div>
             <h1 className="vtitle"><span className="tk">{t.symbol}</span> · IDX</h1>
-            <div className="vsub mono">Investigasi otonom · <b>{t.steps.length} langkah</b> · <b>{t.credits_total} kredit</b></div>
+            <div className="vsub mono">Agen bekerja sendiri · <b>{t.steps.length} langkah</b> · <b>{t.credits_total} kredit</b></div>
             <div className="stats">
               <div className="stat">
                 <div className="k">Keyakinan</div>
@@ -85,7 +85,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
                 <div className="bar"><i style={{ width: `${confidencePct}%`, background: "var(--accent)" }} /></div>
               </div>
               <div className="stat">
-                <div className="k">Kredit vs baseline</div>
+                <div className="k">Kredit vs periksa semua</div>
                 <div className="v">{t.credits_total}<small> / {t.baseline_credits}</small></div>
                 <div className="bar"><i style={{ width: `${creditsPct}%`, background: "var(--sig-normal)" }} /></div>
               </div>
@@ -93,7 +93,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
                 <div className="k">Hemat agen</div>
                 <div className={`v ${sav >= 0 ? "good" : "bad"}`}>
                   {sav >= 0 ? `−${sav}%` : `+${-sav}%`}
-                  <small> {sav >= 0 ? "kredit vs investigasi menyeluruh (6 probe)" : "kredit lebih dari investigasi menyeluruh (agen kalah)"}</small>
+                  <small> {sav >= 0 ? "kredit vs memeriksa semuanya (6 uji)" : "kredit lebih dari memeriksa semuanya (agen kalah)"}</small>
                 </div>
               </div>
             </div>
@@ -104,7 +104,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
       {/* ── Agentic moments ── */}
       {moments.length > 0 && (
         <section>
-          <div className="sec-label"><h2>Momen kunci agen</h2><span className="n">yang membedakannya dari if-else</span></div>
+          <div className="sec-label"><h2>Momen kunci agen</h2><span className="n">yang bikin ini terasa seperti analis, bukan rumus</span></div>
           <div className="moments">
             {moments.map((m) => <MomentCard key={m.kind} m={m} />)}
           </div>
@@ -141,7 +141,7 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
         <div className="panel">
           <div className="plan-top">
             <span className="lbl">{t.plan.hypotheses.length} dugaan, urut prioritas</span>
-            <span className="bud">jatah diminta <b>{t.plan.credit_budget_requested} kredit</b> · batas keras 25</span>
+            <span className="bud">jatah diminta <b>{t.plan.credit_budget_requested} kredit</b> · maksimal 25</span>
           </div>
           <div className="hyps">
             {t.plan.hypotheses.map((h) => (
@@ -192,28 +192,28 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
 function MomentCard({ m }: { m: Moment }) {
   const view = {
     adaptive: {
-      title: "Perutean adaptif",
+      title: "Keluar dari rencana",
       at: `langkah ${"step" in m ? m.step : ""}`,
       icon: <AdaptiveIcon />,
-      desc: <>Membuka <code>{m.kind === "adaptive" ? m.probe : ""}</code>, probe di luar rencana awal.</>,
+      desc: <>Membuka <code>{m.kind === "adaptive" ? m.probe : ""}</code>, pemeriksaan di luar rencana awal.</>,
     },
     escalation: {
-      title: "Eskalasi",
+      title: "Minta tambah jatah",
       at: `langkah ${"step" in m ? m.step : ""}`,
       icon: <EscalationIcon />,
       desc: <>Minta tambah jatah <code>+{m.kind === "escalation" ? m.granted : 0} kredit</code> dengan alasan tertulis, dikabulkan.</>,
     },
     early_stop: {
-      title: "Berhenti dini",
+      title: "Berhenti lebih awal",
       at: `langkah ${"step" in m ? m.step : ""}`,
       icon: <StopIcon />,
-      desc: <>Menyimpulkan di langkah {"step" in m ? m.step : ""} dari 6 probe, di bawah jatah menyeluruh.</>,
+      desc: <>Menyimpulkan di langkah {"step" in m ? m.step : ""} dari 6 uji, di bawah jatah memeriksa semuanya.</>,
     },
     memory: {
       title: "Memori",
       at: "memori",
       icon: <MemoryIcon />,
-      desc: <>Run sebelumnya (<code>{m.kind === "memory" ? m.ref : ""}</code>) memandu rencana, bukan mengulang dari nol.</>,
+      desc: <>Investigasi sebelumnya (<code>{m.kind === "memory" ? m.ref : ""}</code>) memandu rencana, bukan mengulang dari nol.</>,
     },
   }[m.kind];
 

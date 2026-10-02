@@ -10,7 +10,7 @@ import "./landing.css";
 const PROCESS = [
   { n: "1", w: "Deteksi otomatis", d: "Tiap hari bursa, agen menyapu pasar dan menandai saham yang bergerak tidak wajar, tanpa kamu perlu memantau layar." },
   { n: "2", w: "Selidiki sendiri", d: "Agen memilih bukti mana yang dikejar, menguji tiap dugaan, lalu berhenti begitu buktinya sudah cukup." },
-  { n: "3", w: "Jelaskan terbuka", d: "Hasilnya skor plus cerita yang bisa kamu telusuri sampai ke sumber datanya, bukan kotak hitam." },
+  { n: "3", w: "Terbuka, bisa dicek", d: "Hasilnya skor plus cerita yang bisa dicek sampai ke sumber datanya, bukan kotak hitam." },
 ];
 
 const SIGNALS = [
@@ -34,19 +34,15 @@ export default function Landing() {
     <main className="lp">
       <div className="lp-bg" aria-hidden="true">
         <span className="lp-orb a" />
-        <span className="lp-orb b" />
-        <span className="lp-grid" />
       </div>
       <section className="hero">
-        <span className="eyebrow">
-          <span className="live" /> Agen investigasi saham IDX
-        </span>
+        <span className="eyebrow">Agen investigasi saham IDX</span>
         <h1>
           Saham ini ramai. Tapi siapa yang sebenarnya <span className="hl">menggerakkannya</span>?
         </h1>
         <p className="sub">
-          PANTAU menyelidiki pergerakan saham seperti analis sungguhan, mengejar bukti,
-          menguji dugaan, dan <b>menunjukkan jejaknya sampai kesimpulan</b>.
+          PANTAU menyelidiki saham yang bergerak tidak wajar, lalu <b>menunjukkan langkah
+          demi langkah</b> bagaimana ia sampai ke kesimpulan, bukan cuma memberi angka.
         </p>
         <SearchBox routes={routes} />
         {rows.length > 0 && (
@@ -58,14 +54,14 @@ export default function Landing() {
           </div>
         )}
         <div className="microcopy">
-          Setiap temuan bisa kamu telusuri sampai ke buktinya, bukan sekadar angka.
+          Ketik kode saham mana pun, lihat bagaimana agen menilainya.
         </div>
       </section>
 
       <section>
         <div className="lp-head">
           <h2>Cara kerja</h2>
-          <p>Dari sinyal mentah sampai kesimpulan yang bisa ditelusuri, dalam tiga langkah.</p>
+          <p>Tiga langkah: dari menandai saham yang mencurigakan sampai menjelaskan temuannya.</p>
         </div>
         <div className="process">
           {PROCESS.map((p) => (
@@ -101,7 +97,7 @@ export default function Landing() {
         <div className="board-head">
           <div className="bh-title">
             <h2>Investigasi hari ini</h2>
-            <p>Hasil terbaru dari agen, ketuk salah satu untuk lihat jejak lengkapnya.</p>
+            <p>Hasil terbaru dari agen, ketuk salah satu untuk lihat langkah lengkapnya.</p>
           </div>
           <div className="board-stats">
             <span><b>{index.investigations.length}</b> diselidiki</span>
@@ -121,7 +117,7 @@ export default function Landing() {
             </svg>
           </span>
           <span className="at">
-            Berjalan sendiri, tiap hari bursa pukul <b>17:30 WIB</b>, agen menyapu, menyeleksi, dan menyelidiki tanpa ditunggui.
+            Tiap hari bursa pukul <b>17:30 WIB</b>, agen menyapu pasar dan menyelidiki sendiri, tanpa ditunggui.
           </span>
           <Link href="/papan">Lihat Papan Waspada →</Link>
         </div>

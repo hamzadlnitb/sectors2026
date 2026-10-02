@@ -96,7 +96,6 @@ tests/web/ · tests/export/
 - [x] **D9/C7 (sisi web)** · Siap tampilkan `savings_pct` negatif (`fmtSavings`, warna danger). Nadhilla setuju C6 Hamzah; dicatat di `contracts/CHANGES.md`.
 - [x] **B5/T7 (sisi web)** · `to_json` default tanpa fixture; data web bersih.
 - [x] **Merge branch web → `main`** (PR #13) — MERGED. T3/T7/T10/B5 + retheme mendarat di main. Branch kini fast-forward ke main (data s/d 30 Sep, 43 investigasi).
-- [~] **Retheme + revisi UI** (di luar audit, permintaan Ikhsan): gaya navy+teal theme-aware, copywriting ramah, tanpa em dash, header seragam, kalender rata, chat. Selesai; poles orisinalitas berlanjut.
 
 ---
 
