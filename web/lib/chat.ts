@@ -22,6 +22,9 @@ export type ChatPatch = { trace?: string; text?: string; tool?: ChatTool };
 export interface ChatSource {
   greeting: ChatAnswer;
   chips: string[];
+  /** true = ada intent yang cocok; false = jawaban akan jatuh ke fallback.
+   *  Dipakai UI untuk memunculkan lagi saran pertanyaan saat agen tak paham. */
+  canAnswer(q: string): boolean;
   ask(q: string): AsyncGenerator<ChatPatch, void, unknown>;
 }
 
@@ -54,6 +57,7 @@ export function staticSource(opts: {
   return {
     greeting,
     chips: intents.slice(0, 4).map((it) => it.q), // tampilkan 4 teratas; sisanya tetap cocok lewat ketik bebas
+    canAnswer: (q: string) => !!matchIntent(intents, q),
     async *ask(q: string) {
       const hit = matchIntent(intents, q);
       const ans = hit ? hit.answer() : fallback;
@@ -74,6 +78,7 @@ export function livePendingSource(greeting: ChatAnswer): ChatSource {
       text: "Mode live belum aktif — menunggu middleware & persetujuan C6. Sementara ini jawaban ditarik dari transkrip statis.",
     },
     chips: [],
+    canAnswer: () => false,
     async *ask() {
       /* belum ada aliran WS — Fase B mengganti ini dengan pemetaan event §8 */
     },

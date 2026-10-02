@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ChatMsg, ChatPatch, ChatSource, ToolRef } from "@/lib/chat";
 
 // UI chat bersama (log + chips + composer). Mengonsumsi ChatSource secara STREAMING,
@@ -35,11 +35,21 @@ export default function ChatPanel({
   const [log, setLog] = useState<ChatMsg[]>([{ role: "agent", answer: source.greeting }]);
   const [input, setInput] = useState("");
   const busy = useRef(false);
-  const asked = log.some((m) => m.role === "user");
+  const logRef = useRef<HTMLDivElement>(null);
+  // Chip disembunyikan setelah pertanyaan terjawab, tapi MUNCUL LAGI kalau agen
+  // tak paham (fallback) supaya "pilih pertanyaan di bawah" selalu ada isinya.
+  const [showChips, setShowChips] = useState(true);
+
+  // Tiap pesan/potongan jawaban baru → gulir ke bawah supaya bubble terbaru terlihat.
+  useEffect(() => {
+    const el = logRef.current;
+    if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+  }, [log]);
 
   async function ask(q: string) {
     if (busy.current) return;
     busy.current = true;
+    setShowChips(!source.canAnswer(q)); // cocok → sembunyikan; fallback → tetap tampil
     setLog((l) => [
       ...l,
       { role: "user", text: q },
@@ -59,7 +69,7 @@ export default function ChatPanel({
 
   return (
     <div className="chat">
-      <div className="chat-log" role="log" aria-live="polite" aria-atomic="false">
+      <div className="chat-log" ref={logRef} role="log" aria-live="polite" aria-atomic="false">
         {log.map((m, i) =>
           m.role === "user" ? (
             <div className="crow user" key={i}>
@@ -98,7 +108,7 @@ export default function ChatPanel({
           )
         )}
       </div>
-      {source.chips.length > 0 && !asked && (
+      {source.chips.length > 0 && showChips && (
         <div className="chat-chips">
           <span className="chips-label">Coba tanya</span>
           {source.chips.map((q) => (
@@ -120,7 +130,7 @@ export default function ChatPanel({
           placeholder={placeholder}
           aria-label="Tanya agen"
         />
-        <button type="submit" disabled={!input.trim()}>Kirim →</button>
+        <button type="submit" disabled={!input.trim()}>Kirim</button>
       </form>
     </div>
   );

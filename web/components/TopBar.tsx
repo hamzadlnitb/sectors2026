@@ -37,15 +37,6 @@ export default function TopBar() {
           ))}
         </nav>
         <span className="sp" />
-        <div className="spectrum" aria-hidden="true">
-          <i style={{ height: 8, background: "var(--sig-normal)" }} />
-          <i style={{ height: 12, background: "var(--sig-normal)" }} />
-          <i style={{ height: 9, background: "var(--sig-watch)" }} />
-          <i style={{ height: 15, background: "var(--sig-watch)" }} />
-          <i style={{ height: 11, background: "var(--sig-alert)" }} />
-          <i style={{ height: 18, background: "var(--sig-danger)" }} />
-          <i style={{ height: 7, background: "var(--sig-alert)" }} />
-        </div>
         <ThemeToggle />
         <button
           className="nav-toggle"
