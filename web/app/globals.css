@@ -53,7 +53,7 @@ body::before {
 /* ── Top bar ───────────────────────────────────────────────────────── */
 .topbar {
   display: flex; align-items: center; gap: 16px; max-width: 1320px; margin: 0 auto;
-  padding: 15px clamp(16px, 4vw, 34px); border-bottom: none;
+  padding: 15px clamp(16px, 4vw, 34px); border-bottom: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
   position: sticky; top: 0; z-index: 20; isolation: isolate;
   background: transparent;
 }
