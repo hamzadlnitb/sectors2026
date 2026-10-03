@@ -5,12 +5,13 @@ import ActivityFeed from "@/components/ActivityFeed";
 import LandingChat from "@/components/LandingChat";
 import { loadIndex, symbolToId } from "@/lib/transcript";
 import { loadActivity } from "@/lib/activity";
+import { bandMeta } from "@/lib/bands";
 import "./landing.css";
 
 const PROCESS = [
   { n: "1", w: "Deteksi otomatis", d: "Tiap hari bursa, agen menyapu pasar dan menandai saham yang bergerak tidak wajar, tanpa kamu perlu memantau layar." },
   { n: "2", w: "Selidiki sendiri", d: "Agen memilih bukti mana yang dikejar, menguji tiap dugaan, lalu berhenti begitu buktinya sudah cukup." },
-  { n: "3", w: "Jelaskan terbuka", d: "Hasilnya skor plus cerita yang bisa kamu telusuri sampai ke sumber datanya, bukan kotak hitam." },
+  { n: "3", w: "Terbuka, bisa dicek", d: "Hasilnya skor plus cerita yang bisa dicek sampai ke sumber datanya, bukan kotak hitam." },
 ];
 
 const SIGNALS = [
@@ -29,43 +30,84 @@ export default function Landing() {
   const flagged = index.investigations.filter((e) => e.band === "waspada" || e.band === "sangat_waspada").length;
   const escalated = index.investigations.filter((e) => e.moments.includes("escalation")).length;
   const activity = loadActivity();
+  // Sorotan kolom kanan hero: urut menurut skor x keyakinan, bukan skor mentah,
+  // supaya yang tampil sinyal paling kredibel, bukan skor 100 dari 1 komponen.
+  const ranked = [...index.investigations].sort(
+    (a, b) => b.pantau_score * b.confidence - a.pantau_score * a.confidence,
+  );
+  const featured = ranked[0] ?? null;
+  // Baris samping: satu per emiten (selain yang disorot) biar terlihat ragam pantauan.
+  const seen = new Set(featured ? [featured.symbol] : []);
+  const sideRows = ranked.filter((e) => !seen.has(e.symbol) && seen.add(e.symbol)).slice(0, 3);
+  // Label "update <tanggal>" dari investigasi paling baru.
+  const MO = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+  const lastDate = index.investigations.reduce((m, e) => (e.as_of > m ? e.as_of : m), index.investigations[0]?.as_of ?? "");
+  const [, lm, ld] = lastDate ? lastDate.slice(0, 10).split("-").map(Number) : [0, 1, 0];
+  const updateLabel = lastDate ? `update ${ld} ${MO[(lm || 1) - 1]}` : "update";
 
   return (
     <main className="lp">
       <div className="lp-bg" aria-hidden="true">
         <span className="lp-orb a" />
-        <span className="lp-orb b" />
-        <span className="lp-grid" />
       </div>
       <section className="hero">
-        <span className="eyebrow">
-          <span className="live" /> Agen investigasi saham IDX
-        </span>
-        <h1>
-          Saham ini ramai. Tapi siapa yang sebenarnya <span className="hl">menggerakkannya</span>?
-        </h1>
-        <p className="sub">
-          PANTAU menyelidiki pergerakan saham seperti analis sungguhan, mengejar bukti,
-          menguji dugaan, dan <b>menunjukkan jejaknya sampai kesimpulan</b>.
-        </p>
-        <SearchBox routes={routes} />
-        {rows.length > 0 && (
-          <div className="lp-eg">
-            <span>Coba lihat:</span>
-            {rows.slice(0, 3).map((e) => (
-              <Link key={e.id} href={`/investigasi/${e.id}/`} className="eg">{e.symbol}</Link>
-            ))}
+        <div className="hero-main">
+          <span className="eyebrow">Agen investigasi saham IDX</span>
+          <h1>
+            Saham ini ramai. Tapi siapa yang sebenarnya <span className="hl">menggerakkannya</span>?
+          </h1>
+          <p className="sub">
+            PANTAU menyelidiki saham yang bergerak tidak wajar, lalu <b>menunjukkan langkah
+            demi langkah</b> bagaimana ia sampai ke kesimpulan, bukan cuma memberi angka.
+          </p>
+          <SearchBox routes={routes} />
+          {rows.length > 0 && (
+            <div className="lp-eg">
+              <span>Coba lihat:</span>
+              {rows.slice(0, 3).map((e) => (
+                <Link key={e.id} href={`/investigasi/${e.id}/`} className="eg">{e.symbol}</Link>
+              ))}
+            </div>
+          )}
+          <div className="microcopy">
+            Ketik kode saham mana pun, lihat bagaimana agen menilainya.
           </div>
-        )}
-        <div className="microcopy">
-          Setiap temuan bisa kamu telusuri sampai ke buktinya, bukan sekadar angka.
         </div>
+
+        {featured && (
+          <aside className="hero-side" aria-label="Sorotan investigasi">
+            <div className="hs-head">
+              <span className="hs-live"><span className="dot" /> {updateLabel}</span>
+              <span className="hs-meta mono">{index.investigations.length} investigasi</span>
+            </div>
+            <Link href={`/investigasi/${featured.id}/`} className="hs-feat">
+              <div className="hs-feat-top">
+                <span className="hs-sym">{featured.symbol} <small>· IDX</small></span>
+                <span className={`bandchip ${bandMeta(featured.band).cls}`}><span className="d" /> {bandMeta(featured.band).label}</span>
+              </div>
+              <div className="hs-score mono">{featured.pantau_score}<small>/100</small></div>
+              {featured.headline && <div className="hs-headline">{featured.headline}</div>}
+              <div className="hs-foot mono">{featured.steps} langkah · keyakinan {Math.round(featured.confidence * 100)}%</div>
+            </Link>
+            {sideRows.length > 0 && (
+              <div className="hs-list">
+                {sideRows.map((e) => (
+                  <Link key={e.id} href={`/investigasi/${e.id}/`} className="hs-row">
+                    <span className="hs-rsym mono">{e.symbol}</span>
+                    <span className={`hs-rband ${bandMeta(e.band).cls}`}>{bandMeta(e.band).label}</span>
+                    <span className="hs-rscore mono">{e.pantau_score}</span>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </aside>
+        )}
       </section>
 
       <section>
         <div className="lp-head">
           <h2>Cara kerja</h2>
-          <p>Dari sinyal mentah sampai kesimpulan yang bisa ditelusuri, dalam tiga langkah.</p>
+          <p>Tiga langkah: dari menandai saham yang mencurigakan sampai menjelaskan temuannya.</p>
         </div>
         <div className="process">
           {PROCESS.map((p) => (
@@ -101,12 +143,12 @@ export default function Landing() {
         <div className="board-head">
           <div className="bh-title">
             <h2>Investigasi hari ini</h2>
-            <p>Hasil terbaru dari agen, ketuk salah satu untuk lihat jejak lengkapnya.</p>
+            <p>Hasil terbaru dari agen, ketuk salah satu untuk lihat langkah lengkapnya.</p>
           </div>
           <div className="board-stats">
             <span><b>{index.investigations.length}</b> diselidiki</span>
             <span><span className="d" style={{ background: "var(--sig-alert)" }} /><b>{flagged}</b> perlu perhatian</span>
-            <span><span className="d" style={{ background: "var(--accent)" }} /><b>{escalated}</b> minta jatah tambah</span>
+            <span><span className="d" style={{ background: "var(--accent)" }} /><b>{escalated}</b> eskalasi</span>
           </div>
         </div>
         <div className="cards">
@@ -121,7 +163,7 @@ export default function Landing() {
             </svg>
           </span>
           <span className="at">
-            Berjalan sendiri, tiap hari bursa pukul <b>17:30 WIB</b>, agen menyapu, menyeleksi, dan menyelidiki tanpa ditunggui.
+            Tiap hari bursa pukul <b>17:30 WIB</b>, agen menyapu pasar dan menyelidiki sendiri, tanpa ditunggui.
           </span>
           <Link href="/papan">Lihat Papan Waspada →</Link>
         </div>

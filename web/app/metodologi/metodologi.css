@@ -3,6 +3,9 @@
 .method-lede { font-size: 15px; line-height: 1.6; color: var(--text); max-width: 66ch; }
 .method-lede b { color: var(--accent); font-weight: 600; }
 
+/* Pembuka ringkas sebelum bagian teknis: satu napas bahasa sehari-hari. */
+.method-plain { font-size: 14px; line-height: 1.6; color: var(--muted); max-width: 64ch; margin: 10px 0 0; }
+
 .formula { margin-top: 16px; padding: 16px 18px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); font-family: var(--font-jbm), monospace; font-size: 13px; color: var(--text); overflow-x: auto; }
 .formula .muted { color: var(--dim); }
 

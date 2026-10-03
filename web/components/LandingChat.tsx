@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import ChatPanel from "@/components/ChatPanel";
 import { bandMeta } from "@/lib/bands";
 import { sourceForMode, type ChatAnswer, type Intent, type ToolRef } from "@/lib/chat";
+import { fmtDate } from "@/lib/format";
 import type { IndexEntry } from "@/lib/transcript";
 
 // Landing chat, versi level-sistem dari "Tanya agen", widget mengambang. Menjawab
@@ -14,6 +15,7 @@ import type { IndexEntry } from "@/lib/transcript";
 export default function LandingChat({ items, mode = "static" }: { items: IndexEntry[]; mode?: "static" | "live" }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [session, setSession] = useState(0); // ganti tiap buka → ChatPanel remount, saran pertanyaan muncul lagi
   const fabRef = useRef<HTMLButtonElement>(null);
   const popRef = useRef<HTMLDivElement>(null);
 
@@ -120,12 +122,49 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
       });
     }
 
+    // Kenali nama emiten yang ADA di data: ketik "jawa" → hasil terbaru + tombol buka.
+    // Ditambahkan setelah pertanyaan utama, jadi tidak muncul sebagai chip (chip dibatasi 4).
+    const symbols = [...new Set(items.map((e) => e.symbol))].sort();
+    for (const sym of symbols) {
+      intents.push({
+        q: sym,
+        keys: [sym.toLowerCase()],
+        answer: (): ChatAnswer => {
+          const runs = items
+            .filter((e) => e.symbol === sym)
+            .sort((a, b) => b.as_of.localeCompare(a.as_of));
+          const it = runs[0];
+          const b = bandMeta(it.band);
+          return {
+            trace: [`cari emiten ${sym}`, "ambil investigasi terbaru"],
+            text:
+              `${sym}: investigasi terakhir ${fmtDate(it.as_of)} → skor ${it.pantau_score}/100 (${b.label}), ` +
+              `keyakinan ${Math.round(it.confidence * 100)}%, ${it.steps} langkah.` +
+              (runs.length > 1 ? ` Ada ${runs.length} investigasi untuk ${sym}, lihat perubahannya di Riwayat.` : "") +
+              " Ini bukan saran investasi.",
+            tools: [
+              { label: `Buka investigasi ${sym}`, ref: routeTo(it) },
+              ...(runs.length > 1
+                ? [{ label: "Lihat riwayat", ref: { kind: "route", id: "/riwayat" } as ToolRef }]
+                : []),
+            ],
+          };
+        },
+      });
+    }
+
     const greeting: ChatAnswer = {
       trace: [],
-      text: `Aku agen investigasi PANTAU. Tanya apa yang kutemukan hari ini, jawaban ditarik dari ${total} investigasi nyata. Ini bukan saran investasi.`,
+      text: `Aku agen investigasi PANTAU. Tanya apa yang kutemukan hari ini, jawaban ditarik dari ${total} investigasi nyata.`,
       tools: [],
     };
-    return { greeting, intents };
+    // Fallback ikut menyebut emiten yang tersedia, jadi jujur saat kode tak dikenal.
+    const fallback: ChatAnswer = {
+      trace: ["cari di data yang ada"],
+      text: `Aku menjawab dari data yang ada. Untuk cek satu emiten, ketik kodenya, yang tersedia: ${symbols.join(", ")}. Atau pilih pertanyaan di bawah.`,
+      tools: [],
+    };
+    return { greeting, intents, fallback };
   });
 
   return (
@@ -133,7 +172,7 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
       <button
         ref={fabRef}
         className={`chat-fab ${open ? "hide" : ""}`}
-        onClick={() => setOpen(true)}
+        onClick={() => { setSession((s) => s + 1); setOpen(true); }}
         aria-label="Buka chat, tanya agen"
         aria-expanded={open}
       >
@@ -146,14 +185,20 @@ export default function LandingChat({ items, mode = "static" }: { items: IndexEn
 
       <div ref={popRef} className={`chat-pop ${open ? "open" : ""}`} role="dialog" aria-modal="false" aria-label="Chat, tanya agen" aria-hidden={!open} inert={!open}>
         <div className="chat-pop-head">
-          <span className="ttl">Coba tanya agen <span className="n">· hasil hari ini</span></span>
+          <span className="cha" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9">
+              <path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 20l1.4-4.2A8.5 8.5 0 1 1 21 11.5z" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <span className="ttl">Tanya agen PANTAU<span className="n">hasil hari ini</span></span>
           <button className="cx" onClick={() => setOpen(false)} aria-label="Tutup chat">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
               <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
             </svg>
           </button>
         </div>
-        <ChatPanel source={source} resolveTool={resolveTool} placeholder="Tanya soal hasil hari ini…" />
+        <ChatPanel key={session} source={source} resolveTool={resolveTool} placeholder="Tanya soal hasil hari ini…" />
+        <div className="chat-pop-foot">Jawaban dari data tersimpan · bukan saran investasi</div>
       </div>
     </>
   );

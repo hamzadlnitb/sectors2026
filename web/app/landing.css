@@ -7,8 +7,6 @@
   font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
   border: 1px solid var(--border); border-radius: 999px; padding: 5px 13px; margin-bottom: 22px;
 }
-.eyebrow .live { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: live 2s infinite; }
-@keyframes live { 0% { box-shadow: 0 0 0 0 var(--accent-soft); } 70% { box-shadow: 0 0 0 7px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
 
 .hero h1 {
   font-family: var(--font-jbm), monospace; font-weight: 800; font-size: clamp(1.7rem, 4.2vw, 2.9rem);
@@ -24,8 +22,9 @@
 .search svg { color: var(--accent); flex-shrink: 0; }
 .search input { flex: 1; min-width: 0; background: none; border: none; color: var(--text); font-family: var(--font-jbm), monospace; font-size: 14px; padding: 11px 0; outline: none; letter-spacing: 0.02em; }
 .search input::placeholder { color: var(--dim); }
-.search button { display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: var(--on-accent); border: none; border-radius: 8px; padding: 11px 15px; font-family: var(--font-jbm), monospace; font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; }
-.search button:hover { background: var(--accent-bright); }
+.search button { display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: var(--on-accent); border: none; border-radius: 8px; padding: 11px 15px; font-family: var(--font-jbm), monospace; font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; transition: background .16s, transform .16s, box-shadow .16s; }
+.search button:hover { background: var(--accent-bright); transform: translateY(-1px); box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 34%, transparent); }
+.search button:active { transform: translateY(0); box-shadow: none; }
 .search button:focus-visible, .search input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .microcopy { display: flex; align-items: center; gap: 8px; font-family: var(--font-jbm), monospace; font-size: 11.5px; color: var(--dim); margin-top: 14px; }
 .microcopy .tick { color: var(--sig-normal); }
@@ -88,25 +87,47 @@
   background: radial-gradient(125% 80% at 50% -12%, #0d1526 0%, #080b14 55%, #06090f 100%);
 }
 :root[data-theme="light"] .lp-bg { background: radial-gradient(125% 80% at 50% -12%, #fbf7ee 0%, #f1eadb 55%, #e9dfc8 100%); }
-.lp-orb { position: absolute; border-radius: 50%; filter: blur(120px); }
-.lp-orb.a { width: 540px; height: 540px; top: -150px; right: -130px; background: radial-gradient(circle, rgba(53, 197, 201, 0.5), transparent 70%); }
-.lp-orb.b { width: 480px; height: 480px; bottom: -170px; left: -150px; background: radial-gradient(circle, rgba(94, 224, 120, 0.22), transparent 70%); }
-:root[data-theme="light"] .lp-orb { opacity: 0.42; }
-.lp-grid {
-  position: absolute; inset: 0; opacity: 0.6;
-  background-image: linear-gradient(color-mix(in srgb, var(--text) 3%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--text) 3%, transparent) 1px, transparent 1px);
-  background-size: 34px 34px;
-  -webkit-mask-image: radial-gradient(circle at 50% 18%, #000 0%, transparent 72%);
-  mask-image: radial-gradient(circle at 50% 18%, #000 0%, transparent 72%);
-}
+/* Satu aksen cahaya halus di pojok, bukan dua orb + grid gaya template. */
+.lp-orb { position: absolute; border-radius: 50%; filter: blur(130px); }
+.lp-orb.a { width: 520px; height: 520px; top: -190px; right: -150px; background: radial-gradient(circle, rgba(53, 197, 201, 0.22), transparent 70%); }
+:root[data-theme="light"] .lp-orb { opacity: 0.4; }
 
 /* hero, DM Sans, lebih besar, highlight gradien teal */
-.lp .hero { max-width: 780px; padding-top: clamp(20px, 6vw, 56px); }
+.lp .hero { max-width: none; padding-top: clamp(20px, 6vw, 56px); display: grid; gap: clamp(26px, 4vw, 52px); align-items: center; }
+@media (min-width: 900px) { .lp .hero { grid-template-columns: minmax(0, 1fr) clamp(300px, 30vw, 380px); } }
+.hero-main { max-width: 640px; min-width: 0; }
 .lp .hero h1 { font-family: var(--font-dm), var(--font-inter), sans-serif; font-weight: 600; font-size: clamp(2.1rem, 5.6vw, 3.7rem); letter-spacing: -0.03em; line-height: 1.07; color: var(--text); }
 .lp .hero h1 .hl { background: linear-gradient(92deg, var(--accent), color-mix(in srgb, var(--accent) 55%, #7ad0a0)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .lp .hero h1 .cur { background: var(--accent); }
 .lp .hero .sub { font-family: var(--font-dm), var(--font-inter), sans-serif; font-size: clamp(15px, 2vw, 18px); color: var(--muted); max-width: 54ch; }
 .lp .hero .sub b { color: var(--text); }
+
+/* Kolom kanan hero: panel sorotan investigasi (data asli, mengisi ruang kosong). */
+.hero-side { border: 1px solid var(--border); border-radius: 16px; background: color-mix(in srgb, var(--surface) 72%, transparent); backdrop-filter: blur(6px); padding: 15px; box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22); }
+.hs-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 11px; }
+.hs-live { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); }
+.hs-live .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--sig-normal); box-shadow: 0 0 0 3px color-mix(in srgb, var(--sig-normal) 26%, transparent); animation: hspulse 2.4s ease-in-out infinite; }
+@keyframes hspulse { 50% { box-shadow: 0 0 0 5px transparent; } }
+.hs-meta { font-size: 11.5px; color: var(--dim); }
+.hs-feat { display: block; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); padding: 14px; transition: border-color 0.16s, transform 0.16s, box-shadow 0.16s; }
+.hs-feat:hover { border-color: color-mix(in srgb, var(--accent) 45%, transparent); transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2); }
+.hs-feat-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.hs-sym { font-family: var(--font-jbm), monospace; font-weight: 800; font-size: 16px; letter-spacing: 0.04em; color: var(--text); }
+.hs-sym small { color: var(--dim); font-weight: 500; font-size: 11px; }
+.hs-score { font-weight: 800; font-size: 40px; line-height: 1; color: var(--text); margin: 11px 0 0; }
+.hs-score small { font-size: 15px; color: var(--dim); font-weight: 600; }
+.hs-headline { font-size: 12.5px; color: var(--muted); line-height: 1.5; margin-top: 7px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.hs-foot { font-size: 11px; color: var(--dim); margin-top: 10px; }
+.hs-list { display: flex; flex-direction: column; gap: 1px; margin-top: 10px; }
+.hs-row { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 10px; padding: 8px 7px; border-radius: 8px; transition: background 0.14s; }
+.hs-row:hover { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+.hs-rsym { font-weight: 700; font-size: 13px; letter-spacing: 0.03em; color: var(--text); }
+.hs-rband { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 5px; text-align: center; white-space: nowrap; }
+.hs-rband.normal { color: var(--sig-normal); background: color-mix(in srgb, var(--sig-normal) 14%, transparent); }
+.hs-rband.watch { color: var(--sig-watch); background: color-mix(in srgb, var(--sig-watch) 15%, transparent); }
+.hs-rband.alert { color: var(--sig-alert); background: color-mix(in srgb, var(--sig-alert) 14%, transparent); }
+.hs-rband.high { color: var(--sig-danger); background: color-mix(in srgb, var(--sig-danger) 14%, transparent); }
+.hs-rscore { font-weight: 800; font-size: 13px; color: var(--text); }
 .lp .eyebrow { background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent); color: var(--accent); }
 
 /* search, kartu kaca membulat */
@@ -135,8 +156,8 @@
 
 /* contoh ticker di bawah search, ajakan konkret */
 .lp-eg { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; color: var(--muted); font-family: var(--font-dm), var(--font-inter), sans-serif; }
-.lp-eg .eg { font-family: var(--font-jbm), monospace; font-weight: 700; font-size: 12.5px; letter-spacing: 0.04em; color: var(--accent); border: 1px solid rgba(53, 197, 201, 0.3); background: var(--accent-soft); border-radius: 999px; padding: 5px 12px; transition: background 0.16s; }
-.lp-eg .eg:hover { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+.lp-eg .eg { font-family: var(--font-jbm), monospace; font-weight: 700; font-size: 12.5px; letter-spacing: 0.04em; color: var(--accent); border: 1px solid rgba(53, 197, 201, 0.3); background: var(--accent-soft); border-radius: 999px; padding: 5px 12px; transition: background 0.16s, transform 0.16s, border-color 0.16s; }
+.lp-eg .eg:hover { background: color-mix(in srgb, var(--accent) 22%, transparent); border-color: var(--accent); transform: translateY(-1px); }
 
 /* microcopy ramah (bukan mono) */
 .lp .microcopy { font-family: var(--font-dm), var(--font-inter), sans-serif; font-size: 13px; color: var(--dim); }

@@ -47,6 +47,11 @@ export default function MetodologiPage() {
         pasti (0–100), tanpa LLM di jalur perhitungan. Narasi divalidasi sitasi, angka tanpa padanan
         di buku bukti otomatis ditolak.
       </p>
+      <p className="method-plain">
+        Sederhananya: tiap komponen memberi nilai 0–100, lalu dirata-rata menurut bobotnya.
+        Makin sedikit komponen yang sempat diperiksa, makin rendah keyakinannya, dan itu kami
+        tampilkan terang-terangan.
+      </p>
       <div className="formula">
         PANTAU = Σ (wᵢ · sub_skorᵢ) / Σ wᵢ <span className="muted">, hanya atas komponen yang benar-benar diselidiki</span><br />
         confidence = Σ wᵢ <span className="muted">(bobot komponen yang tercakup) → investigasi 2 langkah = keyakinan rendah, dinyatakan terang-terangan</span>
@@ -94,6 +99,10 @@ export default function MetodologiPage() {
 
       <section>
         <div className="sec-label"><h2>Dua angka validasi</h2><span className="n">apa adanya</span></div>
+        <p className="method-plain">
+          Kami uji dua hal: apakah skornya menangkap saham yang benar, dan apakah agennya lebih
+          baik dari aturan sederhana. Hasilnya kami tampilkan apa adanya, termasuk yang kurang bagus.
+        </p>
         <div className="vgrid">
           <div className="valcard">
             <div className="vh">

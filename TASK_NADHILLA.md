@@ -80,8 +80,8 @@ tests/web/ · tests/export/
       · _19 Sep: teks panjang ✅ (375px, nol overflow horizontal di 4 halaman) · transkrip minimal ✅ (2-langkah render rapi). ❌ tersisa: uji di **HP asli** — butuh deploy Vercel dulu._
 
 ### N6 · Siap rekam · 22–25 Sep
-- [ ] Pilih 3–4 ticker yang **menceritakan sesuatu**: satu normal (agen berhenti cepat), satu waspada penuh, satu dengan eskalasi, satu investigasi ulang yang menunjukkan memori
-      · _25 Sep: **datanya kini cukup** — normal (JAWA), waspada (NICK/ASLI ALERT), **eskalasi + adaptif** (ASLI/NICK 22), **investigasi ulang/memori** (banyak). Halaman **/riwayat** (dashboard chart) memperlihatkan tren skor tiap emiten. Tinggal pilih 3–4 + rekam (bareng tim)._
+- [x] Pilih 3–4 ticker yang **menceritakan sesuatu**: satu normal (agen berhenti cepat), satu waspada penuh, satu dengan eskalasi, satu investigasi ulang yang menunjukkan memori
+      · _2 Okt: **dipilih & ditulis di [`web/DEMO_SCRIPT.md`](web/DEMO_SCRIPT.md)** — (1) TRUK-09-09 berhenti dini 0 kredit, (2) NICK-09-18 investigasi penuh conf 92%, (3) ASLI-09-22 keempat momen + narasi LLM asli, (4) JAWA-09-30 memori+eskalasi+adaptif conf 88% + tutup di /riwayat. Tinggal rekam (bareng tim)._
 - [x] Pra-muat semua state. **Nol pemuatan lambat di depan kamera** `[T9]`
       · _19 Sep: export statis (AD-1) — nol fetch runtime, font self-hosted `display:swap`; tak ada state loading yang bisa lambat._
 - [x] Buang setiap komponen yang pernah goyah saat dicoba — kelihatan rapi mengalahkan kelihatan lengkap `[T9]`
@@ -95,8 +95,7 @@ tests/web/ · tests/export/
 - [x] **N2 (visibilitas)** · Halaman **/riwayat** dashboard chart (Recharts): filter emiten → tren skor + cakupan **n/6 komponen** + delta + momen; menandai ⚠ skor tinggi dari sedikit komponen (mis. ASLI 11 Sep 100 dari 1/6).
 - [x] **D9/C7 (sisi web)** · Siap tampilkan `savings_pct` negatif (`fmtSavings`, warna danger). Nadhilla setuju C6 Hamzah; dicatat di `contracts/CHANGES.md`.
 - [x] **B5/T7 (sisi web)** · `to_json` default tanpa fixture; data web bersih.
-- [ ] **Merge branch web → `main`** (PR) — penghalang audit "merge PR #13" untuk T7/T10/B5 mendarat di main. Branch sudah di-push; PR tinggal dibuat.
-- [~] **Retheme + revisi UI** (di luar audit, permintaan Ikhsan): gaya navy+teal theme-aware, copywriting ramah, tanpa em dash, header seragam, kalender rata, chat. Selesai; poles orisinalitas berlanjut.
+- [x] **Merge branch web → `main`** (PR #13) — MERGED. T3/T7/T10/B5 + retheme mendarat di main. Branch kini fast-forward ke main (data s/d 30 Sep, 43 investigasi).
 
 ---
 
