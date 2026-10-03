@@ -1,0 +1,304 @@
+{
+  "schema_version": "1.0",
+  "symbol": "ASLI",
+  "as_of": "2026-10-01",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1_distribusi_asing_saat_harga_turun",
+        "claim": "Penurunan harga -12% sejak 29-09 didorong arus asing keluar / distribusi ke ritel, dan struktur kepemilikan free_float yang tipis memungkinkan pergerakan harga dengan biaya modal rendah.",
+        "probes": [
+          "foreign_flow",
+          "free_float"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2_konteks_struktural_untuk_penekanan_harga",
+        "claim": "Tekanan harga -12% belakangan ini punya penjelasan korporasi (transaksi insider, rencana rights issue/private placement, atau riwayat suspensi) yang perlu dikonfirmasi untuk membedakan sinyal teknis dari aksi korporasi.",
+        "probes": [
+          "structural"
+        ],
+        "priority": 2
+      }
+    ],
+    "credit_budget_requested": 6,
+    "rationale": "Alasan pemilihan probe dari perencana disaring karena memuat bahasa yang menyerempet saran transaksi. Keputusan probe dan pagu kreditnya tetap apa adanya; hanya teks penjelasnya yang diganti."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1_distribusi_asing_saat_harga_turun",
+      "probe": "foreign_flow",
+      "finding": "refuted",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "[keyakinan 15% < 40%, masih ada probe terjangkau] Probe foreign_flow sudah berjalan dan mendapat skor 0/100 (normal) — menyisihkan kekhawatiran bahwa pergerakan harga +93% dalam 30 hari bursa didorong oleh akumulasi asing. Bukti kuat: net buy asing hanya Rp 28,8 M (sangat kecil), rasio outflow/transaksi 0,0%, sehingga kenaikan +93% nyaris mustahil didanai aliran asing. Fakta ini sudah cukup untuk satu simpulan: foreign_flow tidak berisiko pada emiten ASLI.\n\nSisa pagu 4 kredit tidak cukup untuk probe berbobot yang belum diperiksa: BCI (3), price_fundamental (6 — tidak terjangkau), structural (3), broker_concentration (3). Hanya free_float dan VAS (masing-masing 1) yang muat, dan free_float sudah ada di antrean. Menjalankan free_float saja tidak akan mengubah simpulan tentang foreign_flow, sementara VAS tidak terkait langsung dengan bukti yang sudah diperoleh. Probe tersisa yang relevan (broker_concentration, structural) butuh eskalasi pagu dan hanya akan menambah informasi pinggir, buka",
+      "credits_spent": 2,
+      "credits_remaining": 4
+    },
+    {
+      "step": 2,
+      "hypothesis": "H1_distribusi_asing_saat_harga_turun",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Bukti terkumpul: foreign_flow 0/100 (tidak ada dukungan asing, meski harga naik +93%), free_float 28/100 (moderat, 37%). Temuan ini belum cukup untuk menyimpulkan pola risiko. Probe termurah adalah volume_anomaly (1 kredit) dan berguna saat ada pergerakan harga tajam (+93%) untuk menguji apakah kenaikan ditopang volume anomali — ini jalur bukti yang sudah masuk rencana awal, bukan eskalasi. Dipilih karena paling hemat pagu (1 dari 4 sisa) dan langsung relevan dengan anomali harga yang sudah terdeteksi.",
+      "credits_spent": 0,
+      "credits_remaining": 4
+    },
+    {
+      "step": 3,
+      "hypothesis": "H2_konteks_struktural_untuk_penekanan_harga",
+      "probe": "structural",
+      "finding": "inconclusive",
+      "next_action": "escalate",
+      "new_probe": "volume_anomaly",
+      "budget_granted": 1,
+      "reason": "Dengan 4 kredit tersisa, saya hanya mampu menjalankan satu probe lagi yang paling informatif. Volume anomaly (1 kredit) adalah probe termurah dan paling relevan mengingat harga sudah naik +93% dalam 30 hari, suspensi karena pergerakan tidak wajar, dan free float relatif rendah (37%). z-score volume akan cepat mengkonfirmasi atau menyingkirkan anomali perdagangan. broker_concentration (3 kredit) memakan sisa pagu dan tidak akan meninggalkan ruang; price_fundamental (6 kredit) tidak muat. Setelah ini, bukti dianggap cukup (foreign flow netral, free float rendah-menengah, struktural mengonfirmasi pola suspensi berulang, ditambah anomali volume) untuk menyimpulkan. [eskalasi 1 kredit dikabulkan 1: masih di bawah pagar dan beralasan]",
+      "credits_spent": 0,
+      "credits_remaining": 5
+    },
+    {
+      "step": 4,
+      "hypothesis": null,
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Foreign_flow menunjukkan +93% harga 30 hari dengan arus asing hanya Rp 28,8 M dan 0,0% proporsi — indikasi kenaikan harga bukan didorong asing. Volume_anomaly 0/100 (Z-score -0,8σ) menyingkirkan anomali volume agregat, namun distribusi bisa tersembunyi di konsentrasi broker. Sebelum pakai 6 kredit price_fundamental, broker_concentration (3 kredit) adalah probe yang lebih murah untuk menguji apakah kenaikan ditopang segelintir broker. Sisa pagu 5 cukup untuk satu probe ini; PFD dan BCI akan diputuskan setelahnya. [ditutup: antrean habis]",
+      "credits_spent": 0,
+      "credits_remaining": 5
+    }
+  ],
+  "evidence": [
+    {
+      "id": "frd.foreign_net_30d",
+      "label": "Arus asing bersih 30 hari bursa",
+      "value": 28786798600.0,
+      "display": "Rp 28,8 M",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-08-20",
+        "end": "2026-10-01"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-01T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.outflow_ratio",
+      "label": "Arus keluar asing terhadap nilai transaksi periode",
+      "value": 0.0,
+      "display": "0,0%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-08-20",
+        "end": "2026-10-01"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-01T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.price_change_30d",
+      "label": "Perubahan harga 30 hari bursa",
+      "value": 0.9286,
+      "display": "+93%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-08-20",
+        "end": "2026-10-01"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-01T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 24,
+      "display": "24 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ASLI"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.3728,
+      "display": "37%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ASLI"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.prior_suspension",
+      "label": "Suspensi terakhir",
+      "value": "2026-09-25",
+      "display": "25-09-2026",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2024-10-01",
+        "end": "2026-10-01"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.suspension_count",
+      "label": "Jumlah suspensi 24 bulan terakhir",
+      "value": 5,
+      "display": "5 kali",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2024-10-01",
+        "end": "2026-10-01"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.suspension_unusual",
+      "label": "Alasan suspensi terkait pergerakan tidak wajar",
+      "value": 1.0,
+      "display": "ya",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2024-10-01",
+        "end": "2026-10-01"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-09-25T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 0.0,
+      "display": "0,0×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-02-20",
+        "end": "2026-10-01"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-01T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": -0.83,
+      "display": "-0,8σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-02-20",
+        "end": "2026-10-01"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-01T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 0.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 28.3,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": 0.0,
+      "weight": 0.15,
+      "evidence_ids": [
+        "frd.foreign_net_30d",
+        "frd.outflow_ratio",
+        "frd.price_change_30d"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "SSS",
+      "sub_score": 55.0,
+      "weight": 0.08,
+      "evidence_ids": [
+        "sss.prior_suspension",
+        "sss.suspension_count",
+        "sss.suspension_unusual"
+      ],
+      "investigated": true
+    }
+  ],
+  "pantau_score": 15,
+  "band": "normal",
+  "confidence": 0.63,
+  "credits_total": 2,
+  "baseline_credits": 16,
+  "narrative": "Arus asing bersih 30 hari bursa hanya Rp 28,8 M dengan rasio outflow terhadap transaksi 0,0%, sehingga kenaikan harga +93% dalam 30 hari bursa tidak didukung oleh akumulasi asing. Volume perdagangan hari terakhir tercatat 0,0× median baseline dengan z-score -0,8σ, yang menyingkirkan anomali volume agregat meskipun free float berada di level moderat 37%. Catatan suspensi 25-09-2026 termasuk salah satu dari 5 suspensi dalam 24 bulan terakhir yang связаны dengan pergerakan tidak wajar, memberi indikasi pola structural yang berulang pada saham ini. Umur data free float 24 hari dan kecenderungan suspensi berulang menjadi catatan utama yang perlu dipantau lebih lanjut.",
+  "narrative_source": "llm",
+  "memory_ref": "ASLI-2026-09-29",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

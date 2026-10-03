@@ -1,0 +1,262 @@
+{
+  "schema_version": "1.0",
+  "symbol": "ARNA",
+  "as_of": "2026-10-02",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "h1",
+        "claim": "Ada pola perdagangan tidak biasa yang belum terjelaskan",
+        "probes": [
+          "volume_anomaly",
+          "free_float"
+        ],
+        "priority": 1
+      }
+    ],
+    "credit_budget_requested": 4,
+    "rationale": "Rencana cadangan berbasis aturan: perencana LLM tidak menghasilkan keluaran yang lolos skema, jadi investigasi dimulai dari dua probe termurah dan diputuskan ulang setelah temuan pertama."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "h1",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume anomaly sudah 100/100 (Z=6,4σ, 5,3× median) — sinyal sangat kuat. Tapi keyakinan masih 22% (1/6 komponen), terlalu dini untuk conclude. Probe free_float hanya 1 kredit (paling murah) dan relevan langsung: volume spike pada emiten dengan float kecil punya penjelasan berbeda (likuiditas tipis memamplifikasi Z-score) dibanding float besar (sinyal distributional/akumulasi). Jalankan dulu yang termurah ini, lalu putuskan ulang. Sisa pagu 3 kredit cukup untuk 1 probe lagi setelahnya jika perlu.",
+      "credits_spent": 1,
+      "credits_remaining": 3
+    },
+    {
+      "step": 2,
+      "hypothesis": "h1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "escalate",
+      "new_probe": "foreign_flow",
+      "budget_granted": 2,
+      "reason": "Sisa pagu 3 kredit, komponen belum tercakup (BCI 0.25, FRD 0.15, PFD 0.12, SSS 0.08). Foreign_flow paling murah (2 kredit) dan relevan karena volume_anomaly sudah sangat tinggi (6,4σ) — perlu tahu apakah didorong asing (sinyal fundamental) atau domestik (bisa indikasi manipulasi). Setelah foreign_flow, sisa 1 kredit tidak cukup untuk probe lain, jadi foreign_flow adalah eskalasi yang paling efisien untuk menambah bukti sebelum konklusi. [eskalasi 2 kredit dikabulkan 2: masih di bawah pagar dan beralasan]",
+      "credits_spent": 0,
+      "credits_remaining": 5
+    },
+    {
+      "step": 3,
+      "hypothesis": null,
+      "probe": "foreign_flow",
+      "finding": "inconclusive",
+      "next_action": "escalate",
+      "new_probe": "structural",
+      "budget_granted": 3,
+      "reason": "Dengan sisa pagu 4 kredit dan tiga komponen belum tercakup (BCI 0.25, PFD 0.12, SSS 0.08), satu probe tambahan termurah adalah structural (3 kredit). Probe ini menutup komponen SSS (bobot 0.08) dan berpotensi mengungkap transaksi insider/suspensi/rights issue yang bisa mengubah kesimpulan (mis. insiders dumping di tengah volume spike 6,4σ dan net foreign outflow -Rp18,8 M). Setelah structural, sisa pagu 1 kredit tidak cukup untuk BCI (3) atau PFD (6), tapi bukti structural sering cukup untuk conclude layak/tidak layaknya sebagai perhatian risiko. Bukti foreign_flow saja belum cukup untuk memutuskan karena skor 34/100 + keyakinan 55% dengan 3/6 komponen masih terbuka. [eskalasi 3 kredit dikabulkan 3: masih di bawah pagar dan beralasan]",
+      "credits_spent": 1,
+      "credits_remaining": 7
+    },
+    {
+      "step": 4,
+      "hypothesis": null,
+      "probe": "structural",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Bukti saat ini: volume anomaly kuat (6,4σ) namun tanpa peristiwa struktural, free float sedang (37%), dan foreign flow malah menunjukkan distribusi (-Rp18,8M). Pola ini ambigu — bisa churn ritel tanpa konfirmasi, atau ada akumulasi terselubung. structural=0 bukan排除 anomali; ia hanya bilang tidak ada corporate action. Untuk membedakan \"distribusi selesai\" vs \"akumulasi yang belum validasi\", BCI/PFD memang di luar rencana awal. PFD paling tepat karena volume spike + foreign flow negatif + harga +5% dalam 30 hari adalah pola klasik \"harga naik tanpa dukungan fundamental\" yang PFD dirancang untuk menguji. BCI menambah konteks apakah big boys ikut akumulasi. Saya minta PFD (6) + broker_concentration (3) = 9 kredit, tapi pagu sisa hanya 6 jadi saya hanya minta 3 tambahan; PFD bisa ditolak, namun BCI wajib agar saya bisa konfirmasi apakah smart money justru keluar. Catatan: jika PFD ditolak, BCI saja tidak cukup untuk konfirmasi — saya akan tetap conclude inconclusive dengan keyakinan yang ak",
+      "credits_spent": 1,
+      "credits_remaining": 6
+    }
+  ],
+  "evidence": [
+    {
+      "id": "frd.foreign_net_30d",
+      "label": "Arus asing bersih 30 hari bursa",
+      "value": -18848285200.0,
+      "display": "-Rp 18,8 M",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-08-21",
+        "end": "2026-10-02"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-02T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.outflow_ratio",
+      "label": "Arus keluar asing terhadap nilai transaksi periode",
+      "value": 0.2806,
+      "display": "28,1%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-08-21",
+        "end": "2026-10-02"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-02T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.price_change_30d",
+      "label": "Perubahan harga 30 hari bursa",
+      "value": 0.051,
+      "display": "+5%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-08-21",
+        "end": "2026-10-02"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-02T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 25,
+      "display": "25 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ARNA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.3726,
+      "display": "37%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ARNA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.clean",
+      "label": "Peristiwa struktural terdeteksi",
+      "value": 0,
+      "display": "tidak ada",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2024-10-02",
+        "end": "2026-10-02"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-02T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 5.34,
+      "display": "5,3×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-02-23",
+        "end": "2026-10-02"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-02T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 6.37,
+      "display": "6,4σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-02-23",
+        "end": "2026-10-02"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-02T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 100.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 28.3,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": 34.0,
+      "weight": 0.15,
+      "evidence_ids": [
+        "frd.foreign_net_30d",
+        "frd.outflow_ratio",
+        "frd.price_change_30d"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "SSS",
+      "sub_score": 0.0,
+      "weight": 0.08,
+      "evidence_ids": [
+        "sss.clean"
+      ],
+      "investigated": true
+    }
+  ],
+  "pantau_score": 51,
+  "band": "perhatian",
+  "confidence": 0.63,
+  "credits_total": 3,
+  "baseline_credits": 16,
+  "narrative": "Volume perdagangan ARNA melonjak signifikan di atas baseline dengan Z-score 6,4σ dan 5,3× median, namun free float berada di level sedang 37% dengan umur data 25 hari, sehingga perlu kehati-hatian dalam membaca apakah spike ini mencerminkan aktivitas distribusi atau sekadar likuiditas tipis yang teramplifikasi. Arus asing justru menunjukkan distribusi bersih -Rp18,8 M dalam 30 hari bursa dengan proporsi outflow 28,1% terhadap nilai transaksi, yang bertentangan dengan narasi akumulasi dan menambah ambigu terhadap motif di balik lonjakan volume. Perubahan harga tercatat +5% dalam 30 hari bursa tanpa peristiwa struktural yang terdeteksi, sehingga pola \"harga naik di tengah outflow asing dan volume spike\" belum bisa dikonfirmasi sebagai akumulasi smart money. Hasil ini belum cukup untuk menarik kesimpulan final dan masih memerlukan probes lanjutan, terutama untuk memvalidasi apakah big boys justru keluar di balik kenaikan ini.",
+  "narrative_source": "llm",
+  "memory_ref": "ARNA-2026-10-01",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

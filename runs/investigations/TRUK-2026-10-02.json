@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0",
+  "symbol": "TRUK",
+  "as_of": "2026-10-02",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "h1",
+        "claim": "Ada pola perdagangan tidak biasa yang belum terjelaskan",
+        "probes": [
+          "volume_anomaly",
+          "free_float"
+        ],
+        "priority": 1
+      }
+    ],
+    "credit_budget_requested": 4,
+    "rationale": "Rencana cadangan berbasis aturan: perencana LLM tidak menghasilkan keluaran yang lolos skema, jadi investigasi dimulai dari dua probe termurah dan diputuskan ulang setelah temuan pertama."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "h1",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume normal (skor 0). Belum cukup untuk simpulkan. Jalankan free_float (1 kredit, paling murah) sesuai antrian — float kecil bisa menjelaskan kenapa volume tipis dan menjadi pemicu risiko lain meski skor awal rendah. Sisa pagu jadi 2 kredit untuk menilai langkah setelahnya.",
+      "credits_spent": 1,
+      "credits_remaining": 3
+    },
+    {
+      "step": 2,
+      "hypothesis": "h1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Dengan sisa pagu hanya 3 kredit, investigasi lanjutan tidak akan cukup untuk menutupi 4 probe yang belum dijalankan (BCI 3, PFD 6, SSS 3, FRD 2 = 14 kredit). Probe termurah pun (broker_concentration atau foreign_flow di 2-3 kredit) hanya akan menambah 1 dari 6 komponen. Bukti yang ada: volume_anomaly 0/100 (tidak ada anomali), free_float 45/100 (moderate, bukan rendah). Skor sementara 20 (normal) dengan keyakinan rendah 40% hanya karena coverage tipis, bukan karena ada sinyal bahaya. Menambah satu probe lagi tidak cukup untuk menggeser kesimpulan secara bermakna. Lebih hemat menyimpulkan sekarang berdasarkan bukti yang ada.",
+      "credits_spent": 0,
+      "credits_remaining": 3
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 25,
+      "display": "25 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "TRUK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.2983,
+      "display": "30%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "TRUK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 0.0,
+      "display": "0,0×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "TRUK",
+        "start": "2026-02-23",
+        "end": "2026-10-02"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-02T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": -0.67,
+      "display": "-0,7σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "TRUK",
+        "start": "2026-02-23",
+        "end": "2026-10-02"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-02T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 0.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 44.8,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 20,
+  "band": "normal",
+  "confidence": 0.4,
+  "credits_total": 1,
+  "baseline_credits": 16,
+  "narrative": "TRUK menunjukkan free float sebesar 30% dengan umur data 25 hari, dan volume perdagangan hari terakhir tercatat 0,0× terhadap median baseline. Z-score volume terhadap baseline 90 hari berada di -0,7σ, mencerminkan aktivitas perdagangan yang tipis tanpa indikasi anomali. Skor free float yang moderate membuat volume rendah ini tidak serta-merta menandakan kejanggalan, melainkan lebih dipengaruhi oleh keterbatasan float yang tersedia. Dengan tidak adanya sinyal volume yang menyimpang dan profil free float yang moderat, pola perdagangan TRUK saat ini berada di rentang normal.",
+  "narrative_source": "llm",
+  "memory_ref": "TRUK-2026-10-01",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

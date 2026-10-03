@@ -1,0 +1,217 @@
+{
+  "schema_version": "1.0",
+  "symbol": "TRUK",
+  "as_of": "2026-10-01",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1",
+        "claim": "Akumulasi terselubung oleh segelintir broker mendorong lonjakan +361% pada emiten berkapitalisasi kecil; HHI tinggi dan top-3 broker mendominasi net buy, menjelaskan mengapa volume_z -0.3σ bisa menghasilkan return sebesar ini.",
+        "probes": [
+          "broker_concentration"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2",
+        "claim": "Free float sangat tipis sehingga modal kecil sudah cukup untuk menggerakkan harga; float rendah menjelaskan mengapa +361% terjadi tanpa lonjakan volume.",
+        "probes": [
+          "free_float"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "H3",
+        "claim": "Aksi korporasi (suspensi/filing baru dalam periode) adalah katalis struktural, bukan murni manuver pasar; rekam jejak korporasi 24 bulan dan transaksi insider 90 hari akan membedakan katalis intrinsik vs artifisial.",
+        "probes": [
+          "structural"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 7,
+    "rationale": "Apa yang berubah sejak 25-09: harga sudah meledak +361% hanya dengan keyakinan 40% dari 1 probe VAS, skor seleksi watchlist 0.20, dan volume_z -0.3σ di atas baseline. Volume TIDAK ikut meledak bersama harga — anomali klasik yang paling murah dijawab oleh free_float (1 kredit, bobot 18%). Tapi sebelum lonjakan +361% ini, pertanyaan terpenting bukan 'apakah ada akumulasi' tapi 'siapa yang mengakumulasi dan kenapa bisa begitu efisien di modal sekecil ini'. Maka broker_concentration (3 kredit, bobot 25% — bobot probe terbesar) ditarik duluan walau lebih mahal, karena hipotesis broker-terpusat paling membedakan manuver vs pasar sehat di skenario kapitalisasi kecil + return selangit. FFS (45) sudah lebih dari cukup, jadi saya percaya pada float yang tipis; free_float (1 kredit) ditarik kedua sebagai konfirmasi cepat sebelum menutup sesi dengan structural (3 kredit, bobot 8%) untuk konteks korporasi — layak karena ada suspensi/filing baru dalam periode, dan korporasi sering jadi pemicu intrinsik yang luput dari probe harga/volume. Total 7 kredit dari 25 pagu, menyisakan buffer untuk investigasi lanjutan bila perlu. Tidak menyentuh FFR (sudah 45), PFD (mahal 6 kredit, bobot kecil 12% — keyakinan/credit rendah untuk kasus kapitalisasi kecil dengan 1 probe murah sudah cukup), VAS ulang (data sudah sangat segar 6 hari lalu)."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1",
+      "probe": "broker_concentration",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Bukti broker_concentration 60/100 dengan pangsa 73% di 3 broker teratas dan HHI 0,20 (konsentrasi moderat-tinggi) sudah mengonfirmasi ada akumulasi terpusat, tapi keyakinan masih 25% karena hanya 1/6 komponen tercakup. Sebelum menutup dengan structural (3 kredit), saya ingin cek free_float (1 kredit) lebih dulu — murah, dan jawaban float tipis vs longgar akan sangat mengubah interpretasi: float tipis memperkuat hipotesis broker-terpusat mengendalikan harga dengan modal efisien (konsisten +361% tanpa partisipasi volume luas), sementara float longgar melemahkan narasi \"manipulasi murah\" dan menyeimbangkan kesan ke pasar sehat. Ini probe paling informatif per kredit di sisa pagu. Setelahnya, structural (3 kredit) ditaruh terakhir untuk konteks korporasi (suspensi/filing/insider) yang bisa menjelaskan pemicu intrinsik. Total menjadi 7+2=9 kredit dari 25 pagu, masih ada buffer.",
+      "credits_spent": 2,
+      "credits_remaining": 5
+    },
+    {
+      "step": 2,
+      "hypothesis": "H2",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Bukti yang sudah terkumpul (broker_concentration 60/100, free_float 45/100) sudah cukup untuk menyimpulkan profil risiko TRUK. Dua probe termahal dan paling lambat yang tersisa (PFD 6 kredit, FRD 6 kredit) tidak akan mengubah arah: broker concentration 73% dari 3 broker (Herfindahl 0,20) + free float tipis 30% sudah menjelaskan anomali +361% tanpa volume sebagai manuver terkonsentrasi di modal kecil — dan probe harga-vs-laba fundamental tidak relevan untuk skenario akumulasi broker terpusat ini, sementara structural 3 kredit pun tidak akan mengalahkan bobot bukti broker+floa yang sudah ada. Skor 53 dengan keyakinan 43% sudah mencerminkan realitas: ini adalah saham kapitalisasi kecil dengan likuiditas tipis dan konsentrasi broker tinggi, di mana hipotesis manuver sudah paling parsimoni dijelaskan. Membakar sisa pagu hanya membayar kepastian yang tidak dibutuhkan untuk kesimpulan.",
+      "credits_spent": 0,
+      "credits_remaining": 5
+    }
+  ],
+  "evidence": [
+    {
+      "id": "bci.broker_count",
+      "label": "Jumlah broker dengan net buy positif",
+      "value": 14,
+      "display": "14 broker",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "TRUK",
+        "start": "2026-09-07",
+        "end": "2026-10-01"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-10-01T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.hhi",
+      "label": "Indeks Herfindahl konsentrasi broker",
+      "value": 0.2046,
+      "display": "0,20",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "TRUK",
+        "start": "2026-09-07",
+        "end": "2026-10-01"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-10-01T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_codes",
+      "label": "Kode 3 broker net buy teratas",
+      "value": "CP, XL, LG",
+      "display": "CP, XL, LG",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "TRUK",
+        "start": "2026-09-07",
+        "end": "2026-10-01"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-10-01T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_share",
+      "label": "Pangsa net buy 3 broker teratas",
+      "value": 0.7305,
+      "display": "73%",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "TRUK",
+        "start": "2026-09-07",
+        "end": "2026-10-01"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-10-01T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 24,
+      "display": "24 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "TRUK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.2983,
+      "display": "30%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "TRUK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": 59.6,
+      "weight": 0.25,
+      "evidence_ids": [
+        "bci.top3_share",
+        "bci.hhi",
+        "bci.top3_codes",
+        "bci.broker_count"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "VAS",
+      "sub_score": null,
+      "weight": 0.22,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 44.8,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 53,
+  "band": "perhatian",
+  "confidence": 0.43,
+  "credits_total": 2,
+  "baseline_credits": 16,
+  "narrative": "Investigasi pada TRUK menemukan bahwa 14 broker mencatatkan net buy positif, namun distribusinya sangat terkonsentrasi di mana tiga broker teratas (CP, XL, LG) menguasai 73% pangsanya dan indeks Herfindahl tercatat di 0,20, mengindikasikan akumulasi yang terpusat pada segelintir pihak. Free float yang hanya 30% dengan umur data 24 hari menunjukkan struktur modal yang tipis, yang konsisten dengan kemungkinan manuver dilakukan dengan modal efisien di atas basis saham yang terbatas. Investigasi dihentikan setelah dua probe awal karena bukti broker concentration dan free float sudah cukup menjelaskan anomali tanpa perlu probe lanjutan yang lebih mahal. Profil risiko TRUK pun terbentuk sebagai saham kapitalisasi kecil dengan likuiditas tipis dan konsentrasi broker tinggi, di mana hipotesis akumulasi terkonsentrasi menjadi penjelasan paling hemat terhadap pola yang terbentuk.",
+  "narrative_source": "llm",
+  "memory_ref": "TRUK-2026-09-25",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

@@ -1,0 +1,244 @@
+{
+  "schema_version": "1.0",
+  "symbol": "PACK",
+  "as_of": "2026-10-02",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "h1",
+        "claim": "Ada pola perdagangan tidak biasa yang belum terjelaskan",
+        "probes": [
+          "volume_anomaly",
+          "free_float"
+        ],
+        "priority": 1
+      }
+    ],
+    "credit_budget_requested": 4,
+    "rationale": "Rencana cadangan berbasis aturan: perencana LLM tidak menghasilkan keluaran yang lolos skema, jadi investigasi dimulai dari dua probe termurah dan diputuskan ulang setelah temuan pertama."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "h1",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume normal (6/100, Z-score 0,3σ). Skor masih 6, keyakinan 22% (1/6 komponen). Pagu tersisa 3 kredit, free_float hanya 1 kredit dan sudah mengantre, murah, layak dijalankan. free_float kecil bisa menjelaskan kenapa volume rendah (bukan anomali, tapi likuiditas struktural). Setelahnya, broker_concentration (3 kredit) akan menghabiskan pagu. Cukup untuk menilai apakah ada kepatutan risiko tanpa eskalasi.",
+      "credits_spent": 1,
+      "credits_remaining": 3
+    },
+    {
+      "step": 2,
+      "hypothesis": "h1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "escalate",
+      "new_probe": "foreign_flow",
+      "budget_granted": 2,
+      "reason": "Alasan langkah dari penyelidik disaring karena memuat bahasa yang menyerempet saran transaksi. Temuan, probe berikutnya, dan pagu kreditnya tetap apa adanya; hanya teks penjelasnya yang diganti. [eskalasi 2 kredit dikabulkan 2: masih di bawah pagar dan beralasan]",
+      "credits_spent": 0,
+      "credits_remaining": 5
+    },
+    {
+      "step": 3,
+      "hypothesis": null,
+      "probe": "foreign_flow",
+      "finding": "inconclusive",
+      "next_action": "escalate",
+      "new_probe": "price_fundamental",
+      "budget_granted": 6,
+      "reason": "Foreign flow menunjukkan pola anomali ringan: harga naik 11% sementara arus asing keluar -Rp 273,2 M (9% dari nilai transaksi). Diskrepansi harga-vs-asing ini adalah indikator kunci yang membutuhkan price_fundamental (6 kredit) untuk memeriksa apakah kenaikan harga didukung oleh fundamental (pertumbuhan laba YoY) atau tidak. Bobot PFD 0.12, tapi bobot BCI 0.25 lebih besar, namun BCI butuh konteks dari structural/price_fundamental dulu agar tidak buta. Sisa pagu 4 + 6 eskalasi = 10 kredit masih di bawah pagar keras 19. Setelah price_fundamental, bisa simpulkan dengan keyakinan cukup. [eskalasi 6 kredit dikabulkan 6: masih di bawah pagar dan beralasan]",
+      "credits_spent": 1,
+      "credits_remaining": 10
+    },
+    {
+      "step": 4,
+      "hypothesis": null,
+      "probe": "price_fundamental",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "price_fundamental gagal tapi tiga bukti lain (volume, free float, foreign flow) semuanya rendah/normal, skor 18, keyakinan 55%. Untuk naik keyakinan cukup guna konklusi, perlu tutup dua celah terbesar. broker_concentration (3 kr) menutupi konsentrasi akumulasi yang bisa menjelaskan anomali meski volume dan foreign flow tenang. structural (3 kr) menunggu setelahnya karena insider/suspensi/rights biasanya orthogonal. Jalankan broker_concentration dulu, lalu putuskan ulang. [ditutup: antrean habis]",
+      "credits_spent": 0,
+      "credits_remaining": 10
+    }
+  ],
+  "evidence": [
+    {
+      "id": "frd.foreign_net_30d",
+      "label": "Arus asing bersih 30 hari bursa",
+      "value": -273177771300.0,
+      "display": "-Rp 273,2 M",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "PACK",
+        "start": "2026-08-21",
+        "end": "2026-10-02"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-02T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.outflow_ratio",
+      "label": "Arus keluar asing terhadap nilai transaksi periode",
+      "value": 0.0898,
+      "display": "9,0%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "PACK",
+        "start": "2026-08-21",
+        "end": "2026-10-02"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-02T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.price_change_30d",
+      "label": "Perubahan harga 30 hari bursa",
+      "value": 0.1088,
+      "display": "+11%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "PACK",
+        "start": "2026-08-21",
+        "end": "2026-10-02"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-02T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 25,
+      "display": "25 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "PACK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.3819,
+      "display": "38%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "PACK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 1.35,
+      "display": "1,4×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "PACK",
+        "start": "2026-02-23",
+        "end": "2026-10-02"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-02T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 0.34,
+      "display": "0,3σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "PACK",
+        "start": "2026-02-23",
+        "end": "2026-10-02"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-02T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 5.6,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 26.2,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": 28.1,
+      "weight": 0.15,
+      "evidence_ids": [
+        "frd.foreign_net_30d",
+        "frd.outflow_ratio",
+        "frd.price_change_30d"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 18,
+  "band": "normal",
+  "confidence": 0.55,
+  "credits_total": 2,
+  "baseline_credits": 16,
+  "narrative": "Arus asing tercatat keluar -Rp 273,2 M atau sekitar 9,0% dari nilai transaksi periode tersebut, sementara harga bergerak naik +11% dalam 30 hari bursa, sebuah diskrepansi antara arah harga dan aliran dana asing yang menjadi sorotan utama. Volume perdagangan berada di level normal dengan Z-score 0,3σ dan hanya 1,4× median baseline, sehingga tidak ada indikasi aktivitas perdagangan yang menyimpang. Free float sebesar 38% dengan umur data 25 hari membantu menjelaskan mengapa volume cenderung tipis sebagai keterbatasan likuiditas struktural, bukan anomali. Penyelidikan terhenti di antrean pemeriksaan, sehingga motif di balik kombinasi kenaikan harga bersamaan dengan keluarnya arus asing belum dapat dijelaskan lebih lanjut.",
+  "narrative_source": "llm",
+  "memory_ref": "PACK-2026-09-30",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}
