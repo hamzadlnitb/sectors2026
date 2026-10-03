@@ -81,7 +81,7 @@ tests/web/ · tests/export/
 
 ### N6 · Siap rekam · 22–25 Sep
 - [x] Pilih 3–4 ticker yang **menceritakan sesuatu**: satu normal (agen berhenti cepat), satu waspada penuh, satu dengan eskalasi, satu investigasi ulang yang menunjukkan memori
-      · _2 Okt: **dipilih & ditulis di [`web/DEMO_SCRIPT.md`](web/DEMO_SCRIPT.md)** — (1) TRUK-09-09 berhenti dini 0 kredit, (2) NICK-09-18 investigasi penuh conf 92%, (3) ASLI-09-22 keempat momen + narasi LLM asli, (4) JAWA-09-30 memori+eskalasi+adaptif conf 88% + tutup di /riwayat. Tinggal rekam (bareng tim)._
+      · _3 Okt: **naskah video lengkap di [`web/DEMO_SCRIPT.md`](web/DEMO_SCRIPT.md)** — (1) PACK-09-29 berhenti dini (rencana LLM, conf 80%; menggantikan TRUK-09-09 yang memakai rencana cadangan), (2) ASLI-09-22 keempat momen + narasi LLM, (3) JAWA-09-30 memori conf 88% + /riwayat, (4) permintaan `selidiki` (bersyarat). NICK-09-18 jadi cadangan. Web tidak di-deploy (3 Okt): rekam dari build statis lokal. Sisa: ≥3 pengguna asli + kutipan, uji jalur `selidiki`, lalu rekam bareng tim._
 - [x] Pra-muat semua state. **Nol pemuatan lambat di depan kamera** `[T9]`
       · _19 Sep: export statis (AD-1) — nol fetch runtime, font self-hosted `display:swap`; tak ada state loading yang bisa lambat._
 - [x] Buang setiap komponen yang pernah goyah saat dicoba — kelihatan rapi mengalahkan kelihatan lengkap `[T9]`
