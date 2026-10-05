@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-02T16:22:49+00:00",
+  "generated_at": "2026-10-05T19:24:32+00:00",
   "investigations": [
     {
       "id": "NICK-2026-09-17",
@@ -357,6 +357,33 @@
         "narrative_llm": true
       },
       "headline": "JAWA menunjukkan lonjakan volume yang sangat mencolok, yaitu 4,5× median baseline dan z-score 4,3σ terhadap baseline …"
+    },
+    {
+      "id": "JAWA-2026-10-05",
+      "symbol": "JAWA",
+      "as_of": "2026-10-05",
+      "pantau_score": 64,
+      "band": "waspada",
+      "confidence": 0.74,
+      "steps": 4,
+      "credits_total": 4,
+      "baseline_credits": 16,
+      "savings_pct": 75,
+      "memory_ref": "JAWA-2026-09-30",
+      "narrative_source": "template",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 4,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 4,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
+      "headline": "Beberapa indikator pada JAWA menunjukkan pola tidak biasa"
     },
     {
       "id": "NICK-2026-09-18",
@@ -854,6 +881,33 @@
       "headline": "Beberapa indikator pada JAWA berada di luar kebiasaan"
     },
     {
+      "id": "PACK-2026-10-05",
+      "symbol": "PACK",
+      "as_of": "2026-10-05",
+      "pantau_score": 36,
+      "band": "perhatian",
+      "confidence": 0.88,
+      "steps": 5,
+      "credits_total": 3,
+      "baseline_credits": 16,
+      "savings_pct": 81,
+      "memory_ref": "PACK-2026-10-02",
+      "narrative_source": "template",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 5,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 5,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
+      "headline": "Beberapa indikator pada PACK berada di luar kebiasaan"
+    },
+    {
       "id": "NICK-2026-09-16",
       "symbol": "NICK",
       "as_of": "2026-09-16",
@@ -905,6 +959,33 @@
         "narrative_llm": false
       },
       "headline": "Beberapa indikator pada PPGL berada di luar kebiasaan"
+    },
+    {
+      "id": "ARNA-2026-10-05",
+      "symbol": "ARNA",
+      "as_of": "2026-10-05",
+      "pantau_score": 31,
+      "band": "perhatian",
+      "confidence": 0.88,
+      "steps": 5,
+      "credits_total": 4,
+      "baseline_credits": 16,
+      "savings_pct": 75,
+      "memory_ref": "ARNA-2026-10-02",
+      "narrative_source": "llm",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 5,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 5,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
+      "headline": "Anomali volume terdahulu sudah reda, ditunjukkan oleh z-score 1,0σ dan rasio volume 1,7× terhadap median baseline"
     },
     {
       "id": "BBCA-2026-09-24",
@@ -1340,6 +1421,12 @@
   ],
   "watchlist_dates": [
     {
+      "as_of": "2026-10-05",
+      "generated_at": "2026-10-05T19:21:39+00:00",
+      "credits_spent": 5,
+      "candidates": 15
+    },
+    {
       "as_of": "2026-10-02",
       "generated_at": "2026-10-02T16:19:52+00:00",
       "credits_spent": 5,
@@ -1449,11 +1536,11 @@
     }
   ],
   "llm": {
-    "investigations": 49,
-    "planner_llm": 34,
-    "narrative_llm": 32,
-    "llm_decisions": 145,
+    "investigations": 52,
+    "planner_llm": 37,
+    "narrative_llm": 33,
+    "llm_decisions": 159,
     "fallback_decisions": 2,
-    "steps": 147
+    "steps": 161
   }
 }
