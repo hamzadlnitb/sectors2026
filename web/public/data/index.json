@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-05T19:24:32+00:00",
+  "generated_at": "2026-10-06T16:56:03+00:00",
   "investigations": [
     {
       "id": "NICK-2026-09-17",
@@ -801,6 +801,35 @@
       "headline": "Investigasi menemukan anomali volume yang sangat kuat pada ASLI dengan z-score 16,0σ dan rasio volume 18,1× median ba…"
     },
     {
+      "id": "ASLI-2026-10-06",
+      "symbol": "ASLI",
+      "as_of": "2026-10-06",
+      "pantau_score": 43,
+      "band": "perhatian",
+      "confidence": 0.88,
+      "steps": 5,
+      "credits_total": 5,
+      "baseline_credits": 16,
+      "savings_pct": 69,
+      "memory_ref": "ASLI-2026-10-01",
+      "narrative_source": "template",
+      "moments": [
+        "adaptive",
+        "escalation",
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 5,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 5,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
+      "headline": "Beberapa indikator pada ASLI berada di luar kebiasaan"
+    },
+    {
       "id": "PACK-2026-09-30",
       "symbol": "PACK",
       "as_of": "2026-09-30",
@@ -959,6 +988,33 @@
         "narrative_llm": false
       },
       "headline": "Beberapa indikator pada PPGL berada di luar kebiasaan"
+    },
+    {
+      "id": "TRUK-2026-10-06",
+      "symbol": "TRUK",
+      "as_of": "2026-10-06",
+      "pantau_score": 32,
+      "band": "perhatian",
+      "confidence": 0.65,
+      "steps": 3,
+      "credits_total": 3,
+      "baseline_credits": 16,
+      "savings_pct": 81,
+      "memory_ref": "TRUK-2026-10-02",
+      "narrative_source": "template",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 3,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 3,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
+      "headline": "Beberapa indikator pada TRUK berada di luar kebiasaan"
     },
     {
       "id": "ARNA-2026-10-05",
@@ -1366,6 +1422,33 @@
       "headline": "Arus asing bersih 30 hari bursa hanya Rp 28,8 M dengan rasio outflow terhadap transaksi 0,0%, sehingga kenaikan harga…"
     },
     {
+      "id": "ARNA-2026-10-06",
+      "symbol": "ARNA",
+      "as_of": "2026-10-06",
+      "pantau_score": 13,
+      "band": "normal",
+      "confidence": 0.4,
+      "steps": 2,
+      "credits_total": 1,
+      "baseline_credits": 16,
+      "savings_pct": 94,
+      "memory_ref": "ARNA-2026-10-05",
+      "narrative_source": "llm",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 2,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": false,
+        "llm_decisions": 2,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
+      "headline": "Volume perdagangan ARNA berada di bawah rata-rata dengan rasio 0,6× terhadap median baseline dan z-score -0,5σ, yang …"
+    },
+    {
       "id": "ARNA-2026-09-30",
       "symbol": "ARNA",
       "as_of": "2026-09-30",
@@ -1420,6 +1503,12 @@
     }
   ],
   "watchlist_dates": [
+    {
+      "as_of": "2026-10-06",
+      "generated_at": "2026-10-06T16:53:13+00:00",
+      "credits_spent": 5,
+      "candidates": 15
+    },
     {
       "as_of": "2026-10-05",
       "generated_at": "2026-10-05T19:21:39+00:00",
@@ -1536,11 +1625,11 @@
     }
   ],
   "llm": {
-    "investigations": 52,
-    "planner_llm": 37,
-    "narrative_llm": 33,
-    "llm_decisions": 159,
+    "investigations": 55,
+    "planner_llm": 39,
+    "narrative_llm": 34,
+    "llm_decisions": 169,
     "fallback_decisions": 2,
-    "steps": 161
+    "steps": 171
   }
 }

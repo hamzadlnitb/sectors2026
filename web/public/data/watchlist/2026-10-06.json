@@ -1,0 +1,209 @@
+{
+  "as_of": "2026-10-06",
+  "generated_at": "2026-10-06T16:53:13+00:00",
+  "credits_spent": 5,
+  "rows_written": {
+    "fetch-most-traded-stocks": 10,
+    "fetch-companies-top-changes": 20,
+    "fetch-suspensions": 3,
+    "fetch-filings": 13
+  },
+  "skipped": [],
+  "failures": [],
+  "candidates": [
+    {
+      "symbol": "JAWA",
+      "score": 0.5,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": 62.5432,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "volume 62.5σ di atas baseline; kapitalisasi kecil"
+    },
+    {
+      "symbol": "PACK",
+      "score": 0.353,
+      "signals": {
+        "return_5d": -0.1132,
+        "return_20d": -0.1607,
+        "volume_z": 3.7945,
+        "small_cap": 0.0,
+        "peristiwa": 1.0
+      },
+      "alasan": "volume 3.8σ di atas baseline; harga -11% dalam 5 hari bursa; ada suspensi/filing baru"
+    },
+    {
+      "symbol": "TRUK",
+      "score": 0.2,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": -0.7646,
+        "small_cap": 1.0,
+        "peristiwa": 1.0
+      },
+      "alasan": "kapitalisasi kecil; ada suspensi/filing baru"
+    },
+    {
+      "symbol": "ARNA",
+      "score": 0.1517,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": 0.7759,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "ASLI",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": -0.8058,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "CGAS",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "CSMI",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "CTTH",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "INOV",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "MSKY",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "NICK",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "PPGL",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "SAFE",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "SCCO",
+      "score": 0.1,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": 1.0,
+        "peristiwa": 0.0
+      },
+      "alasan": "kapitalisasi kecil"
+    },
+    {
+      "symbol": "BBCA",
+      "score": 0.0,
+      "signals": {
+        "return_5d": null,
+        "return_20d": null,
+        "volume_z": null,
+        "small_cap": null,
+        "peristiwa": 0.0
+      },
+      "alasan": "tidak ada sinyal menonjol"
+    }
+  ],
+  "run_log": [
+    "[16:53:11Z] sapuan Tier-1 untuk 2026-10-06",
+    "[16:53:12Z]   fetch-most-traded-stocks        10 baris -> daily_transaction (kini 2273 baris, 2 kredit)",
+    "[16:53:12Z]   fetch-companies-top-changes     20 baris -> daily_close (kini 394 baris, 1 kredit)",
+    "[16:53:13Z]   fetch-suspensions                3 baris -> suspensions (kini 556 baris, 1 kredit)",
+    "[16:53:13Z]   fetch-filings                   13 baris -> filings (kini 1030 baris, 1 kredit)",
+    "[16:53:13Z] total 5 kredit; 4 panggilan, 0 dari cache (0%), 5 kredit terpakai",
+    "[16:53:13Z] watchlist: 15 kandidat",
+    "[16:53:13Z]   JAWA  skor 0.500  volume 62.5σ di atas baseline; kapitalisasi kecil",
+    "[16:53:13Z]   PACK  skor 0.353  volume 3.8σ di atas baseline; harga -11% dalam 5 hari bursa; ada suspensi/filing baru",
+    "[16:53:13Z]   TRUK  skor 0.200  kapitalisasi kecil; ada suspensi/filing baru",
+    "[16:53:13Z]   ARNA  skor 0.152  kapitalisasi kecil",
+    "[16:53:13Z]   ASLI  skor 0.100  kapitalisasi kecil"
+  ]
+}

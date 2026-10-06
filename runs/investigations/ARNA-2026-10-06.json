@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0",
+  "symbol": "ARNA",
+  "as_of": "2026-10-06",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "h1",
+        "claim": "Ada pola perdagangan tidak biasa yang belum terjelaskan",
+        "probes": [
+          "volume_anomaly",
+          "free_float"
+        ],
+        "priority": 1
+      }
+    ],
+    "credit_budget_requested": 4,
+    "rationale": "Rencana cadangan berbasis aturan: perencana LLM tidak menghasilkan keluaran yang lolos skema, jadi investigasi dimulai dari dua probe termurah dan diputuskan ulang setelah temuan pertama."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "h1",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume normal (skor 0/100) sehingga sinyal risiko idiosyncratic lemah dari sisi ini. Probe free_float sudah di antrian dan hanya memakan 1 kredit — informasi float adalah komponen ringan yang sering menjadi pembeda untuk emiten dengan volume tipis (0,6× median). Karena free_float sudah dialokasikan dalam rencana awal, jalankan dulu tanpa eskalasi. Bukti belum cukup untuk menyimpulkan karena 5/6 komponen belum diperiksa.",
+      "credits_spent": 1,
+      "credits_remaining": 3
+    },
+    {
+      "step": 2,
+      "hypothesis": "h1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Skor sementara 13 (normal) dengan keyakinan 40% dari 2/6 komponen. Free float 37% (umur 29 hari) memberi sub-skor rendah 28/100 — di bawah ambang anomali. Volume normal (0,6× median, z-score -0,5σ) konsisten dengan tidak ada anomali. Sisa pagu 3 kredit hanya cukup untuk satu probe, dan Bukti dari probe termurah (volume, free_float) tidak menunjukkan sinyal yang menuntut eskalasi; BCI/FRD/PFD/SSS tambahan kemungkinan tidak menggeser kesimpulan di bawah ambang risiko. Cukup bukti untuk menyimpulkan.",
+      "credits_spent": 0,
+      "credits_remaining": 3
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 29,
+      "display": "29 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ARNA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.3726,
+      "display": "37%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ARNA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 0.64,
+      "display": "0,6×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-02-25",
+        "end": "2026-10-06"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-06T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": -0.52,
+      "display": "-0,5σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-02-25",
+        "end": "2026-10-06"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-06T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 0.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 28.3,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 13,
+  "band": "normal",
+  "confidence": 0.4,
+  "credits_total": 1,
+  "baseline_credits": 16,
+  "narrative": "Volume perdagangan ARNA berada di bawah rata-rata dengan rasio 0,6× terhadap median baseline dan z-score -0,5σ, yang menandakan aktivitas transaksi yang tipis namun masih dalam kisaran normal. Free float tercatat 37% dengan umur data 29 hari, memberikan skor rendah pada komponen free float dan tidak mengindikasikan anomali kepemilikan. Kedua probe yang dijalankan menghasilkan skor rendah dan keyakinan yang belum cukup kuat untuk menandakan pola tidak biasa, namun mayoritas komponen lain belum diperiksa. Dengan sisa pagu yang terbatas dan tidak adanya sinyal kuat dari dua probe termurah, penyelidikan dihentikan pada kesimpulan normal.",
+  "narrative_source": "llm",
+  "memory_ref": "ARNA-2026-10-05",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

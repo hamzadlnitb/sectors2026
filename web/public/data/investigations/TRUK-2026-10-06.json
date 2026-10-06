@@ -1,0 +1,265 @@
+{
+  "schema_version": "1.0",
+  "symbol": "TRUK",
+  "as_of": "2026-10-06",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1",
+        "claim": "Volume hari terakhir sudah melonjak signifikan di atas baseline, mengubah kontradiksi volume_z=-0.8σ vs harga +361% menjadi pola spike ritel yang bisa dijelaskan sejak investigasi 02-10 (skor 20).",
+        "probes": [
+          "volume_anomaly"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2",
+        "claim": "Float efektif kecil sehingga pergerakan +361% bisa terjadi dengan modal terbatas dan/atau terkonsentrasi di 3 broker teratas (HHI tinggi), menjelaskan kenapa kapitalisasi 468M bisa digerakkan begitu tajam.",
+        "probes": [
+          "free_float",
+          "broker_concentration"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "H3",
+        "claim": "Hipotesis disaring karena memuat bahasa yang menyerempet saran transaksi.",
+        "probes": [
+          "structural"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 8,
+    "rationale": "Urutan memaksimalkan informasi per kredit dan memprioritaskan probe berbobot skor (broker_concentration 25%, volume_anomaly 22%, free_float 18%, structural 8%). Langkah 1: volume_anomaly (1 kr, bobot 22%) memvalidasi anomali paling aneh dari paket Tier-1, harga +361% padahal volume_z=-0.8σ per 02-10. Jika volume ternyata sudah spike di EOD 06-10, hipotesis distribusi-ritel-melebar menguat; jika tetap landai, suspicion pengumpulan tersembunyi naik dan H2/H3 jadi wajib. Langkah 2: free_float (1 kr, bobot 18%) menjelaskan apakah kapitalisasi 468M benar-benar tipis, murah dan sering penentu. Langkah 3: broker_concentration (3 kr, bobot 25%) adalah probe termahal sekaligus bobot skor tertinggi, diinvest setelah dua probe murah memetakan kebutuhan. Langkah 4: structural (3 kr, bobot 8%) memberi konteks korporasi (suspensi/filing) yang sudah muncul di Tier-1. Total 8 kredit dari 25, hemat 17 kr untuk eskalasi. price_fundamental (6 kr, bobot 12%) dan foreign_flow (2 kr, bobot 15%) sengaja ditunda: fundamental YoY tidak relevan menjelaskan +361% intraperiode, foreign_flow lebih bermakna setelah peta broker tersedia. Fokus pada APA YANG BERUBAH sejak 02-10 (skor 20, keyakinan 40%): H1 menguji apakah anomali volume sudah termaterialisasi dalam 4 hari, H2-H3 menjelaskan apakah struktur kepemilikan + korporasi mendukung narasi spike."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume anomali ternyata tidak terkonfirmasi: Z-score -0,7σ dan rasio volume 0,0× pada 06-10 menunjukkan tidak ada lonjakan yang materialisasi. Hipotesis H1 (distribusi ritel melebar dengan spike volume) REFUTED. Ini adalah sinyal kuat: harga +361% dengan volume landai = anomali mencurigakan, kemungkinan besar thin-trade / mark-up pada kapitalisasi kecil. Probe termahal berikutnya (broker_concentration 3kr) menjadi makin krusial untuk memetakan siapa yang menopang harga, tapi sebelum invest 3kr, harus konfirmasi dulu apakah kapitalisasi 468M benar-benar tipis (float kecil). free_float hanya 1kr dan bobot 18%, murah dan sering menentukan. Jika float ternyata besar (>40%), anomali harga+volume-landai makin sulit dijelaskan dengan thin-trade dan butuh foreign_flow (2kr) atau bahkan price_fundamental (6kr) untuk eskalasi. Jika float kecil (<20%), BCI wajib dijalankan sebagai langkah berikutnya untuk melihat apakah segelintir broker menopang harga, sementara structural (3kr) bisa dinanti. U",
+      "credits_spent": 1,
+      "credits_remaining": 7
+    },
+    {
+      "step": 2,
+      "hypothesis": "H2",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "free_float mid-range (45/100) dengan data umur 29 hari, tidak ada flag tipis/melimpah yang kuat, dan data cukup segar. Tidak cukup untuk menyimpulkan atau untuk menggeser hipotesis. volume_anomaly 0/100 mengkonfirmasi volume tetap landai pasca +361%, yang justru menaikkan bobot H2/H3 (pengumpulan tersembunyi / struktur). Probe berikutnya sesuai rencana awal: broker_concentration (3 kr, bobot 25%), inilah probe termahal sekaligus bobot skor tertinggi, dan H2/H3 sudah menuntut pemetaan broker. Menjalankan structural dulu (3 kr) sebelum broker tidak efisien karena structural memberi 'frame korporasi' (suspensi/insider/rights) yang bisa解释 apakah spike +361% berdiri sendiri atau ada event korporasi, dan kalau ada rights/placement, maka broker_concentration bisa jadi bias oleh aksi korporasi tersebut. Urutan broker→structural sesuai rencana awal memang, dan tidak ada bukti baru yang memaksa eskalasi. Harga probe 3 kr, masih di bawah pagu 7 kr, dan total setelahnya jadi 11/25, eskalasi 9 ",
+      "credits_spent": 0,
+      "credits_remaining": 7
+    },
+    {
+      "step": 3,
+      "hypothesis": "H2",
+      "probe": "broker_concentration",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Bukti yang terkumpul sudah cukup untuk menyimpulkan tanpa menghabiskan sisa pagu. volume_anomaly 0/100 (volume tidak ikut spike, menyangkal narasi distribusi ritel melebar, mendukung hipotesis pengumpulan tersembunyi/pooling). free_float 45/100 (kapitalisasi 468M memang tipis, free float 30% memperbesar kemungkinan manipulasi harga). broker_concentration 52/100 (HHI 0,20 = moderat; pangsa 3 broker 67% cukup terkonsentrasi; 10 broker net buy positif menandakan partisipasi tidak sempit). Skor sementara 32 (perhatian) dengan keyakinan 65%, 3 dari 6 komponen tercakup. Komponen yang belum diperiksa: FRD (foreign_flow, 2 kr) berbobot 0,15, PFD (price_fundamental, 6 kr) berbobot 0,12, SSS (structural, 3 kr) berbobot 0,08. Pertimbangan: (1) Pola volume landai + free float tipis + konsentrasi broker moderat sudah membentuk gambaran yang koheren, anomali harga +361% tanpa dukungan volume, dengan struktur kepemilikan yang memungkinkan. (2) foreign_flow berbobot 0,15 dan murah (2 kr) bisa menam",
+      "credits_spent": 2,
+      "credits_remaining": 5
+    }
+  ],
+  "evidence": [
+    {
+      "id": "bci.broker_count",
+      "label": "Jumlah broker dengan net buy positif",
+      "value": 10,
+      "display": "10 broker",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "TRUK",
+        "start": "2026-10-01",
+        "end": "2026-10-06"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-10-06T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.hhi",
+      "label": "Indeks Herfindahl konsentrasi broker",
+      "value": 0.2041,
+      "display": "0,20",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "TRUK",
+        "start": "2026-10-01",
+        "end": "2026-10-06"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-10-06T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_codes",
+      "label": "Kode 3 broker net buy teratas",
+      "value": "YB, CP, MG",
+      "display": "YB, CP, MG",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "TRUK",
+        "start": "2026-10-01",
+        "end": "2026-10-06"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-10-06T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_share",
+      "label": "Pangsa net buy 3 broker teratas",
+      "value": 0.6666,
+      "display": "67%",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "TRUK",
+        "start": "2026-10-01",
+        "end": "2026-10-06"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-10-06T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 29,
+      "display": "29 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "TRUK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.2983,
+      "display": "30%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "TRUK"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 0.0,
+      "display": "0,0×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "TRUK",
+        "start": "2026-02-25",
+        "end": "2026-10-06"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-06T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": -0.67,
+      "display": "-0,7σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "TRUK",
+        "start": "2026-02-25",
+        "end": "2026-10-06"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-06T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": 51.9,
+      "weight": 0.25,
+      "evidence_ids": [
+        "bci.top3_share",
+        "bci.hhi",
+        "bci.top3_codes",
+        "bci.broker_count"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "VAS",
+      "sub_score": 0.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 44.8,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 32,
+  "band": "perhatian",
+  "confidence": 0.65,
+  "credits_total": 3,
+  "baseline_credits": 16,
+  "narrative": "Beberapa indikator pada TRUK berada di luar kebiasaan. Bukti yang terkumpul: Jumlah broker dengan net buy positif 10 broker; Indeks Herfindahl konsentrasi broker 0,20; Kode 3 broker net buy teratas YB, CP, MG; Pangsa net buy 3 broker teratas 67%. Putusan disusun dari tiga langkah penyelidikan yang menyentuh tiga probe. Seluruh angka di atas berasal dari buku bukti investigasi ini dan bisa ditelusuri ke sumber datanya.",
+  "narrative_source": "template",
+  "memory_ref": "TRUK-2026-10-02",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}
