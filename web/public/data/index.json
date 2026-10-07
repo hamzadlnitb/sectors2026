@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-06T16:56:03+00:00",
+  "generated_at": "2026-10-07T17:31:53+00:00",
   "investigations": [
     {
       "id": "NICK-2026-09-17",
@@ -719,6 +719,33 @@
       "headline": "Beberapa indikator pada ASLI berada di luar kebiasaan"
     },
     {
+      "id": "ASLI-2026-10-07",
+      "symbol": "ASLI",
+      "as_of": "2026-10-07",
+      "pantau_score": 49,
+      "band": "perhatian",
+      "confidence": 0.55,
+      "steps": 3,
+      "credits_total": 2,
+      "baseline_credits": 16,
+      "savings_pct": 88,
+      "memory_ref": "ASLI-2026-10-06",
+      "narrative_source": "template",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 3,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 3,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
+      "headline": "Beberapa indikator pada ASLI berada di luar kebiasaan"
+    },
+    {
       "id": "ASLI-2026-09-10",
       "symbol": "ASLI",
       "as_of": "2026-09-10",
@@ -1015,6 +1042,35 @@
         "narrative_llm": false
       },
       "headline": "Beberapa indikator pada TRUK berada di luar kebiasaan"
+    },
+    {
+      "id": "ARNA-2026-10-07",
+      "symbol": "ARNA",
+      "as_of": "2026-10-07",
+      "pantau_score": 31,
+      "band": "perhatian",
+      "confidence": 0.88,
+      "steps": 5,
+      "credits_total": 4,
+      "baseline_credits": 16,
+      "savings_pct": 75,
+      "memory_ref": "ARNA-2026-10-06",
+      "narrative_source": "llm",
+      "moments": [
+        "adaptive",
+        "escalation",
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 5,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 5,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
+      "headline": "Aktivitas broker pada ARNA menunjukkan konsentrasi moderat dengan 11 broker catat net buy positif, HHI 0,18, dan pang…"
     },
     {
       "id": "ARNA-2026-10-05",
@@ -1475,6 +1531,32 @@
       "headline": "Tidak ada pola tidak biasa yang menonjol pada ARNA"
     },
     {
+      "id": "CSMI-2026-10-07",
+      "symbol": "CSMI",
+      "as_of": "2026-10-07",
+      "pantau_score": 6,
+      "band": "normal",
+      "confidence": 0.4,
+      "steps": 2,
+      "credits_total": 1,
+      "baseline_credits": 16,
+      "savings_pct": 94,
+      "memory_ref": null,
+      "narrative_source": "llm",
+      "moments": [
+        "early_stop"
+      ],
+      "components_investigated": 2,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": false,
+        "llm_decisions": 2,
+        "fallback_decisions": 0,
+        "narrative_llm": true
+      },
+      "headline": "CSMI menunjukkan aktivitas perdagangan yang tenang dengan volume hari terakhir tercatat 0,0× terhadap median baseline…"
+    },
+    {
       "id": "NICK-2026-09-21",
       "symbol": "NICK",
       "as_of": "2026-09-21",
@@ -1503,6 +1585,12 @@
     }
   ],
   "watchlist_dates": [
+    {
+      "as_of": "2026-10-07",
+      "generated_at": "2026-10-07T17:29:55+00:00",
+      "credits_spent": 5,
+      "candidates": 15
+    },
     {
       "as_of": "2026-10-06",
       "generated_at": "2026-10-06T16:53:13+00:00",
@@ -1625,11 +1713,11 @@
     }
   ],
   "llm": {
-    "investigations": 55,
-    "planner_llm": 39,
-    "narrative_llm": 34,
-    "llm_decisions": 169,
+    "investigations": 58,
+    "planner_llm": 41,
+    "narrative_llm": 36,
+    "llm_decisions": 179,
     "fallback_decisions": 2,
-    "steps": 171
+    "steps": 181
   }
 }

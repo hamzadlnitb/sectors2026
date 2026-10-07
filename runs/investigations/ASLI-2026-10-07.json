@@ -1,0 +1,247 @@
+{
+  "schema_version": "1.0",
+  "symbol": "ASLI",
+  "as_of": "2026-10-07",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1_volume_squeeze_retest",
+        "claim": "Lonjakan volume 24σ kemarin adalah anomali yang berdiri sendiri (kemungkinan squeeze/pump satu hari) dan belum terkonfirmasi sebagai akumulasi terstruktur; volume harian terbaru perlu dicek ulang untuk melihat apakah anomali berlanjut atau sudah normal.",
+        "probes": [
+          "volume_anomaly"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2_thin_float_amplifier",
+        "claim": "Kapitalisasi kecil (2.5T) + harga turun -9% periode = indikasi float sangat tipis sehingga modal kecil bisa menekan harga; perlu konfirmasi free float untuk menilai apakah pergerakan -9% baru sekadar recoil setelah spike, atau ada pihak yang mendistribusikan ke ritel.",
+        "probes": [
+          "free_float"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "H3_distribusi_ke_ritel",
+        "claim": "Hipotesis disaring karena memuat bahasa yang menyerempet saran transaksi.",
+        "probes": [
+          "foreign_flow"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 4,
+    "rationale": "Investigasi kemarin (06-10) sudah menghabiskan 5 kredit dan memperoleh BCI=26, FRD=0, VAS=100. Artinya: broker concentration KEMARIN rendah (tidak ada akumulasi terpusat), foreign flow KEMARIN netral, dan volume anomaly KEMARIN masih ekstrem. Yang berubah hari ini: harga sudah turun -9% (recoil dari spike), dan kita butuh tahu apakah anomali volume BERLANJUT atau sudah mati. Probe volume_anomaly paling murah (1 kredit) dan langsung menjawab apakah sinyal Tier-1 kemarin masih hidup; free_float tetap relevan karena float tipis menjelaskan mengapa -9% recoil terjadi begitu cepat; foreign_flow membedakan squeeze vs distribusi setelah harga mulai turun. BCI, SSS, PFD, dan structural sengaja tidak diulang—data korporasi dan broker 1 hari lalu masih berlaku, dan skor kemarin sudah 43 (perhatian) sehingga prioritas mengisi celah bukti yang hilang (PFD=belum pernah) bobot lebih rendah daripada memvalidasi perubahan harga-volume hari ini. Total 4 kredit dari pagu 25, murah karena banyak bukti segar sudah tersedia."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1_volume_squeeze_retest",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume anomali kemarin (100/100) terkonfirmasi masih hidup hari ini dengan 9,4σ dan 14× median — bukti Tier-1 persisten. Sisa pagu 3 kredit cukup untuk dua probe: free_float (1) + foreign_flow (2). Prioritaskan free_float dulu karena paling murah dan langsung menjelaskan mekanisme -9% recoil: float tipis = recoil cepat setelah spike. Ini membedakan anomali struktural vs noise. foreign_flow (2) diantrekan berikutnya untuk membedakan squeeze vs distribusi pasca-recoil. BCI (3) tidak muat dan sengaja tidak diulang per rencana awal.",
+      "credits_spent": 1,
+      "credits_remaining": 3
+    },
+    {
+      "step": 2,
+      "hypothesis": "H2_thin_float_amplifier",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Antrean foreign_flow (2 kredit) sudah menunggu dan paling relevan di sini: dengan harga sudah recoil -9% dan free float tipis 37%, arah foreign flow membedakan squeeze yang mulai mereda vs distribusi terselubung. Ini adalah satu-satunya probe yang masih dalam anggaran (3 kredit tersisa, biaya 2) dan bobotnya 0.15 — signifikan terhadap skor akhir. PFD/S3 struktural terlalu mahal (6+3=9 kredit) untuk pagar yang tersisa, dan broker_concentration/price_fundamental rendah prioritas dibanding foreign_flow. Setelah ini, sisa 1 kredit cukup untuk conclude.",
+      "credits_spent": 0,
+      "credits_remaining": 3
+    },
+    {
+      "step": 3,
+      "hypothesis": "H3_distribusi_ke_ritel",
+      "probe": "foreign_flow",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Bukti yang ada sudah cukup untuk menyimpulkan. Volume anomaly masih ekstrem (Z=9,4σ, 14× median) meski harga sudah recoil -9%, mengindikasikan anomali belum mati. Foreign flow skor 0/100: arus asing 30 hari hanya Rp 16,3 M (kecil) dan share outflow 0,0% — artinya +95% harga 30 hari bukan didorong akumulasi asing (bukan foreign-led squeeze), konsisten dengan profil saham berkapitalisasi kecil/float tipis (free float 37%, skor 28). Foreign flow sudah membedakan squeeze vs distribusi pasca-recoil: tidak ada jejak distribusi asing besar, sehingga recoil lebih mungkin technical/profit-taking lokal atau thin-float dynamics, bukan distribusi terkoordinasi asing. BCI=0 kemarin sudah mengonfirmasi tidak ada konsentrasi broker, dan diulang tidak akan menambah informasi baru. PFD (6 kredi) dan SSS (3 kredi) keduanya di luar sisa pagu (2 kredi), dan bobotnya rendah (0,12+0,08=0,20) dibanding bukti Tier-1 yang sudah kuat; keduanya tidak akan mengubah kesimpulan bahwa anomali ini terutama volume-dri",
+      "credits_spent": 1,
+      "credits_remaining": 2
+    }
+  ],
+  "evidence": [
+    {
+      "id": "frd.foreign_net_30d",
+      "label": "Arus asing bersih 30 hari bursa",
+      "value": 16334438100.0,
+      "display": "Rp 16,3 M",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-08-27",
+        "end": "2026-10-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.outflow_ratio",
+      "label": "Arus keluar asing terhadap nilai transaksi periode",
+      "value": 0.0,
+      "display": "0,0%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-08-27",
+        "end": "2026-10-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.price_change_30d",
+      "label": "Perubahan harga 30 hari bursa",
+      "value": 0.9496,
+      "display": "+95%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-08-27",
+        "end": "2026-10-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 30,
+      "display": "30 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ASLI"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.3728,
+      "display": "37%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ASLI"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 14.03,
+      "display": "14,0×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-02-26",
+        "end": "2026-10-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 9.41,
+      "display": "9,4σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ASLI",
+        "start": "2026-02-26",
+        "end": "2026-10-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 100.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 28.3,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": 0.0,
+      "weight": 0.15,
+      "evidence_ids": [
+        "frd.foreign_net_30d",
+        "frd.outflow_ratio",
+        "frd.price_change_30d"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 49,
+  "band": "perhatian",
+  "confidence": 0.55,
+  "credits_total": 2,
+  "baseline_credits": 16,
+  "narrative": "Beberapa indikator pada ASLI berada di luar kebiasaan. Bukti yang terkumpul: Arus asing bersih 30 hari bursa Rp 16,3 M; Arus keluar asing terhadap nilai transaksi periode 0,0%; Perubahan harga 30 hari bursa +95%; Umur data free float 30 hari. Putusan disusun dari tiga langkah penyelidikan yang menyentuh tiga probe. Seluruh angka di atas berasal dari buku bukti investigasi ini dan bisa ditelusuri ke sumber datanya.",
+  "narrative_source": "template",
+  "memory_ref": "ASLI-2026-10-06",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

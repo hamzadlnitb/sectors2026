@@ -1,0 +1,359 @@
+{
+  "schema_version": "1.0",
+  "symbol": "ARNA",
+  "as_of": "2026-10-07",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "H1_volume_dispersion",
+        "claim": "Penurunan harga -3% disertai volume_z -0.6σ yang sebenarnya tidak biasa; perlu klarifikasi apakah ada akumulasi terselubung dari segelintir broker (broker_concentration) atau sekadar hari sepi tanpa makna.",
+        "probes": [
+          "volume_anomaly",
+          "broker_concentration"
+        ],
+        "priority": 1
+      },
+      {
+        "id": "H2_float_manipulability",
+        "claim": "Dengan kapitalisasi kecil (3.74T) dan skor watchlist 0.10, free_float rendah dapat menjelaskan kenapa harga mudah digerakkan sedikit modal, hipotesis struktural pasar, bukan fundamental.",
+        "probes": [
+          "free_float"
+        ],
+        "priority": 2
+      },
+      {
+        "id": "H3_corporate_context",
+        "claim": "Sudah tersedia kalau subsobtor Industrial Goods tanpa katalis korporasi terbaru, tapi dengan bobot 8% structural dapat melengkapi: pada distraksi penyelesaian investigasi FFS, structural dapat melihat suspensi/rights/inner yang menjadi opsional lebih, konteks korporasi.",
+        "probes": [
+          "structural"
+        ],
+        "priority": 3
+      }
+    ],
+    "credit_budget_requested": 8,
+    "rationale": "Investigasi kemarin hanya memakai 1 kredit (volume_anomaly) dan menghasilkan skor 13 keyakinan 40%, jadi bukti volume masih ambigu (z -0.6σ bukan sinyal kuat, bisa berarti hari sepi). Perubahan sejak kemarin: harga turun -3% (dari baseline yang diasumsikan netral), dan skor watchlist tetap 0.10. Hipotesis teratas (H1) menguji apakah di balik volume yang tampak normal ada konsentrasi broker, urutannya volume_anomaly dulu (1 kredit, 22% bobot, termurah, wajib diulang untuk EOD baru 07-10 dibanding 06-10) lalu broker_concentration (3 kredit, 25% bobot, terbesar). Menghindari broker_concentration di langkah pertama karena mahal dan belum jelas arah; volume_anomaly akan menunjukkan apakah ada anomali yang layak ditelusuri. H2: free_float (1 kredit, 18% bobot) relevan untuk emiten small-cap dengan harga mudah bergerak, hipotesis murah yang menjelaskan 'mengapa sinyal lemah'. H3: structural (3 kredit, 8% bobot) ditahan ke prioritas 3; dengan keyakinan masih 40% dan bukti tipis, masuk struktural sekarang boros. price_fundamental (6 kredit) dan US (contrary, 2 kredit) sengaja tidak dimasukkan: harga hanya turun -3% (bukan 'naik tajam' sehingga perlu Chinese simulation), dan foreign_flow kurang relevan di sini karena hipotesis utamanya adalah konsentrasi broker domestik pada kapitalisasi kecil, bukan distribusi asing-ke-ritel. Total 1+3+1+3 = 8 kredit dari pagu 25, sesuai rencana, tidak berlebihan."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "H1_volume_dispersion",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Volume analyzer 22/100 sedikit di atas acuan tapi keyakinan masih 22%, tidak cukup untuk loncat ke broker_concentration (3 kredit) tanpa konteks struktur pasar. free_float (1 kredit) adalah probe termurah yang langsung menjawab 'mengapa sinyal volume lemah di kapitalisasi kecil': jika float ARNA tipis, harga mudah bergerak oleh sedikit order dan pola broker tidak perlu terlihat sebagai konsentrasi tinggi untuk jadi informatif. Dengan 7 kredit tersisa, free_float sangat murah dan bisa menyingkirkan atau memvalidasi H2. Setelah itu baru pertimbangkan broker_concentration.",
+      "credits_spent": 1,
+      "credits_remaining": 7
+    },
+    {
+      "step": 2,
+      "hypothesis": "H1_volume_dispersion",
+      "probe": "broker_concentration",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Bukti broker_concentration (48/100, HHI 0,18, top-3 67%) mulai mengungkap pola konsentrasi yang lumayan pada emiten small-cap ARNA, konsisten dengan H1. Skor sementara 36 dengan keyakinan 47%, masih di bawah ambang simpulan. Probe free_float paling murah (1 kredit) dan secara langsung menguji H2: float kecil menjelaskan mengapa konsentrasi beberapa broker bisa menekan harga -3% dengan volume yang baru naik 1,3σ. Ini rasional, murah, dan mengisi komponen FFS (bobot 0,18) sebelum berpikir eskalasi. Sisa pagu menjadi 4 kredit setelah ini; structural (3 kredit) masih tersedia sebagai langkah berikutnya jika free_float tidak cukup menjelaskan. Tidak ada kebutuhan bukti di luar rencana awal.",
+      "credits_spent": 2,
+      "credits_remaining": 5
+    },
+    {
+      "step": 3,
+      "hypothesis": "H2_float_manipulability",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Skor sementara 34 (perhatian) dengan keyakinan 65% setelah 3 probe. Bukti broker_concentration (48) paling mencolok: HHI 0,18 dan pangsa 3 broker top 67% (ZP, DX, SQ) mengindikasikan konsentrasi yang perlu penjelasan, apakah pola ini berulang (insider selling, rights issue) atau murni akumulasi? structural (3 kredit, bobot 8%) relevan karena: (1) small-cap ARNA dengan free float hanya 37% sensitif terhadap insider action dan aksi korporasi, (2) konsentrasi broker + free float rendah + harga turun -3% = pola klasik distribusi atau tekanan jual terkoordinasi yang butuh klarifikasi riwayat suspensi/insider/rights. FRD (2kr) dan PFD (6kr) kurang tepat di sini: PFD mahal (6kr) dan hipotesis H1 sudah cukup terjawab oleh bukti broker+volume, sehingga fundamental valuation tidak akan banyak menambah bobot kesimpulan; FRD (foreign_flow) memang murah tapi H2/H3 awal secara eksplisit menyebut konsentrasi broker domestik sebagai hipotesis utama, bukan distribusi asing. structural mengisi celah bu",
+      "credits_spent": 0,
+      "credits_remaining": 5
+    },
+    {
+      "step": 4,
+      "hypothesis": "H3_corporate_context",
+      "probe": "structural",
+      "finding": "inconclusive",
+      "next_action": "escalate",
+      "new_probe": "foreign_flow",
+      "budget_granted": 2,
+      "reason": "foreign_flow (2 kredit) masih dalam sisa pagu 5; relevan karena broker net buy dominan 3 kode (ZP/DX/SQ 67%) pada free float 37% butuh klarifikasi apakah distribusi asing-ke-domestik turut memicu. PFD (6 kr) tak dijangkau; FRD (2 kr) bisa dieksekusi setelah ini kalau masih ada ruang. [eskalasi 2 kredit dikabulkan 2: masih di bawah pagar dan beralasan]",
+      "credits_spent": 0,
+      "credits_remaining": 7
+    },
+    {
+      "step": 5,
+      "hypothesis": null,
+      "probe": "foreign_flow",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Bukti sudah cukup untuk menyimpulkan. Lima dari enam komponen sudah tercakup dengan skor sementara 31 (perhatian) dan keyakinan 88%. Probe price_fundamental (6 kredit, bobot 12%) sengaja dirancang untuk kasus \"harga naik tajam\", di sini harga justru turun -3% dalam sehari dan hanya +5% dalam 30 hari, bukan skenario lonjakan. Menjalankannya sekarang akan mengonsumsi seluruh sisa pagu untuk bukti yang kemungkinan tidak relevan dan tidak akan mengubah kesimpulan (skor rentang rendah-menengah, bukan sinyal risiko tinggi). Komponen yang belum diperiksa berbobot kecil (12%) dan hipotesis H1 (konsentrasi broker) sudah terjawab: HHI 0,18 moderat, 11 broker net buy positif, pangsa 3 broker top 67%, indikasi konsentrasi tetapi tidak ekstrem. Foreign flow negatif moderat (-Rp 21,4M, 30,9% outflow ratio) konsisten dengan tekanan jual terbatas. Free float 37% cukup likuid. Tidak ada peristiwa struktural. Pola keseluruhan: tekanan jual ringan dengan konsentrasi broker moderat, bukan anomali risiko",
+      "credits_spent": 1,
+      "credits_remaining": 6
+    }
+  ],
+  "evidence": [
+    {
+      "id": "bci.broker_count",
+      "label": "Jumlah broker dengan net buy positif",
+      "value": 11,
+      "display": "11 broker",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-10-01",
+        "end": "2026-10-07"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.hhi",
+      "label": "Indeks Herfindahl konsentrasi broker",
+      "value": 0.1782,
+      "display": "0,18",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-10-01",
+        "end": "2026-10-07"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_codes",
+      "label": "Kode 3 broker net buy teratas",
+      "value": "ZP, DX, SQ",
+      "display": "ZP, DX, SQ",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-10-01",
+        "end": "2026-10-07"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "bci.top3_share",
+      "label": "Pangsa net buy 3 broker teratas",
+      "value": 0.6668,
+      "display": "67%",
+      "probe": "broker_concentration",
+      "source_endpoint": "fetch-broker-summary-top",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-10-01",
+        "end": "2026-10-07"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.foreign_net_30d",
+      "label": "Arus asing bersih 30 hari bursa",
+      "value": -21350557700.0,
+      "display": "-Rp 21,4 M",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-08-27",
+        "end": "2026-10-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.outflow_ratio",
+      "label": "Arus keluar asing terhadap nilai transaksi periode",
+      "value": 0.3093,
+      "display": "30,9%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-foreign-flow",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-08-27",
+        "end": "2026-10-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "frd.price_change_30d",
+      "label": "Perubahan harga 30 hari bursa",
+      "value": 0.051,
+      "display": "+5%",
+      "probe": "foreign_flow",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-08-27",
+        "end": "2026-10-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 30,
+      "display": "30 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ARNA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.3726,
+      "display": "37%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "ARNA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.clean",
+      "label": "Peristiwa struktural terdeteksi",
+      "value": 0,
+      "display": "tidak ada",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2024-10-07",
+        "end": "2026-10-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 1.93,
+      "display": "1,9×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-02-26",
+        "end": "2026-10-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 1.31,
+      "display": "1,3σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "ARNA",
+        "start": "2026-02-26",
+        "end": "2026-10-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": 48.4,
+      "weight": 0.25,
+      "evidence_ids": [
+        "bci.top3_share",
+        "bci.hhi",
+        "bci.top3_codes",
+        "bci.broker_count"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "VAS",
+      "sub_score": 21.8,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 28.3,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": 34.0,
+      "weight": 0.15,
+      "evidence_ids": [
+        "frd.foreign_net_30d",
+        "frd.outflow_ratio",
+        "frd.price_change_30d"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "SSS",
+      "sub_score": 0.0,
+      "weight": 0.08,
+      "evidence_ids": [
+        "sss.clean"
+      ],
+      "investigated": true
+    }
+  ],
+  "pantau_score": 31,
+  "band": "perhatian",
+  "confidence": 0.88,
+  "credits_total": 4,
+  "baseline_credits": 16,
+  "narrative": "Aktivitas broker pada ARNA menunjukkan konsentrasi moderat dengan 11 broker catat net buy positif, HHI 0,18, dan pangsa 67% dari ZP, DX, SQ. Tekanan jual asing 30 hari terakhir tercatat -Rp 21,4 M dengan rasio outflow 30,9% terhadap nilai transaksi, sementara harga bergerak +5% dalam 30 hari bursa. Volume perdagangan hari terakhir tercatat 1,9× median dengan z-score 1,3σ di atas baseline 90 hari, di tengah free float 37% dan tidak ada peristiwa struktural yang terdeteksi. Pola keseluruhan menggambarkan tekanan jual ringan dengan konsentrasi broker yang tidak ekstrem, sehingga belum cukup untuk dikategorikan sebagai anomali risiko.",
+  "narrative_source": "llm",
+  "memory_ref": "ARNA-2026-10-06",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

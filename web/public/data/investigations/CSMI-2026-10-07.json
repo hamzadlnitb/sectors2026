@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0",
+  "symbol": "CSMI",
+  "as_of": "2026-10-07",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "h1",
+        "claim": "Ada pola perdagangan tidak biasa yang belum terjelaskan",
+        "probes": [
+          "volume_anomaly",
+          "free_float"
+        ],
+        "priority": 1
+      }
+    ],
+    "credit_budget_requested": 4,
+    "rationale": "Rencana cadangan berbasis aturan: perencana LLM tidak menghasilkan keluaran yang lolos skema, jadi investigasi dimulai dari dua probe termurah dan diputuskan ulang setelah temuan pertama."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "h1",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Probe termurah kedua (free_float, 1 kredit) sesuai rencana awal. Volume normal 0/100 tidak berisiko manipulator likuiditas; FFD/PFD/SSS/FFS/BCI belum bisa diurutkan tanpa mengetahui struktur free float. Setelahnya, skor akan diperbarui dan diputuskan ulang terhadap sisa pagu 2 kredit.",
+      "credits_spent": 1,
+      "credits_remaining": 3
+    },
+    {
+      "step": 2,
+      "hypothesis": "h1",
+      "probe": "free_float",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Bukti yang ada belum cukup untuk skor final (hanya 2/6 komponen), tetapi pagu tersisa hanya 3 kredit, tidak cukup untuk menjalankan probe yang tersisa dengan biaya wajar (BCI 3 + FRD 2 + PFD 6 + SSS 3 = 14 kredit). Probe termurah berikutnya adalah broker_concentration (3) atau foreign_flow (2), namun menjalankan salah satu hanya menambah satu sub-skor tanpa kemungkinan mengubah kesimpulan sementara: volume_anomaly 0/100 dan free_float 14/100 keduanya rendah/normal. Free float 44% cukup moderat, tidak ada anomali volume, tidak ada lonjakan harga. Komponen berbobot besar (PFD 0.12) butuh 6 kredit yang tidak tersedia. Eskalasi untuk kredit tambahan tidak akan mengubah fakta bahwa dua probe utama (volume & free float) sudah menunjukkan aktivitas normal, sehingga skor agregat tidak akan menyimpang signifikan dari 'normal' meskipun kita tidak bisa menutup uncertainty. Lebih hemat menyimpulkan sekarang berdasarkan bukti yang ada.",
+      "credits_spent": 0,
+      "credits_remaining": 3
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 30,
+      "display": "30 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "CSMI"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.4385,
+      "display": "44%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "CSMI"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 0.0,
+      "display": "0,0×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "CSMI",
+        "start": "2026-02-26",
+        "end": "2026-10-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": -0.89,
+      "display": "-0,9σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "CSMI",
+        "start": "2026-02-26",
+        "end": "2026-10-07"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-07T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 0.0,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 13.7,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": null,
+      "weight": 0.08,
+      "evidence_ids": [],
+      "investigated": false
+    }
+  ],
+  "pantau_score": 6,
+  "band": "normal",
+  "confidence": 0.4,
+  "credits_total": 1,
+  "baseline_credits": 16,
+  "narrative": "CSMI menunjukkan aktivitas perdagangan yang tenang dengan volume hari terakhir tercatat 0,0× terhadap median baseline dan z-score volume -0,9σ, keduanya berada di zona normal tanpa indikasi anomali likuiditas. Free float sebesar 44% bersifat moderat dan tidak menunjukkan tanda-tanda struktur kepemilikan yang mencurigakan. Investigasi lebih lanjut tidak dapat dilakukan karena keterbatasan pagu kredit terhadap probe yang tersisa, namun kedua probe utama yang sudah dijalankan konsisten mengarahkan pada tidak ditemukannya pola tidak biasa. Secara keseluruhan, profil likuiditas dan struktur free float CSMI berada dalam kisaran wajar.",
+  "narrative_source": "llm",
+  "memory_ref": null,
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}
