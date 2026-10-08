@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T17:31:53+00:00",
+  "generated_at": "2026-10-08T17:30:31+00:00",
   "investigations": [
     {
       "id": "NICK-2026-09-17",
@@ -303,6 +303,33 @@
       "headline": "Free float NICK tercatat 22% dengan umur data 8 hari, sehingga_probe free_float hasilnya belum dapat disimpulkan kare…"
     },
     {
+      "id": "ASLI-2026-10-08",
+      "symbol": "ASLI",
+      "as_of": "2026-10-08",
+      "pantau_score": 68,
+      "band": "waspada",
+      "confidence": 0.4,
+      "steps": 2,
+      "credits_total": 1,
+      "baseline_credits": 16,
+      "savings_pct": 94,
+      "memory_ref": "ASLI-2026-10-07",
+      "narrative_source": "template",
+      "moments": [
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 2,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": false,
+        "llm_decisions": 2,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
+      "headline": "Beberapa indikator pada ASLI menunjukkan pola tidak biasa"
+    },
+    {
       "id": "ASLI-2026-09-15",
       "symbol": "ASLI",
       "as_of": "2026-09-15",
@@ -601,6 +628,35 @@
         "narrative_llm": true
       },
       "headline": "Investigasi pada TRUK menemukan bahwa 14 broker mencatatkan net buy positif, namun distribusinya sangat terkonsentras…"
+    },
+    {
+      "id": "JAWA-2026-10-08",
+      "symbol": "JAWA",
+      "as_of": "2026-10-08",
+      "pantau_score": 52,
+      "band": "perhatian",
+      "confidence": 0.48,
+      "steps": 3,
+      "credits_total": 2,
+      "baseline_credits": 16,
+      "savings_pct": 88,
+      "memory_ref": "JAWA-2026-10-05",
+      "narrative_source": "template",
+      "moments": [
+        "adaptive",
+        "escalation",
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 3,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": false,
+        "llm_decisions": 3,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
+      "headline": "Beberapa indikator pada JAWA berada di luar kebiasaan"
     },
     {
       "id": "NICK-2026-09-22",
@@ -1233,6 +1289,35 @@
       "headline": "Tidak ada pola tidak biasa yang menonjol pada PACK"
     },
     {
+      "id": "PACK-2026-10-08",
+      "symbol": "PACK",
+      "as_of": "2026-10-08",
+      "pantau_score": 20,
+      "band": "normal",
+      "confidence": 0.47,
+      "steps": 2,
+      "credits_total": 3,
+      "baseline_credits": 16,
+      "savings_pct": 81,
+      "memory_ref": "PACK-2026-10-05",
+      "narrative_source": "template",
+      "moments": [
+        "adaptive",
+        "escalation",
+        "early_stop",
+        "memory"
+      ],
+      "components_investigated": 2,
+      "components_total": 6,
+      "llm": {
+        "planner_llm": true,
+        "llm_decisions": 2,
+        "fallback_decisions": 0,
+        "narrative_llm": false
+      },
+      "headline": "Tidak ada pola tidak biasa yang menonjol pada PACK"
+    },
+    {
       "id": "TRUK-2026-10-02",
       "symbol": "TRUK",
       "as_of": "2026-10-02",
@@ -1586,6 +1671,12 @@
   ],
   "watchlist_dates": [
     {
+      "as_of": "2026-10-08",
+      "generated_at": "2026-10-08T17:28:55+00:00",
+      "credits_spent": 5,
+      "candidates": 15
+    },
+    {
       "as_of": "2026-10-07",
       "generated_at": "2026-10-07T17:29:55+00:00",
       "credits_spent": 5,
@@ -1713,11 +1804,11 @@
     }
   ],
   "llm": {
-    "investigations": 58,
-    "planner_llm": 41,
+    "investigations": 61,
+    "planner_llm": 42,
     "narrative_llm": 36,
-    "llm_decisions": 179,
+    "llm_decisions": 186,
     "fallback_decisions": 2,
-    "steps": 181
+    "steps": 188
   }
 }

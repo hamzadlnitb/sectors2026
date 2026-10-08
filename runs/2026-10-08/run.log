@@ -1,0 +1,12 @@
+[17:28:52Z] sapuan Tier-1 untuk 2026-10-08
+[17:28:54Z]   fetch-most-traded-stocks        10 baris -> daily_transaction (kini 2323 baris, 2 kredit)
+[17:28:54Z]   fetch-companies-top-changes     20 baris -> daily_close (kini 434 baris, 1 kredit)
+[17:28:55Z]   fetch-suspensions                3 baris -> suspensions (kini 561 baris, 1 kredit)
+[17:28:55Z]   fetch-filings                   11 baris -> filings (kini 1051 baris, 1 kredit)
+[17:28:55Z] total 5 kredit; 4 panggilan, 0 dari cache (0%), 5 kredit terpakai
+[17:28:55Z] watchlist: 15 kandidat
+[17:28:55Z]   JAWA  skor 0.500  volume 62.5σ di atas baseline; kapitalisasi kecil
+[17:28:55Z]   ASLI  skor 0.434  volume 5.0σ di atas baseline; kapitalisasi kecil
+[17:28:55Z]   PACK  skor 0.253  volume 3.8σ di atas baseline
+[17:28:55Z]   CSMI  skor 0.200  kapitalisasi kecil; ada suspensi/filing baru
+[17:28:55Z]   ARNA  skor 0.165  kapitalisasi kecil

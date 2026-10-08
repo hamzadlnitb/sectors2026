@@ -1,0 +1,198 @@
+{
+  "schema_version": "1.0",
+  "symbol": "JAWA",
+  "as_of": "2026-10-08",
+  "weights_version": "cal-2026-09-10-sementara",
+  "plan": {
+    "hypotheses": [
+      {
+        "id": "h1",
+        "claim": "Ada pola perdagangan tidak biasa yang belum terjelaskan",
+        "probes": [
+          "volume_anomaly",
+          "free_float"
+        ],
+        "priority": 1
+      }
+    ],
+    "credit_budget_requested": 4,
+    "rationale": "Rencana cadangan berbasis aturan: perencana LLM tidak menghasilkan keluaran yang lolos skema, jadi investigasi dimulai dari dua probe termurah dan diputuskan ulang setelah temuan pertama."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "hypothesis": "h1",
+      "probe": "volume_anomaly",
+      "finding": "inconclusive",
+      "next_action": "continue",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Sub-skor 36 hanya dari volume_anomaly; 5/6 komponen belum tercakup. Probe free_float (1 kredit) sudah mengantre dan merupakan termurah, relevan untuk menilai apakah lonjakan volume 3,3× pada float kecil bisa jadi noise atau sinyal. Jalankan dulu sebelum keputusan apa pun.",
+      "credits_spent": 1,
+      "credits_remaining": 3
+    },
+    {
+      "step": 2,
+      "hypothesis": "h1",
+      "probe": "free_float",
+      "finding": "confirmed",
+      "next_action": "escalate",
+      "new_probe": "structural",
+      "budget_granted": 3,
+      "reason": "Free float 8% sudah terkonfirmasi sebagai bukti kuat risiko likuiditas/struktur (skor 94/100). Namun skor agregat baru 62 dengan keyakinan 40% karena hanya 2/6 komponen tercakup. Dengan sisa pagu 3 kredit, saya tidak bisa menutup 4 probe (BCI 3, FRD 2, PFD 6, SSS 3). Probe structural (3 kredit) paling relevan dengan temuan free float rendah, yaitu riwayat suspensi, insider selling, dan rights issue/private placement. Ketiganya langsung menguji apakah struktur kepemilikan yang terkonsentrasi ini sebelumnya memanifestasikan tindakan korporasi yang merugikan pemegang ritel. Ini adalah jalur bukti yang tidak sepenuhnya bisa disimpulkan dari free float saja, free float memberi snapshot, structural memberi rekam jejak. Saya memilih structural dan mengorbankan coverage komponen lain; trade-off ini rasional karena structural paling menguatkan atau melemahkan hipotesis risiko struktur yang sudah muncul. [eskalasi 3 kredit dikabulkan 3: masih di bawah pagar dan beralasan]",
+      "credits_spent": 0,
+      "credits_remaining": 6
+    },
+    {
+      "step": 3,
+      "hypothesis": null,
+      "probe": "structural",
+      "finding": "inconclusive",
+      "next_action": "conclude",
+      "new_probe": null,
+      "budget_granted": 0,
+      "reason": "Pagu 5 kredit, tiga probe tersisa memakan 3+6+2=11 kredit, tidak cukup untuk ketiganya. Menjalankan satu pun tidak cukup untuk menyimpulkan karena komponen belum tercakup (BCI 0.25, FRD 0.15, PFD 0.12). Namun secara kumulatif bukti menunjukkan profil risiko rendah-sedang: structural 0, free_float 94 (konsentrasi tinggi, tapi bukan anomali transaksional), volume_anomaly 36 (sedang). Skor sementara 52 dengan keyakinan 48%. Menginvestasikan kredit terbatas untuk satu probe parsial tidak akan mengubah kesimpulan material, risiko anomali sudah cukup terpetakan dari tiga komponen yang ada. Lebih baik konservatif terhadap pagu dan selesaikan di sini.",
+      "credits_spent": 1,
+      "credits_remaining": 5
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ffs.data_age_days",
+      "label": "Umur data free float",
+      "value": 31,
+      "display": "31 hari",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "JAWA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "ffs.pct",
+      "label": "Free float",
+      "value": 0.075,
+      "display": "8%",
+      "probe": "free_float",
+      "source_endpoint": "fetch-free-float",
+      "source_params": {
+        "symbol": "JAWA"
+      },
+      "source_transport": "mcp",
+      "as_of": "2026-09-07T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "sss.clean",
+      "label": "Peristiwa struktural terdeteksi",
+      "value": 0,
+      "display": "tidak ada",
+      "probe": "structural",
+      "source_endpoint": "fetch-suspensions",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2024-10-08",
+        "end": "2026-10-08"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-08T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.volume_ratio",
+      "label": "Volume hari terakhir vs median baseline",
+      "value": 3.34,
+      "display": "3,3×",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-02-27",
+        "end": "2026-10-08"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-08T16:00:00+07:00",
+      "credits_spent": 0
+    },
+    {
+      "id": "vas.zscore",
+      "label": "Z-score volume vs baseline 90 hari",
+      "value": 2.18,
+      "display": "2,2σ",
+      "probe": "volume_anomaly",
+      "source_endpoint": "fetch-daily-transaction",
+      "source_params": {
+        "symbol": "JAWA",
+        "start": "2026-02-27",
+        "end": "2026-10-08"
+      },
+      "source_transport": "rest",
+      "as_of": "2026-10-08T16:00:00+07:00",
+      "credits_spent": 0
+    }
+  ],
+  "components": [
+    {
+      "code": "BCI",
+      "sub_score": null,
+      "weight": 0.25,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "VAS",
+      "sub_score": 36.3,
+      "weight": 0.22,
+      "evidence_ids": [
+        "vas.zscore",
+        "vas.volume_ratio"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "PFD",
+      "sub_score": null,
+      "weight": 0.12,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "FFS",
+      "sub_score": 94.4,
+      "weight": 0.18,
+      "evidence_ids": [
+        "ffs.pct",
+        "ffs.data_age_days"
+      ],
+      "investigated": true
+    },
+    {
+      "code": "FRD",
+      "sub_score": null,
+      "weight": 0.15,
+      "evidence_ids": [],
+      "investigated": false
+    },
+    {
+      "code": "SSS",
+      "sub_score": 0.0,
+      "weight": 0.08,
+      "evidence_ids": [
+        "sss.clean"
+      ],
+      "investigated": true
+    }
+  ],
+  "pantau_score": 52,
+  "band": "perhatian",
+  "confidence": 0.48,
+  "credits_total": 2,
+  "baseline_credits": 16,
+  "narrative": "Beberapa indikator pada JAWA berada di luar kebiasaan. Bukti yang terkumpul: Umur data free float 31 hari; Free float 8%; Peristiwa struktural terdeteksi tidak ada; Volume hari terakhir vs median baseline 3,3×. Putusan disusun dari tiga langkah penyelidikan yang menyentuh tiga probe. Seluruh angka di atas berasal dari buku bukti investigasi ini dan bisa ditelusuri ke sumber datanya.",
+  "narrative_source": "template",
+  "memory_ref": "JAWA-2026-10-05",
+  "disclaimer": "PANTAU adalah alat informasi dan analisis, bukan saran investasi."
+}

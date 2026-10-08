@@ -1081,3 +1081,17 @@
 {"at": "2026-10-07T17:31:46+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "investigator-v1", "input_tokens": 431, "output_tokens": 151, "seconds": 1.86}
 {"at": "2026-10-07T17:31:50+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "investigator-v1", "input_tokens": 500, "output_tokens": 319, "seconds": 3.32}
 {"at": "2026-10-07T17:31:53+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "narrative-v1", "input_tokens": 1281, "output_tokens": 154, "seconds": 2.75}
+{"at": "2026-10-08T17:29:08+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "planner-v1", "input_tokens": 1326, "output_tokens": 1056, "seconds": 11.04}
+{"at": "2026-10-08T17:29:18+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "planner-v1", "input_tokens": 1919, "output_tokens": 917, "seconds": 10.04}
+{"at": "2026-10-08T17:29:21+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "investigator-v1", "input_tokens": 1065, "output_tokens": 124, "seconds": 2.03}
+{"at": "2026-10-08T17:29:24+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "investigator-v1", "input_tokens": 1050, "output_tokens": 272, "seconds": 2.81}
+{"at": "2026-10-08T17:29:30+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "investigator-v1", "input_tokens": 1012, "output_tokens": 214, "seconds": 3.28}
+{"at": "2026-10-08T17:29:34+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "narrative-v1", "input_tokens": 747, "output_tokens": 177, "seconds": 3.8}
+{"at": "2026-10-08T17:29:46+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "investigator-v1", "input_tokens": 1064, "output_tokens": 162, "seconds": 2.29}
+{"at": "2026-10-08T17:29:51+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "investigator-v1", "input_tokens": 1047, "output_tokens": 354, "seconds": 5.13}
+{"at": "2026-10-08T17:29:54+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "narrative-v1", "input_tokens": 606, "output_tokens": 162, "seconds": 2.99}
+{"at": "2026-10-08T17:30:12+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "planner-v1", "input_tokens": 1323, "output_tokens": 1618, "seconds": 17.19}
+{"at": "2026-10-08T17:30:17+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "planner-v1", "input_tokens": 1924, "output_tokens": 846, "seconds": 5.24}
+{"at": "2026-10-08T17:30:21+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "investigator-v1", "input_tokens": 1455, "output_tokens": 242, "seconds": 3.43}
+{"at": "2026-10-08T17:30:27+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "investigator-v1", "input_tokens": 1419, "output_tokens": 439, "seconds": 5.48}
+{"at": "2026-10-08T17:30:30+00:00", "provider": "minimax", "model": "MiniMax-M3", "prompt_version": "narrative-v1", "input_tokens": 747, "output_tokens": 194, "seconds": 2.79}
